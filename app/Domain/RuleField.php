@@ -14,7 +14,6 @@ namespace ContentOwnership\Domain;
 enum RuleField: string
 {
     case IntervalDays = 'interval_days';
-    case Owners       = 'owners';
     case Recipients   = 'recipients';
     case NotifyBefore = 'notify_before';
 

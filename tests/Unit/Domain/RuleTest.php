@@ -6,7 +6,9 @@ namespace ContentOwnership\Tests\Unit\Domain;
 
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Domain\RuleField;
+use ContentOwnership\Domain\RuleScope;
 use ContentOwnership\Domain\ScopedValue;
+use ContentOwnership\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class RuleTest extends TestCase
@@ -21,63 +23,121 @@ final class RuleTest extends TestCase
     {
         $rule = (new Rule())
             ->with(RuleField::IntervalDays, ScopedValue::subtree(90))
-            ->with(RuleField::Owners, ScopedValue::local([12, 45]));
+            ->with(RuleField::Recipients, ScopedValue::local([Target::user(12), Target::user(45)]));
 
         self::assertFalse($rule->isEmpty());
         self::assertTrue($rule->has(RuleField::IntervalDays));
-        self::assertTrue($rule->has(RuleField::Owners));
-        self::assertFalse($rule->has(RuleField::Recipients));
+        self::assertTrue($rule->has(RuleField::Recipients));
 
         self::assertSame(90, $rule->get(RuleField::IntervalDays)?->value);
 
-        $cleared = $rule->with(RuleField::Owners, null);
-        self::assertFalse($cleared->has(RuleField::Owners));
+        $cleared = $rule->with(RuleField::Recipients, null);
+        self::assertFalse($cleared->has(RuleField::Recipients));
         self::assertTrue($cleared->has(RuleField::IntervalDays));
     }
 
-    public function testToArrayProducesWireShape(): void
+    public function testToArrayProducesTaggedTargetShape(): void
     {
         $rule = (new Rule())
             ->with(RuleField::IntervalDays, ScopedValue::subtree(90))
-            ->with(RuleField::Recipients, ScopedValue::subtree(['a@b.se', 'c@d.se']))
+            ->with(RuleField::Recipients, ScopedValue::subtree([Target::email('a@b.se'), Target::email('c@d.se')]))
             ->with(RuleField::NotifyBefore, ScopedValue::local(7));
-
-        $array = $rule->toArray();
 
         self::assertSame(
             [
                 'interval_days' => ['value' => 90, 'scope' => 'subtree'],
-                'recipients'    => ['value' => ['a@b.se', 'c@d.se'], 'scope' => 'subtree'],
+                'recipients'    => [
+                    'value' => [
+                        ['type' => 'email', 'value' => 'a@b.se'],
+                        ['type' => 'email', 'value' => 'c@d.se'],
+                    ],
+                    'scope' => 'subtree',
+                ],
                 'notify_before' => ['value' => 7, 'scope' => 'self'],
             ],
-            $array
+            json_decode(json_encode($rule->toArray()), true)
         );
     }
 
-    public function testFromArrayRoundTripsCanonicalData(): void
+    public function testFromArrayHydratesMixedTargets(): void
     {
-        $input = [
-            'interval_days' => ['value' => 120, 'scope' => 'subtree'],
-            'owners'        => ['value' => [3, 7], 'scope' => 'self'],
-            'recipients'    => ['value' => ['a@b.se'], 'scope' => 'subtree'],
-            'notify_before' => ['value' => 14, 'scope' => 'self'],
-        ];
-        self::assertSame($input, Rule::fromArray($input)->toArray());
+        $rule = Rule::fromArray([
+            'recipients' => [
+                'value' => [
+                    ['type' => 'email', 'value' => 'a@b.se'],
+                    ['type' => 'user',  'value' => 99],
+                    ['type' => 'role',  'value' => 'editor'],
+                ],
+                'scope' => 'subtree',
+            ],
+        ]);
+
+        $recipients = $rule->get(RuleField::Recipients)?->value;
+        self::assertIsArray($recipients);
+        self::assertSame(
+            ['email:a@b.se', 'user:99', 'role:editor'],
+            array_map(static fn (Target $t) => $t->key(), $recipients)
+        );
     }
 
-    public function testFromArrayCoercesStringDigitsAndDropsBadEntries(): void
+    public function testFromArrayMergesLegacyOwnersIntoRecipients(): void
+    {
+        $rule = Rule::fromArray([
+            'owners' => [
+                'value' => [
+                    ['type' => 'user', 'value' => 3],
+                    ['type' => 'role', 'value' => 'editor'],
+                ],
+                'scope' => 'self',
+            ],
+            'recipients' => [
+                'value' => [
+                    ['type' => 'email', 'value' => 'a@b.se'],
+                    ['type' => 'user',  'value' => 99],
+                ],
+                'scope' => 'subtree',
+            ],
+        ]);
+
+        $recipients = $rule->get(RuleField::Recipients)?->value;
+        self::assertIsArray($recipients);
+        self::assertSame(
+            ['email:a@b.se', 'user:99', 'user:3', 'role:editor'],
+            array_map(static fn (Target $t) => $t->key(), $recipients)
+        );
+        self::assertSame(RuleScope::Subtree, $rule->get(RuleField::Recipients)?->scope);
+        self::assertTrue($rule->has(RuleField::Recipients));
+    }
+
+    public function testFromArrayPromotesLegacyOwnersWhenRecipientsMissing(): void
+    {
+        $rule = Rule::fromArray([
+            'owners' => [
+                'value' => [1, '2', 4],
+                'scope' => 'self',
+            ],
+        ]);
+
+        $recipients = $rule->get(RuleField::Recipients)?->value;
+        self::assertIsArray($recipients);
+        self::assertSame(['user:1', 'user:2', 'user:4'], array_map(static fn (Target $t) => $t->key(), $recipients));
+        self::assertSame(RuleScope::Local, $rule->get(RuleField::Recipients)?->scope);
+    }
+
+    public function testFromArrayAcceptsLegacyEmailStrings(): void
     {
         $rule = Rule::fromArray([
             'interval_days' => ['value' => '180', 'scope' => 'subtree'],
-            'owners'        => ['value' => [1, '2', -3, 'abc', 4, 4], 'scope' => 'self'],
-            'recipients'    => ['value' => ['x@y.se', '', 'z@w.se', 12, 'x@y.se'], 'scope' => 'self'],
+            'recipients'    => ['value' => ['x@y.se', '', 'z@w.se', 'x@y.se'], 'scope' => 'self'],
             'notify_before' => ['value' => -1, 'scope' => 'self'],
             'unknown_field' => ['value' => 'nope', 'scope' => 'self'],
         ]);
 
         self::assertSame(180, $rule->get(RuleField::IntervalDays)?->value);
-        self::assertSame([1, 2, 4], $rule->get(RuleField::Owners)?->value);
-        self::assertSame(['x@y.se', 'z@w.se'], $rule->get(RuleField::Recipients)?->value);
+
+        $recipientKeys = array_map(static fn (Target $t) => $t->key(), $rule->get(RuleField::Recipients)?->value);
+        self::assertSame(['email:x@y.se', 'email:z@w.se'], $recipientKeys);
+
         self::assertNull($rule->get(RuleField::NotifyBefore), 'Negative ints must be rejected');
     }
 
@@ -91,7 +151,6 @@ final class RuleTest extends TestCase
         ]);
 
         self::assertFalse($rule->has(RuleField::IntervalDays));
-        self::assertFalse($rule->has(RuleField::Owners));
         self::assertFalse($rule->has(RuleField::Recipients));
         self::assertTrue($rule->has(RuleField::NotifyBefore));
     }

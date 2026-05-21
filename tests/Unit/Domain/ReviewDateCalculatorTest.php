@@ -17,7 +17,6 @@ final class ReviewDateCalculatorTest extends TestCase
     {
         return new EffectiveSettings(
             intervalDays: Resolution::defaulted($interval),
-            owners:       Resolution::defaulted([]),
             recipients:   Resolution::defaulted([]),
             notifyBefore: Resolution::defaulted($notifyBefore),
         );

@@ -248,6 +248,29 @@ final class Target implements JsonSerializable
     }
 
     /**
+     * Merge two target lists, deduping by {@see key()}. Later lists do not
+     * override earlier entries with the same key.
+     *
+     * @param list<self> $first
+     * @param list<self> $second
+     * @return list<self>
+     */
+    public static function mergeLists(array $first, array $second): array
+    {
+        $byKey = [];
+        foreach ([$first, $second] as $list) {
+            foreach ($list as $target) {
+                if (!$target instanceof self) {
+                    continue;
+                }
+                $byKey[$target->key()] ??= $target;
+            }
+        }
+
+        return array_values($byKey);
+    }
+
+    /**
      * @return list<array{type: string, value: int|string}>
      */
     public static function listToArray(array $targets): array

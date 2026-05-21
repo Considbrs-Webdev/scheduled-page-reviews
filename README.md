@@ -104,16 +104,45 @@ Each service constructor self-registers its WordPress hooks. `App::boot()` wires
 | Where                                | What                                                                 |
 | ------------------------------------ | -------------------------------------------------------------------- |
 | `wp_options.content_ownership_settings` | `GlobalSettings` JSON (`default_interval_days`, `notify_days_before`, `send_reminder_after_due`, `reminder_cadence_days`, `default_recipient_emails`, `cron_batch_size`) |
-| `wp_postmeta._content_ownership_rule`   | Per-page `Rule` JSON: `{interval_days, owners, recipients, notify_before}` each as `{value, scope}` where `scope ∈ 'local' | 'subtree'` |
+| `wp_postmeta._content_ownership_rule`   | Per-page `Rule` JSON: `{interval_days, recipients, notify_before}` each as `{value, scope}` where `scope ∈ 'self' | 'subtree'`. `recipients` is a list of typed `Target` objects (see below). Legacy `owners` keys are merged into `recipients` on load. |
 | `wp_postmeta._content_ownership_last_reviewed_at` | ISO 8601 string, set by the row action / REST mark-reviewed / Gutenberg button |
 | `wp_postmeta._content_ownership_last_reviewed_by` | WP user ID                                          |
 | `wp_postmeta._content_ownership_last_notified_at` | ISO 8601 string of the last sent reminder; throttles notifications |
 
 Empty rules are deleted from post meta automatically — no orphan rows.
 
+## Target model (who to notify)
+
+`recipients` is a list of `Target` objects rather than plain ID or email arrays. Every target has the shape `{ type, value }`:
+
+| `type`  | `value`            | Dashboard widget | Email notifications |
+| ------- | ------------------ | ---------------- | ------------------- |
+| `user`  | `int` (WP user ID) | Yes              | Yes (via WP account email) |
+| `role`  | `string` (slug)    | Yes (role members) | Yes (expanded at cron time) |
+| `email` | `string`           | No               | Yes (standalone mailbox) |
+
+Example rule fragment:
+
+```json
+{
+  "recipients": {
+    "value": [
+      { "type": "user",  "value": 7 },
+      { "type": "role",  "value": "pitea-content-team" },
+      { "type": "email", "value": "frididkultur@pitea.se" }
+    ],
+    "scope": "subtree"
+  }
+}
+```
+
+Role targets are expanded **at notification time** by `ReviewScanner`, so changing a role's membership in WP (or via a SAML/OIDC sync) is reflected on the very next cron run. Roles that no longer exist simply expand to zero users — no error, no notifications.
+
+Legacy data shapes (plain integer arrays in the old `owners` field, plain string arrays in `recipients`) are still accepted by `Rule::fromArray()` and merged into `recipients` on load.
+
 ## Inheritance model (tri-state)
 
-A page's effective value for each field (`interval_days`, `owners`, `recipients`, `notify_before`) resolves as follows:
+A page's effective value for each field (`interval_days`, `recipients`, `notify_before`) resolves as follows:
 
 1. If the page has a **local** rule for that field → use it.
 2. Otherwise walk ancestors top-down looking for the nearest ancestor with a **subtree** rule for that field → use it.
@@ -125,14 +154,16 @@ Resolution is **lazy**: there is no materialized table of effective settings. `I
 
 Namespace: `content-ownership/v1`. All endpoints require `is_user_logged_in()` minimum; most require `edit_post` on the target page.
 
-| Method   | Path                              | Purpose                                          |
-| -------- | --------------------------------- | ------------------------------------------------ |
-| GET/POST | `/settings`                       | Read or write `GlobalSettings`                   |
-| GET      | `/dashboard?bucket=...`           | Pages owned by current user needing review       |
-| GET      | `/tree?parent=<id>`               | Shallow tree node listing (for the React tree)   |
-| GET/PUT  | `/pages/<id>/rule`                | Read/write per-page rule + effective settings    |
-| POST     | `/pages/<id>/mark-reviewed`       | Stamp last_reviewed meta and fire the action     |
-| POST     | `/cron/run-now`                   | Trigger an immediate cron tick (admin only)      |
+| Method   | Path                                       | Purpose                                                            |
+| -------- | ------------------------------------------ | ------------------------------------------------------------------ |
+| GET/POST | `/settings`                                | Read or write `GlobalSettings`                                     |
+| GET      | `/dashboard?bucket=...`                    | Pages owned by current user (matches user IDs **or** role membership) |
+| GET      | `/tree?parent=<id>`                        | Shallow tree node listing (for the React tree)                     |
+| GET/PUT  | `/pages/<id>/rule`                         | Read/write per-page rule + effective settings                      |
+| POST     | `/pages/<id>/mark-reviewed`                | Stamp last_reviewed meta and fire the action                       |
+| POST     | `/cron/run-now`                            | Trigger an immediate cron tick (admin only)                        |
+| GET      | `/roles`                                   | Selectable WP roles `[{ slug, name, count }]` for the group picker |
+| GET      | `/users?search=&role=&per_page=&include=`  | Async user search for the picker + role-member preview             |
 
 The `/pages/<id>/rule` GET response also includes `last_reviewed_at`, `last_reviewed_by`, `next_review_at`, and `bucket` so the editor sidebar renders in a single request.
 
@@ -158,7 +189,7 @@ All actions and filters are namespaced under `content_ownership/...`.
 | ------------------------------------------------- | --------------------------------------------- | --------------------- | ----------------------------------------------- |
 | `content_ownership/cron/batch_size`               | `int $batchSize`                              | `cron_batch_size` opt | Pages processed per cron tick                   |
 | `content_ownership/cron/should_process_page`      | `bool $should, int $pageId`                   | `true`                | Skip selected pages from the scanner            |
-| `content_ownership/owner/should_notify`           | `bool $should, int $userId`                   | `true`                | Per-user opt-out from owner notifications       |
+| `content_ownership/owner/should_notify`           | `bool $should, int $userId`                   | `true`                | Per-user opt-out from WP-user notifications     |
 | `content_ownership/notification/pages`            | `array $pages, string $email`                 | unchanged             | Add/remove pages from a recipient's digest      |
 | `content_ownership/email/subject`                 | `string $subject, string $email, array $pages` | computed             | Override digest subject                         |
 | `content_ownership/email/body_html`               | `string $html, string $email, array $pages`   | rendered template     | Override or wrap HTML body                      |
@@ -166,6 +197,7 @@ All actions and filters are namespaced under `content_ownership/...`.
 | `content_ownership/email/headers`                 | `array $headers, string $email, array $pages` | `Content-Type: text/html` | Add CC/BCC/From/Reply-To etc.               |
 | `content_ownership/rest/dashboard_response`       | `array $items, string $bucketFilter`          | unchanged             | Filter the dashboard REST payload               |
 | `content_ownership/rest/tree_response`            | `array $nodes, int $parentId`                 | unchanged             | Filter the tree REST payload                    |
+| `content_ownership/selectable_roles`              | `list<string> $slugs, array $rolesMeta`       | all registered roles  | Prune the list of roles offered by the picker (e.g. hide WP defaults, only surface custom/SAML-imported ones) |
 
 ### Example: redirect owner reminders to a Slack webhook instead of email
 
@@ -188,6 +220,15 @@ add_action('content_ownership/cron/run_completed', function (array $state, array
 add_filter('content_ownership/owner/should_notify', function (bool $should, int $userId): bool {
     return $should && !get_user_meta($userId, 'slack_webhook', true);
 }, 10, 2);
+```
+
+### Example: hide WP default roles from the picker, expose only SAML-imported ones
+
+```php
+add_filter('content_ownership/selectable_roles', function (array $slugs): array {
+    $defaults = ['administrator', 'editor', 'author', 'contributor', 'subscriber'];
+    return array_values(array_diff($slugs, $defaults));
+});
 ```
 
 ### Example: stop the scanner from touching auto-draft pages

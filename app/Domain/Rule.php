@@ -18,7 +18,6 @@ final class Rule
 {
     public function __construct(
         public readonly ?ScopedValue $intervalDays = null,
-        public readonly ?ScopedValue $owners       = null,
         public readonly ?ScopedValue $recipients   = null,
         public readonly ?ScopedValue $notifyBefore = null,
     ) {
@@ -27,7 +26,6 @@ final class Rule
     public function isEmpty(): bool
     {
         return $this->intervalDays === null
-            && $this->owners === null
             && $this->recipients === null
             && $this->notifyBefore === null;
     }
@@ -36,7 +34,6 @@ final class Rule
     {
         return match ($field) {
             RuleField::IntervalDays => $this->intervalDays,
-            RuleField::Owners       => $this->owners,
             RuleField::Recipients   => $this->recipients,
             RuleField::NotifyBefore => $this->notifyBefore,
         };
@@ -56,7 +53,6 @@ final class Rule
     {
         return new self(
             intervalDays: $field === RuleField::IntervalDays ? $value : $this->intervalDays,
-            owners:       $field === RuleField::Owners       ? $value : $this->owners,
             recipients:   $field === RuleField::Recipients   ? $value : $this->recipients,
             notifyBefore: $field === RuleField::NotifyBefore ? $value : $this->notifyBefore,
         );
@@ -86,13 +82,22 @@ final class Rule
      * value are skipped. Per-field type coercion happens here so callers
      * always receive correctly-typed {@see ScopedValue::$value}s.
      *
+     * Legacy `owners` entries are merged into `recipients` on load so older
+     * persisted rules keep working after the UI was unified into one field.
+     *
      * @param array<string, mixed> $raw
      */
     public static function fromArray(array $raw): self
     {
-        $rule = new self();
+        $rule        = new self();
+        $legacyOwners = null;
 
         foreach ($raw as $key => $entry) {
+            if ($key === 'owners') {
+                $legacyOwners = $entry;
+                continue;
+            }
+
             $field = RuleField::tryParse($key);
             if ($field === null) {
                 continue;
@@ -111,7 +116,7 @@ final class Rule
             $rule = $rule->with($field, new ScopedValue($coerced, $scope));
         }
 
-        return $rule;
+        return self::mergeLegacyOwners($rule, $legacyOwners);
     }
 
     /**
@@ -121,17 +126,14 @@ final class Rule
      * external user input (e.g. HTML in emails) is the storage layer's
      * responsibility — this method only enforces shape.
      *
-     * Owners and Recipients are coerced into lists of {@see Target} value
-     * objects. Owners accepts user|role targets; Recipients accepts
-     * user|role|email targets. Legacy flat shapes (bare integer user IDs
-     * for owners, bare email strings for recipients) are tolerated so
-     * older persisted rules keep loading.
+     * Recipients are coerced into lists of {@see Target} value objects
+     * (user|role|email). Legacy flat shapes (bare integer user IDs or bare
+     * email strings) are tolerated so older persisted rules keep loading.
      */
     private static function coerceFieldValue(RuleField $field, mixed $raw): mixed
     {
         return match ($field) {
             RuleField::IntervalDays, RuleField::NotifyBefore => self::coerceNonNegativeInt($raw),
-            RuleField::Owners                                => self::coerceOwnerTargets($raw),
             RuleField::Recipients                            => self::coerceRecipientTargets($raw),
         };
     }
@@ -148,24 +150,6 @@ final class Rule
     }
 
     /**
-     * Owners: only user|role targets are valid. Email targets in the input
-     * are silently dropped (owners must be humans we can hold accountable).
-     *
-     * @return list<Target>|null
-     */
-    private static function coerceOwnerTargets(mixed $raw): ?array
-    {
-        if (!is_array($raw)) {
-            return null;
-        }
-        $list = Target::listFromMixed($raw, TargetType::User);
-        return array_values(array_filter(
-            $list,
-            static fn (Target $t): bool => !$t->isEmail()
-        ));
-    }
-
-    /**
      * Recipients: user|role|email targets all welcome.
      *
      * @return list<Target>|null
@@ -175,6 +159,48 @@ final class Rule
         if (!is_array($raw)) {
             return null;
         }
-        return Target::listFromMixed($raw, TargetType::Email);
+
+        $list = Target::listFromMixed($raw, TargetType::Email);
+        if ($list === []) {
+            return [];
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param mixed $legacyOwners Raw `owners` entry from persisted JSON.
+     */
+    private static function mergeLegacyOwners(self $rule, mixed $legacyOwners): self
+    {
+        if (!is_array($legacyOwners) || !array_key_exists('value', $legacyOwners)) {
+            return $rule;
+        }
+
+        $scope = RuleScope::tryParse($legacyOwners['scope'] ?? null);
+        if ($scope === null) {
+            return $rule;
+        }
+
+        $ownerTargets = Target::listFromMixed($legacyOwners['value'], TargetType::User);
+        if ($ownerTargets === []) {
+            return $rule;
+        }
+
+        $existing = $rule->recipients;
+        if ($existing === null) {
+            return $rule->with(RuleField::Recipients, new ScopedValue($ownerTargets, $scope));
+        }
+
+        /** @var list<Target> $merged */
+        $merged = Target::mergeLists(
+            is_array($existing->value) ? $existing->value : [],
+            $ownerTargets
+        );
+
+        return $rule->with(
+            RuleField::Recipients,
+            new ScopedValue($merged, $existing->scope)
+        );
     }
 }

@@ -8,6 +8,7 @@ use ContentOwnership\Application\Config;
 use ContentOwnership\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Throwable;
+use WP_User;
 
 /**
  * Builds the "pages needing review" list for a given user.
@@ -44,13 +45,14 @@ final class DashboardLister
             return [];
         }
 
-        $defaults = $this->settings->get();
-        $now      = new DateTimeImmutable('@' . (int) current_time('timestamp', true));
-        $metaKeys = $this->metaKeys();
-        $items    = [];
+        $defaults  = $this->settings->get();
+        $now       = new DateTimeImmutable('@' . (int) current_time('timestamp', true));
+        $metaKeys  = $this->metaKeys();
+        $userRoles = $this->loadUserRoles($userId);
+        $items     = [];
 
         foreach ($this->resolver->walkTree($defaults) as $pageId => $effective) {
-            if (!in_array($userId, $effective->ownersValue(), true)) {
+            if (!$this->userIsAssigned($userId, $userRoles, $effective->recipientUserIds(), $effective->recipientRoleSlugs())) {
                 continue;
             }
 
@@ -133,5 +135,41 @@ final class DashboardLister
         }
 
         return $bucket->value === $filter;
+    }
+
+    /**
+     * @param list<int>    $recipientUserIds
+     * @param list<string> $recipientRoleSlugs
+     * @param list<string> $userRoles
+     */
+    private function userIsAssigned(int $userId, array $userRoles, array $recipientUserIds, array $recipientRoleSlugs): bool
+    {
+        if (in_array($userId, $recipientUserIds, true)) {
+            return true;
+        }
+        foreach ($recipientRoleSlugs as $slug) {
+            if (in_array($slug, $userRoles, true)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function loadUserRoles(int $userId): array
+    {
+        if (!function_exists('get_userdata')) {
+            return [];
+        }
+        $user = get_userdata($userId);
+        if (!$user instanceof WP_User) {
+            return [];
+        }
+        return array_values(array_filter(
+            (array) $user->roles,
+            static fn ($r): bool => is_string($r) && $r !== ''
+        ));
     }
 }

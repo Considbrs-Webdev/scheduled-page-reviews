@@ -9,6 +9,7 @@ use ContentOwnership\Domain\Contracts\RuleSource;
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Domain\RuleField;
 use ContentOwnership\Domain\ScopedValue;
+use ContentOwnership\Domain\Target;
 
 /**
  * Persists per-page {@see Rule}s as a single JSON post_meta row.
@@ -130,50 +131,51 @@ final class RuleRepository implements RuleSource
 
     /**
      * Apply WP-aware sanitization without changing rule shape.
-     *
-     * Owners are constrained to existing user IDs; recipients are validated
-     * as emails. Anything else falls through unchanged because the domain
-     * layer has already enforced shape.
      */
     private function sanitize(Rule $rule): Rule
     {
-        $owners = $rule->owners;
-        if ($owners !== null && is_array($owners->value)) {
-            $clean = [];
-            foreach ($owners->value as $userId) {
-                if (!is_int($userId) || $userId <= 0) {
-                    continue;
-                }
-                if (function_exists('get_userdata') && !get_userdata($userId)) {
-                    continue;
-                }
-                $clean[] = $userId;
-            }
-            $owners = $clean === []
-                ? null
-                : new ScopedValue(array_values(array_unique($clean)), $owners->scope);
-            $rule = $rule->with(RuleField::Owners, $owners);
-        }
-
         $recipients = $rule->recipients;
-        if ($recipients !== null && is_array($recipients->value)) {
-            $clean = [];
-            foreach ($recipients->value as $email) {
-                if (!is_string($email)) {
-                    continue;
-                }
-                $email = sanitize_email($email);
-                if ($email !== '' && is_email($email)) {
-                    $clean[] = $email;
-                }
-            }
-            $recipients = $clean === []
-                ? null
-                : new ScopedValue(array_values(array_unique($clean)), $recipients->scope);
-            $rule = $rule->with(RuleField::Recipients, $recipients);
+        if ($recipients === null || !is_array($recipients->value)) {
+            return $rule;
         }
 
-        return $rule;
+        $clean = [];
+        foreach ($recipients->value as $target) {
+            if (!$target instanceof Target) {
+                continue;
+            }
+            if ($target->isUser()) {
+                $id = (int) $target->userId();
+                if ($id <= 0) {
+                    continue;
+                }
+                if (function_exists('get_userdata') && !get_userdata($id)) {
+                    continue;
+                }
+                $clean[$target->key()] = $target;
+                continue;
+            }
+            if ($target->isRole()) {
+                $slug = (string) $target->roleSlug();
+                if ($slug !== '') {
+                    $clean[$target->key()] = $target;
+                }
+                continue;
+            }
+            if ($target->isEmail()) {
+                $email = sanitize_email((string) $target->emailValue());
+                if ($email !== '' && is_email($email)) {
+                    $clean['email:' . $email] = Target::email($email);
+                }
+            }
+        }
+
+        $list = array_values($clean);
+
+        return $rule->with(
+            RuleField::Recipients,
+            $list === [] ? null : new ScopedValue($list, $recipients->scope)
+        );
     }
 
     private function metaKey(): string

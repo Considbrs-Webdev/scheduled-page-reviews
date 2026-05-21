@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ContentOwnership\Rest;
 
 use ContentOwnership\Application\Config;
+use ContentOwnership\Domain\Rule;
+use ContentOwnership\Domain\RuleField;
 use ContentOwnership\Storage\RuleRepository;
 use ContentOwnership\Storage\WpPageHierarchy;
 use WP_REST_Request;
@@ -35,6 +37,11 @@ final class TreeController
                         'default'           => 0,
                         'sanitize_callback' => 'absint',
                     ],
+                    'recursive' => [
+                        'type'              => 'boolean',
+                        'default'           => false,
+                        'sanitize_callback' => 'rest_sanitize_boolean',
+                    ],
                 ],
             ]
         );
@@ -45,23 +52,12 @@ final class TreeController
      */
     public function getTree(WP_REST_Request $request): WP_REST_Response
     {
-        $parentId = (int) $request->get_param('parent');
-        $childIds = $this->hierarchy->childIds($parentId);
-        $nodes    = [];
+        $parentId  = (int) $request->get_param('parent');
+        $recursive = (bool) $request->get_param('recursive');
 
-        foreach ($childIds as $id) {
-            $nodes[] = [
-                'id'             => $id,
-                'title'          => get_the_title($id),
-                'parent'         => $parentId,
-                'has_children'   => $this->hierarchy->childIds($id) !== [],
-                'has_local_rule' => (function () use ($id): bool {
-                    $rule = $this->rules->getForPage($id);
-
-                    return $rule !== null && !$rule->isEmpty();
-                })(),
-            ];
-        }
+        $nodes = $recursive
+            ? $this->collectRecursive($parentId, 0)
+            : $this->collectChildren($parentId, 0);
 
         $nodes = apply_filters('content_ownership/rest/tree_response', $nodes, $parentId);
 
@@ -71,5 +67,67 @@ final class TreeController
     public function canManage(): bool
     {
         return current_user_can((string) Config::get('settings', 'capability', Routes::CAP_FALLBACK));
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    private function collectChildren(int $parentId, int $depth): array
+    {
+        $out = [];
+        foreach ($this->hierarchy->childIds($parentId) as $id) {
+            $out[] = $this->shapeNode($id, $parentId, $depth);
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    private function collectRecursive(int $parentId, int $depth): array
+    {
+        $out = [];
+        foreach ($this->hierarchy->childIds($parentId) as $id) {
+            $node = $this->shapeNode($id, $parentId, $depth);
+            $out[] = $node;
+            if ($node['has_children']) {
+                foreach ($this->collectRecursive($id, $depth + 1) as $child) {
+                    $out[] = $child;
+                }
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function shapeNode(int $id, int $parentId, int $depth): array
+    {
+        $rule = $this->rules->getForPage($id);
+
+        return [
+            'id'               => $id,
+            'title'            => (string) get_the_title($id),
+            'parent'           => $parentId,
+            'depth'            => $depth,
+            'has_children'     => $this->hierarchy->childIds($id) !== [],
+            'has_local_rule'   => $rule !== null && !$rule->isEmpty(),
+            'has_subtree_rule' => $this->ruleHasSubtreeScope($rule),
+        ];
+    }
+
+    private function ruleHasSubtreeScope(?Rule $rule): bool
+    {
+        if ($rule === null) {
+            return false;
+        }
+        foreach (RuleField::cases() as $field) {
+            $scoped = $rule->get($field);
+            if ($scoped !== null && $scoped->isSubtree()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

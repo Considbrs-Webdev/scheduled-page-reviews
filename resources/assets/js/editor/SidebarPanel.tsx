@@ -134,31 +134,21 @@ export function SidebarPanel() {
       )
     );
 
-    if (data.effective?.interval_days != null) {
+    if (data.effective?.interval_days?.value != null) {
       dataRows.push(
         infoRow(
           __("Review interval", "content-ownership"),
-          sprintf(__("%d days", "content-ownership"), data.effective.interval_days)
+          sprintf(__("%d days", "content-ownership"), data.effective.interval_days.value)
         )
       );
     }
 
-    const ownerCount = data.effective?.owners?.length ?? 0;
+    const recipientCount = data.effective?.recipients?.value?.length ?? 0;
     dataRows.push(
       infoRow(
-        __("Owners", "content-ownership"),
-        ownerCount === 0
-          ? __("No owners assigned", "content-ownership")
-          : sprintf(__("%d owner(s)", "content-ownership"), ownerCount)
-      )
-    );
-
-    const recipientCount = data.effective?.recipients?.length ?? 0;
-    dataRows.push(
-      infoRow(
-        __("Recipients", "content-ownership"),
+        __("Who to notify", "content-ownership"),
         recipientCount === 0
-          ? __("No recipients assigned", "content-ownership")
+          ? __("Nobody configured", "content-ownership")
           : sprintf(__("%d recipient(s)", "content-ownership"), recipientCount)
       )
     );

@@ -10,20 +10,25 @@ namespace ContentOwnership\Domain;
  * Stored as a single associative array in wp_options under the key from
  * config/settings.php. Hydration applies defensive defaults so that a
  * missing or corrupted option never produces a malformed object.
+ *
+ * Default recipients support the full {@see Target} mix (user|role|email)
+ * so an admin can configure e.g. "always notify the 'editors' role plus
+ * compliance@example.com" without per-page rules.
  */
 final class GlobalSettings
 {
     /**
-     * @param list<string> $defaultRecipientEmails
+     * @param list<Target> $defaultRecipients
      */
     public function __construct(
         public readonly int $defaultIntervalDays,
         public readonly int $notifyDaysBefore,
         public readonly bool $sendReminderAfterDue,
         public readonly int $reminderCadenceDays,
-        public readonly array $defaultRecipientEmails,
+        public readonly array $defaultRecipients,
         public readonly int $cronBatchSize,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $raw
@@ -33,13 +38,26 @@ final class GlobalSettings
     {
         $merged = array_replace($defaults, $raw);
 
+        // Backward-compat: prefer the legacy key from $raw over the new key
+        // from $defaults so old persisted options still load.
+        if (
+            array_key_exists('default_recipient_emails', $raw)
+            && !array_key_exists('default_recipients', $raw)
+        ) {
+            $recipientsRaw = $raw['default_recipient_emails'];
+        } else {
+            $recipientsRaw = $merged['default_recipients']
+                ?? $merged['default_recipient_emails']
+                ?? [];
+        }
+
         return new self(
-            defaultIntervalDays: self::positiveInt($merged['default_interval_days'] ?? null, 180),
-            notifyDaysBefore: self::nonNegativeInt($merged['notify_days_before'] ?? null, 14),
+            defaultIntervalDays:  self::positiveInt($merged['default_interval_days'] ?? null, 180),
+            notifyDaysBefore:     self::nonNegativeInt($merged['notify_days_before'] ?? null, 14),
             sendReminderAfterDue: self::bool($merged['send_reminder_after_due'] ?? null, true),
-            reminderCadenceDays: self::positiveInt($merged['reminder_cadence_days'] ?? null, 7),
-            defaultRecipientEmails: self::stringList($merged['default_recipient_emails'] ?? null),
-            cronBatchSize: self::positiveInt($merged['cron_batch_size'] ?? null, 200),
+            reminderCadenceDays:  self::positiveInt($merged['reminder_cadence_days'] ?? null, 7),
+            defaultRecipients:    self::recipientTargets($recipientsRaw),
+            cronBatchSize:        self::positiveInt($merged['cron_batch_size'] ?? null, 200),
         );
     }
 
@@ -49,12 +67,12 @@ final class GlobalSettings
     public function toArray(): array
     {
         return [
-            'default_interval_days'    => $this->defaultIntervalDays,
-            'notify_days_before'       => $this->notifyDaysBefore,
-            'send_reminder_after_due'  => $this->sendReminderAfterDue,
-            'reminder_cadence_days'    => $this->reminderCadenceDays,
-            'default_recipient_emails' => $this->defaultRecipientEmails,
-            'cron_batch_size'          => $this->cronBatchSize,
+            'default_interval_days'   => $this->defaultIntervalDays,
+            'notify_days_before'      => $this->notifyDaysBefore,
+            'send_reminder_after_due' => $this->sendReminderAfterDue,
+            'reminder_cadence_days'   => $this->reminderCadenceDays,
+            'default_recipients'      => Target::listToArray($this->defaultRecipients),
+            'cron_batch_size'         => $this->cronBatchSize,
         ];
     }
 
@@ -90,9 +108,14 @@ final class GlobalSettings
     }
 
     /**
-     * @return list<string>
+     * Coerce raw input into a Target list. Accepts:
+     *   - new tagged shape: [{type, value}, ...]
+     *   - legacy flat shape: ["alice@example.com", "bob@example.com"]
+     *   - comma/space separated string from a textarea: "a@x.se, b@y.se"
+     *
+     * @return list<Target>
      */
-    private static function stringList(mixed $raw): array
+    private static function recipientTargets(mixed $raw): array
     {
         if (is_string($raw)) {
             $raw = preg_split('/[,\s]+/', $raw) ?: [];
@@ -100,12 +123,6 @@ final class GlobalSettings
         if (!is_array($raw)) {
             return [];
         }
-        $out = [];
-        foreach ($raw as $item) {
-            if (is_string($item) && trim($item) !== '') {
-                $out[] = trim($item);
-            }
-        }
-        return array_values(array_unique($out));
+        return Target::listFromMixed($raw, TargetType::Email);
     }
 }

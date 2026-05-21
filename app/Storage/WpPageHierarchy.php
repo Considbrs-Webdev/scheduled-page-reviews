@@ -88,9 +88,8 @@ final class WpPageHierarchy implements PageHierarchy
         $map = [];
 
         if (is_array($query->posts)) {
-            foreach ($query->posts as $id => $parent) {
-                $id     = (int) $id;
-                $parent = (int) $parent;
+            foreach ($query->posts as $key => $row) {
+                [$id, $parent] = $this->parseIdParentRow($key, $row);
                 if ($id <= 0) {
                     continue;
                 }
@@ -103,5 +102,33 @@ final class WpPageHierarchy implements PageHierarchy
         }
 
         return $this->childrenMap = $map;
+    }
+
+    /**
+     * Normalise a single WP_Query row into [pageId, parentId].
+     *
+     * WordPress documents `fields => 'id=>parent'` as returning an
+     * associative array, but current core returns a numeric list of
+     * objects shaped like `{ ID, post_parent }`. Accept both shapes so
+     * the hierarchy map is built correctly on every supported version.
+     *
+     * @return array{0: int, 1: int}
+     */
+    private function parseIdParentRow(int|string $key, mixed $row): array
+    {
+        if (is_object($row)) {
+            $id     = (int) ($row->ID ?? 0);
+            $parent = (int) ($row->post_parent ?? 0);
+            return [$id, $parent];
+        }
+
+        if (is_array($row)) {
+            $id     = (int) ($row['ID'] ?? $row['id'] ?? 0);
+            $parent = (int) ($row['post_parent'] ?? $row['parent'] ?? 0);
+            return [$id, $parent];
+        }
+
+        // Legacy associative shape: [ pageId => parentId ].
+        return [(int) $key, (int) $row];
     }
 }

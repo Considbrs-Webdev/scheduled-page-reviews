@@ -1,50 +1,42 @@
-import { CheckCircle2 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { getBoot } from "@/lib/boot";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Header } from "@/layout/Header";
+import { NavigationGuard } from "@/layout/NavigationGuard";
+import { GeneralSettingsTab } from "@/general/GeneralSettingsTab";
+import { PagesTab } from "@/pages/PagesTab";
+import { useUiStore } from "@/store/ui";
 
 export function App() {
-  const boot = getBoot();
+  const activeTab = useUiStore((s) => s.activeTab);
+  const setActiveTab = useUiStore((s) => s.setActiveTab);
+  const hasUnsaved = useUiStore((s) => s.hasUnsavedChanges);
+
+  const handleTabChange = (value: string) => {
+    if (value !== "pages" && value !== "general") return;
+    if (hasUnsaved) {
+      const confirmed = window.confirm(
+        "You have unsaved changes. Discard them and switch tabs?"
+      );
+      if (!confirmed) return;
+    }
+    setActiveTab(value);
+  };
 
   return (
-    <div className="content-ownership-shell p-6 max-w-3xl">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">Content Ownership</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Plugin scaffold is wired up. The settings UI will live here.
-        </p>
-      </header>
-
-      <section className="rounded-lg border border-border bg-card p-5 shadow-sm">
-        <div className="flex items-start gap-3">
-          <CheckCircle2 className="mt-0.5 text-primary" />
-          <div className="flex-1">
-            <h2 className="text-base font-medium">React, Tailwind and shadcn are mounted.</h2>
-            <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 text-sm">
-              <dt className="text-muted-foreground">Plugin version</dt>
-              <dd className="font-mono">{boot.pluginVersion}</dd>
-
-              <dt className="text-muted-foreground">REST root</dt>
-              <dd className="font-mono truncate">{boot.restRoot || "(not set)"}</dd>
-
-              <dt className="text-muted-foreground">Current user</dt>
-              <dd className="font-mono">#{boot.currentUserId}</dd>
-
-              <dt className="text-muted-foreground">Locale</dt>
-              <dd className="font-mono">{boot.locale}</dd>
-
-              <dt className="text-muted-foreground">Can manage</dt>
-              <dd className="font-mono">{boot.capabilities.manage ? "yes" : "no"}</dd>
-            </dl>
-          </div>
-        </div>
-        <div className="mt-5 flex gap-2">
-          <Button variant="default">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="outline">Outline</Button>
-          <Button variant="ghost">Ghost</Button>
-        </div>
-      </section>
+    <div className="content-ownership-shell mx-auto max-w-[1400px] px-4 py-4">
+      <Header />
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-4">
+        <TabsList>
+          <TabsTrigger value="pages">Pages</TabsTrigger>
+          <TabsTrigger value="general">General settings</TabsTrigger>
+        </TabsList>
+        <TabsContent value="pages" className="mt-4">
+          <PagesTab />
+        </TabsContent>
+        <TabsContent value="general" className="mt-4">
+          <GeneralSettingsTab />
+        </TabsContent>
+      </Tabs>
+      <NavigationGuard />
     </div>
   );
 }

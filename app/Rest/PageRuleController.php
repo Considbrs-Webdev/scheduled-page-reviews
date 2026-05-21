@@ -124,6 +124,8 @@ final class PageRuleController
 
         return [
             'page_id'          => $pageId,
+            'title'            => (string) get_the_title($pageId),
+            'edit_link'        => get_edit_post_link($pageId, 'raw') ?: null,
             'rule'             => $rule !== null ? $rule->toArray() : [],
             'effective'        => $effective->toArray(),
             'last_reviewed_at' => $lastReviewedAt !== null ? $lastReviewedAt->format('c') : null,

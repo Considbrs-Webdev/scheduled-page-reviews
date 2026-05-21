@@ -88,27 +88,22 @@ final class SettingsController
                 'minimum'           => 1,
                 'sanitize_callback' => 'absint',
             ],
-            'default_recipient_emails' => [
+            'default_recipients' => [
                 'type'              => 'array',
-                'items'             => [
-                    'type' => 'string',
-                ],
                 'sanitize_callback' => static function (mixed $value): array {
                     if (!is_array($value)) {
                         return [];
                     }
-
                     $out = [];
-                    foreach ($value as $email) {
-                        if (!is_string($email)) {
+                    foreach ($value as $item) {
+                        if (is_array($item)) {
+                            $out[] = $item;
                             continue;
                         }
-                        $clean = sanitize_email($email);
-                        if ($clean !== '') {
-                            $out[] = $clean;
+                        if (is_string($item) && $item !== '') {
+                            $out[] = ['type' => 'email', 'value' => sanitize_email($item)];
                         }
                     }
-
                     return $out;
                 },
             ],

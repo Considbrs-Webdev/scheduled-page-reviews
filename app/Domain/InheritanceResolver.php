@@ -93,8 +93,7 @@ final class InheritanceResolver
     {
         return [
             RuleField::IntervalDays->value => Resolution::defaulted($defaults->defaultIntervalDays),
-            RuleField::Owners->value       => Resolution::defaulted([]),
-            RuleField::Recipients->value   => Resolution::defaulted($defaults->defaultRecipientEmails),
+            RuleField::Recipients->value   => Resolution::defaulted($defaults->defaultRecipients),
             RuleField::NotifyBefore->value => Resolution::defaulted($defaults->notifyDaysBefore),
         ];
     }
@@ -173,7 +172,6 @@ final class InheritanceResolver
     {
         return new EffectiveSettings(
             intervalDays: $context[RuleField::IntervalDays->value],
-            owners:       $context[RuleField::Owners->value],
             recipients:   $context[RuleField::Recipients->value],
             notifyBefore: $context[RuleField::NotifyBefore->value],
         );

@@ -24,8 +24,10 @@ use ContentOwnership\Rest\CronController;
 use ContentOwnership\Rest\DashboardController;
 use ContentOwnership\Rest\MarkReviewedController;
 use ContentOwnership\Rest\PageRuleController;
+use ContentOwnership\Rest\RolesController;
 use ContentOwnership\Rest\SettingsController;
 use ContentOwnership\Rest\TreeController;
+use ContentOwnership\Rest\UsersController;
 use ContentOwnership\Storage\RuleRepository;
 use ContentOwnership\Storage\SettingsRepository;
 use ContentOwnership\Storage\WpPageHierarchy;
@@ -83,6 +85,8 @@ final class App
         Container::register(MarkReviewedController::class, new MarkReviewedController());
         Container::register(TreeController::class, new TreeController($hierarchy, $rules));
         Container::register(CronController::class, new CronController());
+        Container::register(RolesController::class, new RolesController());
+        Container::register(UsersController::class, new UsersController());
 
         Container::register(ViteManifest::class, new ViteManifest());
         Container::register(Assets::class, new Assets());

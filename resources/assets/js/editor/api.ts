@@ -26,17 +26,11 @@ export function getEditorBoot(): EditorBoot {
 export interface RuleResponse {
   page_id: number;
   effective: {
-    interval_days: number;
-    owners: number[];
-    recipients: string[];
-    notify_before: number;
+    interval_days: { value: number; source: string; from: number | null };
+    recipients: { value: Array<{ type: string; value: string | number }>; source: string; from: number | null };
+    notify_before: { value: number; source: string; from: number | null };
   };
-  rule: {
-    interval_days: { value: number | null; scope: "local" | "subtree" | null };
-    owners: { value: number[]; scope: "local" | "subtree" | null };
-    recipients: { value: string[]; scope: "local" | "subtree" | null };
-    notify_before: { value: number | null; scope: "local" | "subtree" | null };
-  };
+  rule: Record<string, unknown>;
   last_reviewed_at: string | null;
   last_reviewed_by: number | null;
   next_review_at: string;

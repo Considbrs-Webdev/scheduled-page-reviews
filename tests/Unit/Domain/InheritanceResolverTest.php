@@ -11,6 +11,7 @@ use ContentOwnership\Domain\InheritanceResolver;
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Domain\RuleField;
 use ContentOwnership\Domain\ScopedValue;
+use ContentOwnership\Domain\Target;
 use ContentOwnership\Tests\Unit\Domain\Fakes\FakePageHierarchy;
 use ContentOwnership\Tests\Unit\Domain\Fakes\FakeRuleSource;
 use PHPUnit\Framework\TestCase;
@@ -157,9 +158,9 @@ final class InheritanceResolverTest extends TestCase
     {
         $this->rules->set(1, (new Rule())
             ->with(RuleField::IntervalDays, ScopedValue::subtree(90))
-            ->with(RuleField::Recipients, ScopedValue::subtree(['x@y.se'])));
+            ->with(RuleField::Recipients, ScopedValue::subtree([Target::email('x@y.se')])));
         $this->rules->set(2, (new Rule())
-            ->with(RuleField::Owners, ScopedValue::local([12])));
+            ->with(RuleField::Recipients, ScopedValue::local([Target::user(12)])));
 
         $resolver = new InheritanceResolver($this->rules, $this->hierarchy);
         $page4    = $resolver->resolveForPage(4, $this->defaults);
@@ -168,15 +169,11 @@ final class InheritanceResolverTest extends TestCase
         self::assertSame(FieldSource::Inherited, $page4->intervalDays->source);
         self::assertSame(1, $page4->intervalDays->fromPageId);
 
-        self::assertSame(['x@y.se'], $page4->recipients->value);
+        self::assertSame(['x@y.se'], $page4->recipientEmails());
         self::assertSame(FieldSource::Inherited, $page4->recipients->source);
+        self::assertSame(1, $page4->recipients->fromPageId);
 
-        self::assertSame([], $page4->owners->value);
-        self::assertSame(
-            FieldSource::GlobalDefault,
-            $page4->owners->source,
-            'Owners set with local scope on parent (2) must not leak to child (4).'
-        );
+        self::assertSame([], $page4->recipientUserIds(), 'Local recipients on parent (2) must not leak to child (4).');
 
         self::assertSame(14, $page4->notifyBefore->value);
         self::assertSame(FieldSource::GlobalDefault, $page4->notifyBefore->source);
@@ -198,7 +195,7 @@ final class InheritanceResolverTest extends TestCase
     {
         $this->rules->set(1, (new Rule())->with(RuleField::IntervalDays, ScopedValue::subtree(90)));
         $this->rules->set(2, (new Rule())->with(RuleField::IntervalDays, ScopedValue::subtree(30)));
-        $this->rules->set(4, (new Rule())->with(RuleField::Owners, ScopedValue::local([12])));
+        $this->rules->set(4, (new Rule())->with(RuleField::Recipients, ScopedValue::local([Target::user(12)])));
 
         $resolver = new InheritanceResolver($this->rules, $this->hierarchy);
 
