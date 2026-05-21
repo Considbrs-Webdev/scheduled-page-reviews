@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace ContentOwnership\Rest;
 
 use ContentOwnership\Application\Capabilities;
+use ContentOwnership\Domain\EffectiveSettings;
+use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\InheritanceSummary;
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Domain\RuleField;
 use ContentOwnership\Storage\RuleRepository;
+use ContentOwnership\Storage\SettingsRepository;
 use ContentOwnership\Storage\WpPageHierarchy;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -18,6 +22,8 @@ final class TreeController
     public function __construct(
         private readonly WpPageHierarchy $hierarchy,
         private readonly RuleRepository $rules,
+        private readonly InheritanceResolver $resolver,
+        private readonly SettingsRepository $settings,
     ) {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
@@ -55,9 +61,11 @@ final class TreeController
         $parentId  = (int) $request->get_param('parent');
         $recursive = (bool) $request->get_param('recursive');
 
+        $effectiveByPage = $recursive ? $this->buildEffectiveByPage() : null;
+
         $nodes = $recursive
-            ? $this->collectRecursive($parentId, 0)
-            : $this->collectChildren($parentId, 0);
+            ? $this->collectRecursive($parentId, 0, $effectiveByPage)
+            : $this->collectChildren($parentId, 0, $effectiveByPage);
 
         $nodes = apply_filters('content_ownership/rest/tree_response', $nodes, $parentId);
 
@@ -70,28 +78,30 @@ final class TreeController
     }
 
     /**
+     * @param array<int, EffectiveSettings>|null $effectiveByPage
      * @return list<array<string, mixed>>
      */
-    private function collectChildren(int $parentId, int $depth): array
+    private function collectChildren(int $parentId, int $depth, ?array $effectiveByPage): array
     {
         $out = [];
         foreach ($this->hierarchy->childIds($parentId) as $id) {
-            $out[] = $this->shapeNode($id, $parentId, $depth);
+            $out[] = $this->shapeNode($id, $parentId, $depth, $effectiveByPage);
         }
         return $out;
     }
 
     /**
+     * @param array<int, EffectiveSettings>|null $effectiveByPage
      * @return list<array<string, mixed>>
      */
-    private function collectRecursive(int $parentId, int $depth): array
+    private function collectRecursive(int $parentId, int $depth, ?array $effectiveByPage): array
     {
         $out = [];
         foreach ($this->hierarchy->childIds($parentId) as $id) {
-            $node = $this->shapeNode($id, $parentId, $depth);
+            $node = $this->shapeNode($id, $parentId, $depth, $effectiveByPage);
             $out[] = $node;
             if ($node['has_children']) {
-                foreach ($this->collectRecursive($id, $depth + 1) as $child) {
+                foreach ($this->collectRecursive($id, $depth + 1, $effectiveByPage) as $child) {
                     $out[] = $child;
                 }
             }
@@ -100,21 +110,37 @@ final class TreeController
     }
 
     /**
+     * @param array<int, EffectiveSettings>|null $effectiveByPage
      * @return array<string, mixed>
      */
-    private function shapeNode(int $id, int $parentId, int $depth): array
+    private function shapeNode(int $id, int $parentId, int $depth, ?array $effectiveByPage): array
     {
-        $rule = $this->rules->getForPage($id);
+        $rule      = $this->rules->getForPage($id);
+        $effective = $effectiveByPage[$id] ?? $this->resolver->resolveForPage($id, $this->settings->get());
+        $summary   = InheritanceSummary::fromRuleAndEffective($rule, $effective);
 
         return [
-            'id'               => $id,
-            'title'            => (string) get_the_title($id),
-            'parent'           => $parentId,
-            'depth'            => $depth,
-            'has_children'     => $this->hierarchy->childIds($id) !== [],
-            'has_local_rule'   => $rule !== null && !$rule->isEmpty(),
-            'has_subtree_rule' => $this->ruleHasSubtreeScope($rule),
+            'id'                  => $id,
+            'title'               => (string) get_the_title($id),
+            'parent'              => $parentId,
+            'depth'               => $depth,
+            'has_children'        => $this->hierarchy->childIds($id) !== [],
+            'has_local_rule'      => $rule !== null && !$rule->isEmpty(),
+            'has_subtree_rule'    => $this->ruleHasSubtreeScope($rule),
+            'inheritance_summary' => $summary->toArray(),
         ];
+    }
+
+    /**
+     * @return array<int, EffectiveSettings>
+     */
+    private function buildEffectiveByPage(): array
+    {
+        $effectiveByPage = [];
+        foreach ($this->resolver->walkTree($this->settings->get()) as $pageId => $effective) {
+            $effectiveByPage[$pageId] = $effective;
+        }
+        return $effectiveByPage;
     }
 
     private function ruleHasSubtreeScope(?Rule $rule): bool

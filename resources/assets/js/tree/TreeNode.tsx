@@ -1,10 +1,21 @@
-import { ChevronDown, ChevronRight, CornerDownRight, Tag } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  CornerDownRight,
+  CornerLeftDown,
+  Tag,
+} from "lucide-react";
 import type { NodeRendererProps } from "react-arborist";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 import type { ArboristNode } from "./buildTree";
+import {
+  inheritedRuleTooltip,
+  localRuleTooltip,
+  propagatedRuleTooltip,
+} from "./inheritanceLabels";
 
 export function TreeNode({
   node,
@@ -12,6 +23,8 @@ export function TreeNode({
   dragHandle,
 }: NodeRendererProps<ArboristNode>) {
   const hasChildren = node.data.has_children;
+  const summary = node.data.inheritance_summary;
+
   return (
     <div
       ref={dragHandle}
@@ -51,7 +64,7 @@ export function TreeNode({
               <Tag className="h-3.5 w-3.5 text-muted-foreground" />
             </span>
           </TooltipTrigger>
-          <TooltipContent>Local rule set on this page</TooltipContent>
+          <TooltipContent>{localRuleTooltip(summary)}</TooltipContent>
         </Tooltip>
       )}
       {node.data.has_subtree_rule && (
@@ -64,7 +77,20 @@ export function TreeNode({
               <CornerDownRight className="h-3.5 w-3.5 text-primary" />
             </span>
           </TooltipTrigger>
-          <TooltipContent>Propagates to descendant pages</TooltipContent>
+          <TooltipContent>{propagatedRuleTooltip(summary)}</TooltipContent>
+        </Tooltip>
+      )}
+      {summary.has_inherited && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span
+              className="inline-flex shrink-0"
+              aria-label="Inherits from ancestor"
+            >
+              <CornerLeftDown className="h-3.5 w-3.5 text-muted-foreground/80" />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>{inheritedRuleTooltip(summary)}</TooltipContent>
         </Tooltip>
       )}
     </div>

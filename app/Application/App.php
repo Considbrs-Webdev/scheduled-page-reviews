@@ -94,7 +94,10 @@ final class App
             new PageRuleController($settings, $rules, $resolver, $calculator)
         );
         Container::register(MarkReviewedController::class, new MarkReviewedController($reviewMarker));
-        Container::register(TreeController::class, new TreeController($hierarchy, $rules));
+        Container::register(
+            TreeController::class,
+            new TreeController($hierarchy, $rules, $resolver, $settings)
+        );
         Container::register(CronController::class, new CronController());
         Container::register(RolesController::class, new RolesController());
         Container::register(UsersController::class, new UsersController());
