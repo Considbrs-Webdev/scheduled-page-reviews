@@ -83,7 +83,7 @@ function PageDetailInner({ pageId }: { pageId: number }) {
           nextReviewAt={data.next_review_at}
           lastReviewedAt={data.last_reviewed_at}
         />
-        <div className="grid gap-4 overflow-auto p-4">
+        <div className="grid flex-1 gap-4 overflow-auto p-4">
           <IntervalField effective={data.effective} />
           <NotifyBeforeField effective={data.effective} />
           <RecipientsField effective={data.effective} />

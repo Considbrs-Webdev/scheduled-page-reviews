@@ -144,7 +144,7 @@ final class DashboardWidget
         if (!current_user_can(Capabilities::menu())) {
             return;
         }
-        $url = admin_url('admin.php?page=content-ownership');
+        $url = SettingsPage::adminUrl();
         echo '<p style="margin-top: 10px;">';
         printf(
             '<a href="%s">%s</a>',

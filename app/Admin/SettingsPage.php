@@ -53,4 +53,26 @@ final class SettingsPage
     {
         return 'toplevel_page_' . self::PAGE_SLUG;
     }
+
+    /**
+     * Build a deep link into the settings SPA.
+     *
+     * Query params:
+     * - tab: pages (default, omitted) | general
+     * - page_id: selected page when tab=pages
+     */
+    public static function adminUrl(?string $tab = null, ?int $pageId = null): string
+    {
+        $args = ['page' => self::PAGE_SLUG];
+
+        if ($tab === 'general') {
+            $args['tab'] = 'general';
+        }
+
+        if ($pageId !== null && $pageId > 0 && ($tab === null || $tab === 'pages')) {
+            $args['page_id'] = $pageId;
+        }
+
+        return admin_url(add_query_arg($args, 'admin.php'));
+    }
 }

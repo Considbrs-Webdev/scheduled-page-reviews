@@ -1,6 +1,16 @@
 import { create } from "zustand";
 
-export type Tab = "pages" | "general";
+import { getAppUrlState, type Tab } from "@/lib/url-state";
+
+export type { Tab };
+
+function initialNavigationState(): Pick<UiState, "activeTab" | "selectedPageId"> {
+  const url = getAppUrlState();
+  return {
+    activeTab: url.tab,
+    selectedPageId: url.pageId,
+  };
+}
 
 interface UiState {
   /** Which top-level tab is visible. */
@@ -32,10 +42,9 @@ interface UiState {
 }
 
 export const useUiStore = create<UiState>((set, get) => ({
-  activeTab: "pages",
+  ...initialNavigationState(),
   setActiveTab: (tab) => set({ activeTab: tab }),
 
-  selectedPageId: null,
   setSelectedPageId: (id) => set({ selectedPageId: id }),
 
   expandedIds: [],

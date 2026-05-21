@@ -51,6 +51,10 @@
 }
 
 .content-ownership-root {
+  --co-chrome-offset: 11rem;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--wp-admin--admin-bar--height, 32px) - var(--co-chrome-offset));
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: hsl(var(--foreground));
 }

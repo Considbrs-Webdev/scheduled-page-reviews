@@ -2,6 +2,7 @@ import { useMemo, useRef, useEffect, useState } from "react";
 import { Tree as Arborist, type NodeApi, type TreeApi } from "react-arborist";
 
 import { useTree } from "@/api/queries";
+import { navigateToPage } from "@/lib/navigation";
 import { useUiStore } from "@/store/ui";
 
 import { TreeNode } from "./TreeNode";
@@ -16,7 +17,6 @@ import {
 export function Tree() {
   const q = useTree(0, true);
   const selectedPageId = useUiStore((s) => s.selectedPageId);
-  const setSelectedPageId = useUiStore((s) => s.setSelectedPageId);
   const treeSearch = useUiStore((s) => s.treeSearch);
   const expandedIds = useUiStore((s) => s.expandedIds);
   const toggleExpanded = useUiStore((s) => s.toggleExpanded);
@@ -105,7 +105,7 @@ export function Tree() {
               : {})}
             onSelect={(nodes: NodeApi<ArboristNode>[]) => {
               const first = nodes[0];
-              setSelectedPageId(first ? first.data.pageId : null);
+              navigateToPage(first ? first.data.pageId : null);
             }}
             onToggle={(id) => toggleExpanded(Number(id))}
           >

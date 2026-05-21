@@ -74,10 +74,13 @@ final class EditorIntegration
      */
     private function buildBoot(): array
     {
+        $postId = get_the_ID();
+        $pageId = is_int($postId) && $postId > 0 ? $postId : null;
+
         return [
             'restRoot' => esc_url_raw(rest_url('content-ownership/v1/')),
             'nonce' => wp_create_nonce('wp_rest'),
-            'settingsUrl' => esc_url_raw(admin_url('admin.php?page=content-ownership')),
+            'settingsUrl' => esc_url_raw(SettingsPage::adminUrl('pages', $pageId)),
             'canManageSettings' => current_user_can(Capabilities::menu()),
             'pluginVersion' => (string) Config::get('app', 'version', '0.1.0'),
             'locale' => str_replace('_', '-', get_user_locale()),
