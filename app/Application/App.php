@@ -1,0 +1,96 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ContentOwnership\Application;
+
+use ContentOwnership\Admin\DashboardWidget;
+use ContentOwnership\Admin\EditorIntegration;
+use ContentOwnership\Admin\PostStates;
+use ContentOwnership\Admin\RowActions;
+use ContentOwnership\Admin\SettingsPage;
+use ContentOwnership\Assets\Assets;
+use ContentOwnership\Assets\ViteManifest;
+use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
+use ContentOwnership\Cron\NotificationQueue;
+use ContentOwnership\Cron\ReviewScanner;
+use ContentOwnership\Cron\Scheduler;
+use ContentOwnership\Domain\DashboardLister;
+use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\ReviewDateCalculator;
+use ContentOwnership\Notifications\EmailRenderer;
+use ContentOwnership\Notifications\NotificationDispatcher;
+use ContentOwnership\Rest\CronController;
+use ContentOwnership\Rest\DashboardController;
+use ContentOwnership\Rest\MarkReviewedController;
+use ContentOwnership\Rest\PageRuleController;
+use ContentOwnership\Rest\SettingsController;
+use ContentOwnership\Rest\TreeController;
+use ContentOwnership\Storage\RuleRepository;
+use ContentOwnership\Storage\SettingsRepository;
+use ContentOwnership\Storage\WpPageHierarchy;
+
+/**
+ * Plugin bootstrap.
+ *
+ * Instantiates each service exactly once into the static {@see Container}.
+ * Services self-register their own WordPress hooks in their constructors,
+ * keeping this class small and the dependency graph explicit.
+ */
+final class App
+{
+    public static function boot(): void
+    {
+        $settings   = new SettingsRepository();
+        $rules      = new RuleRepository();
+        $hierarchy  = new WpPageHierarchy();
+        $resolver   = new InheritanceResolver($rules, $hierarchy);
+        $calculator = new ReviewDateCalculator();
+
+        Container::register(SettingsRepository::class, $settings);
+        Container::register(RuleRepository::class, $rules);
+        Container::register(WpPageHierarchy::class, $hierarchy);
+        Container::register(InheritanceResolver::class, $resolver);
+        Container::register(ReviewDateCalculator::class, $calculator);
+
+        $lister = new DashboardLister($settings, $resolver, $calculator);
+        Container::register(DashboardLister::class, $lister);
+
+        $queue   = new NotificationQueue();
+        $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy);
+        Container::register(NotificationQueueInterface::class, $queue);
+        Container::register(NotificationQueue::class, $queue);
+        Container::register(ReviewScanner::class, $scanner);
+        Container::register(Scheduler::class, new Scheduler($scanner, $queue));
+
+        $emailsDir = (string) Config::get('paths', 'emails_dir', '');
+        $renderer  = new EmailRenderer(
+            $emailsDir . '/digest.html.php',
+            $emailsDir . '/digest.text.php',
+        );
+        Container::register(EmailRenderer::class, $renderer);
+        Container::register(
+            NotificationDispatcher::class,
+            new NotificationDispatcher($renderer, $settings)
+        );
+
+        Container::register(SettingsController::class, new SettingsController($settings));
+        Container::register(DashboardController::class, new DashboardController($lister));
+        Container::register(
+            PageRuleController::class,
+            new PageRuleController($settings, $rules, $resolver, $calculator)
+        );
+        Container::register(MarkReviewedController::class, new MarkReviewedController());
+        Container::register(TreeController::class, new TreeController($hierarchy, $rules));
+        Container::register(CronController::class, new CronController());
+
+        Container::register(ViteManifest::class, new ViteManifest());
+        Container::register(Assets::class, new Assets());
+        Container::register(SettingsPage::class, new SettingsPage());
+
+        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator));
+        Container::register(RowActions::class, new RowActions());
+        Container::register(EditorIntegration::class, new EditorIntegration());
+        Container::register(DashboardWidget::class, new DashboardWidget($lister));
+    }
+}

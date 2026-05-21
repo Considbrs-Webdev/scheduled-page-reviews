@@ -1,0 +1,125 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ContentOwnership\Notifications;
+
+final class EmailRenderer
+{
+    public function __construct(
+        private readonly string $htmlViewPath,
+        private readonly string $textViewPath,
+    ) {
+    }
+
+    /**
+     * Render an email digest from a flat list of pages.
+     *
+     * @param list<array{
+     *     page_id: int,
+     *     title: string,
+     *     edit_link: string,
+     *     bucket: string,
+     *     next_review_at: string,
+     * }> $pages
+     * @param array<string, mixed> $context  Extra template context. Expected keys:
+     *     - 'site_name'       (string)
+     *     - 'site_url'        (string)
+     *     - 'admin_url'       (string)
+     *     - 'recipient_email' (string)
+     * @return array{html: string, text: string, subject: string}
+     */
+    public function render(array $pages, array $context): array
+    {
+        if (!is_file($this->htmlViewPath)) {
+            throw new \RuntimeException('Email view not found: ' . $this->htmlViewPath);
+        }
+        if (!is_file($this->textViewPath)) {
+            throw new \RuntimeException('Email view not found: ' . $this->textViewPath);
+        }
+
+        $counts = ['overdue' => 0, 'upcoming' => 0];
+        $overduePages  = [];
+        $upcomingPages = [];
+
+        foreach ($pages as $page) {
+            $bucket = $page['bucket'];
+            if ($bucket === 'overdue') {
+                $counts['overdue']++;
+                $overduePages[] = $page;
+            } elseif ($bucket === 'upcoming') {
+                $counts['upcoming']++;
+                $upcomingPages[] = $page;
+            }
+        }
+
+        $siteName = (string) ($context['site_name'] ?? '');
+        $subject  = $this->buildSubject($counts, $siteName);
+
+        $vars = array_merge($context, [
+            'pages'          => $pages,
+            'overdue_pages'  => $overduePages,
+            'upcoming_pages' => $upcomingPages,
+            'counts'         => $counts,
+            'subject'        => $subject,
+        ]);
+
+        $html = $this->renderView($this->htmlViewPath, $vars);
+        $text = $this->renderView($this->textViewPath, $vars);
+
+        return [
+            'html'    => $html,
+            'text'    => $text,
+            'subject' => $subject,
+        ];
+    }
+
+    /**
+     * @param array{overdue: int, upcoming: int} $counts
+     */
+    private function buildSubject(array $counts, string $siteName): string
+    {
+        $overdue  = $counts['overdue'];
+        $upcoming = $counts['upcoming'];
+        $suffix   = $siteName !== '' ? ' on ' . $siteName : '';
+
+        if ($overdue > 0 && $upcoming > 0) {
+            return sprintf(
+                '[Content review] %d overdue, %d upcoming%s',
+                $overdue,
+                $upcoming,
+                $suffix,
+            );
+        }
+
+        if ($overdue > 0) {
+            return sprintf(
+                '[Content review] %d %s overdue%s',
+                $overdue,
+                $overdue === 1 ? 'page' : 'pages',
+                $suffix,
+            );
+        }
+
+        return sprintf(
+            '[Content review] %d %s upcoming%s',
+            $upcoming,
+            $upcoming === 1 ? 'page' : 'pages',
+            $suffix,
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $vars
+     */
+    private function renderView(string $path, array $vars): string
+    {
+        ob_start();
+        (function (string $__path, array $__vars): void {
+            extract($__vars, EXTR_SKIP);
+            require $__path;
+        })($path, $vars);
+
+        return (string) ob_get_clean();
+    }
+}
