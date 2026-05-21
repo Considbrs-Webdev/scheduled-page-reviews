@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Domain\PageReviewMarker;
 use WP_Error;
 use WP_User;
 use WP_REST_Request;
@@ -13,8 +13,9 @@ use WP_REST_Server;
 
 final class MarkReviewedController
 {
-    public function __construct()
-    {
+    public function __construct(
+        private readonly PageReviewMarker $marker,
+    ) {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
 
@@ -47,15 +48,7 @@ final class MarkReviewedController
         }
 
         $pageId  = (int) $request['id'];
-        $nowIso  = gmdate('c');
-        $keys    = (array) Config::get('settings', 'meta_keys', []);
-        $atKey   = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
-        $byKey   = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
-
-        update_post_meta($pageId, $atKey, $nowIso);
-        update_post_meta($pageId, $byKey, $userId);
-
-        do_action('content_ownership/page/marked_reviewed', $pageId, $userId, $nowIso);
+        $nowIso  = $this->marker->mark($pageId, $userId);
 
         $user = get_userdata($userId);
 

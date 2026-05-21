@@ -47,7 +47,7 @@ content-ownership/
 ├── config/
 │   ├── app.php                     Name, slug, version
 │   ├── paths.php                   Filesystem paths (views, emails)
-│   └── settings.php                Global option defaults, meta keys, capability
+│   └── settings.php                Global option defaults, meta keys, capabilities
 ├── app/
 │   ├── Application/                Bootstrap (App), service locator (Container), Config
 │   ├── Admin/
@@ -103,7 +103,7 @@ Each service constructor self-registers its WordPress hooks. `App::boot()` wires
 
 | Where                                | What                                                                 |
 | ------------------------------------ | -------------------------------------------------------------------- |
-| `wp_options.content_ownership_settings` | `GlobalSettings` JSON (`default_interval_days`, `notify_days_before`, `send_reminder_after_due`, `reminder_cadence_days`, `default_recipient_emails`, `cron_batch_size`) |
+| `wp_options.content_ownership_settings` | `GlobalSettings` JSON (`default_interval_days`, `notify_days_before`, `send_reminder_after_due`, `reminder_cadence_days`, `default_recipient_emails`, `cron_batch_size`, `sync_wp_modified_on_review`) |
 | `wp_postmeta._content_ownership_rule`   | Per-page `Rule` JSON: `{interval_days, recipients, notify_before}` each as `{value, scope}` where `scope ∈ 'self' | 'subtree'`. `recipients` is a list of typed `Target` objects (see below). Legacy `owners` keys are merged into `recipients` on load. |
 | `wp_postmeta._content_ownership_last_reviewed_at` | ISO 8601 string, set by the row action / REST mark-reviewed / Gutenberg button |
 | `wp_postmeta._content_ownership_last_reviewed_by` | WP user ID                                          |
@@ -150,6 +150,23 @@ A page's effective value for each field (`interval_days`, `recipients`, `notify_
 
 Resolution is **lazy**: there is no materialized table of effective settings. `InheritanceResolver::resolveForPage()` does the ancestor walk on demand (cached per request via `WpPageHierarchy`). `InheritanceResolver::walkTree()` is the bulk DFS used by cron.
 
+## Who sees review status in wp-admin
+
+The Pages list badges ("Review overdue" / "Review due soon"), the dashboard widget, and the REST `/dashboard` endpoint all use the same visibility rules via `RecipientVisibility`:
+
+| Viewer | Sees status for… |
+| ------ | ---------------- |
+| Assigned recipient (WP user or role member) | Pages where they appear in the effective `recipients` list (including nested pages via inheritance) |
+| Site overview user (default: `overview_capability`, usually `manage_options`) | **All** pages that need review — oversight only, not personal responsibility |
+| Standalone email targets | Never — they receive email digests but have no WP account |
+
+Email-only recipient pages show no badge to any WP user unless a site overview user is viewing.
+
+Override via filters:
+
+- `content_ownership/can_view_site_overview` — grant or revoke site-wide overview per user
+- `content_ownership/post_states/show` — per-page override for Pages list badges
+
 ## REST API
 
 Namespace: `content-ownership/v1`. All endpoints require `is_user_logged_in()` minimum; most require `edit_post` on the target page.
@@ -189,6 +206,9 @@ All actions and filters are namespaced under `content_ownership/...`.
 | ------------------------------------------------- | --------------------------------------------- | --------------------- | ----------------------------------------------- |
 | `content_ownership/cron/batch_size`               | `int $batchSize`                              | `cron_batch_size` opt | Pages processed per cron tick                   |
 | `content_ownership/cron/should_process_page`      | `bool $should, int $pageId`                   | `true`                | Skip selected pages from the scanner            |
+| `content_ownership/can_view_site_overview`        | `bool $can, int $userId`                      | `user_can($userId, overview_capability)` | Site-wide review overview (Pages list + dashboard) |
+| `content_ownership/can_manage_settings`           | `bool $can, int $userId`                      | `user_can($userId, admin_capability)` | Settings SPA menu, admin REST, and links to settings |
+| `content_ownership/post_states/show`              | `bool $show, int $pageId, EffectiveSettings $effective, int $userId` | computed | Per-page Pages list badge visibility     |
 | `content_ownership/owner/should_notify`           | `bool $should, int $userId`                   | `true`                | Per-user opt-out from WP-user notifications     |
 | `content_ownership/notification/pages`            | `array $pages, string $email`                 | unchanged             | Add/remove pages from a recipient's digest      |
 | `content_ownership/email/subject`                 | `string $subject, string $email, array $pages` | computed             | Override digest subject                         |
@@ -251,9 +271,23 @@ add_filter('content_ownership/cron/should_process_page', function (bool $should,
 
 On deactivation the daily event, any pending single events, and the run-state transients are cleared.
 
-## Capabilities
+## Permission layers
 
-A single capability (`manage_options` by default — overridable via the `capability` config key in `config/settings.php`) gates settings changes and the cron "Run now" REST endpoint. All per-page operations gate on `current_user_can('edit_post', $pageId)` so editors managing their own sections work out of the box.
+The plugin separates three independent concerns. They must not be conflated — a user can hold one, two, or all three.
+
+| Layer | Who | What they can do | Configured via |
+| ----- | --- | ---------------- | -------------- |
+| **Plugin configuration** | Users passing `content_ownership/can_manage_settings` (default: `user_can(admin_capability)`) | Open the settings SPA, change global defaults, browse the page tree, run cron manually | `admin_capability` + `content_ownership/can_manage_settings` filter |
+| **Site-wide overview** | Users passing `content_ownership/can_view_site_overview` (default: `user_can(overview_capability)`) | See review badges and dashboard entries for **all** actionable pages — oversight, not personal responsibility | `overview_capability` + `content_ownership/can_view_site_overview` filter |
+| **Content owner** | Users or roles listed in a page's effective `recipients` | See review status and mark pages reviewed for pages they are assigned to (including nested pages via inheritance) | Per-page rules in the admin SPA |
+
+**Editor workflow (content owners only):** dashboard widget, Pages list badges, Gutenberg sidebar, row actions, and email digests. None of these require the settings SPA. Links to the settings page are shown only to users who pass `content_ownership/can_manage_settings`.
+
+Site-specific tuning (for example, restrict both overview and settings access to the `administrator` role while other `manage_options` users remain content owners only) is done with `content_ownership/can_view_site_overview` and `content_ownership/can_manage_settings` in site code — not by hardcoding roles in the plugin.
+
+The legacy `capability` config key is still read as a fallback when either dedicated key is missing.
+
+All per-page REST operations gate on `current_user_can('edit_post', $pageId)` so editors managing their own sections work out of the box without visiting the settings SPA.
 
 ## Testing
 

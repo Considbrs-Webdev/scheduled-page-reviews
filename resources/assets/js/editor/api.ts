@@ -4,6 +4,7 @@ export interface EditorBoot {
   restRoot: string;
   nonce: string;
   settingsUrl: string;
+  canManageSettings: boolean;
   pluginVersion: string;
   locale: string;
   dateFormat: string;

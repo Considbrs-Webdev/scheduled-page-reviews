@@ -43,4 +43,48 @@ final class QueuedItem
             'next_review_at' => $this->nextReviewAtIso,
         ];
     }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function fromArray(array $data): ?self
+    {
+        $pageId = isset($data['page_id']) ? (int) $data['page_id'] : 0;
+        if ($pageId <= 0) {
+            return null;
+        }
+
+        $bucketRaw = (string) ($data['bucket'] ?? '');
+        $bucket    = Bucket::tryFrom($bucketRaw);
+        if ($bucket === null) {
+            return null;
+        }
+
+        $recipients = [];
+        foreach ((array) ($data['recipients'] ?? []) as $email) {
+            if (is_string($email) && $email !== '') {
+                $recipients[] = $email;
+            }
+        }
+
+        $owners = [];
+        foreach ((array) ($data['owners'] ?? []) as $ownerId) {
+            if (is_numeric($ownerId)) {
+                $owners[] = (int) $ownerId;
+            }
+        }
+
+        $nextReviewAt = (string) ($data['next_review_at'] ?? '');
+        if ($nextReviewAt === '') {
+            return null;
+        }
+
+        return new self(
+            pageId: $pageId,
+            bucket: $bucket,
+            recipientEmails: $recipients,
+            ownerUserIds: $owners,
+            nextReviewAtIso: $nextReviewAt,
+        );
+    }
 }

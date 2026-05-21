@@ -18,6 +18,7 @@ final class GlobalSettingsTest extends TestCase
         'reminder_cadence_days'   => 7,
         'default_recipients'      => [],
         'cron_batch_size'         => 200,
+        'sync_wp_modified_on_review' => false,
     ];
 
     public function testEmptyOptionFallsBackToDefaults(): void
@@ -124,6 +125,7 @@ final class GlobalSettingsTest extends TestCase
                     ['type' => 'role',  'value' => 'editor'],
                 ],
                 'cron_batch_size'         => 50,
+                'sync_wp_modified_on_review' => true,
             ],
             $this->defaults
         );

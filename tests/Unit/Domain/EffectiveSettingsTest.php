@@ -58,6 +58,31 @@ final class EffectiveSettingsTest extends TestCase
         self::assertSame(['editor'], $eff->recipientRoleSlugs());
     }
 
+    public function testIsAssignedToUserMatchesDirectUserOrRole(): void
+    {
+        $eff = new EffectiveSettings(
+            intervalDays: Resolution::local(30, 1),
+            recipients:   Resolution::local([Target::user(7), Target::role('editor')], 1),
+            notifyBefore: Resolution::local(0, 1),
+        );
+
+        self::assertTrue($eff->isAssignedToUser(7, []));
+        self::assertTrue($eff->isAssignedToUser(99, ['editor']));
+        self::assertFalse($eff->isAssignedToUser(99, ['subscriber']));
+        self::assertFalse($eff->isAssignedToUser(0, ['editor']));
+    }
+
+    public function testIsAssignedToUserIgnoresEmailOnlyTargets(): void
+    {
+        $eff = new EffectiveSettings(
+            intervalDays: Resolution::defaulted(90),
+            recipients:   Resolution::local([Target::email('a@b.se')], 1),
+            notifyBefore: Resolution::defaulted(14),
+        );
+
+        self::assertFalse($eff->isAssignedToUser(1, ['administrator']));
+    }
+
     public function testToArraySerialisesTargetsToTaggedShape(): void
     {
         $eff = $this->build();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Domain\RuleField;
 use ContentOwnership\Storage\RuleRepository;
@@ -66,7 +66,7 @@ final class TreeController
 
     public function canManage(): bool
     {
-        return current_user_can((string) Config::get('settings', 'capability', Routes::CAP_FALLBACK));
+        return current_user_can(Capabilities::menu());
     }
 
     /**

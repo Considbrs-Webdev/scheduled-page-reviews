@@ -42,4 +42,14 @@ interface NotificationQueueInterface
     public function clear(): void;
 
     public function count(): int;
+
+    /**
+     * @param array<string, list<QueuedItem>> $grouped
+     */
+    public function replaceGrouped(array $grouped): void;
+
+    /**
+     * @return array<string, list<array<string, mixed>>>
+     */
+    public function toPersistedArray(): array;
 }

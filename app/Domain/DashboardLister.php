@@ -15,6 +15,9 @@ use WP_User;
  *
  * Used by both the REST dashboard endpoint and the WP admin dashboard widget
  * so they always show identical data with identical bucket math.
+ *
+ * Recipients see only pages they are assigned to. Users with the site
+ * overview capability (config overview_capability) see every actionable page.
  */
 final class DashboardLister
 {
@@ -24,7 +27,13 @@ final class DashboardLister
         private readonly SettingsRepository $settings,
         private readonly InheritanceResolver $resolver,
         private readonly ReviewDateCalculator $calculator,
+        private readonly RecipientVisibility $visibility,
     ) {
+    }
+
+    public function usesSiteOverview(int $userId): bool
+    {
+        return $this->visibility->canViewSiteOverview($userId);
     }
 
     /**
@@ -52,7 +61,7 @@ final class DashboardLister
         $items     = [];
 
         foreach ($this->resolver->walkTree($defaults) as $pageId => $effective) {
-            if (!$this->userIsAssigned($userId, $userRoles, $effective->recipientUserIds(), $effective->recipientRoleSlugs())) {
+            if (!$this->visibility->shouldShowPage($effective, $userId, $userRoles)) {
                 continue;
             }
 
@@ -65,7 +74,7 @@ final class DashboardLister
             $postModifiedAt = new DateTimeImmutable(
                 '@' . (int) get_post_modified_time('U', true, $pageId)
             );
-            $bucket = $this->calculator->bucket($effective, $lastReviewedAt, $postModifiedAt, $now);
+            $bucket         = $this->calculator->bucket($effective, $lastReviewedAt, $postModifiedAt, $now);
 
             if (!$this->matchesFilter($bucketFilter, $bucket)) {
                 continue;
@@ -135,24 +144,6 @@ final class DashboardLister
         }
 
         return $bucket->value === $filter;
-    }
-
-    /**
-     * @param list<int>    $recipientUserIds
-     * @param list<string> $recipientRoleSlugs
-     * @param list<string> $userRoles
-     */
-    private function userIsAssigned(int $userId, array $userRoles, array $recipientUserIds, array $recipientRoleSlugs): bool
-    {
-        if (in_array($userId, $recipientUserIds, true)) {
-            return true;
-        }
-        foreach ($recipientRoleSlugs as $slug) {
-            if (in_array($slug, $userRoles, true)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

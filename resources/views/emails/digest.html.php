@@ -87,8 +87,9 @@ $renderSection(
 ?>
 
   <p style="margin: 32px 0 0; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-    Manage content review settings in the
-    <a href="<?php echo $h($admin_url); ?>" style="color: #2563eb; text-decoration: none;">WordPress admin</a>.
+    Sign in to the
+    <a href="<?php echo $h($admin_url); ?>" style="color: #2563eb; text-decoration: none;">WordPress dashboard</a>
+    to review your pages.
     This message was sent by the Content Ownership plugin.
   </p>
 </body>

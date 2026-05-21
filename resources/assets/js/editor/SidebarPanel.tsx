@@ -162,17 +162,19 @@ export function SidebarPanel() {
       }, __("Mark as reviewed", "content-ownership")))
     );
 
-    dataRows.push(
-      h(
-        PanelRow,
-        null,
+    if (boot.canManageSettings) {
+      dataRows.push(
         h(
-          "a",
-          { href: boot.settingsUrl, target: "_blank", rel: "noreferrer" },
-          __("Open content ownership settings", "content-ownership")
+          PanelRow,
+          null,
+          h(
+            "a",
+            { href: boot.settingsUrl, target: "_blank", rel: "noreferrer" },
+            __("Open content ownership settings", "content-ownership")
+          )
         )
-      )
-    );
+      );
+    }
   }
 
   return h(

@@ -102,6 +102,7 @@ export interface GlobalSettings {
   reminder_cadence_days: number;
   default_recipients: RecipientTarget[];
   cron_batch_size: number;
+  sync_wp_modified_on_review: boolean;
 }
 
 /** Partial shape for PUT /settings; PHP merges over the current settings. */

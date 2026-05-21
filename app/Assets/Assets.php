@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContentOwnership\Assets;
 
 use ContentOwnership\Admin\SettingsPage;
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Application\Config;
 use ContentOwnership\Application\Container;
 
@@ -92,9 +93,7 @@ final class Assets
             'dateFormat'    => (string) get_option('date_format'),
             'pluginVersion' => (string) Config::get('app', 'version', '0.1.0'),
             'capabilities'  => [
-                'manage' => current_user_can(
-                    (string) Config::get('settings', 'capability', 'manage_options')
-                ),
+                'manage' => current_user_can(Capabilities::menu()),
             ],
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Admin;
 
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Application\Config;
 
 /**
@@ -26,7 +27,7 @@ final class SettingsPage
         add_menu_page(
             __('Content Ownership', 'content-ownership'),
             __('Content Ownership', 'content-ownership'),
-            (string) Config::get('settings', 'capability', 'manage_options'),
+            Capabilities::menu(),
             self::PAGE_SLUG,
             [$this, 'render'],
             'dashicons-clipboard',

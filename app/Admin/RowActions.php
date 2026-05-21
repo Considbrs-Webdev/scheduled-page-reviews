@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Admin;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Domain\PageReviewMarker;
 use WP_Post;
 
 final class RowActions
@@ -13,8 +13,9 @@ final class RowActions
     public const NONCE = 'content_ownership_mark_reviewed';
     public const FLASH_QUERY_VAR = 'content_ownership_reviewed';
 
-    public function __construct()
-    {
+    public function __construct(
+        private readonly PageReviewMarker $marker,
+    ) {
         add_filter('page_row_actions', [$this, 'addAction'], 10, 2);
         add_action('admin_post_' . self::ACTION, [$this, 'handle']);
         add_action('admin_notices', [$this, 'maybeRenderFlash']);
@@ -63,15 +64,7 @@ final class RowActions
         }
 
         $userId = get_current_user_id();
-        $nowIso = gmdate('c');
-        $keys = (array) Config::get('settings', 'meta_keys', []);
-        $atKey = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
-        $byKey = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
-
-        update_post_meta($postId, $atKey, $nowIso);
-        update_post_meta($postId, $byKey, $userId);
-
-        do_action('content_ownership/page/marked_reviewed', $postId, $userId, $nowIso);
+        $this->marker->mark($postId, $userId);
 
         $referer = wp_get_referer();
         $redirect = $referer !== false ? $referer : admin_url('edit.php?post_type=page');

@@ -91,6 +91,31 @@ final class EffectiveSettings
     }
 
     /**
+     * Whether a WP user (by ID or role membership) is among the effective
+     * recipients. Email-only targets are excluded — they have no WP account.
+     *
+     * @param list<string> $userRoles
+     */
+    public function isAssignedToUser(int $userId, array $userRoles): bool
+    {
+        if ($userId <= 0) {
+            return false;
+        }
+
+        if (in_array($userId, $this->recipientUserIds(), true)) {
+            return true;
+        }
+
+        foreach ($this->recipientRoleSlugs() as $slug) {
+            if (in_array($slug, $userRoles, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return array<string, array{value: mixed, source: string, from: ?int}>
      */
     public function toArray(): array

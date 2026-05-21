@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Admin;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Domain\DashboardLister;
 use DateTimeImmutable;
 use Throwable;
@@ -41,10 +41,16 @@ final class DashboardWidget
 
     public function render(): void
     {
-        $items = $this->lister->listForUser(get_current_user_id(), 'all', self::MAX_ITEMS);
+        $userId = get_current_user_id();
+        $items  = $this->lister->listForUser($userId, 'all', self::MAX_ITEMS);
+        $overview = $this->lister->usesSiteOverview($userId);
 
         if ($items === []) {
-            echo '<p>' . esc_html__('Nothing assigned to you needs review right now. Nice work!', 'content-ownership') . '</p>';
+            echo '<p>' . esc_html(
+                $overview
+                    ? __('No pages on the site need review right now.', 'content-ownership')
+                    : __('Nothing assigned to you needs review right now. Nice work!', 'content-ownership')
+            ) . '</p>';
             $this->renderFooter(0);
             return;
         }
@@ -135,8 +141,7 @@ final class DashboardWidget
 
     private function renderFooter(int $itemsShown): void
     {
-        $cap = (string) Config::get('settings', 'capability', 'manage_options');
-        if (!current_user_can($cap)) {
+        if (!current_user_can(Capabilities::menu())) {
             return;
         }
         $url = admin_url('admin.php?page=content-ownership');

@@ -27,6 +27,7 @@ final class GlobalSettings
         public readonly int $reminderCadenceDays,
         public readonly array $defaultRecipients,
         public readonly int $cronBatchSize,
+        public readonly bool $syncWpModifiedOnReview,
     ) {
     }
 
@@ -58,6 +59,7 @@ final class GlobalSettings
             reminderCadenceDays:  self::positiveInt($merged['reminder_cadence_days'] ?? null, 7),
             defaultRecipients:    self::recipientTargets($recipientsRaw),
             cronBatchSize:        self::positiveInt($merged['cron_batch_size'] ?? null, 200),
+            syncWpModifiedOnReview: self::bool($merged['sync_wp_modified_on_review'] ?? null, false),
         );
     }
 
@@ -73,6 +75,7 @@ final class GlobalSettings
             'reminder_cadence_days'   => $this->reminderCadenceDays,
             'default_recipients'      => Target::listToArray($this->defaultRecipients),
             'cron_batch_size'         => $this->cronBatchSize,
+            'sync_wp_modified_on_review' => $this->syncWpModifiedOnReview,
         ];
     }
 

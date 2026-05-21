@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Application;
 
+use ContentOwnership\Admin\AccessControl;
 use ContentOwnership\Admin\DashboardWidget;
 use ContentOwnership\Admin\EditorIntegration;
 use ContentOwnership\Admin\PostStates;
@@ -17,6 +18,8 @@ use ContentOwnership\Cron\ReviewScanner;
 use ContentOwnership\Cron\Scheduler;
 use ContentOwnership\Domain\DashboardLister;
 use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\PageReviewMarker;
+use ContentOwnership\Domain\RecipientVisibility;
 use ContentOwnership\Domain\ReviewDateCalculator;
 use ContentOwnership\Notifications\EmailRenderer;
 use ContentOwnership\Notifications\NotificationDispatcher;
@@ -55,7 +58,13 @@ final class App
         Container::register(InheritanceResolver::class, $resolver);
         Container::register(ReviewDateCalculator::class, $calculator);
 
-        $lister = new DashboardLister($settings, $resolver, $calculator);
+        $reviewMarker = new PageReviewMarker($settings);
+        Container::register(PageReviewMarker::class, $reviewMarker);
+
+        $visibility = RecipientVisibility::fromConfig();
+        Container::register(RecipientVisibility::class, $visibility);
+
+        $lister = new DashboardLister($settings, $resolver, $calculator, $visibility);
         Container::register(DashboardLister::class, $lister);
 
         $queue   = new NotificationQueue();
@@ -82,7 +91,7 @@ final class App
             PageRuleController::class,
             new PageRuleController($settings, $rules, $resolver, $calculator)
         );
-        Container::register(MarkReviewedController::class, new MarkReviewedController());
+        Container::register(MarkReviewedController::class, new MarkReviewedController($reviewMarker));
         Container::register(TreeController::class, new TreeController($hierarchy, $rules));
         Container::register(CronController::class, new CronController());
         Container::register(RolesController::class, new RolesController());
@@ -90,10 +99,11 @@ final class App
 
         Container::register(ViteManifest::class, new ViteManifest());
         Container::register(Assets::class, new Assets());
+        Container::register(AccessControl::class, new AccessControl());
         Container::register(SettingsPage::class, new SettingsPage());
 
-        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator));
-        Container::register(RowActions::class, new RowActions());
+        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility));
+        Container::register(RowActions::class, new RowActions($reviewMarker));
         Container::register(EditorIntegration::class, new EditorIntegration());
         Container::register(DashboardWidget::class, new DashboardWidget($lister));
     }

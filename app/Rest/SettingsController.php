@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Storage\SettingsRepository;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -60,7 +60,7 @@ final class SettingsController
 
     public function canManage(): bool
     {
-        return current_user_can((string) Config::get('settings', 'capability', Routes::CAP_FALLBACK));
+        return current_user_can(Capabilities::menu());
     }
 
     /**
@@ -111,6 +111,10 @@ final class SettingsController
                 'type'              => 'integer',
                 'minimum'           => 1,
                 'sanitize_callback' => 'absint',
+            ],
+            'sync_wp_modified_on_review' => [
+                'type'              => 'boolean',
+                'sanitize_callback' => 'rest_sanitize_boolean',
             ],
         ];
     }

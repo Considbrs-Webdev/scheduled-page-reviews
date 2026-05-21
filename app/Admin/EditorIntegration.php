@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Admin;
 
+use ContentOwnership\Application\Capabilities;
 use ContentOwnership\Application\Config;
 use ContentOwnership\Application\Container;
 use ContentOwnership\Assets\ViteManifest;
@@ -71,6 +72,7 @@ final class EditorIntegration
             'restRoot' => esc_url_raw(rest_url('content-ownership/v1/')),
             'nonce' => wp_create_nonce('wp_rest'),
             'settingsUrl' => esc_url_raw(admin_url('admin.php?page=content-ownership')),
+            'canManageSettings' => current_user_can(Capabilities::menu()),
             'pluginVersion' => (string) Config::get('app', 'version', '0.1.0'),
             'locale' => str_replace('_', '-', get_user_locale()),
             'dateFormat' => (string) get_option('date_format'),

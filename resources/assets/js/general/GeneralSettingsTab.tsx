@@ -34,6 +34,7 @@ export function GeneralSettingsTab() {
       send_reminder_after_due: true,
       reminder_cadence_days: 7,
       cron_batch_size: 200,
+      sync_wp_modified_on_review: false,
       default_recipient_emails_text: "",
     },
   });
@@ -49,6 +50,7 @@ export function GeneralSettingsTab() {
       send_reminder_after_due: settingsQ.data.send_reminder_after_due,
       reminder_cadence_days:   settingsQ.data.reminder_cadence_days,
       cron_batch_size:         settingsQ.data.cron_batch_size,
+      sync_wp_modified_on_review: settingsQ.data.sync_wp_modified_on_review,
       default_recipient_emails_text: emails.join(", "),
     });
   }, [settingsQ.data, form]);
@@ -84,6 +86,7 @@ export function GeneralSettingsTab() {
         send_reminder_after_due: values.send_reminder_after_due,
         reminder_cadence_days:   values.reminder_cadence_days,
         cron_batch_size:         values.cron_batch_size,
+        sync_wp_modified_on_review: values.sync_wp_modified_on_review,
         default_recipients,
       },
       { onSuccess: () => form.reset(values) }
@@ -145,6 +148,30 @@ export function GeneralSettingsTab() {
                 <FormLabel>Reminder cadence (days)</FormLabel>
                 <FormControl><Input type="number" min={1} max={365} {...field} /></FormControl>
                 <FormDescription>Wait at least this many days between reminders to the same recipient.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Mark as reviewed</CardTitle>
+            <CardDescription>
+              What happens when someone marks a page as reviewed. Plugin review meta is always stored.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FormField control={form.control} name="sync_wp_modified_on_review" render={({ field }) => (
+              <FormItem className="flex flex-col gap-2">
+                <FormLabel>Update WordPress last modified date</FormLabel>
+                <FormControl>
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+                <FormDescription>
+                  Also updates the post&apos;s modified timestamp (shown as &quot;updated&quot; on the front-end).
+                  Does not create a new revision.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )} />

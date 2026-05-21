@@ -13,6 +13,7 @@ final class Scheduler
 
     private const LOCK_KEY       = 'content_ownership_run_lock';
     private const STATE_KEY      = 'content_ownership_run_state';
+    private const QUEUE_KEY      = 'content_ownership_run_queue';
     private const LOCK_TTL_SEC   = 21600;
     private const TICK_DELAY_SEC = 60;
 
@@ -42,6 +43,8 @@ final class Scheduler
         $state = RunState::start((int) current_time('timestamp', true));
         set_transient(self::LOCK_KEY, $state->runId, self::LOCK_TTL_SEC);
         set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
+        $this->queue->clear();
+        delete_transient(self::QUEUE_KEY);
         wp_schedule_single_event(time() + 1, self::TICK_HOOK);
         do_action('content_ownership/cron/before_run', $state->toArray());
     }
@@ -66,6 +69,8 @@ final class Scheduler
             return;
         }
 
+        $this->restoreQueue($state->runId);
+
         $batchSize = max(1, $this->scanner->batchSize());
         $batchSize = (int) apply_filters('content_ownership/cron/batch_size', $batchSize);
 
@@ -74,6 +79,7 @@ final class Scheduler
         set_transient(self::STATE_KEY, $result['state']->toArray(), self::LOCK_TTL_SEC);
 
         if ($result['more']) {
+            $this->persistQueue($state->runId);
             wp_schedule_single_event(time() + self::TICK_DELAY_SEC, self::TICK_HOOK);
 
             return;
@@ -81,6 +87,7 @@ final class Scheduler
 
         $grouped = $this->queue->flush();
         do_action('content_ownership/cron/run_completed', $result['state']->toArray(), $grouped);
+        delete_transient(self::QUEUE_KEY);
         delete_transient(self::STATE_KEY);
         delete_transient(self::LOCK_KEY);
     }
@@ -103,5 +110,33 @@ final class Scheduler
     {
         delete_transient(self::LOCK_KEY);
         delete_transient(self::STATE_KEY);
+        delete_transient(self::QUEUE_KEY);
+    }
+
+    private function restoreQueue(string $runId): void
+    {
+        $raw = get_transient(self::QUEUE_KEY);
+        if (!is_array($raw) || ($raw['run_id'] ?? '') !== $runId) {
+            return;
+        }
+
+        $buckets = $raw['buckets'] ?? null;
+        if (!is_array($buckets)) {
+            return;
+        }
+
+        $this->queue->replaceGrouped(NotificationQueue::groupedFromPersistedArray($buckets));
+    }
+
+    private function persistQueue(string $runId): void
+    {
+        set_transient(
+            self::QUEUE_KEY,
+            [
+                'run_id'  => $runId,
+                'buckets' => $this->queue->toPersistedArray(),
+            ],
+            self::LOCK_TTL_SEC
+        );
     }
 }

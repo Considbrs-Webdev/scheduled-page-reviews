@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
-use ContentOwnership\Application\Config;
+use ContentOwnership\Application\Capabilities;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -51,6 +51,6 @@ final class CronController
 
     public function canManage(): bool
     {
-        return current_user_can((string) Config::get('settings', 'capability', Routes::CAP_FALLBACK));
+        return current_user_can(Capabilities::menu());
     }
 }

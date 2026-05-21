@@ -57,6 +57,6 @@ $renderSection(
 );
 
 echo $wrap(
-    'Manage content review settings: ' . $admin_url,
+    'Sign in to the WordPress dashboard to review your pages: ' . $admin_url,
 ) . "\n";
 echo $wrap('This message was sent by the Content Ownership plugin.') . "\n";
