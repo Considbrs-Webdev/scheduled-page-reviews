@@ -1,0 +1,135 @@
+# Copyright (C) 2026 William Undqvist
+# This file is distributed under the GPL-3.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Content Ownership 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/content-ownership\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-21T21:07:44+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: content-ownership\n"
+
+#. Plugin Name of the plugin
+#: content-ownership.php
+#: app/Admin/SettingsPage.php:28
+#: app/Admin/SettingsPage.php:29
+#: resources/views/settings-page.php:11
+msgid "Content Ownership"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: content-ownership.php
+msgid "https://github.com/williamundqvist/content-ownership"
+msgstr ""
+
+#. Description of the plugin
+#: content-ownership.php
+msgid "Per-page review intervals, content ownership, inheritance, batched cron notifications, and a React-based page-tree admin UI."
+msgstr ""
+
+#. Author of the plugin
+#: content-ownership.php
+msgid "William Undqvist"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:37
+msgid "Content ownership — pages needing review"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:51
+msgid "No pages on the site need review right now."
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:52
+msgid "Nothing assigned to you needs review right now. Nice work!"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:62
+msgid "Overdue"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:69
+msgid "Due soon"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:131
+msgid "(no title)"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:152
+msgid "Open content ownership settings →"
+msgstr ""
+
+#. translators: %d = maximum number of list items shown
+#: app/Admin/DashboardWidget.php:159
+#, php-format
+msgid "(showing first %d)"
+msgstr ""
+
+#: app/Admin/DashboardWidget.php:184
+#: app/Admin/DashboardWidget.php:193
+msgid "due today"
+msgstr ""
+
+#. translators: %d = number of days
+#: app/Admin/DashboardWidget.php:187
+#, php-format
+msgid "%d day overdue"
+msgid_plural "%d days overdue"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d = number of days
+#: app/Admin/DashboardWidget.php:196
+#, php-format
+msgid "due in %d day"
+msgid_plural "due in %d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: app/Admin/PostStates.php:66
+msgid "Review overdue"
+msgstr ""
+
+#: app/Admin/PostStates.php:70
+msgid "Review due soon"
+msgstr ""
+
+#: app/Admin/RowActions.php:46
+msgid "Mark reviewed"
+msgstr ""
+
+#: app/Admin/RowActions.php:57
+msgid "Invalid request."
+msgstr ""
+
+#: app/Admin/RowActions.php:63
+msgid "You do not have permission to mark this page as reviewed."
+msgstr ""
+
+#. translators: %s = page title
+#: app/Admin/RowActions.php:89
+#, php-format
+msgid "Marked \"%s\" as reviewed."
+msgstr ""
+
+#: app/Rest/MarkReviewedController.php:45
+msgid "You must be logged in to mark a page as reviewed."
+msgstr ""
+
+#: app/Rest/PageRuleController.php:73
+msgid "Request body must be a JSON object."
+msgstr ""
+
+#: content-ownership.php:29
+msgid "Content Ownership: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
+msgstr ""
+
+#: resources/views/settings-page.php:16
+msgid "This page requires JavaScript."
+msgstr ""
