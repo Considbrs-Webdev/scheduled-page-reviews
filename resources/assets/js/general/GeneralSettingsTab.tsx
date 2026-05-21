@@ -131,7 +131,9 @@ export function GeneralSettingsTab() {
         <Card>
           <CardHeader>
             <CardTitle>Reminders</CardTitle>
-            <CardDescription>Repeat reminders after a page is overdue.</CardDescription>
+            <CardDescription>
+              Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 sm:grid-cols-2">
             <FormField control={form.control} name="send_reminder_after_due" render={({ field }) => (
@@ -140,6 +142,10 @@ export function GeneralSettingsTab() {
                 <FormControl>
                   <Switch checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
+                <FormDescription>
+                  When off, each page is included in at most one digest per review cycle (until marked reviewed).
+                  When on, overdue pages can appear again after the cadence interval.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )} />
@@ -147,7 +153,10 @@ export function GeneralSettingsTab() {
               <FormItem>
                 <FormLabel>Reminder cadence (days)</FormLabel>
                 <FormControl><Input type="number" min={1} max={365} {...field} /></FormControl>
-                <FormDescription>Wait at least this many days between reminders to the same recipient.</FormDescription>
+                <FormDescription>
+                  Minimum days before the same page can trigger another notification (only when repeat reminders are on).
+                  Currently tracked per page, not per recipient — see README.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )} />

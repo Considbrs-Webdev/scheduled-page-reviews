@@ -23,9 +23,11 @@ final class PageReviewMarker
         $keys   = (array) Config::get('settings', 'meta_keys', []);
         $atKey  = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
         $byKey  = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
+        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_content_ownership_last_notified_at');
 
         update_post_meta($pageId, $atKey, $nowIso);
         update_post_meta($pageId, $byKey, $userId);
+        delete_post_meta($pageId, $notifiedKey);
 
         if ($this->settings->get()->syncWpModifiedOnReview) {
             $this->syncPostModified($pageId, $nowIso);

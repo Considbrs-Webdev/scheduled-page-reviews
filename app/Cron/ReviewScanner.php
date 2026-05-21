@@ -9,6 +9,7 @@ use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
 use ContentOwnership\Domain\Contracts\PageHierarchy;
 use ContentOwnership\Domain\EffectiveSettings;
 use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\NotificationEligibility;
 use ContentOwnership\Domain\ReviewDateCalculator;
 use ContentOwnership\Domain\Target;
 use ContentOwnership\Storage\SettingsRepository;
@@ -89,10 +90,12 @@ final class ReviewScanner
                 continue;
             }
 
-            if (
-                $lastNotifiedAt !== null
-                && $now->getTimestamp() - $lastNotifiedAt->getTimestamp() < $defaults->reminderCadenceDays * 86400
-            ) {
+            if (! NotificationEligibility::shouldQueue(
+                $defaults->sendReminderAfterDue,
+                $defaults->reminderCadenceDays,
+                $lastNotifiedAt,
+                $now,
+            )) {
                 continue;
             }
 

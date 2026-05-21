@@ -259,6 +259,27 @@ add_filter('content_ownership/cron/should_process_page', function (bool $should,
 }, 10, 2);
 ```
 
+## Reminders (email throttling)
+
+Two global settings under **General settings → Reminders** control repeat digests:
+
+| Setting | Behaviour |
+| ------- | --------- |
+| **Send reminders after due date** | **Off:** each page is notified at most **once** while it stays due/overdue. Marking it reviewed clears notification state so the next review cycle can email again. **On:** the same page may be included again after the cadence interval if it is still due or overdue. |
+| **Reminder cadence (days)** | When repeat reminders are **on**, minimum gap before the **same page** can be queued again. Ignored when repeat reminders are off (the one-shot rule applies instead). |
+
+Digest grouping is **per recipient per cron run** — all eligible pages for that person appear in one email, regardless of review date.
+
+### Current cadence model (per page)
+
+`_content_ownership_last_notified_at` is stored on each **page**. Cadence throttles re-notifying that page, not how often a person receives mail overall.
+
+**Implication:** if you own many pages that become due on different days, you may receive **more than one email per cadence period** (e.g. one digest when page A is due, another when page B becomes due a day later). Pages are not lost — they wait for the next eligible cron run.
+
+### Possible future change (per recipient) — not implemented
+
+A **per-recipient cadence** would cap digest mail to at most one email per address every N days and batch all actionable pages into that single mail. That avoids staggered daily digests when someone owns many pages. Tracked as a future improvement; the plugin still uses per-page cadence today.
+
 ## WP-Cron
 
 `Scheduler` registers a daily `content_ownership_cron_tick` event on plugin activation. Each tick:
