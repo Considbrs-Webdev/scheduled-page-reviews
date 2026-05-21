@@ -60,6 +60,12 @@ final class EditorIntegration
             ]
         );
 
+        wp_set_script_translations(
+            $handle,
+            'content-ownership',
+            (string) Config::get('paths', 'languages_dir', ''),
+        );
+
         wp_localize_script($handle, 'contentOwnershipEditorBoot', $this->buildBoot());
     }
 

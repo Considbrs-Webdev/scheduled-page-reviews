@@ -46,12 +46,18 @@ final class Assets
         wp_enqueue_script(
             $handle,
             $scriptUrl,
-            [],
+            ['wp-i18n'],
             $version,
             [
                 'in_footer' => true,
                 'strategy'  => 'defer',
             ]
+        );
+
+        wp_set_script_translations(
+            $handle,
+            'content-ownership',
+            (string) Config::get('paths', 'languages_dir', ''),
         );
 
         wp_localize_script($handle, 'contentOwnershipBoot', $this->buildBoot());

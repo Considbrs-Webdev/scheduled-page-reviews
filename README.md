@@ -30,6 +30,11 @@ Then activate the plugin in **wp-admin → Plugins**.
 | `composer test`     | Run PHPUnit                                               |
 | `composer lint`     | Run PHP_CodeSniffer                                       |
 | `composer lint:fix` | Run PHP Code Beautifier                                   |
+| `npm run i18n:pot`  | Regenerate translation template (requires ddev)           |
+| `npm run i18n:mo`   | Compile `.po` → `.mo` (after translations exist)          |
+| `npm run i18n:json` | Build Jed JSON for React script translations              |
+
+See **[LOCALIZATION.md](LOCALIZATION.md)** for the full i18n plan (PHP, emails, admin SPA, editor sidebar).
 
 ## Architecture (short tour)
 

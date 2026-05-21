@@ -46,6 +46,8 @@ final class App
 {
     public static function boot(): void
     {
+        Container::register(I18n::class, new I18n());
+
         $settings   = new SettingsRepository();
         $rules      = new RuleRepository();
         $hierarchy  = new WpPageHierarchy();

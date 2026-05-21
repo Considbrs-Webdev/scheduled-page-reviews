@@ -153,7 +153,13 @@ final class DashboardWidget
         );
         if ($itemsShown >= self::MAX_ITEMS) {
             echo ' <span style="color:#646970;">'
-                . esc_html__('(showing first ' . self::MAX_ITEMS . ')', 'content-ownership')
+                . esc_html(
+                    sprintf(
+                        /* translators: %d = maximum number of list items shown */
+                        __('(showing first %d)', 'content-ownership'),
+                        self::MAX_ITEMS,
+                    ),
+                )
                 . '</span>';
         }
         echo '</p>';
