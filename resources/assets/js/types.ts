@@ -73,6 +73,15 @@ export interface PageRuleResponse {
 }
 
 // ----- Tree --------------------------------------------------------------
+export interface InheritanceSummary {
+  has_inherited: boolean;
+  has_default: boolean;
+  inherited_from: number[];
+  local_fields: string[];
+  propagated_fields: string[];
+  inherited_fields: string[];
+}
+
 export interface TreeNode {
   id: number;
   title: string;
@@ -81,6 +90,7 @@ export interface TreeNode {
   has_children: boolean;
   has_local_rule: boolean;
   has_subtree_rule: boolean;
+  inheritance_summary: InheritanceSummary;
 }
 
 // ----- Dashboard ---------------------------------------------------------

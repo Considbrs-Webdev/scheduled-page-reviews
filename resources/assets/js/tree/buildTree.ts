@@ -1,4 +1,4 @@
-import type { TreeNode } from "@/types";
+import type { InheritanceSummary, TreeNode } from "@/types";
 
 export interface ArboristNode {
   id: string;
@@ -7,8 +7,18 @@ export interface ArboristNode {
   has_local_rule: boolean;
   has_subtree_rule: boolean;
   has_children: boolean;
+  inheritance_summary: InheritanceSummary;
   children?: ArboristNode[];
 }
+
+const EMPTY_INHERITANCE_SUMMARY: InheritanceSummary = {
+  has_inherited: false,
+  has_default: true,
+  inherited_from: [],
+  local_fields: [],
+  propagated_fields: [],
+  inherited_fields: [],
+};
 
 export function buildArboristTree(flat: TreeNode[]): ArboristNode[] {
   const byId = new Map<number, ArboristNode>();
@@ -21,6 +31,7 @@ export function buildArboristTree(flat: TreeNode[]): ArboristNode[] {
       has_local_rule: n.has_local_rule,
       has_subtree_rule: n.has_subtree_rule,
       has_children: n.has_children,
+      inheritance_summary: n.inheritance_summary ?? EMPTY_INHERITANCE_SUMMARY,
       children: n.has_children ? [] : undefined,
     };
     byId.set(n.id, node);
