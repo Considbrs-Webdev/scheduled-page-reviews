@@ -4,8 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Content Ownership 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/content-ownership\n"
-"POT-Creation-Date: 2026-05-21T21:01:46+02:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/content-"
+"ownership\n"
+"POT-Creation-Date: 2026-05-21T21:31:00+02:00\n"
 "PO-Revision-Date: 2026-05-21 21:30+0200\n"
 "Last-Translator: William Undqvist\n"
 "Language-Team: Swedish\n"
@@ -18,10 +19,8 @@ msgstr ""
 "X-Domain: content-ownership\n"
 
 #. Plugin Name of the plugin
-#: content-ownership.php
-#: app/Admin/SettingsPage.php:28
-#: app/Admin/SettingsPage.php:29
-#: resources/views/settings-page.php:11
+#: content-ownership.php app/Admin/SettingsPage.php:28
+#: app/Admin/SettingsPage.php:29 resources/views/settings-page.php:11
 msgid "Content Ownership"
 msgstr "Innehållsägarskap"
 
@@ -32,8 +31,12 @@ msgstr "https://github.com/williamundqvist/content-ownership"
 
 #. Description of the plugin
 #: content-ownership.php
-msgid "Per-page review intervals, content ownership, inheritance, batched cron notifications, and a React-based page-tree admin UI."
-msgstr "Granskningsintervall per sida, innehållsägarskap, arv, samlade cron-aviseringar och ett React-baserat sidträd i admin."
+msgid ""
+"Per-page review intervals, content ownership, inheritance, batched cron "
+"notifications, and a React-based page-tree admin UI."
+msgstr ""
+"Granskningsintervall per sida, innehållsägarskap, arv, samlade cron-"
+"aviseringar och ett React-baserat sidträd i admin."
 
 #. Author of the plugin
 #: content-ownership.php
@@ -53,6 +56,7 @@ msgid "Nothing assigned to you needs review right now. Nice work!"
 msgstr "Inget som är tilldelat dig behöver granskas just nu. Bra jobbat!"
 
 #: app/Admin/DashboardWidget.php:62
+#: resources/assets/js/editor/SidebarPanel.tsx:15
 msgid "Overdue"
 msgstr "Försenad"
 
@@ -74,8 +78,7 @@ msgstr "Öppna inställningar för innehållsägarskap →"
 msgid "(showing first %d)"
 msgstr "(visar de första %d)"
 
-#: app/Admin/DashboardWidget.php:184
-#: app/Admin/DashboardWidget.php:193
+#: app/Admin/DashboardWidget.php:184 app/Admin/DashboardWidget.php:193
 msgid "due today"
 msgstr "ska granskas idag"
 
@@ -95,15 +98,15 @@ msgid_plural "due in %d days"
 msgstr[0] "ska granskas om %d dag"
 msgstr[1] "ska granskas om %d dagar"
 
-#: app/Admin/PostStates.php:66
+#: app/Admin/PostStates.php:66 resources/assets/js/editor/PageHeader.tsx:20
 msgid "Review overdue"
 msgstr "Granskning försenad"
 
-#: app/Admin/PostStates.php:70
+#: app/Admin/PostStates.php:70 resources/assets/js/editor/PageHeader.tsx:23
 msgid "Review due soon"
 msgstr "Granskning snart dags"
 
-#: app/Admin/RowActions.php:46
+#: app/Admin/RowActions.php:46 resources/assets/js/editor/PageHeader.tsx:67
 msgid "Mark reviewed"
 msgstr "Markera som granskad"
 
@@ -130,9 +133,581 @@ msgid "Request body must be a JSON object."
 msgstr "Begäransinnehållet måste vara ett JSON-objekt."
 
 #: content-ownership.php:29
-msgid "Content Ownership: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
-msgstr "Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i plugin-katalogen."
+msgid ""
+"Content Ownership: Composer dependencies are missing. Please run \"composer "
+"install\" inside the plugin directory."
+msgstr ""
+"Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i "
+"plugin-katalogen."
 
 #: resources/views/settings-page.php:16
 msgid "This page requires JavaScript."
 msgstr "Den här sidan kräver JavaScript."
+
+#: resources/assets/js/App.tsx:24
+msgid "Pages"
+msgstr "Sidor"
+
+#: resources/assets/js/App.tsx:24
+msgid "General settings"
+msgstr "Allmänna inställningar"
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:10
+#: resources/assets/js/editor/SidebarPanel.tsx:121
+#: resources/assets/js/tree/inheritanceLabels.ts:4
+#, fuzzy
+msgid "Review interval"
+msgstr "Granskning försenad"
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:21
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:21
+#: resources/assets/js/editor/SidebarPanel.tsx:122
+#, fuzzy
+msgid "%d days"
+msgstr "ska granskas om %d dag"
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:23
+msgid "Days between reviews"
+msgstr "Dagar mellan granskningar"
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:23
+msgid "e.g. 180 = twice a year"
+msgstr "t.ex. 180 = två gånger per år"
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:10
+#: resources/assets/js/tree/inheritanceLabels.ts:6
+msgid "Notify before due"
+msgstr "Avisera före förfallodatum"
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
+msgid "Days before review date"
+msgstr "Dagar före granskningsdatum"
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
+msgid ""
+"Show \"due soon\" in the dashboard widget this many days before the review "
+"date."
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+#: resources/assets/js/editor/SidebarPanel.tsx:129
+#: resources/assets/js/tree/inheritanceLabels.ts:5
+msgid "Who to notify"
+msgstr "Vem ska aviseras"
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+msgid ""
+"Add WordPress users, groups, or email addresses. Users and groups receive "
+"review reminders and see these pages in their dashboard. Standalone email "
+"addresses receive reminders only."
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+msgid "nobody configured"
+msgstr "ingen konfigurerad"
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+#: resources/assets/js/editor/SidebarPanel.tsx:130
+msgid "%d recipient(s)"
+msgstr "%d mottagare"
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:33
+msgid "No recipients assigned."
+msgstr "Inga mottagare tilldelade."
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:17
+msgid "Inherit"
+msgstr "Ärv"
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:18
+msgid "Use the value from the closest ancestor (or global default)."
+msgstr "Använd värdet från närmaste förfader (eller global standard)."
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:29
+msgid "Override on this page only"
+msgstr "Åsidosätt endast på den här sidan"
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:30
+msgid ""
+"Replace the inherited value here. Descendants keep inheriting from above."
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:41
+msgid "Override and apply to subpages"
+msgstr "Åsidosätt och tillämpa på undersidor"
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:42
+msgid ""
+"Replace the inherited value here AND become the new inherited value for "
+"descendants."
+msgstr ""
+
+#: resources/assets/js/editor/InheritedFrom.tsx:5
+msgid "Global default:"
+msgstr "Global standard:"
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/InheritedFrom.tsx:10
+msgid "Inherited from page #%d:"
+msgstr "Ärvs från sida #%d:"
+
+#: resources/assets/js/editor/PageDetail.tsx:18
+msgid ""
+"Select a page from the tree to view and edit its content-ownership rule."
+msgstr ""
+"Välj en sida i trädet för att visa och redigera regeln för innehållsägarskap."
+
+#: resources/assets/js/editor/PageDetail.tsx:50
+msgid "Loading page rule…"
+msgstr "Läser in sidregel…"
+
+#: resources/assets/js/editor/PageDetail.tsx:53
+msgid "Failed to load."
+msgstr "Kunde inte läsa in."
+
+#: resources/assets/js/editor/PageDetail.tsx:59
+msgid "Saved."
+msgstr "Sparat."
+
+#: resources/assets/js/editor/PageDetail.tsx:62
+msgid "Failed to save."
+msgstr "Kunde inte spara."
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/general/GeneralSettingsTab.tsx:202
+msgid "Reset"
+msgstr "Återställ"
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/editor/PageHeader.tsx:67
+#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+msgid "Saving…"
+msgstr "Sparar…"
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+msgid "Save changes"
+msgstr "Spara ändringar"
+
+#: resources/assets/js/editor/PageHeader.tsx:25
+#: resources/assets/js/editor/SidebarPanel.tsx:19
+msgid "On track"
+msgstr "I fas"
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/PageHeader.tsx:29
+#: resources/assets/js/tree/buildTree.ts:19
+msgid "Page #%d"
+msgstr "Sida #%d"
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/PageHeader.tsx:33
+msgid "Untitled page #%d"
+msgstr "Sida utan titel #%d"
+
+#: resources/assets/js/editor/PageHeader.tsx:42
+msgid "Open in editor"
+msgstr "Öppna i redigeraren"
+
+#. translators: 1: relative date, 2: absolute date
+#: resources/assets/js/editor/PageHeader.tsx:47
+msgid "Next review %1$s (%2$s)"
+msgstr "Nästa granskning %1$s (%2$s)"
+
+#. translators: %s: relative date
+#: resources/assets/js/editor/PageHeader.tsx:52
+#, fuzzy
+msgid "Last reviewed %s"
+msgstr "Markera som granskad"
+
+#: resources/assets/js/editor/PageHeader.tsx:54
+#, fuzzy
+msgid "Never reviewed"
+msgstr "Markera som granskad"
+
+#: resources/assets/js/editor/PageHeader.tsx:62
+#: resources/assets/js/editor/SidebarPanel.tsx:82
+#, fuzzy
+msgid "Marked as reviewed."
+msgstr "Markerade \"%s\" som granskad."
+
+#: resources/assets/js/editor/PageHeader.tsx:63
+msgid "Failed."
+msgstr "Misslyckades."
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+msgid "Members"
+msgstr "Medlemmar"
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Loading…"
+msgstr "Läser in…"
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+msgid "No users currently in this group."
+msgstr "Inga användare i den här gruppen just nu."
+
+#. translators: %d: additional member count
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:9
+msgid "+%d more"
+msgstr "+%d till"
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Filter groups…"
+msgstr "Filtrera grupper…"
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "No groups available."
+msgstr "Inga grupper tillgängliga."
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Groups (roles)"
+msgstr "Grupper (roller)"
+
+#: resources/assets/js/editor/pickers/TargetChip.tsx:14
+msgid "Click to preview current members"
+msgstr "Klicka för att förhandsgranska nuvarande medlemmar"
+
+#: resources/assets/js/editor/pickers/TargetChip.tsx:29
+msgid "Remove"
+msgstr "Ta bort"
+
+#. translators: %d: user ID
+#: resources/assets/js/editor/pickers/TargetChip.tsx:54
+msgid "User #%d"
+msgstr "Användare #%d"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:15
+msgid "Add user"
+msgstr "Lägg till användare"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:22
+msgid "Add group"
+msgstr "Lägg till grupp"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:36
+msgid "Add email"
+msgstr "Lägg till e-post"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:36
+msgid "Email address"
+msgstr "E-postadress"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:40
+msgid "alerts@example.com"
+msgstr "varningar@exempel.se"
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:50
+msgid "Add"
+msgstr "Lägg till"
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:18
+msgid "Search users…"
+msgstr "Sök användare…"
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "Searching…"
+msgstr "Söker…"
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "No users found."
+msgstr "Inga användare hittades."
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "Users"
+msgstr "Användare"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:17
+msgid "Upcoming"
+msgstr "Kommande"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:36
+msgid "Never"
+msgstr "Aldrig"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:95
+msgid "Status"
+msgstr "Status"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:107
+msgid "Next review"
+msgstr "Nästa granskning"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:114
+#, fuzzy
+msgid "Last reviewed"
+msgstr "Markera som granskad"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:130
+msgid "Nobody configured"
+msgstr "Ingen konfigurerad"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:139
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+#, fuzzy
+msgid "Mark as reviewed"
+msgstr "Markera som granskad"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:149
+#, fuzzy
+msgid "Open content ownership settings"
+msgstr "Öppna inställningar för innehållsägarskap →"
+
+#: resources/assets/js/editor/SidebarPanel.tsx:159
+#: resources/assets/js/layout/Header.tsx:7
+#, fuzzy
+msgid "Content ownership"
+msgstr "Innehållsägarskap"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:37
+msgid "Global settings saved."
+msgstr "Globala inställningar sparade."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:38
+msgid "Could not save settings."
+msgstr "Kunde inte spara inställningarna."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:96
+msgid "Loading settings…"
+msgstr "Läser in inställningar…"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+msgid "Failed to load settings:"
+msgstr "Kunde inte läsa in inställningarna:"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+#, fuzzy
+msgid "Review intervals"
+msgstr "Granskning försenad"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+msgid "How often pages must be reviewed and when reminders go out."
+msgstr "Hur ofta sidor ska granskas och när påminnelser skickas."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+msgid "Default review interval (days)"
+msgstr "Standardgranskningsintervall (dagar)"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+msgid "Used when a page has no rule of its own."
+msgstr "Används när en sida saknar egen regel."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+msgid "Notify days before"
+msgstr "Avisera dagar före"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+msgid "Window in which a page is \"due soon\"."
+msgstr "Fönster då en sida är \"snart dags\"."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+msgid "Reminders"
+msgstr "Påminnelser"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+msgid ""
+"Control repeat emails while a page stays due or overdue. Marking a page "
+"reviewed starts a new cycle."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:127
+msgid "Send reminders after due date"
+msgstr "Skicka påminnelser efter förfallodatum"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:133
+msgid ""
+"When off, each page is included in at most one digest per review cycle "
+"(until marked reviewed). When on, overdue pages can appear again after the "
+"cadence interval."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+msgid "Reminder cadence (days)"
+msgstr "Påminnelseintervall (dagar)"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+msgid ""
+"Minimum days before the same overdue page can appear in another digest. "
+"Currently tracked per page, not per recipient — see README."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+msgid ""
+"What happens when someone marks a page as reviewed. Plugin review meta is "
+"always stored."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:156
+msgid "Update WordPress last modified date"
+msgstr "Uppdatera WordPress senast ändrad"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:162
+msgid ""
+"Also updates the post's modified timestamp (shown as \"updated\" on the "
+"front-end). Does not create a new revision."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+msgid "Default recipients"
+msgstr "Standardmottagare"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+msgid ""
+"Recipients used as a fallback when no per-page or inherited recipient is "
+"set. Email addresses only here for now; per-page rules support users and "
+"roles too."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:175
+msgid "Default recipient emails"
+msgstr "Standardmottagare (e-post)"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:179
+msgid "alerts@example.com, ops@example.com"
+msgstr "varningar@exempel.se, drift@exempel.se"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:182
+msgid "Separate multiple addresses with commas or whitespace."
+msgstr "Separera flera adresser med kommatecken eller blanksteg."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:184
+msgid "Performance"
+msgstr "Prestanda"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:184
+msgid "Tune how aggressively cron scans the site."
+msgstr "Styr hur aggressivt cron skannar webbplatsen."
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:189
+msgid "Cron batch size"
+msgstr "Cron-batchstorlek"
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:189
+msgid ""
+"Pages processed per cron tick. Larger values finish full scans faster but "
+"use more memory."
+msgstr ""
+
+#: resources/assets/js/layout/Header.tsx:7
+msgid ""
+"Manage page review intervals, notification recipients and hierarchical "
+"inheritance for the whole site."
+msgstr ""
+"Hantera granskningsintervall, aviseringsmottagare och hierariskt arv för hela "
+"webbplatsen."
+
+#: resources/assets/js/layout/RunCronButton.tsx:16
+msgid "Cron run queued."
+msgstr "Cron-körning köad."
+
+#: resources/assets/js/layout/RunCronButton.tsx:18
+msgid "Failed to start cron."
+msgstr "Kunde inte starta cron."
+
+#: resources/assets/js/layout/RunCronButton.tsx:23
+msgid "Run cron now"
+msgstr "Kör cron nu"
+
+#: resources/assets/js/lib/format.ts:15
+#, fuzzy
+msgid "today"
+msgstr "ska granskas idag"
+
+#: resources/assets/js/lib/navigation.ts:9
+msgid "You have unsaved changes. Discard them and leave this page?"
+msgstr "Du har osparade ändringar. Kasta dem och lämna sidan?"
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:17
+msgid "Local override on this page: %s"
+msgstr "Lokal åsidosättning på den här sidan: %s"
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:24
+msgid "Rule set on this page (applies to subpages): %s"
+msgstr "Regel på den här sidan (gäller undersidor): %s"
+
+#: resources/assets/js/tree/inheritanceLabels.ts:28
+msgid "Local rule set on this page"
+msgstr "Lokal regel på den här sidan"
+
+#: resources/assets/js/tree/inheritanceLabels.ts:32
+msgid "Propagates to descendant pages"
+msgstr "Sprids till undersidor"
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:36
+msgid "Applies to descendant pages: %s"
+msgstr "Gäller undersidor: %s"
+
+#: resources/assets/js/tree/inheritanceLabels.ts:42
+msgid "Inherits settings from an ancestor page"
+msgstr "Ärver inställningar från en förfadersida"
+
+#. translators: 1: field labels, 2: page ID
+#: resources/assets/js/tree/inheritanceLabels.ts:48
+msgid "Inherits %1$s from page #%2$d"
+msgstr "Ärver %1$s från sida #%2$d"
+
+#. translators: 1: field labels, 2: comma-separated page IDs
+#: resources/assets/js/tree/inheritanceLabels.ts:57
+msgid "Inherits %1$s from pages %2$s"
+msgstr "Ärver %1$s från sidorna %2$s"
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:64
+msgid "Inherits %s from an ancestor page"
+msgstr "Ärver %s från en förfadersida"
+
+#: resources/assets/js/tree/Tree.tsx:57
+msgid "Loading pages…"
+msgstr "Läser in sidor…"
+
+#: resources/assets/js/tree/Tree.tsx:57
+msgid "No pages found. Create some pages first."
+msgstr "Inga sidor hittades. Skapa sidor först."
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+msgid "Local rule"
+msgstr "Lokal regel"
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+#: resources/assets/js/tree/TreeNode.tsx:55
+msgid "Propagates to subpages"
+msgstr "Sprids till undersidor"
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+msgid "Inherited from ancestor"
+msgstr "Ärvs från förfader"
+
+#: resources/assets/js/tree/TreeNode.tsx:44
+msgid "Collapse"
+msgstr "Fäll ihop"
+
+#: resources/assets/js/tree/TreeNode.tsx:44
+msgid "Expand"
+msgstr "Expandera"
+
+#: resources/assets/js/tree/TreeNode.tsx:50
+msgid "Has local rule"
+msgstr "Har lokal regel"
+
+#: resources/assets/js/tree/TreeNode.tsx:63
+msgid "Inherits from ancestor"
+msgstr "Ärver från förfader"
+
+#: resources/assets/js/tree/TreeToolbar.tsx:19
+msgid "Search pages…"
+msgstr "Sök sidor…"
+
+#: resources/assets/js/tree/TreeToolbar.tsx:30
+msgid "Refresh tree"
+msgstr "Uppdatera träd"
+
+#. translators: %d: number of pages
+#: resources/assets/js/tree/TreeToolbar.tsx:35
+msgid "%d page"
+msgid_plural "%d pages"
+msgstr[0] "%d sida"
+msgstr[1] "%d sidor"

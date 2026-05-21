@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import type { InheritanceSummary, TreeNode } from "@/types";
 
 export interface ArboristNode {
@@ -27,7 +28,7 @@ export function buildArboristTree(flat: TreeNode[]): ArboristNode[] {
     const node: ArboristNode = {
       id: String(n.id),
       pageId: n.id,
-      name: n.title || `Page #${n.id}`,
+      name: n.title || sprintf(/* translators: %d: page ID */ __("Page #%d", "content-ownership"), n.id),
       has_local_rule: n.has_local_rule,
       has_subtree_rule: n.has_subtree_rule,
       has_children: n.has_children,

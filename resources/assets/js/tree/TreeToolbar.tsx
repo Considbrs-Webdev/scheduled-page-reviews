@@ -2,6 +2,7 @@ import { useId } from "react";
 import { Search, RefreshCw } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUiStore } from "@/store/ui";
@@ -20,7 +21,7 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
             id={inputId}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search pages…"
+            placeholder={__("Search pages…", "content-ownership")}
             className="h-8 pl-7"
           />
         </div>
@@ -30,13 +31,17 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
           size="sm"
           className="h-8 w-8 p-0"
           onClick={() => qc.invalidateQueries({ queryKey: ["tree"] })}
-          aria-label="Refresh tree"
+          aria-label={__("Refresh tree", "content-ownership")}
         >
           <RefreshCw className="h-3.5 w-3.5" />
         </Button>
       </div>
       <div className="mt-1 px-1 text-xs text-muted-foreground">
-        {pageCount} pages
+        {sprintf(
+          /* translators: %d: number of pages */
+          _n("%d page", "%d pages", pageCount, "content-ownership"),
+          pageCount,
+        )}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
@@ -16,9 +17,33 @@ export function InheritanceRadio({ name, value, onChange }: InheritanceRadioProp
       onValueChange={(v) => onChange(v as FieldState)}
       className="flex flex-col gap-1.5"
     >
-      <Option name={name} state="inherit" label="Inherit" hint="Use the value from the closest ancestor (or global default)." />
-      <Option name={name} state="self" label="Override on this page only" hint="Replace the inherited value here. Descendants keep inheriting from above." />
-      <Option name={name} state="subtree" label="Override and apply to subpages" hint="Replace the inherited value here AND become the new inherited value for descendants." />
+      <Option
+        name={name}
+        state="inherit"
+        label={__("Inherit", "content-ownership")}
+        hint={__(
+          "Use the value from the closest ancestor (or global default).",
+          "content-ownership",
+        )}
+      />
+      <Option
+        name={name}
+        state="self"
+        label={__("Override on this page only", "content-ownership")}
+        hint={__(
+          "Replace the inherited value here. Descendants keep inheriting from above.",
+          "content-ownership",
+        )}
+      />
+      <Option
+        name={name}
+        state="subtree"
+        label={__("Override and apply to subpages", "content-ownership")}
+        hint={__(
+          "Replace the inherited value here AND become the new inherited value for descendants.",
+          "content-ownership",
+        )}
+      />
     </RadioGroup>
   );
 }

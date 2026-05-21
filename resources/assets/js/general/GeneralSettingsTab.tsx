@@ -1,4 +1,6 @@
 import { useCallback, useEffect } from "react";
+
+import { __ } from "@wordpress/i18n";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -38,9 +40,9 @@ import {
 export function GeneralSettingsTab() {
   const settingsQ = useGlobalSettings();
   const updateM = useUpdateGlobalSettings({
-    onSuccess: () => toast.success("Global settings saved."),
+    onSuccess: () => toast.success(__("Global settings saved.", "content-ownership")),
     onError: (e) =>
-      toast.error(e instanceof Error ? e.message : "Could not save settings."),
+      toast.error(e instanceof Error ? e.message : __("Could not save settings.", "content-ownership")),
   });
   const setUnsaved = useUiStore((s) => s.setHasUnsavedChanges);
 
@@ -116,13 +118,13 @@ export function GeneralSettingsTab() {
 
   if (settingsQ.isLoading) {
     return (
-      <div className="text-sm text-muted-foreground">Loading settings…</div>
+      <div className="text-sm text-muted-foreground">{__("Loading settings…", "content-ownership")}</div>
     );
   }
   if (settingsQ.error) {
     return (
       <div className="text-sm text-destructive">
-        Failed to load settings: {settingsQ.error.message}
+        {__("Failed to load settings:", "content-ownership")} {settingsQ.error.message}
       </div>
     );
   }
@@ -134,9 +136,12 @@ export function GeneralSettingsTab() {
       <form onSubmit={onSubmit} className="grid gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Review intervals</CardTitle>
+            <CardTitle>{__("Review intervals", "content-ownership")}</CardTitle>
             <CardDescription>
-              How often pages must be reviewed and when reminders go out.
+              {__(
+                "How often pages must be reviewed and when reminders go out.",
+                "content-ownership",
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 sm:grid-cols-2">
@@ -145,12 +150,12 @@ export function GeneralSettingsTab() {
               name="default_interval_days"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Default review interval (days)</FormLabel>
+                  <FormLabel>{__("Default review interval (days)", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} max={3650} {...field} />
                   </FormControl>
                   <FormDescription>
-                    Used when a page has no rule of its own.
+                    {__("Used when a page has no rule of its own.", "content-ownership")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -161,12 +166,12 @@ export function GeneralSettingsTab() {
               name="notify_days_before"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Notify days before</FormLabel>
+                  <FormLabel>{__("Notify days before", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input type="number" min={0} max={365} {...field} />
                   </FormControl>
                   <FormDescription>
-                    Window in which a page is "due soon".
+                    {__('Window in which a page is "due soon".', "content-ownership")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -177,10 +182,12 @@ export function GeneralSettingsTab() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Reminders</CardTitle>
+            <CardTitle>{__("Reminders", "content-ownership")}</CardTitle>
             <CardDescription>
-              Control repeat emails while a page stays due or overdue. Marking a
-              page reviewed starts a new cycle.
+              {__(
+                "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.",
+                "content-ownership",
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 sm:grid-cols-2">
@@ -189,7 +196,7 @@ export function GeneralSettingsTab() {
               name="send_reminder_after_due"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2">
-                  <FormLabel>Send reminders after due date</FormLabel>
+                  <FormLabel>{__("Send reminders after due date", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -197,9 +204,10 @@ export function GeneralSettingsTab() {
                     />
                   </FormControl>
                   <FormDescription>
-                    When off, each page is included in at most one digest per
-                    review cycle (until marked reviewed). When on, overdue pages
-                    can appear again after the cadence interval.
+                    {__(
+                      "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval.",
+                      "content-ownership",
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -211,14 +219,15 @@ export function GeneralSettingsTab() {
                 name="reminder_cadence_days"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reminder cadence (days)</FormLabel>
+                    <FormLabel>{__("Reminder cadence (days)", "content-ownership")}</FormLabel>
                     <FormControl>
                       <Input type="number" min={1} max={365} {...field} />
                     </FormControl>
                     <FormDescription>
-                      Minimum days before the same overdue page can appear in
-                      another digest. Currently tracked per page, not per
-                      recipient — see README.
+                      {__(
+                        "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.",
+                        "content-ownership",
+                      )}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -230,10 +239,12 @@ export function GeneralSettingsTab() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Mark as reviewed</CardTitle>
+            <CardTitle>{__("Mark as reviewed", "content-ownership")}</CardTitle>
             <CardDescription>
-              What happens when someone marks a page as reviewed. Plugin review
-              meta is always stored.
+              {__(
+                "What happens when someone marks a page as reviewed. Plugin review meta is always stored.",
+                "content-ownership",
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -242,7 +253,7 @@ export function GeneralSettingsTab() {
               name="sync_wp_modified_on_review"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2">
-                  <FormLabel>Update WordPress last modified date</FormLabel>
+                  <FormLabel>{__("Update WordPress last modified date", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -250,9 +261,10 @@ export function GeneralSettingsTab() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Also updates the post&apos;s modified timestamp (shown as
-                    &quot;updated&quot; on the front-end). Does not create a new
-                    revision.
+                    {__(
+                      'Also updates the post\'s modified timestamp (shown as "updated" on the front-end). Does not create a new revision.',
+                      "content-ownership",
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -263,11 +275,12 @@ export function GeneralSettingsTab() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Default recipients</CardTitle>
+            <CardTitle>{__("Default recipients", "content-ownership")}</CardTitle>
             <CardDescription>
-              Recipients used as a fallback when no per-page or inherited
-              recipient is set. Email addresses only here for now; per-page
-              rules support users and roles too.
+              {__(
+                "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too.",
+                "content-ownership",
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -276,16 +289,16 @@ export function GeneralSettingsTab() {
               name="default_recipient_emails_text"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Default recipient emails</FormLabel>
+                  <FormLabel>{__("Default recipient emails", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={3}
-                      placeholder="alerts@example.com, ops@example.com"
+                      placeholder={__("alerts@example.com, ops@example.com", "content-ownership")}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Separate multiple addresses with commas or whitespace.
+                    {__("Separate multiple addresses with commas or whitespace.", "content-ownership")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -296,9 +309,9 @@ export function GeneralSettingsTab() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Performance</CardTitle>
+            <CardTitle>{__("Performance", "content-ownership")}</CardTitle>
             <CardDescription>
-              Tune how aggressively cron scans the site.
+              {__("Tune how aggressively cron scans the site.", "content-ownership")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -307,13 +320,15 @@ export function GeneralSettingsTab() {
               name="cron_batch_size"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cron batch size</FormLabel>
+                  <FormLabel>{__("Cron batch size", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} max={2000} {...field} />
                   </FormControl>
                   <FormDescription>
-                    Pages processed per cron tick. Larger values finish full
-                    scans faster but use more memory.
+                    {__(
+                      "Pages processed per cron tick. Larger values finish full scans faster but use more memory.",
+                      "content-ownership",
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -331,14 +346,14 @@ export function GeneralSettingsTab() {
             disabled={!form.formState.isDirty || updateM.isPending}
             onClick={resetToServer}
           >
-            Reset
+            {__("Reset", "content-ownership")}
           </Button>
           <Button
             type="submit"
             disabled={!form.formState.isDirty || updateM.isPending}
           >
             <Save className="mr-2 h-4 w-4" />
-            {updateM.isPending ? "Saving…" : "Save changes"}
+            {updateM.isPending ? __("Saving…", "content-ownership") : __("Save changes", "content-ownership")}
           </Button>
         </div>
       </form>

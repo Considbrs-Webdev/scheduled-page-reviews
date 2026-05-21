@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import {
   appUrlStateFromUi,
   appUrlStatesEqual,
@@ -7,8 +8,10 @@ import {
 } from "@/lib/url-state";
 import { useUiStore } from "@/store/ui";
 
-const DISCARD_MESSAGE =
-  "You have unsaved changes. Discard them and leave this page?";
+const DISCARD_MESSAGE = __(
+  "You have unsaved changes. Discard them and leave this page?",
+  "content-ownership",
+);
 
 function confirmDiscardUnsaved(): boolean {
   const { hasUnsavedChanges } = useUiStore.getState();

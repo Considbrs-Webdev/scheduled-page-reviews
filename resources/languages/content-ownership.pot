@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-21T21:07:44+02:00\n"
+"POT-Creation-Date: 2026-05-21T21:31:00+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: content-ownership\n"
@@ -50,6 +50,7 @@ msgid "Nothing assigned to you needs review right now. Nice work!"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:62
+#: resources/assets/js/editor/SidebarPanel.tsx:15
 msgid "Overdue"
 msgstr ""
 
@@ -93,14 +94,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Admin/PostStates.php:66
+#: resources/assets/js/editor/PageHeader.tsx:20
 msgid "Review overdue"
 msgstr ""
 
 #: app/Admin/PostStates.php:70
+#: resources/assets/js/editor/PageHeader.tsx:23
 msgid "Review due soon"
 msgstr ""
 
 #: app/Admin/RowActions.php:46
+#: resources/assets/js/editor/PageHeader.tsx:67
 msgid "Mark reviewed"
 msgstr ""
 
@@ -133,3 +137,546 @@ msgstr ""
 #: resources/views/settings-page.php:16
 msgid "This page requires JavaScript."
 msgstr ""
+
+#: resources/assets/js/App.tsx:24
+msgid "Pages"
+msgstr ""
+
+#: resources/assets/js/App.tsx:24
+msgid "General settings"
+msgstr ""
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:10
+#: resources/assets/js/editor/SidebarPanel.tsx:121
+#: resources/assets/js/tree/inheritanceLabels.ts:4
+msgid "Review interval"
+msgstr ""
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:21
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:21
+#: resources/assets/js/editor/SidebarPanel.tsx:122
+#, js-format
+msgid "%d days"
+msgstr ""
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:23
+msgid "Days between reviews"
+msgstr ""
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:23
+msgid "e.g. 180 = twice a year"
+msgstr ""
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:10
+#: resources/assets/js/tree/inheritanceLabels.ts:6
+msgid "Notify before due"
+msgstr ""
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
+msgid "Days before review date"
+msgstr ""
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
+msgid "Show \"due soon\" in the dashboard widget this many days before the review date."
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+#: resources/assets/js/editor/SidebarPanel.tsx:129
+#: resources/assets/js/tree/inheritanceLabels.ts:5
+msgid "Who to notify"
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+msgid "Add WordPress users, groups, or email addresses. Users and groups receive review reminders and see these pages in their dashboard. Standalone email addresses receive reminders only."
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+msgid "nobody configured"
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+#: resources/assets/js/editor/SidebarPanel.tsx:130
+#, js-format
+msgid "%d recipient(s)"
+msgstr ""
+
+#: resources/assets/js/editor/fields/RecipientsField.tsx:33
+msgid "No recipients assigned."
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:17
+msgid "Inherit"
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:18
+msgid "Use the value from the closest ancestor (or global default)."
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:29
+msgid "Override on this page only"
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:30
+msgid "Replace the inherited value here. Descendants keep inheriting from above."
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:41
+msgid "Override and apply to subpages"
+msgstr ""
+
+#: resources/assets/js/editor/InheritanceRadio.tsx:42
+msgid "Replace the inherited value here AND become the new inherited value for descendants."
+msgstr ""
+
+#: resources/assets/js/editor/InheritedFrom.tsx:5
+msgid "Global default:"
+msgstr ""
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/InheritedFrom.tsx:10
+#, js-format
+msgid "Inherited from page #%d:"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:18
+msgid "Select a page from the tree to view and edit its content-ownership rule."
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:50
+msgid "Loading page rule…"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:53
+msgid "Failed to load."
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:59
+msgid "Saved."
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:62
+msgid "Failed to save."
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/general/GeneralSettingsTab.tsx:202
+msgid "Reset"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/editor/PageHeader.tsx:67
+#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+msgid "Saving…"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+msgid "Save changes"
+msgstr ""
+
+#: resources/assets/js/editor/PageHeader.tsx:25
+#: resources/assets/js/editor/SidebarPanel.tsx:19
+msgid "On track"
+msgstr ""
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/PageHeader.tsx:29
+#: resources/assets/js/tree/buildTree.ts:19
+#, js-format
+msgid "Page #%d"
+msgstr ""
+
+#. translators: %d: page ID
+#: resources/assets/js/editor/PageHeader.tsx:33
+#, js-format
+msgid "Untitled page #%d"
+msgstr ""
+
+#: resources/assets/js/editor/PageHeader.tsx:42
+msgid "Open in editor"
+msgstr ""
+
+#. translators: 1: relative date, 2: absolute date
+#: resources/assets/js/editor/PageHeader.tsx:47
+#, js-format
+msgid "Next review %1$s (%2$s)"
+msgstr ""
+
+#. translators: %s: relative date
+#: resources/assets/js/editor/PageHeader.tsx:52
+#, js-format
+msgid "Last reviewed %s"
+msgstr ""
+
+#: resources/assets/js/editor/PageHeader.tsx:54
+msgid "Never reviewed"
+msgstr ""
+
+#: resources/assets/js/editor/PageHeader.tsx:62
+#: resources/assets/js/editor/SidebarPanel.tsx:82
+msgid "Marked as reviewed."
+msgstr ""
+
+#: resources/assets/js/editor/PageHeader.tsx:63
+msgid "Failed."
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+msgid "Members"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Loading…"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:7
+msgid "No users currently in this group."
+msgstr ""
+
+#. translators: %d: additional member count
+#: resources/assets/js/editor/pickers/RoleMemberPreview.tsx:9
+#, js-format
+msgid "+%d more"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Filter groups…"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "No groups available."
+msgstr ""
+
+#: resources/assets/js/editor/pickers/RolePickerPopover.tsx:10
+msgid "Groups (roles)"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetChip.tsx:14
+msgid "Click to preview current members"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetChip.tsx:29
+msgid "Remove"
+msgstr ""
+
+#. translators: %d: user ID
+#: resources/assets/js/editor/pickers/TargetChip.tsx:54
+#, js-format
+msgid "User #%d"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:15
+msgid "Add user"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:22
+msgid "Add group"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:36
+msgid "Add email"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:36
+msgid "Email address"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:40
+msgid "alerts@example.com"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/TargetPicker.tsx:50
+msgid "Add"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:18
+msgid "Search users…"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "Searching…"
+msgstr ""
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "No users found."
+msgstr ""
+
+#: resources/assets/js/editor/pickers/UserPickerPopover.tsx:20
+msgid "Users"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:17
+msgid "Upcoming"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:36
+msgid "Never"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:95
+msgid "Status"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:107
+msgid "Next review"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:114
+msgid "Last reviewed"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:130
+msgid "Nobody configured"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:139
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+msgid "Mark as reviewed"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:149
+msgid "Open content ownership settings"
+msgstr ""
+
+#: resources/assets/js/editor/SidebarPanel.tsx:159
+#: resources/assets/js/layout/Header.tsx:7
+msgid "Content ownership"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:37
+msgid "Global settings saved."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:38
+msgid "Could not save settings."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:96
+msgid "Loading settings…"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+msgid "Failed to load settings:"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+msgid "Review intervals"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+msgid "How often pages must be reviewed and when reminders go out."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+msgid "Default review interval (days)"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+msgid "Used when a page has no rule of its own."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+msgid "Notify days before"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+msgid "Window in which a page is \"due soon\"."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+msgid "Reminders"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+msgid "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:127
+msgid "Send reminders after due date"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:133
+msgid "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+msgid "Reminder cadence (days)"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+msgid "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+msgid "What happens when someone marks a page as reviewed. Plugin review meta is always stored."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:156
+msgid "Update WordPress last modified date"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:162
+msgid "Also updates the post's modified timestamp (shown as \"updated\" on the front-end). Does not create a new revision."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+msgid "Default recipients"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+msgid "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:175
+msgid "Default recipient emails"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:179
+msgid "alerts@example.com, ops@example.com"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:182
+msgid "Separate multiple addresses with commas or whitespace."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:184
+msgid "Performance"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:184
+msgid "Tune how aggressively cron scans the site."
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:189
+msgid "Cron batch size"
+msgstr ""
+
+#: resources/assets/js/general/GeneralSettingsTab.tsx:189
+msgid "Pages processed per cron tick. Larger values finish full scans faster but use more memory."
+msgstr ""
+
+#: resources/assets/js/layout/Header.tsx:7
+msgid "Manage page review intervals, notification recipients and hierarchical inheritance for the whole site."
+msgstr ""
+
+#: resources/assets/js/layout/RunCronButton.tsx:16
+msgid "Cron run queued."
+msgstr ""
+
+#: resources/assets/js/layout/RunCronButton.tsx:18
+msgid "Failed to start cron."
+msgstr ""
+
+#: resources/assets/js/layout/RunCronButton.tsx:23
+msgid "Run cron now"
+msgstr ""
+
+#: resources/assets/js/lib/format.ts:15
+msgid "today"
+msgstr ""
+
+#: resources/assets/js/lib/navigation.ts:9
+msgid "You have unsaved changes. Discard them and leave this page?"
+msgstr ""
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:17
+#, js-format
+msgid "Local override on this page: %s"
+msgstr ""
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:24
+#, js-format
+msgid "Rule set on this page (applies to subpages): %s"
+msgstr ""
+
+#: resources/assets/js/tree/inheritanceLabels.ts:28
+msgid "Local rule set on this page"
+msgstr ""
+
+#: resources/assets/js/tree/inheritanceLabels.ts:32
+msgid "Propagates to descendant pages"
+msgstr ""
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:36
+#, js-format
+msgid "Applies to descendant pages: %s"
+msgstr ""
+
+#: resources/assets/js/tree/inheritanceLabels.ts:42
+msgid "Inherits settings from an ancestor page"
+msgstr ""
+
+#. translators: 1: field labels, 2: page ID
+#: resources/assets/js/tree/inheritanceLabels.ts:48
+#, js-format
+msgid "Inherits %1$s from page #%2$d"
+msgstr ""
+
+#. translators: 1: field labels, 2: comma-separated page IDs
+#: resources/assets/js/tree/inheritanceLabels.ts:57
+#, js-format
+msgid "Inherits %1$s from pages %2$s"
+msgstr ""
+
+#. translators: %s: comma-separated field labels
+#: resources/assets/js/tree/inheritanceLabels.ts:64
+#, js-format
+msgid "Inherits %s from an ancestor page"
+msgstr ""
+
+#: resources/assets/js/tree/Tree.tsx:57
+msgid "Loading pages…"
+msgstr ""
+
+#: resources/assets/js/tree/Tree.tsx:57
+msgid "No pages found. Create some pages first."
+msgstr ""
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+msgid "Local rule"
+msgstr ""
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+#: resources/assets/js/tree/TreeNode.tsx:55
+msgid "Propagates to subpages"
+msgstr ""
+
+#: resources/assets/js/tree/TreeLegend.tsx:4
+msgid "Inherited from ancestor"
+msgstr ""
+
+#: resources/assets/js/tree/TreeNode.tsx:44
+msgid "Collapse"
+msgstr ""
+
+#: resources/assets/js/tree/TreeNode.tsx:44
+msgid "Expand"
+msgstr ""
+
+#: resources/assets/js/tree/TreeNode.tsx:50
+msgid "Has local rule"
+msgstr ""
+
+#: resources/assets/js/tree/TreeNode.tsx:63
+msgid "Inherits from ancestor"
+msgstr ""
+
+#: resources/assets/js/tree/TreeToolbar.tsx:19
+msgid "Search pages…"
+msgstr ""
+
+#: resources/assets/js/tree/TreeToolbar.tsx:30
+msgid "Refresh tree"
+msgstr ""
+
+#. translators: %d: number of pages
+#: resources/assets/js/tree/TreeToolbar.tsx:35
+#, js-format
+msgid "%d page"
+msgid_plural "%d pages"
+msgstr[0] ""
+msgstr[1] ""

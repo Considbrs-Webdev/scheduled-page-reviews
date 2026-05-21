@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { User2, Users, Mail, Plus } from "lucide-react";
 
+import { __ } from "@wordpress/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -23,7 +24,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: Target
         onSelect={(t: RecipientTarget) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <User2 className="mr-1.5 h-3.5 w-3.5" /> Add user
+            <User2 className="mr-1.5 h-3.5 w-3.5" /> {__("Add user", "content-ownership")}
           </Button>
         }
       />
@@ -32,7 +33,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: Target
         onSelect={(t) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <Users className="mr-1.5 h-3.5 w-3.5" /> Add group
+            <Users className="mr-1.5 h-3.5 w-3.5" /> {__("Add group", "content-ownership")}
           </Button>
         }
       />
@@ -55,21 +56,23 @@ function EmailAdder({ onAdd }: { onAdd: (t: RecipientTarget) => void }) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" size="sm">
-          <Mail className="mr-1.5 h-3.5 w-3.5" /> Add email
+          <Mail className="mr-1.5 h-3.5 w-3.5" /> {__("Add email", "content-ownership")}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <div className="grid gap-2">
-          <label className="text-xs font-medium text-muted-foreground">Email address</label>
+          <label className="text-xs font-medium text-muted-foreground">
+            {__("Email address", "content-ownership")}
+          </label>
           <Input
             type="email"
-            placeholder="alerts@example.com"
+            placeholder={__("alerts@example.com", "content-ownership")}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           />
           <Button type="button" size="sm" onClick={submit}>
-            <Plus className="mr-1 h-3.5 w-3.5" /> Add
+            <Plus className="mr-1 h-3.5 w-3.5" /> {__("Add", "content-ownership")}
           </Button>
         </div>
       </PopoverContent>

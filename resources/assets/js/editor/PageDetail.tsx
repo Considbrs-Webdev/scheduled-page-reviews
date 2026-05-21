@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
 
+import { __ } from "@wordpress/i18n";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { usePageRule, useUpdatePageRule } from "@/api/queries";
@@ -23,7 +24,10 @@ export function PageDetail({ pageId }: PageDetailProps) {
   if (pageId == null) {
     return (
       <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
-        Select a page from the tree to view and edit its content-ownership rule.
+        {__(
+          "Select a page from the tree to view and edit its content-ownership rule.",
+          "content-ownership",
+        )}
       </div>
     );
   }
@@ -58,17 +62,29 @@ function PageDetailInner({ pageId }: { pageId: number }) {
     return () => setUnsaved(false);
   }, [form.formState.isDirty, setUnsaved]);
 
-  if (q.isLoading) return <div className="p-6 text-sm text-muted-foreground">Loading page rule…</div>;
-  if (q.error || !q.data) return <div className="p-6 text-sm text-destructive">{q.error?.message ?? "Failed to load."}</div>;
+  if (q.isLoading) {
+    return (
+      <div className="p-6 text-sm text-muted-foreground">
+        {__("Loading page rule…", "content-ownership")}
+      </div>
+    );
+  }
+  if (q.error || !q.data) {
+    return (
+      <div className="p-6 text-sm text-destructive">
+        {q.error?.message ?? __("Failed to load.", "content-ownership")}
+      </div>
+    );
+  }
 
   const data = q.data;
   const onSubmit = form.handleSubmit((values) => {
     m.mutate(formValuesToRule(values), {
       onSuccess: () => {
-        toast.success("Saved.");
+        toast.success(__("Saved.", "content-ownership"));
         form.reset(values);
       },
-      onError: (e) => toast.error(e instanceof Error ? e.message : "Failed to save."),
+      onError: (e) => toast.error(e instanceof Error ? e.message : __("Failed to save.", "content-ownership")),
     });
   });
 
@@ -91,11 +107,11 @@ function PageDetailInner({ pageId }: { pageId: number }) {
         <Separator />
         <div className="flex items-center justify-end gap-2 p-4">
           <Button type="button" variant="outline" disabled={!form.formState.isDirty || m.isPending} onClick={() => form.reset()}>
-            Reset
+            {__("Reset", "content-ownership")}
           </Button>
           <Button type="submit" disabled={!form.formState.isDirty || m.isPending}>
             <Save className="mr-2 h-4 w-4" />
-            {m.isPending ? "Saving…" : "Save changes"}
+            {m.isPending ? __("Saving…", "content-ownership") : __("Save changes", "content-ownership")}
           </Button>
         </div>
       </form>

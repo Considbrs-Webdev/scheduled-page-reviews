@@ -30,6 +30,7 @@ export default defineConfig({
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
     alias: {
       "@": resolve(__dirname, "resources/assets/js"),
+      "@wordpress/i18n": resolve(__dirname, "resources/assets/js/lib/wp-i18n.ts"),
     },
   },
 });

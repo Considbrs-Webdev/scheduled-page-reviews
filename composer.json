@@ -37,6 +37,6 @@
         "lint": "phpcs",
         "lint:fix": "phpcbf",
         "test": "phpunit",
-        "i18n:pot": "ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/content-ownership wp-content/plugins/content-ownership/resources/languages/content-ownership.pot --domain=content-ownership --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache"
+        "i18n:pot": "npm run i18n:pot"
     }
 }

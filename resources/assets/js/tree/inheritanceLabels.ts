@@ -1,47 +1,75 @@
+import { __, sprintf } from "@wordpress/i18n";
 import type { InheritanceSummary } from "@/types";
 
-const FIELD_LABELS: Record<string, string> = {
-  interval_days: "Review interval",
-  recipients: "Who to notify",
-  notify_before: "Notify before due",
-};
+function fieldLabel(field: string): string {
+  const labels: Record<string, string> = {
+    interval_days: __("Review interval", "content-ownership"),
+    recipients: __("Who to notify", "content-ownership"),
+    notify_before: __("Notify before due", "content-ownership"),
+  };
+  return labels[field] ?? field;
+}
 
 function formatFieldList(fields: string[]): string {
-  return fields
-    .map((field) => FIELD_LABELS[field] ?? field)
-    .join(", ");
+  return fields.map((field) => fieldLabel(field)).join(", ");
 }
 
 export function localRuleTooltip(summary: InheritanceSummary): string {
   if (summary.local_fields.length > 0) {
-    return `Local override on this page: ${formatFieldList(summary.local_fields)}`;
+    return sprintf(
+      /* translators: %s: comma-separated field labels */
+      __("Local override on this page: %s", "content-ownership"),
+      formatFieldList(summary.local_fields),
+    );
   }
   if (summary.propagated_fields.length > 0) {
-    return `Rule set on this page (applies to subpages): ${formatFieldList(summary.propagated_fields)}`;
+    return sprintf(
+      /* translators: %s: comma-separated field labels */
+      __("Rule set on this page (applies to subpages): %s", "content-ownership"),
+      formatFieldList(summary.propagated_fields),
+    );
   }
-  return "Local rule set on this page";
+  return __("Local rule set on this page", "content-ownership");
 }
 
 export function propagatedRuleTooltip(summary: InheritanceSummary): string {
   if (summary.propagated_fields.length === 0) {
-    return "Propagates to descendant pages";
+    return __("Propagates to descendant pages", "content-ownership");
   }
-  return `Applies to descendant pages: ${formatFieldList(summary.propagated_fields)}`;
+  return sprintf(
+    /* translators: %s: comma-separated field labels */
+    __("Applies to descendant pages: %s", "content-ownership"),
+    formatFieldList(summary.propagated_fields),
+  );
 }
 
 export function inheritedRuleTooltip(summary: InheritanceSummary): string {
   if (summary.inherited_fields.length === 0) {
-    return "Inherits settings from an ancestor page";
+    return __("Inherits settings from an ancestor page", "content-ownership");
   }
 
   const fields = formatFieldList(summary.inherited_fields);
   if (summary.inherited_from.length === 1) {
-    return `Inherits ${fields} from page #${summary.inherited_from[0]}`;
+    return sprintf(
+      /* translators: 1: field labels, 2: page ID */
+      __("Inherits %1$s from page #%2$d", "content-ownership"),
+      fields,
+      summary.inherited_from[0],
+    );
   }
   if (summary.inherited_from.length > 1) {
     const pages = summary.inherited_from.map((id) => `#${id}`).join(", ");
-    return `Inherits ${fields} from pages ${pages}`;
+    return sprintf(
+      /* translators: 1: field labels, 2: comma-separated page IDs */
+      __("Inherits %1$s from pages %2$s", "content-ownership"),
+      fields,
+      pages,
+    );
   }
 
-  return `Inherits ${fields} from an ancestor page`;
+  return sprintf(
+    /* translators: %s: comma-separated field labels */
+    __("Inherits %s from an ancestor page", "content-ownership"),
+    fields,
+  );
 }

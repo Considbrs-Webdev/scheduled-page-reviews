@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
+import { __, sprintf } from "@wordpress/i18n";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { EffectiveSettings, RecipientTarget } from "@/types";
 import { isEmailTarget, isRoleTarget, isUserTarget, targetKey } from "@/types";
@@ -24,11 +25,12 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Who to notify</CardTitle>
+        <CardTitle>{__("Who to notify", "content-ownership")}</CardTitle>
         <CardDescription>
-          Add WordPress users, groups, or email addresses. Users and groups receive review
-          reminders and see these pages in their dashboard. Standalone email addresses receive
-          reminders only.
+          {__(
+            "Add WordPress users, groups, or email addresses. Users and groups receive review reminders and see these pages in their dashboard. Standalone email addresses receive reminders only.",
+            "content-ownership",
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -41,14 +43,21 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
           ? (
             <InheritedFrom
               resolution={effective.recipients}
-              formatValue={(v) => v.length === 0 ? "nobody configured" : `${v.length} recipient(s)`}
+              formatValue={(v) =>
+                v.length === 0
+                  ? __("nobody configured", "content-ownership")
+                  : sprintf(__("%d recipient(s)", "content-ownership"), v.length)}
             />
           )
           : (
             <div className="grid gap-3">
               <div className="flex flex-wrap gap-1.5">
                 {value.length === 0
-                  ? <span className="text-xs text-muted-foreground">No recipients assigned.</span>
+                  ? (
+                    <span className="text-xs text-muted-foreground">
+                      {__("No recipients assigned.", "content-ownership")}
+                    </span>
+                  )
                   : value.map((t) => (
                       <TargetChip
                         key={targetKey(t)}

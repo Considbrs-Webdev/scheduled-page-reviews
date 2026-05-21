@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CheckCircle2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
+import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useMarkReviewed } from "@/api/queries";
@@ -22,23 +23,29 @@ export function PageHeader({
 }: PageHeaderProps) {
   const m = useMarkReviewed(pageId);
   const pill = useMemo(() => {
-    if (bucket === "overdue") return { label: "Review overdue", className: "bg-red-600 text-white hover:bg-red-600" };
-    if (bucket === "upcoming") return { label: "Review due soon", className: "bg-amber-500 text-white hover:bg-amber-500" };
-    return { label: "On track", className: "bg-emerald-600 text-white hover:bg-emerald-600" };
+    if (bucket === "overdue") {
+      return { label: __("Review overdue", "content-ownership"), className: "bg-red-600 text-white hover:bg-red-600" };
+    }
+    if (bucket === "upcoming") {
+      return { label: __("Review due soon", "content-ownership"), className: "bg-amber-500 text-white hover:bg-amber-500" };
+    }
+    return { label: __("On track", "content-ownership"), className: "bg-emerald-600 text-white hover:bg-emerald-600" };
   }, [bucket]);
   return (
     <div className="flex items-start justify-between gap-4 border-b p-4">
       <div className="min-w-0">
-        <div className="text-xs uppercase tracking-wide text-muted-foreground">Page #{pageId}</div>
+        <div className="text-xs uppercase tracking-wide text-muted-foreground">
+          {sprintf(/* translators: %d: page ID */ __("Page #%d", "content-ownership"), pageId)}
+        </div>
         <h2 className="mt-1 truncate text-lg font-semibold tracking-tight">
-          {title || `Untitled page #${pageId}`}
+          {title || sprintf(/* translators: %d: page ID */ __("Untitled page #%d", "content-ownership"), pageId)}
           {editLink && (
             <a
               href={editLink}
               target="_blank"
               rel="noreferrer"
               className="ml-2 inline-flex items-center text-xs font-normal text-muted-foreground hover:text-foreground"
-              title="Open in editor"
+              title={__("Open in editor", "content-ownership")}
             >
               <ExternalLink className="h-3 w-3" />
             </a>
@@ -47,10 +54,21 @@ export function PageHeader({
         <div className="mt-2 flex flex-wrap items-center gap-3">
           <Badge className={pill.className}>{pill.label}</Badge>
           <span className="text-xs text-muted-foreground">
-            Next review {formatRelative(nextReviewAt)} ({formatDate(nextReviewAt)})
+            {sprintf(
+              /* translators: 1: relative date, 2: absolute date */
+              __("Next review %1$s (%2$s)", "content-ownership"),
+              formatRelative(nextReviewAt),
+              formatDate(nextReviewAt),
+            )}
           </span>
           <span className="text-xs text-muted-foreground">
-            {lastReviewedAt ? `Last reviewed ${formatRelative(lastReviewedAt)}` : "Never reviewed"}
+            {lastReviewedAt
+              ? sprintf(
+                  /* translators: %s: relative date */
+                  __("Last reviewed %s", "content-ownership"),
+                  formatRelative(lastReviewedAt),
+                )
+              : __("Never reviewed", "content-ownership")}
           </span>
         </div>
       </div>
@@ -60,12 +78,12 @@ export function PageHeader({
         size="sm"
         disabled={m.isPending}
         onClick={() => m.mutate(undefined, {
-          onSuccess: () => toast.success("Marked as reviewed."),
-          onError: (e) => toast.error(e instanceof Error ? e.message : "Failed."),
+          onSuccess: () => toast.success(__("Marked as reviewed.", "content-ownership")),
+          onError: (e) => toast.error(e instanceof Error ? e.message : __("Failed.", "content-ownership")),
         })}
       >
         <CheckCircle2 className="mr-2 h-4 w-4" />
-        {m.isPending ? "Saving…" : "Mark reviewed"}
+        {m.isPending ? __("Saving…", "content-ownership") : __("Mark reviewed", "content-ownership")}
       </Button>
     </div>
   );

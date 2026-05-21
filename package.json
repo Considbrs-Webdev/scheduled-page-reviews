@@ -7,9 +7,9 @@
     "dev": "vite build --watch --mode development",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
-    "i18n:pot": "ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/content-ownership wp-content/plugins/content-ownership/resources/languages/content-ownership.pot --domain=content-ownership --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache",
+    "i18n:pot": "node scripts/i18n-prepare-js.mjs && ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/content-ownership wp-content/plugins/content-ownership/resources/languages/content-ownership.pot --domain=content-ownership --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache,resources/assets/js && node scripts/i18n-fix-pot-refs.mjs",
     "i18n:mo": "ddev exec --dir=/var/www/html wp i18n make-mo wp-content/plugins/content-ownership/resources/languages",
-    "i18n:json": "ddev exec --dir=/var/www/html wp i18n make-json wp-content/plugins/content-ownership/resources/languages --no-purge"
+    "i18n:json": "ddev exec --dir=/var/www/html wp i18n make-json wp-content/plugins/content-ownership/resources/languages --domain=content-ownership --extensions=tsx,ts,jsx,js --no-purge && node scripts/merge-js-json.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -26,6 +26,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-query": "^5.100.11",
+    "@wordpress/i18n": "^6.19.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -47,6 +48,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "esbuild": "^0.25.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.6.0",
     "vite": "^7.0.5"

@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUrlStateSync } from "@/hooks/useUrlStateSync";
 import { GeneralSettingsTab } from "@/general/GeneralSettingsTab";
@@ -26,8 +27,8 @@ export function App() {
         className="mt-4 flex min-h-0 flex-1 flex-col"
       >
         <TabsList>
-          <TabsTrigger value="pages">Pages</TabsTrigger>
-          <TabsTrigger value="general">General settings</TabsTrigger>
+          <TabsTrigger value="pages">{__("Pages", "content-ownership")}</TabsTrigger>
+          <TabsTrigger value="general">{__("General settings", "content-ownership")}</TabsTrigger>
         </TabsList>
         <TabsContent value="pages" className="mt-4 flex min-h-0 flex-1 flex-col">
           <PagesTab />

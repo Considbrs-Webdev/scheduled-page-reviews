@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 
+import { __ } from "@wordpress/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { useUserSearch } from "@/api/queries";
@@ -24,10 +25,16 @@ export function UserPickerPopover({ trigger, onSelect, excludeIds = [] }: UserPi
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="start">
         <Command shouldFilter={false}>
-          <CommandInput value={search} onValueChange={setSearch} placeholder="Search users…" />
+          <CommandInput
+            value={search}
+            onValueChange={setSearch}
+            placeholder={__("Search users…", "content-ownership")}
+          />
           <CommandList>
-            <CommandEmpty>{q.isLoading ? "Searching…" : "No users found."}</CommandEmpty>
-            <CommandGroup heading="Users">
+            <CommandEmpty>
+              {q.isLoading ? __("Searching…", "content-ownership") : __("No users found.", "content-ownership")}
+            </CommandEmpty>
+            <CommandGroup heading={__("Users", "content-ownership")}>
               {results.map((u: UserListItem) => (
                 <CommandItem
                   key={u.id}

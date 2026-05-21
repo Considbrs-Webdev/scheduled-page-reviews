@@ -1,4 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from "react";
+
+import { __ } from "@wordpress/i18n";
 import { Tree as Arborist, type NodeApi, type TreeApi } from "react-arborist";
 
 import { useTree } from "@/api/queries";
@@ -70,7 +72,7 @@ export function Tree() {
       <div ref={containerRef} className="flex-1 overflow-hidden px-2 py-2">
         {q.isLoading && (
           <div className="px-2 py-4 text-sm text-muted-foreground">
-            Loading pages…
+            {__("Loading pages…", "content-ownership")}
           </div>
         )}
         {q.error && (
@@ -80,7 +82,7 @@ export function Tree() {
         )}
         {q.data && data.length === 0 && (
           <div className="px-2 py-4 text-sm text-muted-foreground">
-            No pages found. Create some pages first.
+            {__("No pages found. Create some pages first.", "content-ownership")}
           </div>
         )}
         {q.data && data.length > 0 && (

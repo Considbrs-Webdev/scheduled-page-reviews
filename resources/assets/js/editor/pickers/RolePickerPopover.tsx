@@ -1,5 +1,6 @@
 import { Users } from "lucide-react";
 
+import { __ } from "@wordpress/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { useRoles } from "@/api/queries";
@@ -21,10 +22,12 @@ export function RolePickerPopover({ trigger, onSelect, excludeSlugs = [] }: Role
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="start">
         <Command>
-          <CommandInput placeholder="Filter groups…" />
+          <CommandInput placeholder={__("Filter groups…", "content-ownership")} />
           <CommandList>
-            <CommandEmpty>{q.isLoading ? "Loading…" : "No groups available."}</CommandEmpty>
-            <CommandGroup heading="Groups (roles)">
+            <CommandEmpty>
+              {q.isLoading ? __("Loading…", "content-ownership") : __("No groups available.", "content-ownership")}
+            </CommandEmpty>
+            <CommandGroup heading={__("Groups (roles)", "content-ownership")}>
               {roles.map((r) => (
                 <CommandItem
                   key={r.slug}

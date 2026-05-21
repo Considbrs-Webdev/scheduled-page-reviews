@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import type { NodeRendererProps } from "react-arborist";
 
+import { __ } from "@wordpress/i18n";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +46,7 @@ export function TreeNode({
           e.stopPropagation();
           node.toggle();
         }}
-        aria-label={node.isOpen ? "Collapse" : "Expand"}
+        aria-label={node.isOpen ? __("Collapse", "content-ownership") : __("Expand", "content-ownership")}
         disabled={!hasChildren}
       >
         {hasChildren ? (
@@ -60,7 +61,7 @@ export function TreeNode({
       {node.data.has_local_rule && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="inline-flex shrink-0" aria-label="Has local rule">
+            <span className="inline-flex shrink-0" aria-label={__("Has local rule", "content-ownership")}>
               <Tag className="h-3.5 w-3.5 text-muted-foreground" />
             </span>
           </TooltipTrigger>
@@ -72,7 +73,7 @@ export function TreeNode({
           <TooltipTrigger asChild>
             <span
               className="inline-flex shrink-0"
-              aria-label="Propagates to subpages"
+              aria-label={__("Propagates to subpages", "content-ownership")}
             >
               <CornerDownRight className="h-3.5 w-3.5 text-primary" />
             </span>
@@ -85,7 +86,7 @@ export function TreeNode({
           <TooltipTrigger asChild>
             <span
               className="inline-flex shrink-0"
-              aria-label="Inherits from ancestor"
+              aria-label={__("Inherits from ancestor", "content-ownership")}
             >
               <CornerLeftDown className="h-3.5 w-3.5 text-muted-foreground/80" />
             </span>

@@ -1,10 +1,10 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { wp } from "./wp";
 import { fetchRule, markReviewed, getEditorBoot, type RuleResponse } from "./api";
 
 const { createElement: h, Fragment, useState, useEffect, useCallback } = wp.element;
 const { PanelRow, Button, Spinner, Notice, Flex, FlexItem } = wp.components;
 const { PluginDocumentSettingPanel } = wp.editor;
-const { __, sprintf } = wp.i18n;
 
 type ReactNode = import("react").ReactNode;
 

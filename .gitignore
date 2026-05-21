@@ -3,6 +3,7 @@
 /vendor/
 /node_modules/
 /dist/
+/resources/i18n-extract/
 
 /.phpunit.cache/
 .phpunit.result.cache
@@ -13,3 +14,4 @@ phpcs.xml
 .idea/
 .vscode/
 *.log
+*.po~

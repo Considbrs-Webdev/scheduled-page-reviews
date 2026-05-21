@@ -42,6 +42,7 @@ export interface WpApiFetchApi {
 export interface WpI18nApi {
   __: (text: string, domain?: string) => string;
   sprintf: (format: string, ...args: unknown[]) => string;
+  _n: (single: string, plural: string, number: number, domain?: string) => string;
 }
 
 interface WpRuntime {
