@@ -7,6 +7,7 @@ namespace ContentOwnership\Application;
 use ContentOwnership\Admin\AccessControl;
 use ContentOwnership\Admin\DashboardWidget;
 use ContentOwnership\Admin\EditorIntegration;
+use ContentOwnership\Admin\Header;
 use ContentOwnership\Admin\PostStates;
 use ContentOwnership\Admin\RowActions;
 use ContentOwnership\Admin\SettingsPage;
@@ -113,6 +114,7 @@ final class App
         Container::register(Assets::class, new Assets());
         Container::register(AccessControl::class, new AccessControl());
         Container::register(SettingsPage::class, new SettingsPage());
+        Container::register(Header::class, new Header());
 
         Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility));
         Container::register(RowActions::class, new RowActions($reviewMarker));

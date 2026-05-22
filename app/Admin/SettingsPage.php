@@ -58,15 +58,15 @@ final class SettingsPage
      * Build a deep link into the settings SPA.
      *
      * Query params:
-     * - tab: pages (default, omitted) | general
+     * - tab: pages (default, omitted) | settings
      * - page_id: selected page when tab=pages
      */
     public static function adminUrl(?string $tab = null, ?int $pageId = null): string
     {
         $args = ['page' => self::PAGE_SLUG];
 
-        if ($tab === 'general') {
-            $args['tab'] = 'general';
+        if ($tab === 'settings' || $tab === 'general' || $tab === 'schedule') {
+            $args['tab'] = 'settings';
         }
 
         if ($pageId !== null && $pageId > 0 && ($tab === null || $tab === 'pages')) {

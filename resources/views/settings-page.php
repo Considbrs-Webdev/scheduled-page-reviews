@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div class="wrap content-ownership-app">
+<div class="wrap content-ownership-app content-ownership-wrap">
     <h1 class="screen-reader-text">
         <?php esc_html_e('Content Ownership', 'content-ownership'); ?>
     </h1>
