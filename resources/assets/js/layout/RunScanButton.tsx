@@ -3,24 +3,19 @@ import { toast } from "sonner";
 
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useRunScanNow } from "@/api/queries";
 
 interface RunScanButtonProps {
-  variant?: "default" | "header";
+  inHeader?: boolean;
 }
 
-export function RunScanButton({ variant = "default" }: RunScanButtonProps) {
+export function RunScanButton({ inHeader = false }: RunScanButtonProps) {
   const m = useRunScanNow();
   return (
     <Button
       type="button"
-      variant={variant === "header" ? "outline" : "secondary"}
+      variant={inHeader ? "headerAction" : "secondary"}
       size="sm"
-      className={cn(
-        variant === "header" &&
-          "border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white",
-      )}
       disabled={m.isPending}
       onClick={() =>
         m.mutate(undefined, {
