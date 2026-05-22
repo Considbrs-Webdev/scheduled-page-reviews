@@ -183,7 +183,8 @@ Namespace: `content-ownership/v1`. All endpoints require `is_user_logged_in()` m
 | GET      | `/tree?parent=<id>`                        | Shallow tree node listing (for the React tree)                     |
 | GET/PUT  | `/pages/<id>/rule`                         | Read/write per-page rule + effective settings                      |
 | POST     | `/pages/<id>/mark-reviewed`                | Stamp last_reviewed meta and fire the action                       |
-| POST     | `/cron/run-now`                            | Trigger an immediate cron tick (admin only)                        |
+| POST     | `/cron/run-now`                            | Run a full synchronous scan and send digest emails (admin only)    |
+| GET      | `/cron/schedule-info`                      | Read automatic scan schedule and next WP-Cron run (admin only)   |
 | GET      | `/roles`                                   | Selectable WP roles `[{ slug, name, count }]` for the group picker |
 | GET      | `/users?search=&role=&per_page=&include=`  | Async user search for the picker + role-member preview             |
 
@@ -285,17 +286,51 @@ Digest grouping is **per recipient per cron run** — all eligible pages for tha
 
 A **per-recipient cadence** would cap digest mail to at most one email per address every N days and batch all actionable pages into that single mail. That avoids staggered daily digests when someone owns many pages. Tracked as a future improvement; the plugin still uses per-page cadence today.
 
-## WP-Cron
+## Scanning & WP-Cron
 
-`Scheduler` registers a daily `content_ownership_cron_tick` event on plugin activation. Each tick:
+Three ways to start a scan:
 
-1. Acquires a transient lock (default 5 min) to prevent overlap.
-2. Processes up to `cron_batch_size` pages (filterable).
+| Trigger | Mode | Behaviour |
+| ------- | ---- | --------- |
+| **Run scan now** (admin SPA header) | Synchronous | Processes all batches in one request, sends emails, returns stats |
+| **Schedule tab → WP Cron** | Background | Registers `content_ownership_daily` at the configured time; when that event runs it schedules batched `content_ownership_tick` events |
+| **WP-CLI** | Sync or background | See below |
+
+### WP-CLI
+
+```bash
+# Synchronous — recommended when DISABLE_WP_CRON is true
+wp content-ownership scan
+
+# Background — schedules batched ticks (requires something to execute due WP events)
+wp content-ownership scan --background
+```
+
+Server crontab example (sync, daily at 22:00):
+
+```bash
+0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan
+```
+
+If using `--background`, also run due WP events regularly:
+
+```bash
+* * * * * cd /path/to/wordpress && wp --path=wp cron event run --due-now
+```
+
+### Background tick pipeline
+
+When a scan runs in **background** mode (`content_ownership_daily`, `--background`, or legacy tick resume):
+
+1. Acquires a transient lock (6 hours) to prevent overlap.
+2. Processes up to `cron_batch_size` pages per tick (filterable).
 3. Persists `RunState` (cursor, totals) in a transient.
-4. If more pages remain, immediately reschedules a single `wp_schedule_single_event(time() + 1, ...)`. The next request that picks up cron continues the run.
+4. If more pages remain, reschedules `content_ownership_tick` (+60 seconds).
 5. When complete, fires `content_ownership/cron/run_completed` which the dispatcher consumes.
 
-On deactivation the daily event, any pending single events, and the run-state transients are cleared.
+**Important:** WP Cron settings in the Schedule tab **register** the daily event — they do not execute it. Something must run due scheduled events (page loads with WP-Cron enabled, or `wp cron event run --due-now` from server crontab).
+
+On deactivation the daily event, any pending tick events, and run-state transients are cleared.
 
 ## Permission layers
 
