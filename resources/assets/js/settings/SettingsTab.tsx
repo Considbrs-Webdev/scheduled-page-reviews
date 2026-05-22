@@ -30,21 +30,15 @@ export function SettingsTab() {
     <Tabs
       value={section}
       onValueChange={handleSectionChange}
-      className="flex min-h-0 flex-1 flex-col"
+      className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col"
     >
-      <TabsList className="mb-4 h-auto w-fit">
-        <TabsTrigger
-          value="general"
-          className="flex items-center gap-2 px-5 py-2.5 text-sm"
-        >
-          <Settings className="h-4 w-4 text-muted-foreground" aria-hidden />
+      <TabsList variant="animated" animated className="mb-5 h-11 w-fit">
+        <TabsTrigger value="general" className="gap-2 px-5">
+          <Settings aria-hidden />
           {__("General", "content-ownership")}
         </TabsTrigger>
-        <TabsTrigger
-          value="schedule"
-          className="flex items-center gap-2 px-5 py-2.5 text-sm"
-        >
-          <CalendarSync className="h-4 w-4 text-muted-foreground" aria-hidden />
+        <TabsTrigger value="schedule" className="gap-2 px-5">
+          <CalendarSync aria-hidden />
           {__("Schedule", "content-ownership")}
         </TabsTrigger>
       </TabsList>
