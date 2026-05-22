@@ -15,6 +15,7 @@ use ContentOwnership\Assets\ViteManifest;
 use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
 use ContentOwnership\Cron\NotificationQueue;
 use ContentOwnership\Cron\ReviewScanner;
+use ContentOwnership\Cron\ScheduleManager;
 use ContentOwnership\Cron\Scheduler;
 use ContentOwnership\Domain\DashboardLister;
 use ContentOwnership\Domain\InheritanceResolver;
@@ -28,6 +29,7 @@ use ContentOwnership\Rest\DashboardController;
 use ContentOwnership\Rest\MarkReviewedController;
 use ContentOwnership\Rest\PageRuleController;
 use ContentOwnership\Rest\RolesController;
+use ContentOwnership\Rest\ScheduleController;
 use ContentOwnership\Rest\SettingsController;
 use ContentOwnership\Rest\TreeController;
 use ContentOwnership\Rest\UsersController;
@@ -71,10 +73,14 @@ final class App
 
         $queue   = new NotificationQueue();
         $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy);
+        $scheduler = new Scheduler($scanner, $queue);
+        $scheduleManager = new ScheduleManager($settings);
+
         Container::register(NotificationQueueInterface::class, $queue);
         Container::register(NotificationQueue::class, $queue);
         Container::register(ReviewScanner::class, $scanner);
-        Container::register(Scheduler::class, new Scheduler($scanner, $queue));
+        Container::register(Scheduler::class, $scheduler);
+        Container::register(ScheduleManager::class, $scheduleManager);
 
         $emailsDir = (string) Config::get('paths', 'emails_dir', '');
         $renderer  = new EmailRenderer(
@@ -98,7 +104,8 @@ final class App
             TreeController::class,
             new TreeController($hierarchy, $rules, $resolver, $settings)
         );
-        Container::register(CronController::class, new CronController());
+        Container::register(CronController::class, new CronController($scheduler));
+        Container::register(ScheduleController::class, new ScheduleController($settings, $scheduleManager));
         Container::register(RolesController::class, new RolesController());
         Container::register(UsersController::class, new UsersController());
 

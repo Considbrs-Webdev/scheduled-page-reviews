@@ -116,6 +116,31 @@ final class SettingsController
                 'type'              => 'boolean',
                 'sanitize_callback' => 'rest_sanitize_boolean',
             ],
+            'auto_scan_enabled' => [
+                'type'              => 'boolean',
+                'sanitize_callback' => 'rest_sanitize_boolean',
+            ],
+            'scan_frequency' => [
+                'type'              => 'string',
+                'enum'              => ['daily', 'weekly'],
+                'sanitize_callback' => static function (mixed $value): string {
+                    return is_string($value) && $value === 'weekly' ? 'weekly' : 'daily';
+                },
+            ],
+            'scan_time' => [
+                'type'              => 'string',
+                'sanitize_callback' => static function (mixed $value): string {
+                    if (! is_string($value) || $value === '') {
+                        return '03:00';
+                    }
+                    if (preg_match('/^(\d{1,2}):(\d{2})(?::\d{2})?$/', trim($value), $matches) !== 1) {
+                        return '03:00';
+                    }
+                    $hour   = max(0, min(23, (int) $matches[1]));
+                    $minute = max(0, min(59, (int) $matches[2]));
+                    return sprintf('%02d:%02d', $hour, $minute);
+                },
+            ],
         ];
     }
 

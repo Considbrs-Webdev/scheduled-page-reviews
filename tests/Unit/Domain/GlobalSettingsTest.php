@@ -19,6 +19,9 @@ final class GlobalSettingsTest extends TestCase
         'default_recipients'      => [],
         'cron_batch_size'         => 200,
         'sync_wp_modified_on_review' => false,
+        'auto_scan_enabled'       => false,
+        'scan_frequency'          => 'daily',
+        'scan_time'               => '03:00',
     ];
 
     public function testEmptyOptionFallsBackToDefaults(): void
@@ -126,6 +129,9 @@ final class GlobalSettingsTest extends TestCase
                 ],
                 'cron_batch_size'         => 50,
                 'sync_wp_modified_on_review' => true,
+                'auto_scan_enabled'       => true,
+                'scan_frequency'          => 'weekly',
+                'scan_time'               => '22:30',
             ],
             $this->defaults
         );

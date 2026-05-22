@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContentOwnership\Cron;
 
 use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
+use RuntimeException;
 
 final class Scheduler
 {
@@ -21,32 +22,97 @@ final class Scheduler
         private readonly ReviewScanner $scanner,
         private readonly NotificationQueueInterface $queue,
     ) {
-        add_action('init', [$this, 'ensureDailySchedule']);
         add_action(self::DAILY_HOOK, [$this, 'onDaily']);
         add_action(self::TICK_HOOK, [$this, 'onTick']);
-        add_action('content_ownership/cron/run_now_requested', [$this, 'onRunNowRequested'], 10, 0);
     }
 
-    public function ensureDailySchedule(): void
+    public function isLocked(): bool
     {
-        if (wp_next_scheduled(self::DAILY_HOOK) === false) {
-            wp_schedule_event(time() + 60, 'daily', self::DAILY_HOOK);
+        return get_transient(self::LOCK_KEY) !== false;
+    }
+
+    /**
+     * Run the full scan synchronously: all batches, then send digest emails.
+     *
+     * @throws RuntimeException When another run holds the lock.
+     */
+    public function runToCompletion(): RunResult
+    {
+        if ($this->isLocked()) {
+            throw new RuntimeException(
+                __('A scan is already in progress.', 'content-ownership')
+            );
         }
+
+        if (function_exists('set_time_limit')) {
+            @set_time_limit(0);
+        }
+
+        $emailsSent = 0;
+        $counter    = static function () use (&$emailsSent): void {
+            $emailsSent++;
+        };
+        add_action('content_ownership/notification/sent', $counter, 10, 2);
+
+        try {
+            $state = $this->beginRun();
+
+            do {
+                $batchSize = max(1, $this->scanner->batchSize());
+                $batchSize = (int) apply_filters('content_ownership/cron/batch_size', $batchSize);
+                $result    = $this->scanner->tick($state, $batchSize);
+                $state     = $result['state'];
+                set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
+            } while ($result['more']);
+
+            $grouped = $this->queue->flush();
+            do_action('content_ownership/cron/run_completed', $state->toArray(), $grouped);
+            $this->releaseLock();
+
+            return new RunResult(
+                runId: $state->runId,
+                status: 'completed',
+                stats: $state->stats,
+                emailsSent: $emailsSent,
+                completedAt: (int) current_time('timestamp', true),
+            );
+        } finally {
+            remove_action('content_ownership/notification/sent', $counter, 10);
+        }
+    }
+
+    /**
+     * Start a background run and schedule the first tick.
+     *
+     * @throws RuntimeException When another run holds the lock.
+     */
+    public function startBackgroundRun(): RunResult
+    {
+        if ($this->isLocked()) {
+            throw new RuntimeException(
+                __('A scan is already in progress.', 'content-ownership')
+            );
+        }
+
+        $state = $this->beginRun();
+        wp_schedule_single_event(time() + 1, self::TICK_HOOK);
+
+        return new RunResult(
+            runId: $state->runId,
+            status: 'scheduled',
+            stats: $state->stats,
+            emailsSent: 0,
+            completedAt: (int) current_time('timestamp', true),
+        );
     }
 
     public function onDaily(): void
     {
-        if (get_transient(self::LOCK_KEY) !== false) {
+        try {
+            $this->startBackgroundRun();
+        } catch (RuntimeException) {
             return;
         }
-
-        $state = RunState::start((int) current_time('timestamp', true));
-        set_transient(self::LOCK_KEY, $state->runId, self::LOCK_TTL_SEC);
-        set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
-        $this->queue->clear();
-        delete_transient(self::QUEUE_KEY);
-        wp_schedule_single_event(time() + 1, self::TICK_HOOK);
-        do_action('content_ownership/cron/before_run', $state->toArray());
     }
 
     public function onTick(): void
@@ -92,18 +158,21 @@ final class Scheduler
         delete_transient(self::LOCK_KEY);
     }
 
-    public function onRunNowRequested(): void
-    {
-        if (get_transient(self::LOCK_KEY) !== false) {
-            return;
-        }
-
-        $this->onDaily();
-    }
-
     public function forceRelease(): void
     {
         $this->releaseLock();
+    }
+
+    private function beginRun(): RunState
+    {
+        $state = RunState::start((int) current_time('timestamp', true));
+        set_transient(self::LOCK_KEY, $state->runId, self::LOCK_TTL_SEC);
+        set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
+        $this->queue->clear();
+        delete_transient(self::QUEUE_KEY);
+        do_action('content_ownership/cron/before_run', $state->toArray());
+
+        return $state;
     }
 
     private function releaseLock(): void
@@ -116,12 +185,12 @@ final class Scheduler
     private function restoreQueue(string $runId): void
     {
         $raw = get_transient(self::QUEUE_KEY);
-        if (!is_array($raw) || ($raw['run_id'] ?? '') !== $runId) {
+        if (! is_array($raw) || ($raw['run_id'] ?? '') !== $runId) {
             return;
         }
 
         $buckets = $raw['buckets'] ?? null;
-        if (!is_array($buckets)) {
+        if (! is_array($buckets)) {
             return;
         }
 

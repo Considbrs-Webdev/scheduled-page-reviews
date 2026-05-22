@@ -13,6 +13,9 @@ return [
         'default_recipient_emails' => [],
         'cron_batch_size'          => 200,
         'sync_wp_modified_on_review' => false,
+        'auto_scan_enabled'        => false,
+        'scan_frequency'           => 'daily',
+        'scan_time'                => '03:00',
     ],
 
     'meta_keys' => [

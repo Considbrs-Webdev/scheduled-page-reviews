@@ -45,6 +45,11 @@ register_deactivation_hook(__FILE__, static function (): void {
     wp_clear_scheduled_hook(\ContentOwnership\Cron\Scheduler::TICK_HOOK);
     delete_transient('content_ownership_run_lock');
     delete_transient('content_ownership_run_state');
+    delete_transient('content_ownership_run_queue');
 });
+
+if (defined('WP_CLI') && WP_CLI) {
+    WP_CLI::add_command('content-ownership scan', \ContentOwnership\Cli\ScanCommand::class);
+}
 
 App::boot();

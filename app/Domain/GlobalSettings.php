@@ -28,6 +28,9 @@ final class GlobalSettings
         public readonly array $defaultRecipients,
         public readonly int $cronBatchSize,
         public readonly bool $syncWpModifiedOnReview,
+        public readonly bool $autoScanEnabled,
+        public readonly string $scanFrequency,
+        public readonly string $scanTime,
     ) {
     }
 
@@ -60,6 +63,9 @@ final class GlobalSettings
             defaultRecipients:    self::recipientTargets($recipientsRaw),
             cronBatchSize:        self::positiveInt($merged['cron_batch_size'] ?? null, 200),
             syncWpModifiedOnReview: self::bool($merged['sync_wp_modified_on_review'] ?? null, false),
+            autoScanEnabled:      self::bool($merged['auto_scan_enabled'] ?? null, false),
+            scanFrequency:        self::scanFrequency($merged['scan_frequency'] ?? null),
+            scanTime:             self::scanTime($merged['scan_time'] ?? null),
         );
     }
 
@@ -76,7 +82,31 @@ final class GlobalSettings
             'default_recipients'      => Target::listToArray($this->defaultRecipients),
             'cron_batch_size'         => $this->cronBatchSize,
             'sync_wp_modified_on_review' => $this->syncWpModifiedOnReview,
+            'auto_scan_enabled'       => $this->autoScanEnabled,
+            'scan_frequency'          => $this->scanFrequency,
+            'scan_time'               => $this->scanTime,
         ];
+    }
+
+    private static function scanFrequency(mixed $raw): string
+    {
+        return is_string($raw) && $raw === 'weekly' ? 'weekly' : 'daily';
+    }
+
+    private static function scanTime(mixed $raw): string
+    {
+        if (! is_string($raw) || $raw === '') {
+            return '03:00';
+        }
+
+        if (preg_match('/^(\d{1,2}):(\d{2})(?::\d{2})?$/', trim($raw), $matches) !== 1) {
+            return '03:00';
+        }
+
+        $hour   = max(0, min(23, (int) $matches[1]));
+        $minute = max(0, min(59, (int) $matches[2]));
+
+        return sprintf('%02d:%02d', $hour, $minute);
     }
 
     private static function positiveInt(mixed $raw, int $fallback): int
