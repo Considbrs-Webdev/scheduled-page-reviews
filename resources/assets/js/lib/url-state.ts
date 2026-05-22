@@ -1,7 +1,7 @@
 /** Dispatched after programmatic URL updates (pushState/replaceState). */
 export const URL_STATE_EVENT = "content-ownership:urlstatechange";
 
-export type Tab = "pages" | "general";
+export type Tab = "pages" | "general" | "schedule";
 
 export interface AppUrlState {
   tab: Tab;
@@ -16,7 +16,9 @@ const WP_PAGE_SLUG = "content-ownership";
 export const DEFAULT_TAB: Tab = "pages";
 
 export function parseTab(value: string | null): Tab {
-  return value === "general" ? "general" : "pages";
+  if (value === "general") return "general";
+  if (value === "schedule") return "schedule";
+  return "pages";
 }
 
 export function parsePageId(value: string | null): number | null {

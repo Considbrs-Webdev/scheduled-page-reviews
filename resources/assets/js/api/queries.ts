@@ -15,6 +15,8 @@ import type {
   PageRuleResponse,
   Rule,
   RoleListItem,
+  ScanRunResult,
+  ScheduleInfo,
   TreeNode,
   UserListItem,
 } from "@/types";
@@ -36,6 +38,7 @@ export function useUpdateGlobalSettings(
       apiRequest<GlobalSettings>("settings", { method: "POST", body: values }),
     onSuccess: (data) => {
       qc.setQueryData(queryKeys.settings(), data);
+      qc.invalidateQueries({ queryKey: queryKeys.scheduleInfo() });
     },
     ...options,
   });
@@ -130,8 +133,17 @@ export function useUsersByIds(ids: number[]) {
   });
 }
 
-export function useRunCronNow() {
+export function useScheduleInfo() {
+  return useQuery({
+    queryKey: queryKeys.scheduleInfo(),
+    queryFn: ({ signal }) =>
+      apiRequest<ScheduleInfo>("cron/schedule-info", { signal }),
+  });
+}
+
+export function useRunScanNow() {
   return useMutation({
-    mutationFn: () => apiRequest<unknown>("cron/run-now", { method: "POST" }),
+    mutationFn: () =>
+      apiRequest<ScanRunResult>("cron/run-now", { method: "POST" }),
   });
 }

@@ -1,5 +1,6 @@
 export const queryKeys = {
   settings: () => ["settings"] as const,
+  scheduleInfo: () => ["scheduleInfo"] as const,
   tree: (parentId: number, recursive: boolean) =>
     ["tree", parentId, recursive] as const,
   pageRule: (pageId: number) => ["pageRule", pageId] as const,

@@ -55,7 +55,6 @@ export function GeneralSettingsTab() {
       notify_days_before: 14,
       send_reminder_after_due: true,
       reminder_cadence_days: 7,
-      cron_batch_size: 200,
       sync_wp_modified_on_review: false,
       default_recipient_emails_text: "",
     },
@@ -71,7 +70,6 @@ export function GeneralSettingsTab() {
       notify_days_before: settingsQ.data.notify_days_before,
       send_reminder_after_due: settingsQ.data.send_reminder_after_due,
       reminder_cadence_days: settingsQ.data.reminder_cadence_days,
-      cron_batch_size: settingsQ.data.cron_batch_size,
       sync_wp_modified_on_review: settingsQ.data.sync_wp_modified_on_review,
       default_recipient_emails_text: emails.join(", "),
     });
@@ -108,7 +106,6 @@ export function GeneralSettingsTab() {
         notify_days_before: values.notify_days_before,
         send_reminder_after_due: values.send_reminder_after_due,
         reminder_cadence_days: values.reminder_cadence_days,
-        cron_batch_size: values.cron_batch_size,
         sync_wp_modified_on_review: values.sync_wp_modified_on_review,
         default_recipients,
       },
@@ -299,36 +296,6 @@ export function GeneralSettingsTab() {
                   </FormControl>
                   <FormDescription>
                     {__("Separate multiple addresses with commas or whitespace.", "content-ownership")}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("Performance", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__("Tune how aggressively cron scans the site.", "content-ownership")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="cron_batch_size"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{__("Cron batch size", "content-ownership")}</FormLabel>
-                  <FormControl>
-                    <Input type="number" min={1} max={2000} {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    {__(
-                      "Pages processed per cron tick. Larger values finish full scans faster but use more memory.",
-                      "content-ownership",
-                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

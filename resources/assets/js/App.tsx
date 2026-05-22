@@ -6,6 +6,7 @@ import { Header } from "@/layout/Header";
 import { NavigationGuard } from "@/layout/NavigationGuard";
 import { navigateToTab } from "@/lib/navigation";
 import { PagesTab } from "@/pages/PagesTab";
+import { ScheduleTab } from "@/schedule/ScheduleTab";
 import { useUiStore } from "@/store/ui";
 
 export function App() {
@@ -14,7 +15,7 @@ export function App() {
   const activeTab = useUiStore((s) => s.activeTab);
 
   const handleTabChange = (value: string) => {
-    if (value !== "pages" && value !== "general") return;
+    if (value !== "pages" && value !== "general" && value !== "schedule") return;
     navigateToTab(value);
   };
 
@@ -29,12 +30,16 @@ export function App() {
         <TabsList>
           <TabsTrigger value="pages">{__("Pages", "content-ownership")}</TabsTrigger>
           <TabsTrigger value="general">{__("General settings", "content-ownership")}</TabsTrigger>
+          <TabsTrigger value="schedule">{__("Schedule", "content-ownership")}</TabsTrigger>
         </TabsList>
         <TabsContent value="pages" className="mt-4 flex min-h-0 flex-1 flex-col">
           <PagesTab />
         </TabsContent>
         <TabsContent value="general" className="mt-4 min-h-0 flex-1 overflow-auto">
           <GeneralSettingsTab />
+        </TabsContent>
+        <TabsContent value="schedule" className="mt-4 min-h-0 flex-1 overflow-auto">
+          <ScheduleTab />
         </TabsContent>
       </Tabs>
       <NavigationGuard />

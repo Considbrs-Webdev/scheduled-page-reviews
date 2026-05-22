@@ -113,6 +113,9 @@ export interface GlobalSettings {
   default_recipients: RecipientTarget[];
   cron_batch_size: number;
   sync_wp_modified_on_review: boolean;
+  auto_scan_enabled: boolean;
+  scan_frequency: "daily" | "weekly";
+  scan_time: string;
 }
 
 /** Partial shape for PUT /settings; PHP merges over the current settings. */
@@ -138,6 +141,26 @@ export interface MarkReviewedResponse {
   last_reviewed_at: string;
   last_reviewed_by: number;
   reviewer_display_name: string;
+}
+
+export interface ScheduleInfo {
+  auto_scan_enabled: boolean;
+  scan_frequency: "daily" | "weekly";
+  scan_time: string;
+  next_scheduled: number | null;
+  next_scheduled_iso: string | null;
+  wp_cron_disabled: boolean;
+}
+
+export interface ScanRunResult {
+  status: "completed";
+  run_id: string;
+  processed: number;
+  queued: number;
+  ticks: number;
+  emails_sent: number;
+  completed_at: string;
+  requested_by?: number;
 }
 
 export function isUserTarget(t: Target): t is UserTarget {

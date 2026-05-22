@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { getBoot } from "@/lib/boot";
 import { Separator } from "@/components/ui/separator";
-import { RunCronButton } from "./RunCronButton";
+import { RunScanButton } from "./RunScanButton";
 
 export function Header() {
   const boot = getBoot();
@@ -21,7 +21,7 @@ export function Header() {
       <div className="flex items-center gap-3">
         <span className="text-xs text-muted-foreground">v{boot.pluginVersion}</span>
         <Separator orientation="vertical" className="h-6" />
-        <RunCronButton />
+        <RunScanButton />
       </div>
     </header>
   );
