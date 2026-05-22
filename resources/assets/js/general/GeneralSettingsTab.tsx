@@ -149,7 +149,13 @@ export function GeneralSettingsTab() {
                 <FormItem>
                   <FormLabel>{__("Default review interval (days)", "content-ownership")}</FormLabel>
                   <FormControl>
-                    <Input type="number" min={1} max={3650} {...field} />
+                    <Input
+                      type="number"
+                      min={1}
+                      max={3650}
+                      className="max-w-40"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {__("Used when a page has no rule of its own.", "content-ownership")}
@@ -165,7 +171,13 @@ export function GeneralSettingsTab() {
                 <FormItem>
                   <FormLabel>{__("Notify days before", "content-ownership")}</FormLabel>
                   <FormControl>
-                    <Input type="number" min={0} max={365} {...field} />
+                    <Input
+                      type="number"
+                      min={0}
+                      max={365}
+                      className="max-w-40"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {__('Window in which a page is "due soon".', "content-ownership")}
@@ -218,7 +230,13 @@ export function GeneralSettingsTab() {
                   <FormItem>
                     <FormLabel>{__("Reminder cadence (days)", "content-ownership")}</FormLabel>
                     <FormControl>
-                      <Input type="number" min={1} max={365} {...field} />
+                      <Input
+                        type="number"
+                        min={1}
+                        max={365}
+                        className="max-w-40"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       {__(
@@ -290,6 +308,7 @@ export function GeneralSettingsTab() {
                   <FormControl>
                     <Textarea
                       rows={3}
+                      className="min-h-28"
                       placeholder={__("alerts@example.com, ops@example.com", "content-ownership")}
                       {...field}
                     />

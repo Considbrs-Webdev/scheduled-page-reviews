@@ -128,7 +128,7 @@ export function ScheduleTab() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="mx-auto flex max-w-3xl flex-col gap-6 pb-8">
+      <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-3xl flex-col gap-6 pb-8">
         <Card>
           <CardHeader>
             <CardTitle>{__("WP Cron", "content-ownership")}</CardTitle>
@@ -165,7 +165,7 @@ export function ScheduleTab() {
                   <FormLabel>{__("Scan frequency", "content-ownership")}</FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="max-w-40">
                         <SelectValue />
                       </SelectTrigger>
                     </FormControl>
@@ -189,7 +189,12 @@ export function ScheduleTab() {
                 <FormItem>
                   <FormLabel>{__("Scan time", "content-ownership")}</FormLabel>
                   <FormControl>
-                    <Input type="time" step={60} {...field} />
+                    <Input
+                      type="time"
+                      step={60}
+                      className="max-w-44"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {__("Time of day to register the scan (server time).", "content-ownership")}
@@ -206,7 +211,13 @@ export function ScheduleTab() {
                 <FormItem>
                   <FormLabel>{__("Batch size", "content-ownership")}</FormLabel>
                   <FormControl>
-                    <Input type="number" min={1} max={2000} {...field} />
+                    <Input
+                      type="number"
+                      min={1}
+                      max={2000}
+                      className="max-w-40"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {__(
@@ -220,7 +231,7 @@ export function ScheduleTab() {
             />
 
             {scheduleInfo && (
-              <div className="rounded-md border bg-muted/40 px-4 py-3 text-sm">
+              <div className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
                 <p>
                   <span className="font-medium">{__("Next scheduled:", "content-ownership")} </span>
                   {formatNextScheduled(scheduleInfo.next_scheduled_iso, locale)}
@@ -249,7 +260,7 @@ export function ScheduleTab() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <pre className="overflow-x-auto rounded-md bg-zinc-950 p-4 text-xs text-zinc-100">
+            <pre className="overflow-x-auto rounded-xl bg-zinc-950 p-4 text-xs text-zinc-100">
               <code>{CLI_EXAMPLES}</code>
             </pre>
           </CardContent>
