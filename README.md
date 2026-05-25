@@ -174,19 +174,20 @@ Override via filters:
 
 ## REST API
 
-Namespace: `content-ownership/v1`. All endpoints require `is_user_logged_in()` minimum; most require `edit_post` on the target page.
+Namespace: `content-ownership/v1`. All endpoints require `is_user_logged_in()` minimum.
 
-| Method   | Path                                       | Purpose                                                            |
-| -------- | ------------------------------------------ | ------------------------------------------------------------------ |
-| GET/POST | `/settings`                                | Read or write `GlobalSettings`                                     |
-| GET      | `/dashboard?bucket=...`                    | Pages owned by current user (matches user IDs **or** role membership) |
-| GET      | `/tree?parent=<id>`                        | Shallow tree node listing (for the React tree)                     |
-| GET/PUT  | `/pages/<id>/rule`                         | Read/write per-page rule + effective settings                      |
-| POST     | `/pages/<id>/mark-reviewed`                | Stamp last_reviewed meta and fire the action                       |
-| POST     | `/cron/run-now`                            | Run a full synchronous scan and send digest emails (admin only)    |
-| GET      | `/cron/schedule-info`                      | Read automatic scan schedule and next WP-Cron run (admin only)   |
-| GET      | `/roles`                                   | Selectable WP roles `[{ slug, name, count }]` for the group picker |
-| GET      | `/users?search=&role=&per_page=&include=`  | Async user search for the picker + role-member preview             |
+| Method   | Path                                       | Permission | Purpose                                                            |
+| -------- | ------------------------------------------ | ---------- | ------------------------------------------------------------------ |
+| GET/POST | `/settings`                                | Settings admin | Read or write `GlobalSettings`                                 |
+| GET      | `/dashboard?bucket=...`                    | Logged in (filtered) | Pages needing review for the current user              |
+| GET      | `/tree?parent=<id>`                        | Settings admin | Shallow tree node listing (for the React tree)                 |
+| GET      | `/pages/<id>/rule`                         | Recipient, overview, or settings admin | Read rule + effective settings + review status |
+| PUT      | `/pages/<id>/rule`                         | Settings admin | Write per-page rule                                        |
+| POST     | `/pages/<id>/mark-reviewed`                | Recipient, overview, or settings admin | Stamp last_reviewed meta                       |
+| POST     | `/cron/run-now`                            | Settings admin | Run a full synchronous scan and send digest emails             |
+| GET      | `/cron/schedule-info`                      | Settings admin | Read automatic scan schedule and next WP-Cron run              |
+| GET      | `/roles`                                   | Settings admin | Selectable WP roles for the group picker                       |
+| GET      | `/users?search=&role=&per_page=&include=`  | Settings admin | Async user search for the picker + role-member preview         |
 
 The `/pages/<id>/rule` GET response also includes `last_reviewed_at`, `last_reviewed_by`, `next_review_at`, and `bucket` so the editor sidebar renders in a single request.
 
@@ -339,16 +340,18 @@ The plugin separates three independent concerns. They must not be conflated — 
 | Layer | Who | What they can do | Configured via |
 | ----- | --- | ---------------- | -------------- |
 | **Plugin configuration** | Users passing `content_ownership/can_manage_settings` (default: `user_can(admin_capability)`) | Open the settings SPA, change global defaults, browse the page tree, run cron manually | `admin_capability` + `content_ownership/can_manage_settings` filter |
-| **Site-wide overview** | Users passing `content_ownership/can_view_site_overview` (default: `user_can(overview_capability)`) | See review badges and dashboard entries for **all** actionable pages — oversight, not personal responsibility | `overview_capability` + `content_ownership/can_view_site_overview` filter |
+| **Site-wide overview** | Users passing `content_ownership/can_view_site_overview` (default: `user_can(overview_capability)`) | See review badges and dashboard entries for **all** actionable pages, and mark any page reviewed | `overview_capability` + `content_ownership/can_view_site_overview` filter |
 | **Content owner** | Users or roles listed in a page's effective `recipients` | See review status and mark pages reviewed for pages they are assigned to (including nested pages via inheritance) | Per-page rules in the admin SPA |
 
 **Editor workflow (content owners only):** dashboard widget, Pages list badges, Gutenberg sidebar, row actions, and email digests. None of these require the settings SPA. Links to the settings page are shown only to users who pass `content_ownership/can_manage_settings`.
 
+**WordPress page editing** (`edit_post`) is separate from ownership actions. Editors who are not configured recipients can still edit page content in WordPress, but they do not see ownership UI or mark pages reviewed.
+
+Per-page ownership actions (view status, mark reviewed) are gated by `PageAuthorization`: recipient assignment, site overview, or settings admin. Rule writes (`PUT /pages/<id>/rule`) require settings admin only.
+
 Site-specific tuning (for example, restrict both overview and settings access to the `administrator` role while other `manage_options` users remain content owners only) is done with `content_ownership/can_view_site_overview` and `content_ownership/can_manage_settings` in site code — not by hardcoding roles in the plugin.
 
 The legacy `capability` config key is still read as a fallback when either dedicated key is missing.
-
-All per-page REST operations gate on `current_user_can('edit_post', $pageId)` so editors managing their own sections work out of the box without visiting the settings SPA.
 
 ## Testing
 

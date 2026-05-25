@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
+use ContentOwnership\Application\Capabilities;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -84,7 +85,7 @@ final class RolesController
 
     public function canList(): bool
     {
-        return is_user_logged_in() && current_user_can('edit_pages');
+        return is_user_logged_in() && current_user_can(Capabilities::menu());
     }
 
     /**

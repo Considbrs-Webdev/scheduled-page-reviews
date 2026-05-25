@@ -20,6 +20,7 @@ use ContentOwnership\Cron\ScheduleManager;
 use ContentOwnership\Cron\Scheduler;
 use ContentOwnership\Domain\DashboardLister;
 use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\PageAuthorization;
 use ContentOwnership\Domain\PageReviewMarker;
 use ContentOwnership\Domain\RecipientVisibility;
 use ContentOwnership\Domain\ReviewDateCalculator;
@@ -69,6 +70,9 @@ final class App
         $visibility = RecipientVisibility::fromConfig();
         Container::register(RecipientVisibility::class, $visibility);
 
+        $authorization = new PageAuthorization($settings, $resolver, $visibility);
+        Container::register(PageAuthorization::class, $authorization);
+
         $lister = new DashboardLister($settings, $resolver, $calculator, $visibility);
         Container::register(DashboardLister::class, $lister);
 
@@ -98,9 +102,12 @@ final class App
         Container::register(DashboardController::class, new DashboardController($lister));
         Container::register(
             PageRuleController::class,
-            new PageRuleController($settings, $rules, $resolver, $calculator)
+            new PageRuleController($settings, $rules, $resolver, $calculator, $authorization)
         );
-        Container::register(MarkReviewedController::class, new MarkReviewedController($reviewMarker));
+        Container::register(
+            MarkReviewedController::class,
+            new MarkReviewedController($reviewMarker, $authorization)
+        );
         Container::register(
             TreeController::class,
             new TreeController($hierarchy, $rules, $resolver, $settings)
@@ -117,7 +124,7 @@ final class App
         Container::register(Header::class, new Header());
 
         Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility));
-        Container::register(RowActions::class, new RowActions($reviewMarker));
+        Container::register(RowActions::class, new RowActions($reviewMarker, $authorization));
         Container::register(EditorIntegration::class, new EditorIntegration());
         Container::register(DashboardWidget::class, new DashboardWidget($lister));
     }

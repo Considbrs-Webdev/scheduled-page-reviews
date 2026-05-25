@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContentOwnership\Storage;
 
 use ContentOwnership\Application\Config;
+use ContentOwnership\Domain\Contracts\SettingsReader;
 use ContentOwnership\Domain\GlobalSettings;
 
 /**
@@ -14,7 +15,7 @@ use ContentOwnership\Domain\GlobalSettings;
  * config/settings.php defaults at read time. Saves merge incoming values
  * over the current settings so partial updates are safe.
  */
-final class SettingsRepository
+final class SettingsRepository implements SettingsReader
 {
     public function get(): GlobalSettings
     {

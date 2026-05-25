@@ -6,6 +6,7 @@ namespace ContentOwnership\Rest;
 
 use ContentOwnership\Application\Config;
 use ContentOwnership\Domain\InheritanceResolver;
+use ContentOwnership\Domain\PageAuthorization;
 use ContentOwnership\Domain\ReviewDateCalculator;
 use ContentOwnership\Domain\Rule;
 use ContentOwnership\Storage\RuleRepository;
@@ -25,6 +26,7 @@ final class PageRuleController
         private readonly RuleRepository $rules,
         private readonly InheritanceResolver $resolver,
         private readonly ReviewDateCalculator $calculator,
+        private readonly PageAuthorization $authorization,
     ) {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
@@ -90,12 +92,18 @@ final class PageRuleController
             return false;
         }
 
-        return current_user_can('edit_post', $pageId);
+        return $this->authorization->canViewStatus($pageId, get_current_user_id());
     }
 
     public function canEditRule(WP_REST_Request $request): bool
     {
-        return $this->canReadRule($request);
+        $pageId = (int) $request['id'];
+
+        if ($pageId <= 0 || get_post_type($pageId) !== 'page') {
+            return false;
+        }
+
+        return $this->authorization->canEditRule(get_current_user_id());
     }
 
     /**
