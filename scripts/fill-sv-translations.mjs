@@ -13,6 +13,17 @@ const poPath = path.join(__dirname, "../resources/languages/content-ownership-sv
 /** @type {Record<string, string | [string, string]>} */
 const sv = {
   "%d recipient(s)": "%d mottagare",
+  " on %s": " på %s",
+  "[Content review] %1$d overdue, %2$d upcoming%3$s":
+    "[Innehållsgranskning] %1$d försenade, %2$d kommande%3$s",
+  "[Content review] %1$d page overdue%2$s": [
+    "[Innehållsgranskning] %1$d sida försenad%2$s",
+    "[Innehållsgranskning] %1$d sidor försenade%2$s",
+  ],
+  "[Content review] %1$d page upcoming%2$s": [
+    "[Innehållsgranskning] %1$d kommande sida%2$s",
+    "[Innehållsgranskning] %1$d kommande sidor%2$s",
+  ],
   "+%d more": "+%d till",
   "%d days": "%d dagar",
   Add: "Lägg till",
@@ -40,6 +51,7 @@ const sv = {
   "Default review interval (days)": "Standardgranskningsintervall (dagar)",
   "e.g. 180 = twice a year": "t.ex. 180 = två gånger per år",
   "Email address": "E-postadress",
+  "Edit:": "Redigera:",
   Expand: "Expandera",
   "Failed to load settings:": "Kunde inte läsa in inställningarna:",
   "Failed to load.": "Kunde inte läsa in.",
@@ -91,6 +103,8 @@ const sv = {
   "On track": "I fas",
   "Open content ownership settings": "Öppna inställningar för innehållsägarskap",
   "Open in editor": "Öppna i redigeraren",
+  "Overdue (%d)": "Försenade (%d)",
+  Page: "Sida",
   "Override and apply to subpages": "Åsidosätt och tillämpa på undersidor",
   "Override on this page only": "Åsidosätt endast på den här sidan",
   "Page #%d": "Sida #%d",
@@ -128,23 +142,30 @@ const sv = {
   "Search users…": "Sök användare…",
   "Searching…": "Söker…",
   "Send reminders after due date": "Skicka påminnelser efter förfallodatum",
+  "Sign in to the %s to review your pages.": "Logga in i %s för att granska dina sidor.",
+  "Sign in to the WordPress dashboard to review your pages: %s":
+    "Logga in i WordPress-administrationen för att granska dina sidor: %s",
   "Separate multiple addresses with commas or whitespace.":
     "Separera flera adresser med kommatecken eller blanksteg.",
   Settings: "Inställningar",
   "Server crontab — sync scan daily at 22:00":
     "Server-crontab — synkron skanning dagligen kl. 22:00",
   Status: "Status",
+  "This message was sent by the Content Ownership plugin.":
+    "Detta meddelande skickades av pluginet Content Ownership.",
   "Time of day to register the scan (server time).":
     "Tid på dagen då skanningen registreras (servertid).",
   "Tune how aggressively cron scans the site.": "Styr hur aggressivt cron skannar webbplatsen.",
   "Untitled page #%d": "Sida utan titel #%d",
   Upcoming: "Kommande",
+  "Upcoming (%d)": "Kommande (%d)",
   "Update WordPress last modified date": "Uppdatera WordPress senast ändrad",
   "Used when a page has no rule of its own.": "Används när en sida saknar egen regel.",
   "User #%d": "Användare #%d",
   Users: "Användare",
   Weekly: "Veckovis",
   "Who to notify": "Vem ska aviseras",
+  "WordPress dashboard": "WordPress-administrationen",
   "WP Cron": "WP Cron",
   "WP-CLI & server crontab": "WP-CLI och server-crontab",
   today: "idag",
@@ -156,6 +177,10 @@ const sv = {
     "Hantera granskningsintervall, aviseringsmottagare och hierariskt arv för hela webbplatsen.",
   "Select a page from the tree to view and edit its content-ownership rule.":
     "Välj en sida i trädet för att visa och redigera regeln för innehållsägarskap.",
+  "Hello %1$s, the following pages on %2$s need your attention.":
+    "Hej %1$s, följande sidor på %2$s behöver din uppmärksamhet.",
+  "Hello %1$s, the following pages on %2$s (%3$s) need your attention.":
+    "Hej %1$s, följande sidor på %2$s (%3$s) behöver din uppmärksamhet.",
   "How often pages must be reviewed and when reminders go out.":
     "Hur ofta sidor ska granskas och när påminnelser skickas.",
   'Window in which a page is "due soon".': 'Fönster då en sida är "snart dags".',

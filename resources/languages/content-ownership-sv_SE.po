@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Content Ownership 0.1.0\nReport-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/content-ownership\nPOT-Creation-Date: "
-"2026-05-25T08:37:58+02:00\nPO-Revision-Date: 2026-05-21 "
+"2026-05-25T10:44:22+02:00\nPO-Revision-Date: 2026-05-21 "
 "21:30+0200\nLast-Translator: William Undqvist\nLanguage-Team: "
 "Swedish\nLanguage: sv_SE\nMIME-Version: 1.0\nContent-Type: text/plain; "
 "charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; "
@@ -48,7 +48,8 @@ msgstr "Inga sidor på webbplatsen behöver granskas just nu."
 msgid "Nothing assigned to you needs review right now. Nice work!"
 msgstr "Inget som är tilldelat dig behöver granskas just nu. Bra jobbat!"
 
-#: app/Admin/DashboardWidget.php:62
+#: app/Admin/DashboardWidget.php:62 resources/views/emails/digest.html.php:20
+#: resources/views/emails/digest.text.php:25
 #: resources/assets/js/editor/SidebarPanel.tsx:15
 msgid "Overdue"
 msgstr "Försenad"
@@ -99,20 +100,20 @@ msgstr "Granskning försenad"
 msgid "Review due soon"
 msgstr "Granskning snart dags"
 
-#: app/Admin/RowActions.php:46 resources/assets/js/editor/PageHeader.tsx:67
+#: app/Admin/RowActions.php:48 resources/assets/js/editor/PageHeader.tsx:67
 msgid "Mark reviewed"
 msgstr "Markera som granskad"
 
-#: app/Admin/RowActions.php:57
+#: app/Admin/RowActions.php:59
 msgid "Invalid request."
 msgstr "Ogiltig begäran."
 
-#: app/Admin/RowActions.php:63
+#: app/Admin/RowActions.php:65
 msgid "You do not have permission to mark this page as reviewed."
 msgstr "Du har inte behörighet att markera den här sidan som granskad."
 
 #. translators: %s = page title
-#: app/Admin/RowActions.php:89
+#: app/Admin/RowActions.php:91
 #, php-format
 msgid "Marked \"%s\" as reviewed."
 msgstr "Markerade \"%s\" som granskad."
@@ -141,11 +142,37 @@ msgstr ""
 msgid "A scan is already in progress."
 msgstr ""
 
-#: app/Rest/MarkReviewedController.php:45
+#. translators: %s: site name
+#: app/Notifications/EmailRenderer.php:87
+#, php-format
+msgid " on %s"
+msgstr " på %s"
+
+#. translators: 1: overdue page count, 2: upcoming page count, 3: site suffix
+#: app/Notifications/EmailRenderer.php:95
+#, php-format
+msgid "[Content review] %1$d overdue, %2$d upcoming%3$s"
+msgstr "[Innehållsgranskning] %1$d försenade, %2$d kommande%3$s"
+
+#: app/Notifications/EmailRenderer.php:104
+#, php-format
+msgid "[Content review] %1$d page overdue%2$s"
+msgid_plural "[Content review] %1$d pages overdue%2$s"
+msgstr[0] "[Innehållsgranskning] %1$d sida försenad%2$s"
+msgstr[1] "[Innehållsgranskning] %1$d sidor försenade%2$s"
+
+#: app/Notifications/EmailRenderer.php:116
+#, php-format
+msgid "[Content review] %1$d page upcoming%2$s"
+msgid_plural "[Content review] %1$d pages upcoming%2$s"
+msgstr[0] "[Innehållsgranskning] %1$d kommande sida%2$s"
+msgstr[1] "[Innehållsgranskning] %1$d kommande sidor%2$s"
+
+#: app/Rest/MarkReviewedController.php:47
 msgid "You must be logged in to mark a page as reviewed."
 msgstr "Du måste vara inloggad för att markera en sida som granskad."
 
-#: app/Rest/PageRuleController.php:73
+#: app/Rest/PageRuleController.php:75
 msgid "Request body must be a JSON object."
 msgstr "Begäransinnehållet måste vara ett JSON-objekt."
 
@@ -157,8 +184,85 @@ msgstr ""
 "Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i "
 "plugin-katalogen."
 
+#: resources/views/emails/digest.html.php:21
+#: resources/views/emails/digest.text.php:26
+#: resources/assets/js/editor/SidebarPanel.tsx:17
+msgid "Upcoming"
+msgstr "Kommande"
+
+#: resources/views/emails/digest.html.php:56
+msgid "Page"
+msgstr "Sida"
+
+#: resources/views/emails/digest.html.php:57
+#: resources/assets/js/editor/SidebarPanel.tsx:114
+msgid "Status"
+msgstr "Status"
+
+#: resources/views/emails/digest.html.php:58
+#: resources/assets/js/editor/SidebarPanel.tsx:126
+msgid "Next review"
+msgstr "Nästa granskning"
+
+#. translators: 1: recipient email, 2: linked site name
+#: resources/views/emails/digest.html.php:101
+#, php-format
+msgid "Hello %1$s, the following pages on %2$s need your attention."
+msgstr "Hej %1$s, följande sidor på %2$s behöver din uppmärksamhet."
+
+#. translators: %d: overdue page count
+#: resources/views/emails/digest.html.php:112
+#: resources/views/emails/digest.text.php:79
+msgid "Overdue (%d)"
+msgstr "Försenade (%d)"
+
+#. translators: %d: upcoming page count
+#: resources/views/emails/digest.html.php:123
+#: resources/views/emails/digest.text.php:90
+msgid "Upcoming (%d)"
+msgstr "Kommande (%d)"
+
+#. translators: %s: WordPress dashboard link
+#: resources/views/emails/digest.html.php:137
+#, php-format
+msgid "Sign in to the %s to review your pages."
+msgstr "Logga in i %s för att granska dina sidor."
+
+#: resources/views/emails/digest.html.php:138
+msgid "WordPress dashboard"
+msgstr "WordPress-administrationen"
+
+#: resources/views/emails/digest.html.php:141
+#: resources/views/emails/digest.text.php:106
+msgid "This message was sent by the Content Ownership plugin."
+msgstr "Detta meddelande skickades av pluginet Content Ownership."
+
+#: resources/views/emails/digest.text.php:58
+msgid "Edit:"
+msgstr "Redigera:"
+
+#: resources/views/emails/digest.text.php:59
+msgid "Status:"
+msgstr "Status"
+
+#: resources/views/emails/digest.text.php:60
+msgid "Next review:"
+msgstr "Nästa granskning"
+
+#. translators: 1: recipient email, 2: site name, 3: site URL
+#: resources/views/emails/digest.text.php:69
+#, php-format
+msgid "Hello %1$s, the following pages on %2$s (%3$s) need your attention."
+msgstr "Hej %1$s, följande sidor på %2$s (%3$s) behöver din uppmärksamhet."
+
+#. translators: %s: WordPress admin URL
+#: resources/views/emails/digest.text.php:102
+#, php-format
+msgid "Sign in to the WordPress dashboard to review your pages: %s"
+msgstr "Logga in i WordPress-administrationen för att granska dina sidor: %s"
+
 #: resources/views/header.php:23
-#: resources/assets/js/editor/SidebarPanel.tsx:159
+#: resources/assets/js/editor/SidebarPanel.tsx:178
 msgid "Content ownership"
 msgstr "Innehållsägarskap"
 
@@ -167,14 +271,14 @@ msgid "This page requires JavaScript."
 msgstr "Den här sidan kräver JavaScript."
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:10
-#: resources/assets/js/editor/SidebarPanel.tsx:121
+#: resources/assets/js/editor/SidebarPanel.tsx:140
 #: resources/assets/js/tree/inheritanceLabels.ts:4
 msgid "Review interval"
 msgstr "Granskningsintervall"
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:21
 #: resources/assets/js/editor/fields/NotifyBeforeField.tsx:21
-#: resources/assets/js/editor/SidebarPanel.tsx:122
+#: resources/assets/js/editor/SidebarPanel.tsx:141
 msgid "%d days"
 msgstr "%d dagar"
 
@@ -204,7 +308,7 @@ msgstr ""
 "granskningsdatumet."
 
 #: resources/assets/js/editor/fields/RecipientsField.tsx:17
-#: resources/assets/js/editor/SidebarPanel.tsx:129
+#: resources/assets/js/editor/SidebarPanel.tsx:148
 #: resources/assets/js/tree/inheritanceLabels.ts:5
 msgid "Who to notify"
 msgstr "Vem ska aviseras"
@@ -224,7 +328,7 @@ msgid "nobody configured"
 msgstr "ingen konfigurerad"
 
 #: resources/assets/js/editor/fields/RecipientsField.tsx:31
-#: resources/assets/js/editor/SidebarPanel.tsx:130
+#: resources/assets/js/editor/SidebarPanel.tsx:149
 msgid "%d recipient(s)"
 msgstr "%d mottagare"
 
@@ -348,7 +452,7 @@ msgid "Never reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/PageHeader.tsx:62
-#: resources/assets/js/editor/SidebarPanel.tsx:82
+#: resources/assets/js/editor/SidebarPanel.tsx:101
 msgid "Marked as reviewed."
 msgstr "Markerade \"%s\" som granskad."
 
@@ -439,36 +543,24 @@ msgstr "Inga användare hittades."
 msgid "Users"
 msgstr "Användare"
 
-#: resources/assets/js/editor/SidebarPanel.tsx:17
-msgid "Upcoming"
-msgstr "Kommande"
-
 #: resources/assets/js/editor/SidebarPanel.tsx:36
 msgid "Never"
 msgstr "Aldrig"
 
-#: resources/assets/js/editor/SidebarPanel.tsx:95
-msgid "Status"
-msgstr "Status"
-
-#: resources/assets/js/editor/SidebarPanel.tsx:107
-msgid "Next review"
-msgstr "Nästa granskning"
-
-#: resources/assets/js/editor/SidebarPanel.tsx:114
+#: resources/assets/js/editor/SidebarPanel.tsx:133
 msgid "Last reviewed"
 msgstr "Markera som granskad"
 
-#: resources/assets/js/editor/SidebarPanel.tsx:130
+#: resources/assets/js/editor/SidebarPanel.tsx:149
 msgid "Nobody configured"
 msgstr "Ingen konfigurerad"
 
-#: resources/assets/js/editor/SidebarPanel.tsx:139
+#: resources/assets/js/editor/SidebarPanel.tsx:158
 #: resources/assets/js/general/GeneralSettingsTab.tsx:172
 msgid "Mark as reviewed"
 msgstr "Markera som granskad"
 
-#: resources/assets/js/editor/SidebarPanel.tsx:149
+#: resources/assets/js/editor/SidebarPanel.tsx:168
 msgid "Open content ownership settings"
 msgstr "Öppna inställningar för innehållsägarskap"
 
