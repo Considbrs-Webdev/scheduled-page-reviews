@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-21T21:31:00+02:00\n"
+"POT-Creation-Date: 2026-05-25T08:37:58+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: content-ownership\n"
@@ -122,6 +122,27 @@ msgstr ""
 msgid "Marked \"%s\" as reviewed."
 msgstr ""
 
+#. translators: %s: run id
+#: app/Cli/ScanCommand.php:44
+#, php-format
+msgid "Background scan scheduled (run %s). Execute due WP-Cron events to process batches."
+msgstr ""
+
+#. translators: 1: pages processed, 2: notifications queued, 3: emails sent
+#: app/Cli/ScanCommand.php:55
+#, php-format
+msgid "Scan complete — %1$d pages processed, %2$d queued for notification, %3$d emails sent."
+msgstr ""
+
+#: app/Cron/ScheduleManager.php:45
+msgid "Once Weekly"
+msgstr ""
+
+#: app/Cron/Scheduler.php:43
+#: app/Cron/Scheduler.php:93
+msgid "A scan is already in progress."
+msgstr ""
+
 #: app/Rest/MarkReviewedController.php:45
 msgid "You must be logged in to mark a page as reviewed."
 msgstr ""
@@ -134,16 +155,13 @@ msgstr ""
 msgid "Content Ownership: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
 msgstr ""
 
+#: resources/views/header.php:23
+#: resources/assets/js/editor/SidebarPanel.tsx:159
+msgid "Content ownership"
+msgstr ""
+
 #: resources/views/settings-page.php:16
 msgid "This page requires JavaScript."
-msgstr ""
-
-#: resources/assets/js/App.tsx:24
-msgid "Pages"
-msgstr ""
-
-#: resources/assets/js/App.tsx:24
-msgid "General settings"
 msgstr ""
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:10
@@ -259,18 +277,21 @@ msgid "Failed to save."
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:202
+#: resources/assets/js/general/GeneralSettingsTab.tsx:217
+#: resources/assets/js/schedule/ScheduleTab.tsx:189
 msgid "Reset"
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:75
 #: resources/assets/js/editor/PageHeader.tsx:67
-#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+#: resources/assets/js/general/GeneralSettingsTab.tsx:225
+#: resources/assets/js/schedule/ScheduleTab.tsx:190
 msgid "Saving…"
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+#: resources/assets/js/general/GeneralSettingsTab.tsx:225
+#: resources/assets/js/schedule/ScheduleTab.tsx:190
 msgid "Save changes"
 msgstr ""
 
@@ -431,17 +452,12 @@ msgid "Nobody configured"
 msgstr ""
 
 #: resources/assets/js/editor/SidebarPanel.tsx:139
-#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+#: resources/assets/js/general/GeneralSettingsTab.tsx:172
 msgid "Mark as reviewed"
 msgstr ""
 
 #: resources/assets/js/editor/SidebarPanel.tsx:149
 msgid "Open content ownership settings"
-msgstr ""
-
-#: resources/assets/js/editor/SidebarPanel.tsx:159
-#: resources/assets/js/layout/Header.tsx:7
-msgid "Content ownership"
 msgstr ""
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:37
@@ -452,124 +468,122 @@ msgstr ""
 msgid "Could not save settings."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:96
+#: resources/assets/js/general/GeneralSettingsTab.tsx:93
 msgid "Loading settings…"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+#: resources/assets/js/general/GeneralSettingsTab.tsx:96
 msgid "Failed to load settings:"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
 msgid "Review intervals"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
 msgid "How often pages must be reviewed and when reminders go out."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+#: resources/assets/js/general/GeneralSettingsTab.tsx:107
 msgid "Default review interval (days)"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+#: resources/assets/js/general/GeneralSettingsTab.tsx:116
 msgid "Used when a page has no rule of its own."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+#: resources/assets/js/general/GeneralSettingsTab.tsx:123
 msgid "Notify days before"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+#: resources/assets/js/general/GeneralSettingsTab.tsx:132
 msgid "Window in which a page is \"due soon\"."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+#: resources/assets/js/general/GeneralSettingsTab.tsx:134
 msgid "Reminders"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+#: resources/assets/js/general/GeneralSettingsTab.tsx:134
 msgid "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:127
+#: resources/assets/js/general/GeneralSettingsTab.tsx:142
 msgid "Send reminders after due date"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:133
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
 msgid "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+#: resources/assets/js/general/GeneralSettingsTab.tsx:158
 msgid "Reminder cadence (days)"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
 msgid "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+#: resources/assets/js/general/GeneralSettingsTab.tsx:172
 msgid "What happens when someone marks a page as reviewed. Plugin review meta is always stored."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:156
+#: resources/assets/js/general/GeneralSettingsTab.tsx:180
 msgid "Update WordPress last modified date"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:162
+#: resources/assets/js/general/GeneralSettingsTab.tsx:186
 msgid "Also updates the post's modified timestamp (shown as \"updated\" on the front-end). Does not create a new revision."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+#: resources/assets/js/general/GeneralSettingsTab.tsx:191
 msgid "Default recipients"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+#: resources/assets/js/general/GeneralSettingsTab.tsx:191
 msgid "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:175
+#: resources/assets/js/general/GeneralSettingsTab.tsx:199
 msgid "Default recipient emails"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:179
+#: resources/assets/js/general/GeneralSettingsTab.tsx:204
 msgid "alerts@example.com, ops@example.com"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:182
+#: resources/assets/js/general/GeneralSettingsTab.tsx:207
 msgid "Separate multiple addresses with commas or whitespace."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:184
-msgid "Performance"
+#: resources/assets/js/layout/AppHeader.tsx:14
+msgid "Main navigation"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:184
-msgid "Tune how aggressively cron scans the site."
+#: resources/assets/js/layout/AppHeader.tsx:16
+msgid "Pages"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:189
-msgid "Cron batch size"
+#: resources/assets/js/layout/AppHeader.tsx:17
+msgid "Settings"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:189
-msgid "Pages processed per cron tick. Larger values finish full scans faster but use more memory."
+#. translators: 1: pages processed, 2: emails sent
+#: resources/assets/js/layout/RunScanButton.tsx:19
+#, js-format
+msgid "Scan complete — %1$d pages processed, %2$d emails sent."
 msgstr ""
 
-#: resources/assets/js/layout/Header.tsx:7
-msgid "Manage page review intervals, notification recipients and hierarchical inheritance for the whole site."
+#: resources/assets/js/layout/RunScanButton.tsx:28
+msgid "Failed to run scan."
 msgstr ""
 
-#: resources/assets/js/layout/RunCronButton.tsx:16
-msgid "Cron run queued."
+#: resources/assets/js/layout/RunScanButton.tsx:33
+msgid "Scanning…"
 msgstr ""
 
-#: resources/assets/js/layout/RunCronButton.tsx:18
-msgid "Failed to start cron."
-msgstr ""
-
-#: resources/assets/js/layout/RunCronButton.tsx:23
-msgid "Run cron now"
+#: resources/assets/js/layout/RunScanButton.tsx:33
+msgid "Run scan now"
 msgstr ""
 
 #: resources/assets/js/lib/format.ts:15
@@ -577,7 +591,112 @@ msgid "today"
 msgstr ""
 
 #: resources/assets/js/lib/navigation.ts:9
+#: resources/assets/js/settings/SettingsTab.tsx:8
 msgid "You have unsaved changes. Discard them and leave this page?"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:44
+msgid "Run scan immediately (recommended when WP-Cron is disabled)"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:50
+msgid "Background mode (schedules batched ticks via WP-Cron)"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:56
+msgid "Server crontab — sync scan daily at 22:00"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:62
+msgid "Alternative: background kickoff + execute due WP events"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:71
+msgid "Not scheduled"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:83
+msgid "Schedule settings saved."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:85
+msgid "Could not save schedule settings."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:120
+msgid "Loading schedule settings…"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:124
+msgid "WP Cron"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:124
+msgid "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:132
+msgid "Automatic scan"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:132
+msgid "Schedule a recurring scan via WordPress cron."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Scan frequency"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Daily"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Weekly"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "How often the scheduled scan is registered."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:146
+msgid "Scan time"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:154
+msgid "Time of day to register the scan (server time)."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:161
+msgid "Batch size"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:170
+msgid "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:175
+msgid "Next scheduled:"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:175
+msgid "WP-Cron is disabled on this site. Scheduled scans require something to execute due events (for example wp cron event run --due-now from server crontab), or use the WP-CLI examples below."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:178
+msgid "WP-CLI & server crontab"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:178
+msgid "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled."
+msgstr ""
+
+#: resources/assets/js/settings/SettingsTab.tsx:29
+msgid "General"
+msgstr ""
+
+#: resources/assets/js/settings/SettingsTab.tsx:29
+msgid "Schedule"
 msgstr ""
 
 #. translators: %s: comma-separated field labels

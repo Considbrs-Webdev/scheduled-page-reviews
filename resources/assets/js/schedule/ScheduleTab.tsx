@@ -46,18 +46,32 @@ import {
   type ScheduleSettingsFormValues,
 } from "./schema";
 
-const CLI_EXAMPLES = `# Run scan immediately (recommended when WP-Cron is disabled)
+function cliExamples(): string {
+  return `# ${__(
+    "Run scan immediately (recommended when WP-Cron is disabled)",
+    "content-ownership",
+  )}
 wp content-ownership scan
 
-# Background mode (schedules batched ticks via WP-Cron)
+# ${__(
+  "Background mode (schedules batched ticks via WP-Cron)",
+  "content-ownership",
+)}
 wp content-ownership scan --background
 
-# Server crontab — sync scan daily at 22:00
+# ${__(
+  "Server crontab — sync scan daily at 22:00",
+  "content-ownership",
+)}
 0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan
 
-# Alternative: background kickoff + execute due WP events
+# ${__(
+  "Alternative: background kickoff + execute due WP events",
+  "content-ownership",
+)}
 0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan --background
 * * * * * cd /path/to/wordpress && wp --path=wp cron event run --due-now`;
+}
 
 function formatNextScheduled(iso: string | null, locale: string): string {
   if (!iso) {
@@ -261,7 +275,7 @@ export function ScheduleTab() {
           </CardHeader>
           <CardContent>
             <pre className="overflow-x-auto rounded-xl bg-zinc-950 p-4 text-xs text-zinc-100">
-              <code>{CLI_EXAMPLES}</code>
+              <code>{cliExamples()}</code>
             </pre>
           </CardContent>
         </Card>

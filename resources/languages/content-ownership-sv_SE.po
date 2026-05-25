@@ -3,20 +3,13 @@
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Content Ownership 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/content-"
-"ownership\n"
-"POT-Creation-Date: 2026-05-21T21:31:00+02:00\n"
-"PO-Revision-Date: 2026-05-21 21:30+0200\n"
-"Last-Translator: William Undqvist\n"
-"Language-Team: Swedish\n"
-"Language: sv_SE\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: manual\n"
-"X-Domain: content-ownership\n"
+"Project-Id-Version: Content Ownership 0.1.0\nReport-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/content-ownership\nPOT-Creation-Date: "
+"2026-05-25T08:37:58+02:00\nPO-Revision-Date: 2026-05-21 "
+"21:30+0200\nLast-Translator: William Undqvist\nLanguage-Team: "
+"Swedish\nLanguage: sv_SE\nMIME-Version: 1.0\nContent-Type: text/plain; "
+"charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; "
+"plural=(n != 1);\nX-Generator: manual\nX-Domain: content-ownership\n"
 
 #. Plugin Name of the plugin
 #: content-ownership.php app/Admin/SettingsPage.php:28
@@ -35,8 +28,8 @@ msgid ""
 "Per-page review intervals, content ownership, inheritance, batched cron "
 "notifications, and a React-based page-tree admin UI."
 msgstr ""
-"Granskningsintervall per sida, innehållsägarskap, arv, samlade cron-"
-"aviseringar och ett React-baserat sidträd i admin."
+"Granskningsintervall per sida, innehållsägarskap, arv, samlade "
+"cron-aviseringar och ett React-baserat sidträd i admin."
 
 #. Author of the plugin
 #: content-ownership.php
@@ -87,16 +80,16 @@ msgstr "ska granskas idag"
 #, php-format
 msgid "%d day overdue"
 msgid_plural "%d days overdue"
-msgstr[0] "%d dag försenad"
-msgstr[1] "%d dagar försenade"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %d = number of days
 #: app/Admin/DashboardWidget.php:196
 #, php-format
 msgid "due in %d day"
 msgid_plural "due in %d days"
-msgstr[0] "ska granskas om %d dag"
-msgstr[1] "ska granskas om %d dagar"
+msgstr[0] ""
+msgstr[1] ""
 
 #: app/Admin/PostStates.php:66 resources/assets/js/editor/PageHeader.tsx:20
 msgid "Review overdue"
@@ -124,6 +117,30 @@ msgstr "Du har inte behörighet att markera den här sidan som granskad."
 msgid "Marked \"%s\" as reviewed."
 msgstr "Markerade \"%s\" som granskad."
 
+#. translators: %s: run id
+#: app/Cli/ScanCommand.php:44
+#, php-format
+msgid ""
+"Background scan scheduled (run %s). Execute due WP-Cron events to process "
+"batches."
+msgstr ""
+
+#. translators: 1: pages processed, 2: notifications queued, 3: emails sent
+#: app/Cli/ScanCommand.php:55
+#, php-format
+msgid ""
+"Scan complete — %1$d pages processed, %2$d queued for notification, %3$d "
+"emails sent."
+msgstr ""
+
+#: app/Cron/ScheduleManager.php:45
+msgid "Once Weekly"
+msgstr ""
+
+#: app/Cron/Scheduler.php:43 app/Cron/Scheduler.php:93
+msgid "A scan is already in progress."
+msgstr ""
+
 #: app/Rest/MarkReviewedController.php:45
 msgid "You must be logged in to mark a page as reviewed."
 msgstr "Du måste vara inloggad för att markera en sida som granskad."
@@ -140,31 +157,26 @@ msgstr ""
 "Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i "
 "plugin-katalogen."
 
+#: resources/views/header.php:23
+#: resources/assets/js/editor/SidebarPanel.tsx:159
+msgid "Content ownership"
+msgstr "Innehållsägarskap"
+
 #: resources/views/settings-page.php:16
 msgid "This page requires JavaScript."
 msgstr "Den här sidan kräver JavaScript."
 
-#: resources/assets/js/App.tsx:24
-msgid "Pages"
-msgstr "Sidor"
-
-#: resources/assets/js/App.tsx:24
-msgid "General settings"
-msgstr "Allmänna inställningar"
-
 #: resources/assets/js/editor/fields/IntervalField.tsx:10
 #: resources/assets/js/editor/SidebarPanel.tsx:121
 #: resources/assets/js/tree/inheritanceLabels.ts:4
-#, fuzzy
 msgid "Review interval"
-msgstr "Granskning försenad"
+msgstr "Granskningsintervall"
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:21
 #: resources/assets/js/editor/fields/NotifyBeforeField.tsx:21
 #: resources/assets/js/editor/SidebarPanel.tsx:122
-#, fuzzy
 msgid "%d days"
-msgstr "ska granskas om %d dag"
+msgstr "%d dagar"
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:23
 msgid "Days between reviews"
@@ -188,6 +200,8 @@ msgid ""
 "Show \"due soon\" in the dashboard widget this many days before the review "
 "date."
 msgstr ""
+"Visa \"snart dags\" i instrumentpanelen så här många dagar före "
+"granskningsdatumet."
 
 #: resources/assets/js/editor/fields/RecipientsField.tsx:17
 #: resources/assets/js/editor/SidebarPanel.tsx:129
@@ -201,6 +215,9 @@ msgid ""
 "review reminders and see these pages in their dashboard. Standalone email "
 "addresses receive reminders only."
 msgstr ""
+"Lägg till WordPress-användare, grupper eller e-postadresser. Användare och "
+"grupper får påminnelser och ser sidorna i sin instrumentpanel. Fristående "
+"e-post får endast påminnelser."
 
 #: resources/assets/js/editor/fields/RecipientsField.tsx:31
 msgid "nobody configured"
@@ -231,6 +248,7 @@ msgstr "Åsidosätt endast på den här sidan"
 msgid ""
 "Replace the inherited value here. Descendants keep inheriting from above."
 msgstr ""
+"Ersätt det ärvda värdet här. Underliggande sidor fortsätter ärva ovanifrån."
 
 #: resources/assets/js/editor/InheritanceRadio.tsx:41
 msgid "Override and apply to subpages"
@@ -241,6 +259,8 @@ msgid ""
 "Replace the inherited value here AND become the new inherited value for "
 "descendants."
 msgstr ""
+"Ersätt det ärvda värdet här OCH bli det nya arvvärdet för underliggande "
+"sidor."
 
 #: resources/assets/js/editor/InheritedFrom.tsx:5
 msgid "Global default:"
@@ -255,7 +275,8 @@ msgstr "Ärvs från sida #%d:"
 msgid ""
 "Select a page from the tree to view and edit its content-ownership rule."
 msgstr ""
-"Välj en sida i trädet för att visa och redigera regeln för innehållsägarskap."
+"Välj en sida i trädet för att visa och redigera regeln för "
+"innehållsägarskap."
 
 #: resources/assets/js/editor/PageDetail.tsx:50
 msgid "Loading page rule…"
@@ -274,18 +295,21 @@ msgid "Failed to save."
 msgstr "Kunde inte spara."
 
 #: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:202
+#: resources/assets/js/general/GeneralSettingsTab.tsx:217
+#: resources/assets/js/schedule/ScheduleTab.tsx:189
 msgid "Reset"
 msgstr "Återställ"
 
 #: resources/assets/js/editor/PageDetail.tsx:75
 #: resources/assets/js/editor/PageHeader.tsx:67
-#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+#: resources/assets/js/general/GeneralSettingsTab.tsx:225
+#: resources/assets/js/schedule/ScheduleTab.tsx:190
 msgid "Saving…"
 msgstr "Sparar…"
 
 #: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:210
+#: resources/assets/js/general/GeneralSettingsTab.tsx:225
+#: resources/assets/js/schedule/ScheduleTab.tsx:190
 msgid "Save changes"
 msgstr "Spara ändringar"
 
@@ -316,18 +340,15 @@ msgstr "Nästa granskning %1$s (%2$s)"
 
 #. translators: %s: relative date
 #: resources/assets/js/editor/PageHeader.tsx:52
-#, fuzzy
 msgid "Last reviewed %s"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/PageHeader.tsx:54
-#, fuzzy
 msgid "Never reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/PageHeader.tsx:62
 #: resources/assets/js/editor/SidebarPanel.tsx:82
-#, fuzzy
 msgid "Marked as reviewed."
 msgstr "Markerade \"%s\" som granskad."
 
@@ -435,7 +456,6 @@ msgid "Next review"
 msgstr "Nästa granskning"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:114
-#, fuzzy
 msgid "Last reviewed"
 msgstr "Markera som granskad"
 
@@ -444,21 +464,13 @@ msgid "Nobody configured"
 msgstr "Ingen konfigurerad"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:139
-#: resources/assets/js/general/GeneralSettingsTab.tsx:148
-#, fuzzy
+#: resources/assets/js/general/GeneralSettingsTab.tsx:172
 msgid "Mark as reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:149
-#, fuzzy
 msgid "Open content ownership settings"
-msgstr "Öppna inställningar för innehållsägarskap →"
-
-#: resources/assets/js/editor/SidebarPanel.tsx:159
-#: resources/assets/js/layout/Header.tsx:7
-#, fuzzy
-msgid "Content ownership"
-msgstr "Innehållsägarskap"
+msgstr "Öppna inställningar för innehållsägarskap"
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:37
 msgid "Global settings saved."
@@ -468,155 +480,282 @@ msgstr "Globala inställningar sparade."
 msgid "Could not save settings."
 msgstr "Kunde inte spara inställningarna."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:96
+#: resources/assets/js/general/GeneralSettingsTab.tsx:93
 msgid "Loading settings…"
 msgstr "Läser in inställningar…"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+#: resources/assets/js/general/GeneralSettingsTab.tsx:96
 msgid "Failed to load settings:"
 msgstr "Kunde inte läsa in inställningarna:"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:102
-#, fuzzy
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
 msgid "Review intervals"
-msgstr "Granskning försenad"
+msgstr "Granskningsintervall"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:102
+#: resources/assets/js/general/GeneralSettingsTab.tsx:99
 msgid "How often pages must be reviewed and when reminders go out."
 msgstr "Hur ofta sidor ska granskas och när påminnelser skickas."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+#: resources/assets/js/general/GeneralSettingsTab.tsx:107
 msgid "Default review interval (days)"
 msgstr "Standardgranskningsintervall (dagar)"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:110
+#: resources/assets/js/general/GeneralSettingsTab.tsx:116
 msgid "Used when a page has no rule of its own."
 msgstr "Används när en sida saknar egen regel."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+#: resources/assets/js/general/GeneralSettingsTab.tsx:123
 msgid "Notify days before"
 msgstr "Avisera dagar före"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:117
+#: resources/assets/js/general/GeneralSettingsTab.tsx:132
 msgid "Window in which a page is \"due soon\"."
 msgstr "Fönster då en sida är \"snart dags\"."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+#: resources/assets/js/general/GeneralSettingsTab.tsx:134
 msgid "Reminders"
 msgstr "Påminnelser"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:119
+#: resources/assets/js/general/GeneralSettingsTab.tsx:134
 msgid ""
 "Control repeat emails while a page stays due or overdue. Marking a page "
 "reviewed starts a new cycle."
 msgstr ""
+"Styr upprepade e-postmeddelanden medan en sida är förfallen eller försenad. "
+"Att markera en sida granskad startar en ny cykel."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:127
+#: resources/assets/js/general/GeneralSettingsTab.tsx:142
 msgid "Send reminders after due date"
 msgstr "Skicka påminnelser efter förfallodatum"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:133
+#: resources/assets/js/general/GeneralSettingsTab.tsx:148
 msgid ""
 "When off, each page is included in at most one digest per review cycle "
 "(until marked reviewed). When on, overdue pages can appear again after the "
 "cadence interval."
 msgstr ""
+"Av: varje sida ingår högst en gång per granskningscykel (tills den "
+"markerats granskad). På: försenade sidor kan visas igen efter "
+"påminnelseintervallet."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+#: resources/assets/js/general/GeneralSettingsTab.tsx:158
 msgid "Reminder cadence (days)"
 msgstr "Påminnelseintervall (dagar)"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:143
+#: resources/assets/js/general/GeneralSettingsTab.tsx:167
 msgid ""
 "Minimum days before the same overdue page can appear in another digest. "
 "Currently tracked per page, not per recipient — see README."
 msgstr ""
+"Minsta antal dagar innan samma försenade sida kan visas i ett nytt utskick. "
+"Spåras per sida, inte per mottagare — se README."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+#: resources/assets/js/general/GeneralSettingsTab.tsx:172
 msgid ""
 "What happens when someone marks a page as reviewed. Plugin review meta is "
 "always stored."
 msgstr ""
+"Vad som händer när någon markerar en sida som granskad. Pluginets "
+"granskningsmetadata sparas alltid."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:156
+#: resources/assets/js/general/GeneralSettingsTab.tsx:180
 msgid "Update WordPress last modified date"
 msgstr "Uppdatera WordPress senast ändrad"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:162
+#: resources/assets/js/general/GeneralSettingsTab.tsx:186
 msgid ""
 "Also updates the post's modified timestamp (shown as \"updated\" on the "
 "front-end). Does not create a new revision."
 msgstr ""
+"Uppdaterar även inläggets ändringstidpunkt (visas som \"uppdaterad\" på "
+"webbplatsen). Skapar ingen ny revision."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+#: resources/assets/js/general/GeneralSettingsTab.tsx:191
 msgid "Default recipients"
 msgstr "Standardmottagare"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+#: resources/assets/js/general/GeneralSettingsTab.tsx:191
 msgid ""
 "Recipients used as a fallback when no per-page or inherited recipient is "
 "set. Email addresses only here for now; per-page rules support users and "
 "roles too."
 msgstr ""
+"Mottagare som reserv när ingen sida- eller ärvd mottagare finns. Endast "
+"e-postadresser här för tillfället; sidregler stödjer även användare och "
+"roller."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:175
+#: resources/assets/js/general/GeneralSettingsTab.tsx:199
 msgid "Default recipient emails"
 msgstr "Standardmottagare (e-post)"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:179
+#: resources/assets/js/general/GeneralSettingsTab.tsx:204
 msgid "alerts@example.com, ops@example.com"
 msgstr "varningar@exempel.se, drift@exempel.se"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:182
+#: resources/assets/js/general/GeneralSettingsTab.tsx:207
 msgid "Separate multiple addresses with commas or whitespace."
 msgstr "Separera flera adresser med kommatecken eller blanksteg."
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:184
-msgid "Performance"
-msgstr "Prestanda"
+#: resources/assets/js/layout/AppHeader.tsx:14
+msgid "Main navigation"
+msgstr "Huvudnavigering"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:184
-msgid "Tune how aggressively cron scans the site."
-msgstr "Styr hur aggressivt cron skannar webbplatsen."
+#: resources/assets/js/layout/AppHeader.tsx:16
+msgid "Pages"
+msgstr "Sidor"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:189
-msgid "Cron batch size"
-msgstr "Cron-batchstorlek"
+#: resources/assets/js/layout/AppHeader.tsx:17
+msgid "Settings"
+msgstr "Inställningar"
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:189
-msgid ""
-"Pages processed per cron tick. Larger values finish full scans faster but "
-"use more memory."
-msgstr ""
+#. translators: 1: pages processed, 2: emails sent
+#: resources/assets/js/layout/RunScanButton.tsx:19
+msgid "Scan complete — %1$d pages processed, %2$d emails sent."
+msgstr "Skanning klar — %1$d sidor bearbetade, %2$d e-post skickade."
 
-#: resources/assets/js/layout/Header.tsx:7
-msgid ""
-"Manage page review intervals, notification recipients and hierarchical "
-"inheritance for the whole site."
-msgstr ""
-"Hantera granskningsintervall, aviseringsmottagare och hierariskt arv för hela "
-"webbplatsen."
+#: resources/assets/js/layout/RunScanButton.tsx:28
+msgid "Failed to run scan."
+msgstr "Kunde inte köra skanning."
 
-#: resources/assets/js/layout/RunCronButton.tsx:16
-msgid "Cron run queued."
-msgstr "Cron-körning köad."
+#: resources/assets/js/layout/RunScanButton.tsx:33
+msgid "Scanning…"
+msgstr "Skannar…"
 
-#: resources/assets/js/layout/RunCronButton.tsx:18
-msgid "Failed to start cron."
-msgstr "Kunde inte starta cron."
-
-#: resources/assets/js/layout/RunCronButton.tsx:23
-msgid "Run cron now"
-msgstr "Kör cron nu"
+#: resources/assets/js/layout/RunScanButton.tsx:33
+msgid "Run scan now"
+msgstr "Kör skanning nu"
 
 #: resources/assets/js/lib/format.ts:15
-#, fuzzy
 msgid "today"
-msgstr "ska granskas idag"
+msgstr "idag"
 
 #: resources/assets/js/lib/navigation.ts:9
+#: resources/assets/js/settings/SettingsTab.tsx:8
 msgid "You have unsaved changes. Discard them and leave this page?"
 msgstr "Du har osparade ändringar. Kasta dem och lämna sidan?"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:44
+msgid "Run scan immediately (recommended when WP-Cron is disabled)"
+msgstr "Kör skanning direkt (rekommenderas när WP-Cron är inaktiverat)"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:50
+msgid "Background mode (schedules batched ticks via WP-Cron)"
+msgstr "Bakgrundsläge (schemalägger batchade tick via WP-Cron)"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:56
+msgid "Server crontab — sync scan daily at 22:00"
+msgstr "Server-crontab — synkron skanning dagligen kl. 22:00"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:62
+msgid "Alternative: background kickoff + execute due WP events"
+msgstr "Alternativ: bakgrundstart + kör förfallna WP-händelser"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:71
+msgid "Not scheduled"
+msgstr "Inte schemalagd"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:83
+msgid "Schedule settings saved."
+msgstr "Schemainställningar sparade."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:85
+msgid "Could not save schedule settings."
+msgstr "Kunde inte spara schemainställningarna."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:120
+msgid "Loading schedule settings…"
+msgstr "Läser in schemainställningar…"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:124
+msgid "WP Cron"
+msgstr "WP Cron"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:124
+msgid ""
+"Registers an automatic scan in WordPress at the chosen time. This schedules "
+"the scan — it does not run until something executes scheduled WP events."
+msgstr ""
+"Registrerar en automatisk skanning i WordPress vid vald tid. Detta "
+"schemalägger skanningen — den körs inte förrän något kör schemalagda "
+"WP-händelser."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:132
+msgid "Automatic scan"
+msgstr "Automatisk skanning"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:132
+msgid "Schedule a recurring scan via WordPress cron."
+msgstr "Schemalägg en återkommande skanning via WordPress cron."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Scan frequency"
+msgstr "Skanningsfrekvens"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Daily"
+msgstr "Daglig"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "Weekly"
+msgstr "Veckovis"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:139
+msgid "How often the scheduled scan is registered."
+msgstr "Hur ofta den schemalagda skanningen registreras."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:146
+msgid "Scan time"
+msgstr "Skanningstid"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:154
+msgid "Time of day to register the scan (server time)."
+msgstr "Tid på dagen då skanningen registreras (servertid)."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:161
+msgid "Batch size"
+msgstr "Batchstorlek"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:170
+msgid ""
+"Pages processed per background tick. Larger values finish scheduled scans "
+"faster but use more memory."
+msgstr ""
+"Sidor som bearbetas per bakgrundstick. Större värden ger snabbare "
+"schemalagda skanningar men mer minne."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:175
+msgid "Next scheduled:"
+msgstr "Nästa schemalagd:"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:175
+msgid ""
+"WP-Cron is disabled on this site. Scheduled scans require something to "
+"execute due events (for example wp cron event run --due-now from server "
+"crontab), or use the WP-CLI examples below."
+msgstr ""
+"WP-Cron är inaktiverat på den här webbplatsen. Schemalagda skanningar "
+"kräver att något kör förfallna händelser (t.ex. wp cron event run --due-now "
+"från server-crontab), eller använd WP-CLI-exemplen nedan."
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:178
+msgid "WP-CLI & server crontab"
+msgstr "WP-CLI och server-crontab"
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:178
+msgid ""
+"Run scans from the command line or server crontab for reliable execution — "
+"especially when WP-Cron is disabled."
+msgstr ""
+"Kör skanningar från kommandoraden eller server-crontab för tillförlitlig "
+"körning — särskilt när WP-Cron är inaktiverat."
+
+#: resources/assets/js/settings/SettingsTab.tsx:29
+msgid "General"
+msgstr "Allmänt"
+
+#: resources/assets/js/settings/SettingsTab.tsx:29
+msgid "Schedule"
+msgstr "Schema"
 
 #. translators: %s: comma-separated field labels
 #: resources/assets/js/tree/inheritanceLabels.ts:17
