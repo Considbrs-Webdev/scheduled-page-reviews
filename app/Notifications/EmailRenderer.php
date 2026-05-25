@@ -81,11 +81,18 @@ final class EmailRenderer
     {
         $overdue  = $counts['overdue'];
         $upcoming = $counts['upcoming'];
-        $suffix   = $siteName !== '' ? ' on ' . $siteName : '';
+        $suffix   = $siteName !== ''
+            ? sprintf(
+                /* translators: %s: site name */
+                __(' on %s', 'content-ownership'),
+                $siteName,
+            )
+            : '';
 
         if ($overdue > 0 && $upcoming > 0) {
             return sprintf(
-                '[Content review] %d overdue, %d upcoming%s',
+                /* translators: 1: overdue page count, 2: upcoming page count, 3: site suffix */
+                __('[Content review] %1$d overdue, %2$d upcoming%3$s', 'content-ownership'),
                 $overdue,
                 $upcoming,
                 $suffix,
@@ -93,18 +100,28 @@ final class EmailRenderer
         }
 
         if ($overdue > 0) {
+            /* translators: 1: overdue page count, 2: site suffix */
             return sprintf(
-                '[Content review] %d %s overdue%s',
+                _n(
+                    '[Content review] %1$d page overdue%2$s',
+                    '[Content review] %1$d pages overdue%2$s',
+                    $overdue,
+                    'content-ownership',
+                ),
                 $overdue,
-                $overdue === 1 ? 'page' : 'pages',
                 $suffix,
             );
         }
 
+        /* translators: 1: upcoming page count, 2: site suffix */
         return sprintf(
-            '[Content review] %d %s upcoming%s',
+            _n(
+                '[Content review] %1$d page upcoming%2$s',
+                '[Content review] %1$d pages upcoming%2$s',
+                $upcoming,
+                'content-ownership',
+            ),
             $upcoming,
-            $upcoming === 1 ? 'page' : 'pages',
             $suffix,
         );
     }

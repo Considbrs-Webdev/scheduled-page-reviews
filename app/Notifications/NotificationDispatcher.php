@@ -107,7 +107,14 @@ final class NotificationDispatcher
                 'recipient_email' => $email,
             ];
 
-            $rendered = $this->renderer->render($pages, $context);
+            $switched = switch_to_locale(get_locale());
+            try {
+                $rendered = $this->renderer->render($pages, $context);
+            } finally {
+                if ($switched) {
+                    restore_previous_locale();
+                }
+            }
 
             $subject  = (string) apply_filters('content_ownership/email/subject', $rendered['subject'], $email, $pages);
             $bodyHtml = (string) apply_filters('content_ownership/email/body_html', $rendered['html'], $email, $pages);

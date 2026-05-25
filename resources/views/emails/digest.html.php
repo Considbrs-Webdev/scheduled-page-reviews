@@ -15,10 +15,35 @@ declare(strict_types=1);
  */
 $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 
+$bucketLabel = static function (string $bucket) use ($h): string {
+    $label = match ($bucket) {
+        'overdue'  => __('Overdue', 'content-ownership'),
+        'upcoming' => __('Upcoming', 'content-ownership'),
+        default    => $bucket,
+    };
+
+    return $h($label);
+};
+
+$formatReviewAt = static function (string $iso) use ($h): string {
+    if ($iso === '') {
+        return '';
+    }
+
+    $timestamp = strtotime($iso);
+    if ($timestamp === false) {
+        return $h($iso);
+    }
+
+    return $h((string) wp_date((string) get_option('date_format'), $timestamp));
+};
+
 $renderSection = static function (
     string $heading,
     array $sectionPages,
     callable $h,
+    callable $bucketLabel,
+    callable $formatReviewAt,
 ): void {
     if ($sectionPages === []) {
         return;
@@ -28,9 +53,9 @@ $renderSection = static function (
   <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;">Page</th>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;">Status</th>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;">Next review</th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Page', 'content-ownership'); ?></th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Status', 'content-ownership'); ?></th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Next review', 'content-ownership'); ?></th>
       </tr>
     </thead>
     <tbody>
@@ -46,11 +71,11 @@ $renderSection = static function (
         </td>
         <td style="padding: 10px 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px;">
           <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: <?php echo $h($badgeColor); ?>; background: <?php echo $h($badgeBg); ?>;">
-            <?php echo $h((string) $page['bucket']); ?>
+            <?php echo $bucketLabel((string) ($page['bucket'] ?? '')); ?>
           </span>
         </td>
         <td style="padding: 10px 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px; color: #4b5563;">
-          <?php echo $h((string) $page['next_review_at']); ?>
+          <?php echo $formatReviewAt((string) ($page['next_review_at'] ?? '')); ?>
         </td>
       </tr>
     <?php endforeach; ?>
@@ -58,9 +83,11 @@ $renderSection = static function (
   </table>
     <?php
 };
+
+$lang = str_replace('_', '-', determine_locale());
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="<?php echo $h($lang); ?>">
 <head>
   <meta charset="utf-8">
   <title><?php echo $h($subject); ?></title>
@@ -68,29 +95,50 @@ $renderSection = static function (
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1f2937; max-width: 640px; margin: 0 auto; padding: 24px; line-height: 1.5;">
   <h1 style="font-size: 18px; margin: 0 0 8px; color: #111827;"><?php echo $h($subject); ?></h1>
   <p style="margin: 0 0 20px; font-size: 14px; color: #4b5563;">
-    Hello <?php echo $h($recipient_email); ?>, the following pages on
-    <a href="<?php echo $h($site_url); ?>" style="color: #2563eb; text-decoration: none;"><?php echo $h($site_name); ?></a>
-    need your attention.
+    <?php
+    printf(
+        /* translators: 1: recipient email, 2: linked site name */
+        __('Hello %1$s, the following pages on %2$s need your attention.', 'content-ownership'),
+        esc_html($recipient_email),
+        '<a href="' . esc_url($site_url) . '" style="color: #2563eb; text-decoration: none;">' . esc_html($site_name) . '</a>',
+    );
+    ?>
   </p>
 
 <?php
 $renderSection(
-    sprintf('Overdue (%d)', $counts['overdue']),
+    sprintf(
+        /* translators: %d: overdue page count */
+        __('Overdue (%d)', 'content-ownership'),
+        $counts['overdue'],
+    ),
     $overdue_pages,
     $h,
+    $bucketLabel,
+    $formatReviewAt,
 );
 $renderSection(
-    sprintf('Upcoming (%d)', $counts['upcoming']),
+    sprintf(
+        /* translators: %d: upcoming page count */
+        __('Upcoming (%d)', 'content-ownership'),
+        $counts['upcoming'],
+    ),
     $upcoming_pages,
     $h,
+    $bucketLabel,
+    $formatReviewAt,
 );
 ?>
 
   <p style="margin: 32px 0 0; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 13px; color: #6b7280;">
-    Sign in to the
-    <a href="<?php echo $h($admin_url); ?>" style="color: #2563eb; text-decoration: none;">WordPress dashboard</a>
-    to review your pages.
-    This message was sent by the Content Ownership plugin.
+    <?php
+    printf(
+        /* translators: %s: WordPress dashboard link */
+        __('Sign in to the %s to review your pages.', 'content-ownership'),
+        '<a href="' . esc_url($admin_url) . '" style="color: #2563eb; text-decoration: none;">' . esc_html__('WordPress dashboard', 'content-ownership') . '</a>',
+    );
+    ?>
+    <?php echo esc_html__('This message was sent by the Content Ownership plugin.', 'content-ownership'); ?>
   </p>
 </body>
 </html>

@@ -9,6 +9,8 @@ There is a **single** `content-ownership.pot` for the whole plugin. PHP and Reac
 
 React is not wrong here: WordPress documents `@wordpress/i18n` + `wp_set_script_translations()` for script strings. The only wrinkle is that **`wp i18n make-pot` parses JavaScript, not TypeScript**, so we transpile TS/TSX to a throwaway `resources/i18n-extract/js/` folder before running `make-pot`, then rewrite file references back to the real `.tsx` sources.
 
+Digest emails (`EmailRenderer`, `resources/views/emails/`) use the same text domain. `NotificationDispatcher` calls `switch_to_locale( get_locale() )` before rendering so cron sends use the **site language** from WordPress settings.
+
 ## Runtime (WordPress APIs)
 
 | Layer | API |
@@ -32,5 +34,4 @@ After updating `.pot`, merge into translators’ `.po` (e.g. `msgmerge -U conten
 
 ## Remaining work
 
-- [ ] Email subjects and `resources/views/emails/` templates
 - [ ] Regenerate `content-ownership-sv_SE.po` after the next string change
