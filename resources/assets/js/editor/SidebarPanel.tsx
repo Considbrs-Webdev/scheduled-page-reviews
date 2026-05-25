@@ -49,6 +49,19 @@ function formatDate(iso: string | null | undefined, locale: string): string {
   return d.toLocaleDateString(locale);
 }
 
+function isRestForbidden(error: unknown): boolean {
+  if (error && typeof error === "object") {
+    const e = error as { code?: string; data?: { status?: number } };
+    if (e.code === "rest_forbidden" || e.code === "rest_cannot_view") {
+      return true;
+    }
+    if (e.data?.status === 403) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function SidebarPanel() {
   const boot = getEditorBoot();
 
@@ -64,6 +77,7 @@ export function SidebarPanel() {
   const [data, setData] = useState<RuleResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [forbidden, setForbidden] = useState(false);
   const [marking, setMarking] = useState(false);
   const [flash, setFlash] = useState<string | null>(null);
 
@@ -71,10 +85,16 @@ export function SidebarPanel() {
     if (postId == null || postType !== "page") return;
     setLoading(true);
     setError(null);
+    setForbidden(false);
     try {
       const r = await fetchRule(postId);
       setData(r);
     } catch (e) {
+      if (isRestForbidden(e)) {
+        setForbidden(true);
+        setData(null);
+        return;
+      }
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
@@ -85,7 +105,7 @@ export function SidebarPanel() {
     load();
   }, [load]);
 
-  if (postType !== "page") return null;
+  if (postType !== "page" || forbidden) return null;
 
   const onMark = async () => {
     if (postId == null) return;

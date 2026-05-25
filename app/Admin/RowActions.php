@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Admin;
 
+use ContentOwnership\Domain\PageAuthorization;
 use ContentOwnership\Domain\PageReviewMarker;
 use WP_Post;
 
@@ -15,6 +16,7 @@ final class RowActions
 
     public function __construct(
         private readonly PageReviewMarker $marker,
+        private readonly PageAuthorization $authorization,
     ) {
         add_filter('page_row_actions', [$this, 'addAction'], 10, 2);
         add_action('admin_post_' . self::ACTION, [$this, 'handle']);
@@ -31,7 +33,7 @@ final class RowActions
             return $actions;
         }
 
-        if (! current_user_can('edit_post', (int) $post->ID)) {
+        if (! $this->authorization->canMarkReviewed((int) $post->ID, get_current_user_id())) {
             return $actions;
         }
 
@@ -59,7 +61,7 @@ final class RowActions
 
         check_admin_referer(self::NONCE . '_' . $postId);
 
-        if (! current_user_can('edit_post', $postId)) {
+        if (! $this->authorization->canMarkReviewed($postId, get_current_user_id())) {
             wp_die(esc_html__('You do not have permission to mark this page as reviewed.', 'content-ownership'), '', ['response' => 403]);
         }
 

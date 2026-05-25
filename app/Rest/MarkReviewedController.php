@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ContentOwnership\Rest;
 
+use ContentOwnership\Domain\PageAuthorization;
 use ContentOwnership\Domain\PageReviewMarker;
 use WP_Error;
 use WP_User;
@@ -15,6 +16,7 @@ final class MarkReviewedController
 {
     public function __construct(
         private readonly PageReviewMarker $marker,
+        private readonly PageAuthorization $authorization,
     ) {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
@@ -71,7 +73,7 @@ final class MarkReviewedController
             return false;
         }
 
-        return current_user_can('edit_post', $pageId);
+        return $this->authorization->canMarkReviewed($pageId, get_current_user_id());
     }
 
     /**
