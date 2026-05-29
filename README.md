@@ -30,7 +30,7 @@ Then activate the plugin in **wp-admin → Plugins**.
 | `composer test`     | Run PHPUnit                                               |
 | `composer lint`     | Run PHP_CodeSniffer                                       |
 | `composer lint:fix` | Run PHP Code Beautifier                                   |
-| `npm run i18n:pot`  | Regenerate single POT (PHP + React, requires ddev)        |
+| `npm run i18n:pot`  | Regenerate single POT (PHP + React)        |
 | `npm run i18n:mo`   | Compile `.po` → `.mo` (after translations exist)          |
 | `npm run i18n:json` | Build Jed JSON for React script translations              |
 
