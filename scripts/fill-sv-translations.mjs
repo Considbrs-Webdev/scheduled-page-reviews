@@ -12,6 +12,8 @@ const poPath = path.join(__dirname, "../resources/languages/content-ownership-sv
 
 /** @type {Record<string, string | [string, string]>} */
 const sv = {
+  "%d day overdue": ["%d dag försenad", "%d dagar försenade"],
+  "due in %d day": ["om %d dag", "om %d dagar"],
   "%d recipient(s)": "%d mottagare",
   " on %s": " på %s",
   "[Content review] %1$d overdue, %2$d upcoming%3$s":
@@ -21,9 +23,12 @@ const sv = {
     "[Innehållsgranskning] %1$d sidor försenade%2$s",
   ],
   "[Content review] %1$d page upcoming%2$s": [
-    "[Innehållsgranskning] %1$d kommande sida%2$s",
-    "[Innehållsgranskning] %1$d kommande sidor%2$s",
+    "[Innehållsgranskning] %1$d sida att granska snart%2$s",
+    "[Innehållsgranskning] %1$d sidor att granska snart%2$s",
   ],
+  "A scan is already in progress.": "En skanning pågår redan.",
+  "Background scan scheduled (run %s). Execute due WP-Cron events to process batches.":
+    "Bakgrundsskanning schemalagd (körning %s). Kör förfallna WP-Cron-händelser för att bearbeta batchar.",
   "+%d more": "+%d till",
   "%d days": "%d dagar",
   Add: "Lägg till",
@@ -52,6 +57,7 @@ const sv = {
   "e.g. 180 = twice a year": "t.ex. 180 = två gånger per år",
   "Email address": "E-postadress",
   "Edit:": "Redigera:",
+  Examples: "Exempel",
   Expand: "Expandera",
   "Failed to load settings:": "Kunde inte läsa in inställningarna:",
   "Failed to load.": "Kunde inte läsa in.",
@@ -66,6 +72,7 @@ const sv = {
   "Global settings saved.": "Globala inställningar sparade.",
   "Groups (roles)": "Grupper (roller)",
   "Has local rule": "Har lokal regel",
+  "How often this page must be reviewed.": "Hur ofta den här sidan ska granskas.",
   "How often the scheduled scan is registered.": "Hur ofta den schemalagda skanningen registreras.",
   Inherit: "Ärv",
   "Inherited from ancestor": "Ärvs från förfader",
@@ -75,6 +82,8 @@ const sv = {
   "Inherits %s from an ancestor page": "Ärver %s från en förfadersida",
   "Inherits from ancestor": "Ärver från förfader",
   "Inherits settings from an ancestor page": "Ärver inställningar från en förfadersida",
+  "Last reviewed": "Senast granskad",
+  "Last reviewed %s": "Senast granskad %s",
   "Loading page rule…": "Läser in sidregel…",
   "Loading pages…": "Läser in sidor…",
   "Loading schedule settings…": "Läser in schemainställningar…",
@@ -85,11 +94,14 @@ const sv = {
   "Local rule set on this page": "Lokal regel på den här sidan",
   "Main navigation": "Huvudnavigering",
   "Mark as reviewed": "Markera som granskad",
+  "Marked as reviewed.": "Markerad som granskad.",
   Members: "Medlemmar",
   Never: "Aldrig",
+  "Never reviewed": "Aldrig granskad",
   "Next review": "Nästa granskning",
   "Next review %1$s (%2$s)": "Nästa granskning %1$s (%2$s)",
-  "Next scheduled:": "Nästa schemalagd:",
+  "Next scheduled": "Nästa schemalagd körning",
+  "Once Weekly": "En gång i veckan",
   "No groups available.": "Inga grupper tillgängliga.",
   "No pages found. Create some pages first.": "Inga sidor hittades. Skapa sidor först.",
   "No recipients assigned.": "Inga mottagare tilldelade.",
@@ -117,7 +129,9 @@ const sv = {
   Reminders: "Påminnelser",
   Remove: "Ta bort",
   Reset: "Återställ",
+  Recipients: "Mottagare",
   "Review interval": "Granskningsintervall",
+  "Review schedule": "Gransningsschema",
   "Review intervals": "Granskningsintervall",
   "Rule set on this page (applies to subpages): %s": "Regel på den här sidan (gäller undersidor): %s",
   "Run cron now": "Kör cron nu",
@@ -133,6 +147,8 @@ const sv = {
   "Schedule a recurring scan via WordPress cron.":
     "Schemalägg en återkommande skanning via WordPress cron.",
   "Schedule settings saved.": "Schemainställningar sparade.",
+  "Scan complete — %1$d pages processed, %2$d queued for notification, %3$d emails sent.":
+    "Skanning klar — %1$d sidor bearbetade, %2$d köade för avisering, %3$d e-post skickade.",
   "Scan complete — %1$d pages processed, %2$d emails sent.":
     "Skanning klar — %1$d sidor bearbetade, %2$d e-post skickade.",
   "Scan frequency": "Skanningsfrekvens",
@@ -153,6 +169,8 @@ const sv = {
   Status: "Status",
   "This message was sent by the Content Ownership plugin.":
     "Detta meddelande skickades av pluginet Content Ownership.",
+  "This page and subpages": "Den här sidan och undersidor",
+  "This page only": "Endast den här sidan",
   "Time of day to register the scan (server time).":
     "Tid på dagen då skanningen registreras (servertid).",
   "Tune how aggressively cron scans the site.": "Styr hur aggressivt cron skannar webbplatsen.",
@@ -186,8 +204,13 @@ const sv = {
   'Window in which a page is "due soon".': 'Fönster då en sida är "snart dags".',
   "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.":
     "Styr upprepade e-postmeddelanden medan en sida är förfallen eller försenad. Att markera en sida granskad startar en ny cykel.",
+  'When to show "due soon" in the dashboard widget.':
+    'När statusen "snart dags" ska visas i instrumentpanelen.',
   "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval.":
     "Av: varje sida ingår högst en gång per granskningscykel (tills den markerats granskad). På: försenade sidor kan visas igen efter påminnelseintervallet.",
+  "Notification recipients": "Aviseringsmottagare",
+  "Interval and reminder timing for this page.":
+    "Intervall och påminnelsetid för den här sidan.",
   "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.":
     "Minsta antal dagar innan samma försenade sida kan visas i ett nytt utskick. Spåras per sida, inte per mottagare — se README.",
   "What happens when someone marks a page as reviewed. Plugin review meta is always stored.":
@@ -204,12 +227,12 @@ const sv = {
     "Lägg till WordPress-användare, grupper eller e-postadresser. Användare och grupper får påminnelser och ser sidorna i sin instrumentpanel. Fristående e-post får endast påminnelser.",
   "Use the value from the closest ancestor (or global default).":
     "Använd värdet från närmaste förfader (eller global standard).",
+  "Replace the inherited value here and apply it to descendants.":
+    "Ersätt det ärvda värdet här och tillämpa det på undersidor.",
   "Replace the inherited value here. Descendants keep inheriting from above.":
     "Ersätt det ärvda värdet här. Underliggande sidor fortsätter ärva ovanifrån.",
   "Replace the inherited value here AND become the new inherited value for descendants.":
     "Ersätt det ärvda värdet här OCH bli det nya arvvärdet för underliggande sidor.",
-  'Show "due soon" in the dashboard widget this many days before the review date.':
-    'Visa "snart dags" i instrumentpanelen så här många dagar före granskningsdatumet.',
   "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events.":
     "Registrerar en automatisk skanning i WordPress vid vald tid. Detta schemalägger skanningen — den körs inte förrän något kör schemalagda WP-händelser.",
   "WP-Cron is disabled on this site. Scheduled scans require something to execute due events (for example wp cron event run --due-now from server crontab), or use the WP-CLI examples below.":

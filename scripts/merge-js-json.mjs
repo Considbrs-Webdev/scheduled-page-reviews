@@ -29,6 +29,8 @@ function md5(relativePath) {
   return createHash("md5").update(relativePath).digest("hex");
 }
 
+const bundleHashes = new Set(bundles.map((b) => md5(b.entry)));
+
 /** @type {Record<string, object>} */
 const mergedByEntry = Object.fromEntries(
   bundles.map((b) => [b.entry, { messages: { "": { domain: "messages", lang: locale, "plural-forms": "nplurals=2; plural=(n != 1);" } } }]),
@@ -36,6 +38,11 @@ const mergedByEntry = Object.fromEntries(
 
 for (const file of fs.readdirSync(langDir)) {
   if (!file.startsWith(`content-ownership-${locale}-`) || !file.endsWith(".json")) {
+    continue;
+  }
+  const hash = file.slice(`content-ownership-${locale}-`.length, -".json".length);
+  if (bundleHashes.has(hash)) {
+    // Skip previous merged bundle outputs — they would overwrite fresh per-file JSON.
     continue;
   }
   const full = path.join(langDir, file);

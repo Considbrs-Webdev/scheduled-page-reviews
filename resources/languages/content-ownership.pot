@@ -1,4 +1,4 @@
-# Copyright (C) 2026 William Undqvist
+# Copyright (C) 2026 William Lundqvist
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-25T10:44:22+02:00\n"
+"POT-Creation-Date: 2026-05-29T15:48:35+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: content-ownership\n"
@@ -34,7 +34,7 @@ msgstr ""
 
 #. Author of the plugin
 #: content-ownership.php
-msgid "William Undqvist"
+msgid "William Lundqvist"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:37
@@ -157,14 +157,14 @@ msgstr ""
 msgid "[Content review] %1$d overdue, %2$d upcoming%3$s"
 msgstr ""
 
-#: app/Notifications/EmailRenderer.php:104
+#: app/Notifications/EmailRenderer.php:105
 #, php-format
 msgid "[Content review] %1$d page overdue%2$s"
 msgid_plural "[Content review] %1$d pages overdue%2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: app/Notifications/EmailRenderer.php:116
+#: app/Notifications/EmailRenderer.php:118
 #, php-format
 msgid "[Content review] %1$d page upcoming%2$s"
 msgid_plural "[Content review] %1$d pages upcoming%2$s"
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Request body must be a JSON object."
 msgstr ""
 
-#: content-ownership.php:29
+#: content-ownership.php:30
 msgid "Content Ownership: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
 msgstr ""
 
@@ -271,86 +271,90 @@ msgstr ""
 msgid "This page requires JavaScript."
 msgstr ""
 
-#: resources/assets/js/editor/fields/IntervalField.tsx:10
+#: resources/assets/js/editor/fields/IntervalField.tsx:13
 #: resources/assets/js/editor/SidebarPanel.tsx:140
 #: resources/assets/js/tree/inheritanceLabels.ts:4
 msgid "Review interval"
 msgstr ""
 
-#: resources/assets/js/editor/fields/IntervalField.tsx:21
-#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:21
+#: resources/assets/js/editor/fields/IntervalField.tsx:14
+msgid "How often this page must be reviewed."
+msgstr ""
+
+#: resources/assets/js/editor/fields/IntervalField.tsx:27
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:30
 #: resources/assets/js/editor/SidebarPanel.tsx:141
 #, js-format
 msgid "%d days"
 msgstr ""
 
-#: resources/assets/js/editor/fields/IntervalField.tsx:23
+#: resources/assets/js/editor/fields/IntervalField.tsx:29
 msgid "Days between reviews"
 msgstr ""
 
-#: resources/assets/js/editor/fields/IntervalField.tsx:23
+#: resources/assets/js/editor/fields/IntervalField.tsx:38
 msgid "e.g. 180 = twice a year"
 msgstr ""
 
-#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:10
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:13
 #: resources/assets/js/tree/inheritanceLabels.ts:6
 msgid "Notify before due"
 msgstr ""
 
-#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:14
+msgid "When to show \"due soon\" in the dashboard widget."
+msgstr ""
+
+#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:32
 msgid "Days before review date"
 msgstr ""
 
-#: resources/assets/js/editor/fields/NotifyBeforeField.tsx:23
-msgid "Show \"due soon\" in the dashboard widget this many days before the review date."
-msgstr ""
-
-#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+#: resources/assets/js/editor/fields/RecipientsField.tsx:20
 #: resources/assets/js/editor/SidebarPanel.tsx:148
 #: resources/assets/js/tree/inheritanceLabels.ts:5
 msgid "Who to notify"
 msgstr ""
 
-#: resources/assets/js/editor/fields/RecipientsField.tsx:17
+#: resources/assets/js/editor/fields/RecipientsField.tsx:21
 msgid "Add WordPress users, groups, or email addresses. Users and groups receive review reminders and see these pages in their dashboard. Standalone email addresses receive reminders only."
 msgstr ""
 
-#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+#: resources/assets/js/editor/fields/RecipientsField.tsx:37
 msgid "nobody configured"
 msgstr ""
 
-#: resources/assets/js/editor/fields/RecipientsField.tsx:31
+#: resources/assets/js/editor/fields/RecipientsField.tsx:37
 #: resources/assets/js/editor/SidebarPanel.tsx:149
 #, js-format
 msgid "%d recipient(s)"
 msgstr ""
 
-#: resources/assets/js/editor/fields/RecipientsField.tsx:33
+#: resources/assets/js/editor/fields/RecipientsField.tsx:39
 msgid "No recipients assigned."
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:17
+#: resources/assets/js/editor/InheritanceRadio.tsx:7
 msgid "Inherit"
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:18
+#: resources/assets/js/editor/InheritanceRadio.tsx:8
 msgid "Use the value from the closest ancestor (or global default)."
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:29
-msgid "Override on this page only"
+#: resources/assets/js/editor/InheritanceRadio.tsx:15
+msgid "This page only"
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:30
+#: resources/assets/js/editor/InheritanceRadio.tsx:16
 msgid "Replace the inherited value here. Descendants keep inheriting from above."
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:41
-msgid "Override and apply to subpages"
+#: resources/assets/js/editor/InheritanceRadio.tsx:23
+msgid "This page and subpages"
 msgstr ""
 
-#: resources/assets/js/editor/InheritanceRadio.tsx:42
-msgid "Replace the inherited value here AND become the new inherited value for descendants."
+#: resources/assets/js/editor/InheritanceRadio.tsx:24
+msgid "Replace the inherited value here and apply it to descendants."
 msgstr ""
 
 #: resources/assets/js/editor/InheritedFrom.tsx:5
@@ -363,42 +367,59 @@ msgstr ""
 msgid "Inherited from page #%d:"
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:18
+#: resources/assets/js/editor/PageDetail.tsx:25
 msgid "Select a page from the tree to view and edit its content-ownership rule."
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:50
-msgid "Loading page rule…"
-msgstr ""
-
-#: resources/assets/js/editor/PageDetail.tsx:53
+#: resources/assets/js/editor/PageDetail.tsx:63
 msgid "Failed to load."
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:59
+#: resources/assets/js/editor/PageDetail.tsx:69
 msgid "Saved."
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:62
+#: resources/assets/js/editor/PageDetail.tsx:72
 msgid "Failed to save."
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:217
-#: resources/assets/js/schedule/ScheduleTab.tsx:189
+#: resources/assets/js/editor/PageDetail.tsx:96
+msgid "Recipients"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:96
+#: resources/assets/js/settings/SettingsTab.tsx:29
+msgid "Schedule"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:97
+msgid "Notification recipients"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:101
+msgid "Review schedule"
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:102
+msgid "Interval and reminder timing for this page."
+msgstr ""
+
+#: resources/assets/js/editor/PageDetail.tsx:118
+#: resources/assets/js/general/GeneralSettingsTab.tsx:278
+#: resources/assets/js/schedule/ScheduleTab.tsx:243
 msgid "Reset"
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:75
+#: resources/assets/js/editor/PageDetail.tsx:119
 #: resources/assets/js/editor/PageHeader.tsx:67
-#: resources/assets/js/general/GeneralSettingsTab.tsx:225
-#: resources/assets/js/schedule/ScheduleTab.tsx:190
+#: resources/assets/js/general/GeneralSettingsTab.tsx:286
+#: resources/assets/js/schedule/ScheduleTab.tsx:251
 msgid "Saving…"
 msgstr ""
 
-#: resources/assets/js/editor/PageDetail.tsx:75
-#: resources/assets/js/general/GeneralSettingsTab.tsx:225
-#: resources/assets/js/schedule/ScheduleTab.tsx:190
+#: resources/assets/js/editor/PageDetail.tsx:119
+#: resources/assets/js/general/GeneralSettingsTab.tsx:286
+#: resources/assets/js/schedule/ScheduleTab.tsx:251
 msgid "Save changes"
 msgstr ""
 
@@ -547,7 +568,7 @@ msgid "Nobody configured"
 msgstr ""
 
 #: resources/assets/js/editor/SidebarPanel.tsx:158
-#: resources/assets/js/general/GeneralSettingsTab.tsx:172
+#: resources/assets/js/general/GeneralSettingsTab.tsx:212
 msgid "Mark as reviewed"
 msgstr ""
 
@@ -555,100 +576,96 @@ msgstr ""
 msgid "Open content ownership settings"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:37
+#: resources/assets/js/general/GeneralSettingsTab.tsx:31
 msgid "Global settings saved."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:38
+#: resources/assets/js/general/GeneralSettingsTab.tsx:32
 msgid "Could not save settings."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:93
-msgid "Loading settings…"
-msgstr ""
-
-#: resources/assets/js/general/GeneralSettingsTab.tsx:96
+#: resources/assets/js/general/GeneralSettingsTab.tsx:90
 msgid "Failed to load settings:"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+#: resources/assets/js/general/GeneralSettingsTab.tsx:96
 msgid "Review intervals"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:99
+#: resources/assets/js/general/GeneralSettingsTab.tsx:97
 msgid "How often pages must be reviewed and when reminders go out."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:107
+#: resources/assets/js/general/GeneralSettingsTab.tsx:110
 msgid "Default review interval (days)"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:116
+#: resources/assets/js/general/GeneralSettingsTab.tsx:111
 msgid "Used when a page has no rule of its own."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:123
+#: resources/assets/js/general/GeneralSettingsTab.tsx:137
 msgid "Notify days before"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:132
+#: resources/assets/js/general/GeneralSettingsTab.tsx:138
 msgid "Window in which a page is \"due soon\"."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:134
+#: resources/assets/js/general/GeneralSettingsTab.tsx:159
 msgid "Reminders"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:134
+#: resources/assets/js/general/GeneralSettingsTab.tsx:160
 msgid "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:142
+#: resources/assets/js/general/GeneralSettingsTab.tsx:170
 msgid "Send reminders after due date"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:148
+#: resources/assets/js/general/GeneralSettingsTab.tsx:176
 msgid "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:158
+#: resources/assets/js/general/GeneralSettingsTab.tsx:190
 msgid "Reminder cadence (days)"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:167
+#: resources/assets/js/general/GeneralSettingsTab.tsx:191
 msgid "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:172
+#: resources/assets/js/general/GeneralSettingsTab.tsx:213
 msgid "What happens when someone marks a page as reviewed. Plugin review meta is always stored."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:180
+#: resources/assets/js/general/GeneralSettingsTab.tsx:223
 msgid "Update WordPress last modified date"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:186
+#: resources/assets/js/general/GeneralSettingsTab.tsx:229
 msgid "Also updates the post's modified timestamp (shown as \"updated\" on the front-end). Does not create a new revision."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:191
+#: resources/assets/js/general/GeneralSettingsTab.tsx:238
 msgid "Default recipients"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:191
+#: resources/assets/js/general/GeneralSettingsTab.tsx:239
 msgid "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:199
+#: resources/assets/js/general/GeneralSettingsTab.tsx:252
 msgid "Default recipient emails"
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:204
-msgid "alerts@example.com, ops@example.com"
+#: resources/assets/js/general/GeneralSettingsTab.tsx:253
+msgid "Separate multiple addresses with commas or whitespace."
 msgstr ""
 
-#: resources/assets/js/general/GeneralSettingsTab.tsx:207
-msgid "Separate multiple addresses with commas or whitespace."
+#: resources/assets/js/general/GeneralSettingsTab.tsx:263
+msgid "alerts@example.com, ops@example.com"
 msgstr ""
 
 #: resources/assets/js/layout/AppHeader.tsx:14
@@ -690,108 +707,104 @@ msgstr ""
 msgid "You have unsaved changes. Discard them and leave this page?"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:44
+#: resources/assets/js/schedule/ScheduleTab.tsx:38
 msgid "Run scan immediately (recommended when WP-Cron is disabled)"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:50
+#: resources/assets/js/schedule/ScheduleTab.tsx:44
 msgid "Background mode (schedules batched ticks via WP-Cron)"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:56
+#: resources/assets/js/schedule/ScheduleTab.tsx:50
 msgid "Server crontab — sync scan daily at 22:00"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:62
+#: resources/assets/js/schedule/ScheduleTab.tsx:53
 msgid "Alternative: background kickoff + execute due WP events"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:71
+#: resources/assets/js/schedule/ScheduleTab.tsx:62
 msgid "Not scheduled"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:83
+#: resources/assets/js/schedule/ScheduleTab.tsx:74
 msgid "Schedule settings saved."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:85
+#: resources/assets/js/schedule/ScheduleTab.tsx:76
 msgid "Could not save schedule settings."
-msgstr ""
-
-#: resources/assets/js/schedule/ScheduleTab.tsx:120
-msgid "Loading schedule settings…"
 msgstr ""
 
 #: resources/assets/js/schedule/ScheduleTab.tsx:124
 msgid "WP Cron"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:124
+#: resources/assets/js/schedule/ScheduleTab.tsx:125
 msgid "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:132
+#: resources/assets/js/schedule/ScheduleTab.tsx:135
 msgid "Automatic scan"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:132
+#: resources/assets/js/schedule/ScheduleTab.tsx:141
 msgid "Schedule a recurring scan via WordPress cron."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:139
+#: resources/assets/js/schedule/ScheduleTab.tsx:155
 msgid "Scan frequency"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:139
-msgid "Daily"
-msgstr ""
-
-#: resources/assets/js/schedule/ScheduleTab.tsx:139
-msgid "Weekly"
-msgstr ""
-
-#: resources/assets/js/schedule/ScheduleTab.tsx:139
+#: resources/assets/js/schedule/ScheduleTab.tsx:156
 msgid "How often the scheduled scan is registered."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:146
-msgid "Scan time"
-msgstr ""
-
-#: resources/assets/js/schedule/ScheduleTab.tsx:154
-msgid "Time of day to register the scan (server time)."
+#: resources/assets/js/schedule/ScheduleTab.tsx:161
+msgid "Daily"
 msgstr ""
 
 #: resources/assets/js/schedule/ScheduleTab.tsx:161
+msgid "Weekly"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:173
+msgid "Scan time"
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:174
+msgid "Time of day to register the scan (server time)."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:199
 msgid "Batch size"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:170
+#: resources/assets/js/schedule/ScheduleTab.tsx:200
 msgid "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:175
-msgid "Next scheduled:"
+#: resources/assets/js/schedule/ScheduleTab.tsx:218
+msgid "Next scheduled"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:175
+#: resources/assets/js/schedule/ScheduleTab.tsx:218
 msgid "WP-Cron is disabled on this site. Scheduled scans require something to execute due events (for example wp cron event run --due-now from server crontab), or use the WP-CLI examples below."
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:178
+#: resources/assets/js/schedule/ScheduleTab.tsx:226
 msgid "WP-CLI & server crontab"
 msgstr ""
 
-#: resources/assets/js/schedule/ScheduleTab.tsx:178
+#: resources/assets/js/schedule/ScheduleTab.tsx:227
 msgid "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled."
+msgstr ""
+
+#: resources/assets/js/schedule/ScheduleTab.tsx:232
+msgid "Examples"
 msgstr ""
 
 #: resources/assets/js/settings/SettingsTab.tsx:29
 msgid "General"
-msgstr ""
-
-#: resources/assets/js/settings/SettingsTab.tsx:29
-msgid "Schedule"
 msgstr ""
 
 #. translators: %s: comma-separated field labels
@@ -842,11 +855,7 @@ msgstr ""
 msgid "Inherits %s from an ancestor page"
 msgstr ""
 
-#: resources/assets/js/tree/Tree.tsx:57
-msgid "Loading pages…"
-msgstr ""
-
-#: resources/assets/js/tree/Tree.tsx:57
+#: resources/assets/js/tree/Tree.tsx:59
 msgid "No pages found. Create some pages first."
 msgstr ""
 
@@ -855,7 +864,7 @@ msgid "Local rule"
 msgstr ""
 
 #: resources/assets/js/tree/TreeLegend.tsx:4
-#: resources/assets/js/tree/TreeNode.tsx:55
+#: resources/assets/js/tree/TreeNode.tsx:57
 msgid "Propagates to subpages"
 msgstr ""
 
@@ -863,19 +872,19 @@ msgstr ""
 msgid "Inherited from ancestor"
 msgstr ""
 
-#: resources/assets/js/tree/TreeNode.tsx:44
+#: resources/assets/js/tree/TreeNode.tsx:46
 msgid "Collapse"
 msgstr ""
 
-#: resources/assets/js/tree/TreeNode.tsx:44
+#: resources/assets/js/tree/TreeNode.tsx:46
 msgid "Expand"
 msgstr ""
 
-#: resources/assets/js/tree/TreeNode.tsx:50
+#: resources/assets/js/tree/TreeNode.tsx:52
 msgid "Has local rule"
 msgstr ""
 
-#: resources/assets/js/tree/TreeNode.tsx:63
+#: resources/assets/js/tree/TreeNode.tsx:65
 msgid "Inherits from ancestor"
 msgstr ""
 
