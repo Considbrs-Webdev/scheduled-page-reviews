@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { cn } from "@/lib/utils";
 
 import type { ArboristNode } from "./buildTree";
+import { IndentGuides, TREE_INDENT_PX } from "./IndentGuides";
 import {
   inheritedRuleTooltip,
   localRuleTooltip,
@@ -33,15 +34,16 @@ export function TreeNode({
       onClick={() => node.select()}
       onDoubleClick={() => node.toggle()}
       className={cn(
-        "group flex h-[30px] cursor-pointer items-center gap-1 rounded px-1 text-sm",
+        "group relative flex h-[30px] cursor-pointer items-center gap-1 rounded px-1 text-sm",
         node.isSelected
           ? "bg-accent text-accent-foreground"
           : "hover:bg-muted/60",
       )}
     >
+      <IndentGuides node={node} indent={TREE_INDENT_PX} />
       <button
         type="button"
-        className="flex h-5 w-5 items-center justify-center text-muted-foreground"
+        className="relative z-10 flex h-5 w-5 shrink-0 items-center justify-center text-muted-foreground"
         onClick={(e) => {
           e.stopPropagation();
           node.toggle();
@@ -57,11 +59,11 @@ export function TreeNode({
           )
         ) : null}
       </button>
-      <span className="flex-1 truncate">{node.data.name}</span>
+      <span className="relative z-10 flex-1 truncate">{node.data.name}</span>
       {node.data.has_local_rule && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="inline-flex shrink-0" aria-label={__("Has local rule", "content-ownership")}>
+            <span className="relative z-10 inline-flex shrink-0" aria-label={__("Has local rule", "content-ownership")}>
               <Tag className="h-3.5 w-3.5 text-muted-foreground" />
             </span>
           </TooltipTrigger>
@@ -72,7 +74,7 @@ export function TreeNode({
         <Tooltip>
           <TooltipTrigger asChild>
             <span
-              className="inline-flex shrink-0"
+              className="relative z-10 inline-flex shrink-0"
               aria-label={__("Propagates to subpages", "content-ownership")}
             >
               <CornerDownRight className="h-3.5 w-3.5 text-primary" />
@@ -85,7 +87,7 @@ export function TreeNode({
         <Tooltip>
           <TooltipTrigger asChild>
             <span
-              className="inline-flex shrink-0"
+              className="relative z-10 inline-flex shrink-0"
               aria-label={__("Inherits from ancestor", "content-ownership")}
             >
               <CornerLeftDown className="h-3.5 w-3.5 text-muted-foreground/80" />

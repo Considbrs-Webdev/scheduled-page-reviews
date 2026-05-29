@@ -112,11 +112,20 @@
 }
 
 .content-ownership-admin-page {
-  --co-admin-primary: var(--wp-admin-color-primary, #2271b1);
-  --co-admin-primary-dark: var(
-    --wp-admin-color-primary-dark,
-    color-mix(in srgb, var(--co-admin-primary) 80%, black)
+  --co-admin-primary: var(--wp-admin-theme-color, #2271b1);
+  --co-admin-primary-dark: color-mix(
+    in srgb,
+    var(--co-admin-primary) 80%,
+    black
   );
+  --primary: var(--wp-admin-theme-color, #2271b1);
+  --primary-foreground: #fff;
+  --primary-hover: color-mix(
+    in srgb,
+    var(--wp-admin-theme-color, #2271b1) 88%,
+    black
+  );
+  --ring: var(--wp-admin-theme-color, #2271b1);
 }
 
 .content-ownership-root {

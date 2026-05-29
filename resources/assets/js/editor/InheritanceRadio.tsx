@@ -10,53 +10,58 @@ interface InheritanceRadioProps {
   onChange: (s: FieldState) => void;
 }
 
-export function InheritanceRadio({ name, value, onChange }: InheritanceRadioProps) {
-  return (
-    <RadioGroup
-      value={value}
-      onValueChange={(v) => onChange(v as FieldState)}
-      className="flex flex-col gap-1.5"
-    >
-      <Option
-        name={name}
-        state="inherit"
-        label={__("Inherit", "content-ownership")}
-        hint={__(
-          "Use the value from the closest ancestor (or global default).",
-          "content-ownership",
-        )}
-      />
-      <Option
-        name={name}
-        state="self"
-        label={__("Override on this page only", "content-ownership")}
-        hint={__(
-          "Replace the inherited value here. Descendants keep inheriting from above.",
-          "content-ownership",
-        )}
-      />
-      <Option
-        name={name}
-        state="subtree"
-        label={__("Override and apply to subpages", "content-ownership")}
-        hint={__(
-          "Replace the inherited value here AND become the new inherited value for descendants.",
-          "content-ownership",
-        )}
-      />
-    </RadioGroup>
-  );
-}
+const OPTIONS: { state: FieldState; label: string; hint: string }[] = [
+  {
+    state: "inherit",
+    label: __("Inherit", "content-ownership"),
+    hint: __(
+      "Use the value from the closest ancestor (or global default).",
+      "content-ownership",
+    ),
+  },
+  {
+    state: "self",
+    label: __("This page only", "content-ownership"),
+    hint: __(
+      "Replace the inherited value here. Descendants keep inheriting from above.",
+      "content-ownership",
+    ),
+  },
+  {
+    state: "subtree",
+    label: __("This page and subpages", "content-ownership"),
+    hint: __(
+      "Replace the inherited value here and apply it to descendants.",
+      "content-ownership",
+    ),
+  },
+];
 
-function Option({ name, state, label, hint }: { name: string; state: FieldState; label: string; hint: string }) {
-  const id = `${name}-${state}`;
+export function InheritanceRadio({ name, value, onChange }: InheritanceRadioProps) {
+  const selected = OPTIONS.find((o) => o.state === value);
+
   return (
-    <div className="flex items-start gap-2">
-      <RadioGroupItem value={state} id={id} className="mt-0.5" />
-      <Label htmlFor={id} className="cursor-pointer text-sm leading-5">
-        <div>{label}</div>
-        <div className="text-xs font-normal text-muted-foreground">{hint}</div>
-      </Label>
+    <div className="space-y-2">
+      <RadioGroup
+        value={value}
+        onValueChange={(v) => onChange(v as FieldState)}
+        className="grid gap-1 sm:grid-cols-3"
+      >
+        {OPTIONS.map(({ state, label }) => {
+          const id = `${name}-${state}`;
+          return (
+            <div key={state} className="flex items-center gap-2 rounded-md border border-border px-2 py-1.5">
+              <RadioGroupItem value={state} id={id} />
+              <Label htmlFor={id} className="cursor-pointer text-sm leading-tight">
+                {label}
+              </Label>
+            </div>
+          );
+        })}
+      </RadioGroup>
+      {selected ? (
+        <p className="text-xs text-muted-foreground">{selected.hint}</p>
+      ) : null}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export function SettingsTab() {
       onValueChange={handleSectionChange}
       className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col"
     >
-      <TabsList variant="animated" animated className="mb-5 h-11 w-fit">
+      <TabsList variant="line" animated className="mb-5 h-11 w-fit">
         <TabsTrigger value="general" className="gap-2 px-5">
           <Settings aria-hidden />
           {__("General", "content-ownership")}

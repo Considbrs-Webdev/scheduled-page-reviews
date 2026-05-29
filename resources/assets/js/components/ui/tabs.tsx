@@ -29,8 +29,8 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: "rounded-lg border border-border bg-background p-1",
-        line: "gap-1 bg-transparent",
-        animated: "relative rounded-full border border-foreground/15 bg-background p-1 shadow-sm",
+        line: "relative gap-4 bg-transparent",
+        animated: "relative rounded-lg border border-foreground/15 bg-background p-1 shadow-sm",
         header: "relative rounded-lg bg-black/20 p-1 ring-1 ring-white/10",
       },
     },
@@ -117,9 +117,11 @@ function TabsList({
     animated?: boolean;
   }) {
   const listRef = React.useRef<HTMLDivElement>(null);
-  const useAnimatedIndicator =
-    animated || variant === "animated" || variant === "header";
-  const indicator = useSlidingTabIndicator(listRef, useAnimatedIndicator);
+  const useSlidingIndicator =
+    variant === "header" ||
+    variant === "animated" ||
+    (variant === "line" && animated);
+  const indicator = useSlidingTabIndicator(listRef, useSlidingIndicator);
 
   return (
     <TabsPrimitive.List
@@ -129,15 +131,17 @@ function TabsList({
       className={cn(tabsListVariants({ variant }), className)}
       {...props}
     >
-      {useAnimatedIndicator ? (
+      {useSlidingIndicator ? (
         <span
           aria-hidden
           data-slot="tabs-indicator"
           className={cn(
-            "pointer-events-none absolute z-0 transition-[left,width,opacity] duration-300 ease-in-out",
+            "pointer-events-none absolute z-10 transition-[left,width,opacity] duration-300 ease-in-out",
             variant === "header"
               ? "top-[3px] bottom-[3px] rounded-md bg-white/25 shadow-sm ring-1 ring-white/20"
-              : "top-1 bottom-1 rounded-full bg-foreground shadow-sm",
+              : variant === "line"
+                ? "bottom-0 h-0.5 bg-primary"
+                : "top-1 bottom-1 rounded-md bg-primary shadow-sm",
           )}
           style={{
             left: indicator.left,
@@ -159,12 +163,12 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors focus-visible:border-foreground focus-visible:ring-2 focus-visible:ring-foreground/15 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent",
-        "group-data-[variant=default]/tabs-list:data-[state=active]:bg-foreground group-data-[variant=default]/tabs-list:data-[state=active]:text-background group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm",
-        "group-data-[variant=animated]/tabs-list:relative group-data-[variant=animated]/tabs-list:z-10 group-data-[variant=animated]/tabs-list:flex-none group-data-[variant=animated]/tabs-list:rounded-full group-data-[variant=animated]/tabs-list:px-4 group-data-[variant=animated]/tabs-list:text-foreground/60 group-data-[variant=animated]/tabs-list:hover:text-foreground group-data-[variant=animated]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=animated]/tabs-list:data-[state=active]:text-background group-data-[variant=animated]/tabs-list:data-[state=active]:shadow-none group-data-[variant=animated]/tabs-list:data-[state=inactive]:text-foreground/60",
+        "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group-data-[variant=line]/tabs-list:relative group-data-[variant=line]/tabs-list:z-10 group-data-[variant=line]/tabs-list:flex-none group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-1 group-data-[variant=line]/tabs-list:pb-2.5 group-data-[variant=line]/tabs-list:text-muted-foreground group-data-[variant=line]/tabs-list:hover:text-foreground group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:text-primary group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none",
+        "group-data-[variant=default]/tabs-list:data-[state=active]:bg-primary group-data-[variant=default]/tabs-list:data-[state=active]:text-primary-foreground group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm",
+        "group-data-[variant=animated]/tabs-list:relative group-data-[variant=animated]/tabs-list:z-10 group-data-[variant=animated]/tabs-list:flex-none group-data-[variant=animated]/tabs-list:rounded-md group-data-[variant=animated]/tabs-list:px-4 group-data-[variant=animated]/tabs-list:text-foreground/60 group-data-[variant=animated]/tabs-list:hover:text-foreground group-data-[variant=animated]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=animated]/tabs-list:data-[state=active]:text-primary-foreground group-data-[variant=animated]/tabs-list:data-[state=active]:shadow-none group-data-[variant=animated]/tabs-list:data-[state=inactive]:text-foreground/60",
         "group-data-[variant=header]/tabs-list:relative group-data-[variant=header]/tabs-list:z-10 group-data-[variant=header]/tabs-list:flex-none group-data-[variant=header]/tabs-list:px-4 group-data-[variant=header]/tabs-list:py-1.5 group-data-[variant=header]/tabs-list:text-white/60 group-data-[variant=header]/tabs-list:hover:text-white/80 group-data-[variant=header]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=header]/tabs-list:data-[state=active]:text-white group-data-[variant=header]/tabs-list:data-[state=active]:shadow-none group-data-[variant=header]/tabs-list:data-[state=inactive]:text-white/60 group-data-[variant=header]/tabs-list:focus-visible:ring-white/30",
-        "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100 group-data-[variant=animated]/tabs-list:after:opacity-0 group-data-[variant=header]/tabs-list:after:opacity-0",
+        "after:absolute after:bg-primary after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=animated]/tabs-list:after:opacity-0 group-data-[variant=header]/tabs-list:after:opacity-0",
         className,
       )}
       {...props}

@@ -6,21 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
 
+import { SettingsSkeleton } from "@/components/ui/loading-skeletons";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -33,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { SettingRow, SettingSection } from "@/components/ui/setting-row";
 
 import {
   useGlobalSettings,
@@ -54,21 +48,18 @@ function cliExamples(): string {
 wp content-ownership scan
 
 # ${__(
-  "Background mode (schedules batched ticks via WP-Cron)",
-  "content-ownership",
-)}
+    "Background mode (schedules batched ticks via WP-Cron)",
+    "content-ownership",
+  )}
 wp content-ownership scan --background
 
-# ${__(
-  "Server crontab — sync scan daily at 22:00",
-  "content-ownership",
-)}
+# ${__("Server crontab — sync scan daily at 22:00", "content-ownership")}
 0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan
 
 # ${__(
-  "Alternative: background kickoff + execute due WP events",
-  "content-ownership",
-)}
+    "Alternative: background kickoff + execute due WP events",
+    "content-ownership",
+  )}
 0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan --background
 * * * * * cd /path/to/wordpress && wp --path=wp cron event run --due-now`;
 }
@@ -88,10 +79,13 @@ export function ScheduleTab() {
   const settingsQ = useGlobalSettings();
   const scheduleQ = useScheduleInfo();
   const updateM = useUpdateGlobalSettings({
-    onSuccess: () => toast.success(__("Schedule settings saved.", "content-ownership")),
+    onSuccess: () =>
+      toast.success(__("Schedule settings saved.", "content-ownership")),
     onError: (e) =>
       toast.error(
-        e instanceof Error ? e.message : __("Could not save schedule settings.", "content-ownership"),
+        e instanceof Error
+          ? e.message
+          : __("Could not save schedule settings.", "content-ownership"),
       ),
   });
   const setUnsaved = useUiStore((s) => s.setHasUnsavedChanges);
@@ -132,9 +126,7 @@ export function ScheduleTab() {
   });
 
   if (settingsQ.isLoading) {
-    return (
-      <p className="text-sm text-muted-foreground">{__("Loading schedule settings…", "content-ownership")}</p>
-    );
+    return <SettingsSkeleton rows={2} />;
   }
 
   const scheduleInfo = scheduleQ.data;
@@ -142,41 +134,53 @@ export function ScheduleTab() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-3xl flex-col gap-6 pb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("WP Cron", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events.",
-                "content-ownership",
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <FormField
-              control={form.control}
-              name="auto_scan_enabled"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-2">
-                  <FormLabel>{__("Automatic scan", "content-ownership")}</FormLabel>
+      <form
+        onSubmit={onSubmit}
+        className="mx-auto flex w-full  flex-col space-y-8 pb-8"
+      >
+        <SettingSection
+          title={__("WP Cron", "content-ownership")}
+          description={__(
+            "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events.",
+            "content-ownership",
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="auto_scan_enabled"
+            render={({ field }) => (
+              <SettingRow label={__("Automatic scan", "content-ownership")}>
+                <FormItem>
                   <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <FormDescription>
-                    {__("Schedule a recurring scan via WordPress cron.", "content-ownership")}
+                    {__(
+                      "Schedule a recurring scan via WordPress cron.",
+                      "content-ownership",
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+              </SettingRow>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="scan_frequency"
-              render={({ field }) => (
+          <FormField
+            control={form.control}
+            name="scan_frequency"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Scan frequency", "content-ownership")}
+                description={__(
+                  "How often the scheduled scan is registered.",
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Scan frequency", "content-ownership")}</FormLabel>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="max-w-40">
@@ -184,24 +188,32 @@ export function ScheduleTab() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="daily">{__("Daily", "content-ownership")}</SelectItem>
-                      <SelectItem value="weekly">{__("Weekly", "content-ownership")}</SelectItem>
+                      <SelectItem value="daily">
+                        {__("Daily", "content-ownership")}
+                      </SelectItem>
+                      <SelectItem value="weekly">
+                        {__("Weekly", "content-ownership")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>
-                    {__("How often the scheduled scan is registered.", "content-ownership")}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+              </SettingRow>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="scan_time"
-              render={({ field }) => (
+          <FormField
+            control={form.control}
+            name="scan_time"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Scan time", "content-ownership")}
+                description={__(
+                  "Time of day to register the scan (server time).",
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Scan time", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input
                       type="time"
@@ -210,20 +222,24 @@ export function ScheduleTab() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {__("Time of day to register the scan (server time).", "content-ownership")}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+              </SettingRow>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="cron_batch_size"
-              render={({ field }) => (
+          <FormField
+            control={form.control}
+            name="cron_batch_size"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Batch size", "content-ownership")}
+                description={__(
+                  "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory.",
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Batch size", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -233,52 +249,44 @@ export function ScheduleTab() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {__(
-                      "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory.",
-                      "content-ownership",
-                    )}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+              </SettingRow>
+            )}
+          />
 
-            {scheduleInfo && (
-              <div className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm">
+          {scheduleInfo ? (
+            <SettingRow label={__("Next scheduled", "content-ownership")}>
+              <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm">
                 <p>
-                  <span className="font-medium">{__("Next scheduled:", "content-ownership")} </span>
                   {formatNextScheduled(scheduleInfo.next_scheduled_iso, locale)}
                 </p>
-                {scheduleInfo.wp_cron_disabled && (
+                {scheduleInfo.wp_cron_disabled ? (
                   <p className="mt-2 text-muted-foreground">
                     {__(
                       "WP-Cron is disabled on this site. Scheduled scans require something to execute due events (for example wp cron event run --due-now from server crontab), or use the WP-CLI examples below.",
                       "content-ownership",
                     )}
                   </p>
-                )}
+                ) : null}
               </div>
-            )}
-          </CardContent>
-        </Card>
+            </SettingRow>
+          ) : null}
+        </SettingSection>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("WP-CLI & server crontab", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled.",
-                "content-ownership",
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <pre className="overflow-x-auto rounded-xl bg-zinc-950 p-4 text-xs text-zinc-100">
+        <SettingSection
+          title={__("WP-CLI & server crontab", "content-ownership")}
+          description={__(
+            "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled.",
+            "content-ownership",
+          )}
+        >
+          <SettingRow label={__("Examples", "content-ownership")}>
+            <pre className="overflow-x-auto rounded-lg bg-zinc-950 p-4 text-xs text-zinc-100">
               <code>{cliExamples()}</code>
             </pre>
-          </CardContent>
-        </Card>
+          </SettingRow>
+        </SettingSection>
 
         <Separator />
 
@@ -291,9 +299,14 @@ export function ScheduleTab() {
           >
             {__("Reset", "content-ownership")}
           </Button>
-          <Button type="submit" disabled={!form.formState.isDirty || updateM.isPending}>
+          <Button
+            type="submit"
+            disabled={!form.formState.isDirty || updateM.isPending}
+          >
             <Save className="mr-2 h-4 w-4" />
-            {updateM.isPending ? __("Saving…", "content-ownership") : __("Save changes", "content-ownership")}
+            {updateM.isPending
+              ? __("Saving…", "content-ownership")
+              : __("Save changes", "content-ownership")}
           </Button>
         </div>
       </form>

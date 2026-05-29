@@ -6,27 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
 
+import { SettingsSkeleton } from "@/components/ui/loading-skeletons";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { SettingRow, SettingSection } from "@/components/ui/setting-row";
 
 import { useGlobalSettings, useUpdateGlobalSettings } from "@/api/queries";
 import { isEmailTarget, type RecipientTarget } from "@/types";
@@ -90,7 +84,6 @@ export function GeneralSettingsTab() {
       .map((e: string) => e.trim())
       .filter((e: string) => e.length > 0);
 
-    // Preserve non-email targets the API might already have stored (user/role).
     const existingNonEmail: RecipientTarget[] = (
       settingsQ.data?.default_recipients ?? []
     ).filter((t) => !isEmailTarget(t));
@@ -114,9 +107,7 @@ export function GeneralSettingsTab() {
   });
 
   if (settingsQ.isLoading) {
-    return (
-      <div className="text-sm text-muted-foreground">{__("Loading settings…", "content-ownership")}</div>
-    );
+    return <SettingsSkeleton rows={4} />;
   }
   if (settingsQ.error) {
     return (
@@ -130,24 +121,26 @@ export function GeneralSettingsTab() {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="grid gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("Review intervals", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "How often pages must be reviewed and when reminders go out.",
-                "content-ownership",
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="default_interval_days"
-              render={({ field }) => (
+      <form onSubmit={onSubmit} className="space-y-8">
+        <SettingSection
+          title={__("Review intervals", "content-ownership")}
+          description={__(
+            "How often pages must be reviewed and when reminders go out.",
+            "content-ownership",
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="default_interval_days"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Default review interval (days)", "content-ownership")}
+                description={__(
+                  "Used when a page has no rule of its own.",
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Default review interval (days)", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -157,19 +150,23 @@ export function GeneralSettingsTab() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {__("Used when a page has no rule of its own.", "content-ownership")}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="notify_days_before"
-              render={({ field }) => (
+              </SettingRow>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="notify_days_before"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Notify days before", "content-ownership")}
+                description={__(
+                  'Window in which a page is "due soon".',
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Notify days before", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -179,33 +176,26 @@ export function GeneralSettingsTab() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {__('Window in which a page is "due soon".', "content-ownership")}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+              </SettingRow>
+            )}
+          />
+        </SettingSection>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("Reminders", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.",
-                "content-ownership",
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="send_reminder_after_due"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-2">
-                  <FormLabel>{__("Send reminders after due date", "content-ownership")}</FormLabel>
+        <SettingSection
+          title={__("Reminders", "content-ownership")}
+          description={__(
+            "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.",
+            "content-ownership",
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="send_reminder_after_due"
+            render={({ field }) => (
+              <SettingRow label={__("Send reminders after due date", "content-ownership")}>
+                <FormItem>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -220,15 +210,22 @@ export function GeneralSettingsTab() {
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
-            {sendReminderAfterDue ? (
-              <FormField
-                control={form.control}
-                name="reminder_cadence_days"
-                render={({ field }) => (
+              </SettingRow>
+            )}
+          />
+          {sendReminderAfterDue ? (
+            <FormField
+              control={form.control}
+              name="reminder_cadence_days"
+              render={({ field }) => (
+                <SettingRow
+                  label={__("Reminder cadence (days)", "content-ownership")}
+                  description={__(
+                    "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.",
+                    "content-ownership",
+                  )}
+                >
                   <FormItem>
-                    <FormLabel>{__("Reminder cadence (days)", "content-ownership")}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -238,37 +235,27 @@ export function GeneralSettingsTab() {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      {__(
-                        "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.",
-                        "content-ownership",
-                      )}
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
-            ) : null}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("Mark as reviewed", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "What happens when someone marks a page as reviewed. Plugin review meta is always stored.",
-                "content-ownership",
+                </SettingRow>
               )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="sync_wp_modified_on_review"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-2">
-                  <FormLabel>{__("Update WordPress last modified date", "content-ownership")}</FormLabel>
+            />
+          ) : null}
+        </SettingSection>
+
+        <SettingSection
+          title={__("Mark as reviewed", "content-ownership")}
+          description={__(
+            "What happens when someone marks a page as reviewed. Plugin review meta is always stored.",
+            "content-ownership",
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="sync_wp_modified_on_review"
+            render={({ field }) => (
+              <SettingRow label={__("Update WordPress last modified date", "content-ownership")}>
+                <FormItem>
                   <FormControl>
                     <Switch
                       checked={field.value}
@@ -283,45 +270,44 @@ export function GeneralSettingsTab() {
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+              </SettingRow>
+            )}
+          />
+        </SettingSection>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{__("Default recipients", "content-ownership")}</CardTitle>
-            <CardDescription>
-              {__(
-                "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too.",
-                "content-ownership",
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="default_recipient_emails_text"
-              render={({ field }) => (
+        <SettingSection
+          title={__("Default recipients", "content-ownership")}
+          description={__(
+            "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too.",
+            "content-ownership",
+          )}
+        >
+          <FormField
+            control={form.control}
+            name="default_recipient_emails_text"
+            render={({ field }) => (
+              <SettingRow
+                label={__("Default recipient emails", "content-ownership")}
+                description={__(
+                  "Separate multiple addresses with commas or whitespace.",
+                  "content-ownership",
+                )}
+              >
                 <FormItem>
-                  <FormLabel>{__("Default recipient emails", "content-ownership")}</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={3}
-                      className="min-h-28"
+                      className="min-h-28 max-w-xl"
                       placeholder={__("alerts@example.com, ops@example.com", "content-ownership")}
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {__("Separate multiple addresses with commas or whitespace.", "content-ownership")}
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
+              </SettingRow>
+            )}
+          />
+        </SettingSection>
 
         <Separator />
 

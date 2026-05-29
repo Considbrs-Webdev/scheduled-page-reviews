@@ -9,7 +9,7 @@ export function PagesTab() {
       <aside className="flex min-h-0 flex-col overflow-hidden rounded-lg border bg-card">
         <Tree />
       </aside>
-      <section className="flex min-h-0 flex-col overflow-hidden rounded-lg border bg-card">
+      <section className="flex min-h-0 flex-col overflow-hidden rounded-lg border bg-background">
         <PageDetail pageId={pageId} />
       </section>
     </div>

@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save } from "lucide-react";
+import { CalendarClock, Save, Users } from "lucide-react";
 import { toast } from "sonner";
 
 import { __ } from "@wordpress/i18n";
+import { PageDetailSkeleton } from "@/components/ui/loading-skeletons";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { SettingSection } from "@/components/ui/setting-row";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePageRule, useUpdatePageRule } from "@/api/queries";
 import { useUiStore } from "@/store/ui";
 
@@ -14,7 +17,14 @@ import { PageHeader } from "./PageHeader";
 import { IntervalField } from "./fields/IntervalField";
 import { NotifyBeforeField } from "./fields/NotifyBeforeField";
 import { RecipientsField } from "./fields/RecipientsField";
-import { ruleFormSchema, ruleResponseToFormValues, formValuesToRule, type RuleFormValues } from "./schema";
+import {
+  ruleFormSchema,
+  ruleResponseToFormValues,
+  formValuesToRule,
+  type RuleFormValues,
+} from "./schema";
+
+type EditorSection = "recipients" | "schedule";
 
 interface PageDetailProps {
   pageId: number | null;
@@ -35,6 +45,7 @@ export function PageDetail({ pageId }: PageDetailProps) {
 }
 
 function PageDetailInner({ pageId }: { pageId: number }) {
+  const [section, setSection] = useState<EditorSection>("recipients");
   const q = usePageRule(pageId);
   const m = useUpdatePageRule(pageId);
   const setUnsaved = useUiStore((s) => s.setHasUnsavedChanges);
@@ -50,11 +61,13 @@ function PageDetailInner({ pageId }: { pageId: number }) {
 
   useEffect(() => {
     if (!q.data) return;
-    form.reset(ruleResponseToFormValues(q.data.rule, {
-      interval_days: q.data.effective.interval_days.value,
-      notify_before: q.data.effective.notify_before.value,
-      recipients: q.data.effective.recipients.value,
-    }));
+    form.reset(
+      ruleResponseToFormValues(q.data.rule, {
+        interval_days: q.data.effective.interval_days.value,
+        notify_before: q.data.effective.notify_before.value,
+        recipients: q.data.effective.recipients.value,
+      }),
+    );
   }, [q.data, form, pageId]);
 
   useEffect(() => {
@@ -63,11 +76,7 @@ function PageDetailInner({ pageId }: { pageId: number }) {
   }, [form.formState.isDirty, setUnsaved]);
 
   if (q.isLoading) {
-    return (
-      <div className="p-6 text-sm text-muted-foreground">
-        {__("Loading page rule…", "content-ownership")}
-      </div>
-    );
+    return <PageDetailSkeleton />;
   }
   if (q.error || !q.data) {
     return (
@@ -84,7 +93,8 @@ function PageDetailInner({ pageId }: { pageId: number }) {
         toast.success(__("Saved.", "content-ownership"));
         form.reset(values);
       },
-      onError: (e) => toast.error(e instanceof Error ? e.message : __("Failed to save.", "content-ownership")),
+      onError: (e) =>
+        toast.error(e instanceof Error ? e.message : __("Failed to save.", "content-ownership")),
     });
   });
 
@@ -99,14 +109,57 @@ function PageDetailInner({ pageId }: { pageId: number }) {
           nextReviewAt={data.next_review_at}
           lastReviewedAt={data.last_reviewed_at}
         />
-        <div className="grid flex-1 gap-4 overflow-auto p-4">
-          <IntervalField effective={data.effective} />
-          <NotifyBeforeField effective={data.effective} />
-          <RecipientsField effective={data.effective} />
-        </div>
+
+        <Tabs
+          value={section}
+          onValueChange={(value) => {
+            if (value === "recipients" || value === "schedule") {
+              setSection(value);
+            }
+          }}
+          className="flex min-h-0 flex-1 flex-col"
+        >
+          <div className="px-4 pt-4">
+            <TabsList variant="line" animated className="h-10 w-fit">
+              <TabsTrigger value="recipients" className="gap-2 px-4">
+                <Users aria-hidden />
+                {__("Recipients", "content-ownership")}
+              </TabsTrigger>
+              <TabsTrigger value="schedule" className="gap-2 px-4">
+                <CalendarClock aria-hidden />
+                {__("Schedule", "content-ownership")}
+              </TabsTrigger>
+            </TabsList>
+          </div>
+
+          <TabsContent value="recipients" className="min-h-0 flex-1 overflow-auto p-4">
+            <SettingSection title={__("Notification recipients", "content-ownership")}>
+              <RecipientsField effective={data.effective} />
+            </SettingSection>
+          </TabsContent>
+
+          <TabsContent value="schedule" className="min-h-0 flex-1 overflow-auto p-4">
+            <SettingSection
+              title={__("Review schedule", "content-ownership")}
+              description={__(
+                "Interval and reminder timing for this page.",
+                "content-ownership",
+              )}
+            >
+              <IntervalField effective={data.effective} />
+              <NotifyBeforeField effective={data.effective} />
+            </SettingSection>
+          </TabsContent>
+        </Tabs>
+
         <Separator />
         <div className="flex items-center justify-end gap-2 p-4">
-          <Button type="button" variant="outline" disabled={!form.formState.isDirty || m.isPending} onClick={() => form.reset()}>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={!form.formState.isDirty || m.isPending}
+            onClick={() => form.reset()}
+          >
             {__("Reset", "content-ownership")}
           </Button>
           <Button type="submit" disabled={!form.formState.isDirty || m.isPending}>
