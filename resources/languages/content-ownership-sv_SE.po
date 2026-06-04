@@ -715,22 +715,36 @@ msgstr "Sidor"
 msgid "Settings"
 msgstr "Inställningar"
 
-#. translators: 1: pages processed, 2: emails sent
-#: resources/assets/js/layout/RunScanButton.tsx:19
-msgid "Scan complete — %1$d pages processed, %2$d emails sent."
-msgstr "Skanning klar — %1$d sidor bearbetade, %2$d e-post skickade."
+#. translators: 1: pages checked, 2: emails sent
+#: resources/assets/js/layout/SendRemindersButton.tsx:30
+msgid "Reminders sent — %1$d pages checked, %2$d emails sent."
+msgstr "Påminnelser skickade — %1$d sidor kontrollerade, %2$d e-post skickade."
 
-#: resources/assets/js/layout/RunScanButton.tsx:28
-msgid "Failed to run scan."
-msgstr "Kunde inte köra skanning."
+#: resources/assets/js/layout/SendRemindersButton.tsx:42
+msgid "Failed to send reminders."
+msgstr "Kunde inte skicka påminnelser."
 
-#: resources/assets/js/layout/RunScanButton.tsx:33
-msgid "Scanning…"
-msgstr "Skannar…"
+#: resources/assets/js/layout/SendRemindersButton.tsx:60
+#: resources/assets/js/layout/SendRemindersButton.tsx:96
+msgid "Sending reminders…"
+msgstr "Skickar påminnelser…"
 
-#: resources/assets/js/layout/RunScanButton.tsx:33
-msgid "Run scan now"
-msgstr "Kör skanning nu"
+#: resources/assets/js/layout/SendRemindersButton.tsx:61
+#: resources/assets/js/layout/SendRemindersButton.tsx:97
+msgid "Send reminders"
+msgstr "Skicka påminnelser"
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:76
+msgid "Send review reminders now?"
+msgstr "Skicka granskningspåminnelser nu?"
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:79
+msgid "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while."
+msgstr "Detta kontrollerar alla sidor mot dina granskningsregler och skickar samlingsmejl till ägare som har sidor som är förfallna eller försenade. Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund."
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:92
+msgid "Cancel"
+msgstr "Avbryt"
 
 #: resources/assets/js/lib/format.ts:15
 msgid "today"

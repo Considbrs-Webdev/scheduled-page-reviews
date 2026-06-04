@@ -680,22 +680,36 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#. translators: 1: pages processed, 2: emails sent
-#: resources/assets/js/layout/RunScanButton.tsx:19
+#. translators: 1: pages checked, 2: emails sent
+#: resources/assets/js/layout/SendRemindersButton.tsx:30
 #, js-format
-msgid "Scan complete — %1$d pages processed, %2$d emails sent."
+msgid "Reminders sent — %1$d pages checked, %2$d emails sent."
 msgstr ""
 
-#: resources/assets/js/layout/RunScanButton.tsx:28
-msgid "Failed to run scan."
+#: resources/assets/js/layout/SendRemindersButton.tsx:42
+msgid "Failed to send reminders."
 msgstr ""
 
-#: resources/assets/js/layout/RunScanButton.tsx:33
-msgid "Scanning…"
+#: resources/assets/js/layout/SendRemindersButton.tsx:60
+#: resources/assets/js/layout/SendRemindersButton.tsx:96
+msgid "Sending reminders…"
 msgstr ""
 
-#: resources/assets/js/layout/RunScanButton.tsx:33
-msgid "Run scan now"
+#: resources/assets/js/layout/SendRemindersButton.tsx:61
+#: resources/assets/js/layout/SendRemindersButton.tsx:97
+msgid "Send reminders"
+msgstr ""
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:76
+msgid "Send review reminders now?"
+msgstr ""
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:79
+msgid "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while."
+msgstr ""
+
+#: resources/assets/js/layout/SendRemindersButton.tsx:92
+msgid "Cancel"
 msgstr ""
 
 #: resources/assets/js/lib/format.ts:15

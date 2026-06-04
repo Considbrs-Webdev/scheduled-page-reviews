@@ -62,6 +62,7 @@ const sv = {
   "Failed to load settings:": "Kunde inte läsa in inställningarna:",
   "Failed to load.": "Kunde inte läsa in.",
   "Failed to run scan.": "Kunde inte köra skanning.",
+  "Failed to send reminders.": "Kunde inte skicka påminnelser.",
   "Failed to save.": "Kunde inte spara.",
   "Failed to start cron.": "Kunde inte starta cron.",
   "Failed.": "Misslyckades.",
@@ -138,6 +139,9 @@ const sv = {
   "Run scan immediately (recommended when WP-Cron is disabled)":
     "Kör skanning direkt (rekommenderas när WP-Cron är inaktiverat)",
   "Run scan now": "Kör skanning nu",
+  "Send reminders": "Skicka påminnelser",
+  "Send review reminders now?": "Skicka granskningspåminnelser nu?",
+  "Sending reminders…": "Skickar påminnelser…",
   "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled.":
     "Kör skanningar från kommandoraden eller server-crontab för tillförlitlig körning — särskilt när WP-Cron är inaktiverat.",
   "Save changes": "Spara ändringar",
@@ -151,9 +155,14 @@ const sv = {
     "Skanning klar — %1$d sidor bearbetade, %2$d köade för avisering, %3$d e-post skickade.",
   "Scan complete — %1$d pages processed, %2$d emails sent.":
     "Skanning klar — %1$d sidor bearbetade, %2$d e-post skickade.",
+  "Reminders sent — %1$d pages checked, %2$d emails sent.":
+    "Påminnelser skickade — %1$d sidor kontrollerade, %2$d e-post skickade.",
   "Scan frequency": "Skanningsfrekvens",
   "Scan time": "Skanningstid",
   "Scanning…": "Skannar…",
+  Cancel: "Avbryt",
+  "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while.":
+    "Detta kontrollerar alla sidor mot dina granskningsregler och skickar samlingsmejl till ägare som har sidor som är förfallna eller försenade. Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund.",
   "Search pages…": "Sök sidor…",
   "Search users…": "Sök användare…",
   "Searching…": "Söker…",

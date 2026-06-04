@@ -312,7 +312,7 @@ Three ways to start a scan:
 
 | Trigger | Mode | Behaviour |
 | ------- | ---- | --------- |
-| **Run scan now** (admin SPA header) | Synchronous | Processes all batches in one request, sends emails, returns stats |
+| **Send reminders** (admin SPA header) | Synchronous | Processes all batches in one request, sends emails, returns stats |
 | **Schedule tab → WP Cron** | Background | Registers `content_ownership_daily` at the configured time; when that event runs it schedules batched `content_ownership_tick` events |
 | **WP-CLI** | Sync or background | See below |
 
