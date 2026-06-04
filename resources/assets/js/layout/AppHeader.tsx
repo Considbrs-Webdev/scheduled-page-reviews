@@ -4,7 +4,7 @@ import { __ } from "@wordpress/i18n";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getBoot } from "@/lib/boot";
 
-import { RunScanButton } from "./RunScanButton";
+import { SendRemindersButton } from "./SendRemindersButton";
 
 /**
  * Interactive header controls portaled into the PHP admin header shell.
@@ -33,7 +33,7 @@ export function AppHeader() {
 
       <div className="flex shrink-0 items-center gap-3">
         <span className="text-xs text-white/70">v{boot.pluginVersion}</span>
-        <RunScanButton inHeader />
+        <SendRemindersButton inHeader />
       </div>
     </>
   );
