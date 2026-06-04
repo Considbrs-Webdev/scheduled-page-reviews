@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ContentOwnership\Application;
 
 use ContentOwnership\Admin\AccessControl;
+use ContentOwnership\Admin\BuildNotice;
 use ContentOwnership\Admin\DashboardWidget;
 use ContentOwnership\Admin\EditorIntegration;
 use ContentOwnership\Admin\Header;
@@ -35,6 +36,7 @@ use ContentOwnership\Rest\ScheduleController;
 use ContentOwnership\Rest\SettingsController;
 use ContentOwnership\Rest\TreeController;
 use ContentOwnership\Rest\UsersController;
+use ContentOwnership\Storage\MetaRegistration;
 use ContentOwnership\Storage\RuleRepository;
 use ContentOwnership\Storage\SettingsRepository;
 use ContentOwnership\Storage\WpPageHierarchy;
@@ -120,6 +122,8 @@ final class App
         Container::register(ViteManifest::class, new ViteManifest());
         Container::register(Assets::class, new Assets());
         Container::register(AccessControl::class, new AccessControl());
+        Container::register(MetaRegistration::class, new MetaRegistration());
+        Container::register(BuildNotice::class, new BuildNotice());
         Container::register(SettingsPage::class, new SettingsPage());
         Container::register(Header::class, new Header());
 

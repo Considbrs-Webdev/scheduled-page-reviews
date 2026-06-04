@@ -37,6 +37,7 @@
         "lint": "phpcs",
         "lint:fix": "phpcbf",
         "test": "phpunit",
+        "release": "npm run build && node scripts/build-release.mjs",
         "i18n:pot": "npm run i18n:pot"
     }
 }

@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dev dependencies and verify
+        run: |
+          composer install --optimize-autoloader
+          npm ci
+          composer test
+          npm run typecheck
+          npm run build
+
+      - name: Build release ZIP
+        env:
+          RELEASE_VERSION: ${{ github.ref_name }}
+        run: node scripts/build-release.mjs
+
+      - name: Upload release ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-ownership-${{ github.ref_name }}
+          path: .build/content-ownership-*.zip
+
+      - name: Create GitHub prerelease with ZIP
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: ${{ contains(github.ref_name, 'test') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+          files: .build/content-ownership-*.zip
+          generate_release_notes: true
+
+  # Deploy to WordPress.org when SVN secrets are configured (plugin must exist on .org).
+  deploy-wordpress-org:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ vars.WPORG_DEPLOY_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Prepare build directory
+        env:
+          RELEASE_VERSION: ${{ github.ref_name }}
+        run: |
+          npm ci
+          npm run build
+          node scripts/build-release.mjs
+          rm -rf build
+          unzip -q .build/content-ownership-*.zip -d build
+          mv build/content-ownership build/package
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@v2
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        with:
+          build-dir: build/package
+          generate-zip: true

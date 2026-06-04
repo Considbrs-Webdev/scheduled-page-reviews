@@ -20,6 +20,23 @@ npm run build
 
 Then activate the plugin in **wp-admin → Plugins**.
 
+## Installation (test / production ZIP)
+
+Releases are built in CI from a tag on `main`. The ZIP includes `vendor/` and `dist/`; you do **not** need Node or Composer on the server.
+
+1. Download the ZIP from the GitHub Release for your tag (see **[RELEASE.md](RELEASE.md)**).
+2. **Plugins → Add New → Upload Plugin** and activate.
+
+To build a ZIP locally:
+
+```bash
+composer install
+npm ci
+npm run release
+```
+
+Output: `.build/content-ownership-<version>.zip`
+
 ## Scripts
 
 | Command             | What it does                                              |
@@ -27,6 +44,8 @@ Then activate the plugin in **wp-admin → Plugins**.
 | `npm run dev`       | Build assets and watch for changes                        |
 | `npm run build`     | `tsc --noEmit` then production bundle                     |
 | `npm run typecheck` | Type-check only                                           |
+| `npm run release`   | Build installable ZIP under `.build/` (see RELEASE.md)    |
+| `composer release`  | `npm run build` then release ZIP                          |
 | `composer test`     | Run PHPUnit                                               |
 | `composer lint`     | Run PHP_CodeSniffer                                       |
 | `composer lint:fix` | Run PHP Code Beautifier                                   |

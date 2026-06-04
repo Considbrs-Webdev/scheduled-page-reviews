@@ -3,6 +3,7 @@
 /vendor/
 /node_modules/
 /dist/
+/.build/
 /resources/i18n-extract/
 
 /.phpunit.cache/

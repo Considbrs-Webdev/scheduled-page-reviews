@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite build --watch --mode development",
     "build": "tsc --noEmit && vite build",
+    "release": "node scripts/build-release.mjs",
     "typecheck": "tsc --noEmit",
     "i18n:pot": "node scripts/i18n-prepare-js.mjs && ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/content-ownership wp-content/plugins/content-ownership/resources/languages/content-ownership.pot --domain=content-ownership --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache,resources/assets/js && node scripts/i18n-fix-pot-refs.mjs",
     "i18n:mo": "ddev exec --dir=/var/www/html wp i18n make-mo wp-content/plugins/content-ownership/resources/languages",
