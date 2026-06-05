@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Domain\Bucket;
-use ContentOwnership\Domain\InheritanceResolver;
-use ContentOwnership\Domain\RecipientVisibility;
-use ContentOwnership\Domain\ReviewDateCalculator;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Domain\Bucket;
+use ScheduledPageReviews\Domain\InheritanceResolver;
+use ScheduledPageReviews\Domain\RecipientVisibility;
+use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use WP_Post;
@@ -43,7 +43,7 @@ final class PostStates
         $effective = $this->resolver->resolveForPage($pageId, $this->settings->get());
 
         $keys           = (array) Config::get('settings', 'meta_keys', []);
-        $atKey          = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
+        $atKey          = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
         $lastReviewedAt = $this->parseDate(get_post_meta($pageId, $atKey, true));
 
         $postModifiedAt = new DateTimeImmutable($post->post_modified_gmt, new DateTimeZone('UTC'));
@@ -62,12 +62,12 @@ final class PostStates
         }
 
         if ($bucket === Bucket::Overdue) {
-            $states['content_ownership_overdue'] = '<span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
-                . esc_html__('Review overdue', 'content-ownership')
+            $states['scheduled_page_reviews_overdue'] = '<span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
+                . esc_html__('Review overdue', 'scheduled-page-reviews')
                 . '</span>';
         } elseif ($bucket === Bucket::Upcoming) {
-            $states['content_ownership_upcoming'] = '<span style="background:#d97706;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
-                . esc_html__('Review due soon', 'content-ownership')
+            $states['scheduled_page_reviews_upcoming'] = '<span style="background:#d97706;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
+                . esc_html__('Review due soon', 'scheduled-page-reviews')
                 . '</span>';
         }
 

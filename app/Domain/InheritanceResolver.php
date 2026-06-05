@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
-use ContentOwnership\Domain\Contracts\PageHierarchy;
-use ContentOwnership\Domain\Contracts\RuleSource;
+use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
+use ScheduledPageReviews\Domain\Contracts\RuleSource;
 use Generator;
 
 /**

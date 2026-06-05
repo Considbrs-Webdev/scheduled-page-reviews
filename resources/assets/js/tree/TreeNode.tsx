@@ -48,7 +48,7 @@ export function TreeNode({
           e.stopPropagation();
           node.toggle();
         }}
-        aria-label={node.isOpen ? __("Collapse", "content-ownership") : __("Expand", "content-ownership")}
+        aria-label={node.isOpen ? __("Collapse", "scheduled-page-reviews") : __("Expand", "scheduled-page-reviews")}
         disabled={!hasChildren}
       >
         {hasChildren ? (
@@ -63,7 +63,7 @@ export function TreeNode({
       {node.data.has_local_rule && (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="relative z-10 inline-flex shrink-0" aria-label={__("Has local rule", "content-ownership")}>
+            <span className="relative z-10 inline-flex shrink-0" aria-label={__("Has local rule", "scheduled-page-reviews")}>
               <Tag className="h-3.5 w-3.5 text-muted-foreground" />
             </span>
           </TooltipTrigger>
@@ -75,7 +75,7 @@ export function TreeNode({
           <TooltipTrigger asChild>
             <span
               className="relative z-10 inline-flex shrink-0"
-              aria-label={__("Propagates to subpages", "content-ownership")}
+              aria-label={__("Propagates to subpages", "scheduled-page-reviews")}
             >
               <CornerDownRight className="h-3.5 w-3.5 text-primary" />
             </span>
@@ -88,7 +88,7 @@ export function TreeNode({
           <TooltipTrigger asChild>
             <span
               className="relative z-10 inline-flex shrink-0"
-              aria-label={__("Inherits from ancestor", "content-ownership")}
+              aria-label={__("Inherits from ancestor", "scheduled-page-reviews")}
             >
               <CornerLeftDown className="h-3.5 w-3.5 text-muted-foreground/80" />
             </span>

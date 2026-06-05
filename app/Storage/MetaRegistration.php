@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Storage;
+namespace ScheduledPageReviews\Storage;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Application\Config;
-use ContentOwnership\Application\Container;
-use ContentOwnership\Domain\PageAuthorization;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Application\Container;
+use ScheduledPageReviews\Domain\PageAuthorization;
 
 /**
  * Registers plugin post meta with restrictive auth callbacks.
@@ -27,7 +27,7 @@ final class MetaRegistration
 
         $keys = (array) Config::get('settings', 'meta_keys', []);
 
-        $ruleKey = (string) ($keys['rule'] ?? '_content_ownership_rule');
+        $ruleKey = (string) ($keys['rule'] ?? '_scheduled_page_reviews_rule');
         register_post_meta(
             'page',
             $ruleKey,
@@ -40,7 +40,7 @@ final class MetaRegistration
             ]
         );
 
-        $atKey = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
+        $atKey = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
         register_post_meta(
             'page',
             $atKey,
@@ -53,7 +53,7 @@ final class MetaRegistration
             ]
         );
 
-        $byKey = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
+        $byKey = (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by');
         register_post_meta(
             'page',
             $byKey,
@@ -66,7 +66,7 @@ final class MetaRegistration
             ]
         );
 
-        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_content_ownership_last_notified_at');
+        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
         register_post_meta(
             'page',
             $notifiedKey,

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Assets;
+namespace ScheduledPageReviews\Assets;
 
-use ContentOwnership\Application\Config;
+use ScheduledPageReviews\Application\Config;
 
 /**
  * Resolver for Vite's build manifest.

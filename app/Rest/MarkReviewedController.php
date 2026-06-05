@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Domain\PageAuthorization;
-use ContentOwnership\Domain\PageReviewMarker;
+use ScheduledPageReviews\Domain\PageAuthorization;
+use ScheduledPageReviews\Domain\PageReviewMarker;
 use WP_Error;
 use WP_User;
 use WP_REST_Request;
@@ -24,7 +24,7 @@ final class MarkReviewedController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/pages/(?P<id>\d+)/mark-reviewed',
             [
                 'methods'             => WP_REST_Server::CREATABLE,
@@ -43,8 +43,8 @@ final class MarkReviewedController
         $userId = get_current_user_id();
         if ($userId === 0) {
             return new WP_Error(
-                'content_ownership_unauthenticated',
-                __('You must be logged in to mark a page as reviewed.', 'content-ownership'),
+                'scheduled_page_reviews_unauthenticated',
+                __('You must be logged in to mark a page as reviewed.', 'scheduled-page-reviews'),
                 ['status' => 401]
             );
         }

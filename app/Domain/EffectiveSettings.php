@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
 /**
  * Fully-resolved settings for a single page.

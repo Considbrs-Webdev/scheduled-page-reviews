@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Application;
+namespace ScheduledPageReviews\Application;
 
 use RuntimeException;
 

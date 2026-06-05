@@ -15,10 +15,10 @@ export function NotifyBeforeField({ effective }: { effective: EffectiveSettings 
 
   return (
     <SettingRow
-      label={__("Notify before due", "content-ownership")}
+      label={__("Notify before due", "scheduled-page-reviews")}
       description={__(
         'When to show "due soon" in the dashboard widget.',
-        "content-ownership",
+        "scheduled-page-reviews",
       )}
     >
       <div className="space-y-3">
@@ -30,13 +30,13 @@ export function NotifyBeforeField({ effective }: { effective: EffectiveSettings 
         {state === "inherit" ? (
           <InheritedFrom
             resolution={effective.notify_before}
-            formatValue={(n) => sprintf(__("%d days", "content-ownership"), n)}
+            formatValue={(n) => sprintf(__("%d days", "scheduled-page-reviews"), n)}
           />
         ) : (
           <div className="flex flex-wrap items-end gap-2">
             <div className="min-w-0 flex-1">
               <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                {__("Days before review date", "content-ownership")}
+                {__("Days before review date", "scheduled-page-reviews")}
               </label>
               <Input
                 type="number"

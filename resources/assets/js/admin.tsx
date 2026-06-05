@@ -9,7 +9,7 @@ import { QueryProvider } from "@/lib/query-client";
 
 import { App } from "./App";
 
-const mountNode = document.getElementById("content-ownership-root");
+const mountNode = document.getElementById("scheduled-page-reviews-root");
 
 if (mountNode) {
   createRoot(mountNode).render(

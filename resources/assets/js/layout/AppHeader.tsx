@@ -19,15 +19,15 @@ export function AppHeader() {
         variant="header"
         animated
         className="h-10"
-        aria-label={__("Main navigation", "content-ownership")}
+        aria-label={__("Main navigation", "scheduled-page-reviews")}
       >
         <TabsTrigger value="pages" className="gap-2">
           <LayoutGrid aria-hidden />
-          {__("Pages", "content-ownership")}
+          {__("Pages", "scheduled-page-reviews")}
         </TabsTrigger>
         <TabsTrigger value="settings" className="gap-2">
           <Settings aria-hidden />
-          {__("Settings", "content-ownership")}
+          {__("Settings", "scheduled-page-reviews")}
         </TabsTrigger>
       </TabsList>
 

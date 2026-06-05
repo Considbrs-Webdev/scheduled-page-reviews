@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Cron;
+namespace ScheduledPageReviews\Tests\Unit\Cron;
 
-use ContentOwnership\Cron\RunState;
+use ScheduledPageReviews\Cron\RunState;
 use PHPUnit\Framework\TestCase;
 
 final class RunStateTest extends TestCase

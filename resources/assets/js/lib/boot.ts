@@ -1,10 +1,11 @@
-export interface ContentOwnershipBoot {
+export interface ScheduledPageReviewsBoot {
   restRoot: string;
   nonce: string;
   currentUserId: number;
   locale: string;
   dateFormat: string;
   pluginVersion: string;
+  pageSlug: string;
   capabilities: {
     manage: boolean;
   };
@@ -12,20 +13,21 @@ export interface ContentOwnershipBoot {
 
 declare global {
   interface Window {
-    contentOwnershipBoot?: ContentOwnershipBoot;
+    scheduledPageReviewsBoot?: ScheduledPageReviewsBoot;
   }
 }
 
-const fallback: ContentOwnershipBoot = {
+const fallback: ScheduledPageReviewsBoot = {
   restRoot: "",
   nonce: "",
   currentUserId: 0,
   locale: "en-US",
   dateFormat: "Y-m-d",
   pluginVersion: "0.0.0",
+  pageSlug: "scheduled-page-reviews",
   capabilities: { manage: false },
 };
 
-export function getBoot(): ContentOwnershipBoot {
-  return window.contentOwnershipBoot ?? fallback;
+export function getBoot(): ScheduledPageReviewsBoot {
+  return window.scheduledPageReviewsBoot ?? fallback;
 }

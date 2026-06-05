@@ -1,5 +1,7 @@
+import { getBoot } from "@/lib/boot";
+
 /** Dispatched after programmatic URL updates (pushState/replaceState). */
-export const URL_STATE_EVENT = "content-ownership:urlstatechange";
+export const URL_STATE_EVENT = "scheduled-page-reviews:urlstatechange";
 
 export type Tab = "pages" | "settings";
 
@@ -11,7 +13,6 @@ export interface AppUrlState {
 const TAB_KEY = "tab";
 const PAGE_ID_KEY = "page_id";
 const WP_PAGE_KEY = "page";
-const WP_PAGE_SLUG = "content-ownership";
 
 export const DEFAULT_TAB: Tab = "pages";
 
@@ -62,7 +63,7 @@ export function appUrlStatesEqual(a: AppUrlState, b: AppUrlState): boolean {
 export function buildAppSearchParams(state: AppUrlState): URLSearchParams {
   const params = new URLSearchParams(window.location.search);
 
-  params.set(WP_PAGE_KEY, WP_PAGE_SLUG);
+  params.set(WP_PAGE_KEY, getBoot().pageSlug);
 
   if (state.tab === DEFAULT_TAB) {
     params.delete(TAB_KEY);

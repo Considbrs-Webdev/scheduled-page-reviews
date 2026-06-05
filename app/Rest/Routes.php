@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
+
+use ScheduledPageReviews\Application\PluginIdentity;
 
 /**
- * Compile-time constants shared by all REST controllers.
+ * REST API identifiers shared by all controllers.
  */
 final class Routes
 {
-    public const NAMESPACE = 'content-ownership/v1';
-
     public const CAP_FALLBACK = 'manage_options';
+
+    public static function restNamespace(): string
+    {
+        return PluginIdentity::restNamespace();
+    }
 
     private function __construct()
     {

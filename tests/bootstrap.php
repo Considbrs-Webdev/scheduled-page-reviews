@@ -30,11 +30,11 @@ if (! function_exists('_n')) {
 
 if (! function_exists('add_filter')) {
     /** @var array<string, list<callable>> */
-    $GLOBALS['_content_ownership_test_filters'] = [];
+    $GLOBALS['_scheduled_page_reviews_test_filters'] = [];
 
     function add_filter(string $hook, callable $callback, int $priority = 10, int $accepted_args = 1): void
     {
-        $GLOBALS['_content_ownership_test_filters'][$hook][] = $callback;
+        $GLOBALS['_scheduled_page_reviews_test_filters'][$hook][] = $callback;
     }
 
     /**
@@ -42,7 +42,7 @@ if (! function_exists('add_filter')) {
      */
     function apply_filters(string $hook, mixed $value, mixed ...$args): mixed
     {
-        foreach ($GLOBALS['_content_ownership_test_filters'][$hook] ?? [] as $callback) {
+        foreach ($GLOBALS['_scheduled_page_reviews_test_filters'][$hook] ?? [] as $callback) {
             $value = $callback($value, ...$args);
         }
 
@@ -51,7 +51,7 @@ if (! function_exists('add_filter')) {
 
     function remove_all_filters(string $hook): void
     {
-        unset($GLOBALS['_content_ownership_test_filters'][$hook]);
+        unset($GLOBALS['_scheduled_page_reviews_test_filters'][$hook]);
     }
 }
 

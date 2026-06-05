@@ -1,6 +1,6 @@
 {
-    "name": "williamundqvist/content-ownership",
-    "description": "Per-page review intervals, content ownership, inheritance, batched cron notifications, and a React-based page-tree admin UI.",
+    "name": "williamundqvist/scheduled-page-reviews",
+    "description": "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
     "require": {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ContentOwnership\\": "app/"
+            "ScheduledPageReviews\\": "app/"
         },
         "files": [
             "helpers.php"
@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ContentOwnership\\Tests\\": "tests/"
+            "ScheduledPageReviews\\Tests\\": "tests/"
         }
     },
     "config": {

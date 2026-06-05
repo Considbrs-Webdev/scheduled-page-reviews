@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain\Contracts;
+namespace ScheduledPageReviews\Domain\Contracts;
 
-use ContentOwnership\Domain\Rule;
+use ScheduledPageReviews\Domain\Rule;
 
 /**
  * Read-only access to per-page rules.
  *
- * Exists so the {@see \ContentOwnership\Domain\InheritanceResolver} can be
+ * Exists so the {@see \ScheduledPageReviews\Domain\InheritanceResolver} can be
  * unit-tested with an in-memory fake. Production implementation is
- * {@see \ContentOwnership\Storage\RuleRepository}.
+ * {@see \ScheduledPageReviews\Storage\RuleRepository}.
  */
 interface RuleSource
 {

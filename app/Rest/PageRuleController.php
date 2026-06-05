@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Domain\InheritanceResolver;
-use ContentOwnership\Domain\PageAuthorization;
-use ContentOwnership\Domain\ReviewDateCalculator;
-use ContentOwnership\Domain\Rule;
-use ContentOwnership\Storage\RuleRepository;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Domain\InheritanceResolver;
+use ScheduledPageReviews\Domain\PageAuthorization;
+use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Domain\Rule;
+use ScheduledPageReviews\Storage\RuleRepository;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Throwable;
@@ -34,7 +34,7 @@ final class PageRuleController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/pages/(?P<id>\d+)/rule',
             [
                 [
@@ -71,8 +71,8 @@ final class PageRuleController
         $params = $request->get_json_params();
         if (!is_array($params)) {
             return new WP_Error(
-                'content_ownership_invalid_body',
-                __('Request body must be a JSON object.', 'content-ownership'),
+                'scheduled_page_reviews_invalid_body',
+                __('Request body must be a JSON object.', 'scheduled-page-reviews'),
                 ['status' => 400]
             );
         }
@@ -115,8 +115,8 @@ final class PageRuleController
         $effective = $this->resolver->resolveForPage($pageId, $this->settings->get());
 
         $keys              = (array) Config::get('settings', 'meta_keys', []);
-        $atKey             = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
-        $byKey             = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
+        $atKey             = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
+        $byKey             = (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by');
         $lastReviewedRaw   = (string) get_post_meta($pageId, $atKey, true);
         $lastReviewedById  = (int) get_post_meta($pageId, $byKey, true);
         $lastReviewedAt    = $this->parseDate($lastReviewedRaw);

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Cron\ScheduleManager;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Cron\ScheduleManager;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -23,7 +23,7 @@ final class ScheduleController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/cron/schedule-info',
             [
                 'methods'             => WP_REST_Server::READABLE,

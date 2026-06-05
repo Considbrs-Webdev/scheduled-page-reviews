@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Capabilities;
+use ScheduledPageReviews\Application\Capabilities;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -33,7 +33,7 @@ final class UsersController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/users',
             [
                 'methods'             => WP_REST_Server::READABLE,

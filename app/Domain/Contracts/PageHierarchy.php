@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain\Contracts;
+namespace ScheduledPageReviews\Domain\Contracts;
 
 /**
  * Read-only view over the page tree.

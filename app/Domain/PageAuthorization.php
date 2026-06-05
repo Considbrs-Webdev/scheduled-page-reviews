@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Domain\Contracts\SettingsReader;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Domain\Contracts\SettingsReader;
 use WP_User;
 
 /**

@@ -43,30 +43,30 @@ import {
 function cliExamples(): string {
   return `# ${__(
     "Run scan immediately (recommended when WP-Cron is disabled)",
-    "content-ownership",
+    "scheduled-page-reviews",
   )}
-wp content-ownership scan
+wp scheduled-page-reviews scan
 
 # ${__(
     "Background mode (schedules batched ticks via WP-Cron)",
-    "content-ownership",
+    "scheduled-page-reviews",
   )}
-wp content-ownership scan --background
+wp scheduled-page-reviews scan --background
 
-# ${__("Server crontab — sync scan daily at 22:00", "content-ownership")}
-0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan
+# ${__("Server crontab — sync scan daily at 22:00", "scheduled-page-reviews")}
+0 22 * * * cd /path/to/wordpress && wp --path=wp scheduled-page-reviews scan
 
 # ${__(
     "Alternative: background kickoff + execute due WP events",
-    "content-ownership",
+    "scheduled-page-reviews",
   )}
-0 22 * * * cd /path/to/wordpress && wp --path=wp content-ownership scan --background
+0 22 * * * cd /path/to/wordpress && wp --path=wp scheduled-page-reviews scan --background
 * * * * * cd /path/to/wordpress && wp --path=wp cron event run --due-now`;
 }
 
 function formatNextScheduled(iso: string | null, locale: string): string {
   if (!iso) {
-    return __("Not scheduled", "content-ownership");
+    return __("Not scheduled", "scheduled-page-reviews");
   }
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) {
@@ -80,12 +80,12 @@ export function ScheduleTab() {
   const scheduleQ = useScheduleInfo();
   const updateM = useUpdateGlobalSettings({
     onSuccess: () =>
-      toast.success(__("Schedule settings saved.", "content-ownership")),
+      toast.success(__("Schedule settings saved.", "scheduled-page-reviews")),
     onError: (e) =>
       toast.error(
         e instanceof Error
           ? e.message
-          : __("Could not save schedule settings.", "content-ownership"),
+          : __("Could not save schedule settings.", "scheduled-page-reviews"),
       ),
   });
   const setUnsaved = useUiStore((s) => s.setHasUnsavedChanges);
@@ -139,17 +139,17 @@ export function ScheduleTab() {
         className="mx-auto flex w-full  flex-col space-y-8 pb-8"
       >
         <SettingSection
-          title={__("WP Cron", "content-ownership")}
+          title={__("WP Cron", "scheduled-page-reviews")}
           description={__(
             "Registers an automatic scan in WordPress at the chosen time. This schedules the scan — it does not run until something executes scheduled WP events.",
-            "content-ownership",
+            "scheduled-page-reviews",
           )}
         >
           <FormField
             control={form.control}
             name="auto_scan_enabled"
             render={({ field }) => (
-              <SettingRow label={__("Automatic scan", "content-ownership")}>
+              <SettingRow label={__("Automatic scan", "scheduled-page-reviews")}>
                 <FormItem>
                   <FormControl>
                     <Switch
@@ -160,7 +160,7 @@ export function ScheduleTab() {
                   <FormDescription>
                     {__(
                       "Schedule a recurring scan via WordPress cron.",
-                      "content-ownership",
+                      "scheduled-page-reviews",
                     )}
                   </FormDescription>
                   <FormMessage />
@@ -174,10 +174,10 @@ export function ScheduleTab() {
             name="scan_frequency"
             render={({ field }) => (
               <SettingRow
-                label={__("Scan frequency", "content-ownership")}
+                label={__("Scan frequency", "scheduled-page-reviews")}
                 description={__(
                   "How often the scheduled scan is registered.",
-                  "content-ownership",
+                  "scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -189,10 +189,10 @@ export function ScheduleTab() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="daily">
-                        {__("Daily", "content-ownership")}
+                        {__("Daily", "scheduled-page-reviews")}
                       </SelectItem>
                       <SelectItem value="weekly">
-                        {__("Weekly", "content-ownership")}
+                        {__("Weekly", "scheduled-page-reviews")}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -207,10 +207,10 @@ export function ScheduleTab() {
             name="scan_time"
             render={({ field }) => (
               <SettingRow
-                label={__("Scan time", "content-ownership")}
+                label={__("Scan time", "scheduled-page-reviews")}
                 description={__(
                   "Time of day to register the scan (server time).",
-                  "content-ownership",
+                  "scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -233,10 +233,10 @@ export function ScheduleTab() {
             name="cron_batch_size"
             render={({ field }) => (
               <SettingRow
-                label={__("Batch size", "content-ownership")}
+                label={__("Batch size", "scheduled-page-reviews")}
                 description={__(
                   "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory.",
-                  "content-ownership",
+                  "scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -256,7 +256,7 @@ export function ScheduleTab() {
           />
 
           {scheduleInfo ? (
-            <SettingRow label={__("Next scheduled", "content-ownership")}>
+            <SettingRow label={__("Next scheduled", "scheduled-page-reviews")}>
               <div className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm">
                 <p>
                   {formatNextScheduled(scheduleInfo.next_scheduled_iso, locale)}
@@ -265,7 +265,7 @@ export function ScheduleTab() {
                   <p className="mt-2 text-muted-foreground">
                     {__(
                       "WP-Cron is disabled on this site. Scheduled scans require something to execute due events (for example wp cron event run --due-now from server crontab), or use the WP-CLI examples below.",
-                      "content-ownership",
+                      "scheduled-page-reviews",
                     )}
                   </p>
                 ) : null}
@@ -275,13 +275,13 @@ export function ScheduleTab() {
         </SettingSection>
 
         <SettingSection
-          title={__("WP-CLI & server crontab", "content-ownership")}
+          title={__("WP-CLI & server crontab", "scheduled-page-reviews")}
           description={__(
             "Run scans from the command line or server crontab for reliable execution — especially when WP-Cron is disabled.",
-            "content-ownership",
+            "scheduled-page-reviews",
           )}
         >
-          <SettingRow label={__("Examples", "content-ownership")}>
+          <SettingRow label={__("Examples", "scheduled-page-reviews")}>
             <pre className="overflow-x-auto rounded-lg bg-zinc-950 p-4 text-xs text-zinc-100">
               <code>{cliExamples()}</code>
             </pre>
@@ -297,7 +297,7 @@ export function ScheduleTab() {
             disabled={!form.formState.isDirty || updateM.isPending}
             onClick={resetToServer}
           >
-            {__("Reset", "content-ownership")}
+            {__("Reset", "scheduled-page-reviews")}
           </Button>
           <Button
             type="submit"
@@ -305,8 +305,8 @@ export function ScheduleTab() {
           >
             <Save className="mr-2 h-4 w-4" />
             {updateM.isPending
-              ? __("Saving…", "content-ownership")
-              : __("Save changes", "content-ownership")}
+              ? __("Saving…", "scheduled-page-reviews")
+              : __("Save changes", "scheduled-page-reviews")}
           </Button>
         </div>
       </form>

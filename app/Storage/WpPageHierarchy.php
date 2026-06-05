@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Storage;
+namespace ScheduledPageReviews\Storage;
 
-use ContentOwnership\Domain\Contracts\PageHierarchy;
+use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
 use WP_Query;
 
 /**

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Application\Config;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Application\PluginIdentity;
 
 /**
  * Top-level admin menu page hosting the React settings SPA.
@@ -15,7 +16,10 @@ use ContentOwnership\Application\Config;
  */
 final class SettingsPage
 {
-    public const PAGE_SLUG = 'content-ownership';
+    public static function pageSlug(): string
+    {
+        return PluginIdentity::slug();
+    }
 
     public function __construct()
     {
@@ -24,11 +28,14 @@ final class SettingsPage
 
     public function register(): void
     {
+        $domain = PluginIdentity::textDomain();
+        $name   = PluginIdentity::name();
+
         add_menu_page(
-            __('Content Ownership', 'content-ownership'),
-            __('Content Ownership', 'content-ownership'),
+            __($name, $domain),
+            __($name, $domain),
             Capabilities::menu(),
-            self::PAGE_SLUG,
+            self::pageSlug(),
             [$this, 'render'],
             'dashicons-clipboard',
             58
@@ -51,7 +58,7 @@ final class SettingsPage
      */
     public static function hookSuffix(): string
     {
-        return 'toplevel_page_' . self::PAGE_SLUG;
+        return 'toplevel_page_' . self::pageSlug();
     }
 
     /**
@@ -63,7 +70,7 @@ final class SettingsPage
      */
     public static function adminUrl(?string $tab = null, ?int $pageId = null): string
     {
-        $args = ['page' => self::PAGE_SLUG];
+        $args = ['page' => self::pageSlug()];
 
         if ($tab === 'settings' || $tab === 'general' || $tab === 'schedule') {
             $args['tab'] = 'settings';
