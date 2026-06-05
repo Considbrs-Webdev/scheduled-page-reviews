@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Cron;
+namespace ScheduledPageReviews\Tests\Unit\Cron;
 
-use ContentOwnership\Cron\QueuedItem;
-use ContentOwnership\Domain\Bucket;
+use ScheduledPageReviews\Cron\QueuedItem;
+use ScheduledPageReviews\Domain\Bucket;
 use PHPUnit\Framework\TestCase;
 
 final class QueuedItemTest extends TestCase

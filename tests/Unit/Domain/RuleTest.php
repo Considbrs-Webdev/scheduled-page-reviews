@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\Rule;
-use ContentOwnership\Domain\RuleField;
-use ContentOwnership\Domain\RuleScope;
-use ContentOwnership\Domain\ScopedValue;
-use ContentOwnership\Domain\Target;
+use ScheduledPageReviews\Domain\Rule;
+use ScheduledPageReviews\Domain\RuleField;
+use ScheduledPageReviews\Domain\RuleScope;
+use ScheduledPageReviews\Domain\ScopedValue;
+use ScheduledPageReviews\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class RuleTest extends TestCase

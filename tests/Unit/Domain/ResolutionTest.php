@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\FieldSource;
-use ContentOwnership\Domain\Resolution;
+use ScheduledPageReviews\Domain\FieldSource;
+use ScheduledPageReviews\Domain\Resolution;
 use PHPUnit\Framework\TestCase;
 
 final class ResolutionTest extends TestCase

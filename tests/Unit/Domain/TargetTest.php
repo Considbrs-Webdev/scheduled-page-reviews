@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\Target;
-use ContentOwnership\Domain\TargetType;
+use ScheduledPageReviews\Domain\Target;
+use ScheduledPageReviews\Domain\TargetType;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

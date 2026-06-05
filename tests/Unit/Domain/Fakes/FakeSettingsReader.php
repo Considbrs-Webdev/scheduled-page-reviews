@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain\Fakes;
+namespace ScheduledPageReviews\Tests\Unit\Domain\Fakes;
 
-use ContentOwnership\Domain\Contracts\SettingsReader;
-use ContentOwnership\Domain\GlobalSettings;
+use ScheduledPageReviews\Domain\Contracts\SettingsReader;
+use ScheduledPageReviews\Domain\GlobalSettings;
 
 final class FakeSettingsReader implements SettingsReader
 {

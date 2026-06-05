@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Notifications;
+namespace ScheduledPageReviews\Tests\Unit\Notifications;
 
-use ContentOwnership\Notifications\EmailRenderer;
+use ScheduledPageReviews\Notifications\EmailRenderer;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
