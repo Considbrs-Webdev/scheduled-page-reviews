@@ -202,8 +202,8 @@ const sv = {
     "Alternativ: bakgrundstart + kör förfallna WP-händelser",
   "Manage page review intervals, notification recipients and hierarchical inheritance for the whole site.":
     "Hantera granskningsintervall, aviseringsmottagare och hierariskt arv för hela webbplatsen.",
-  "Select a page from the tree to view and edit its scheduled-page-reviews rule.":
-    "Välj en sida i trädet för att visa och redigera regeln för innehållsägarskap.",
+  "Select a page from the tree to view and edit its review rule.":
+    "Välj en sida i trädet för att visa och redigera dess granskningsregel.",
   "Hello %1$s, the following pages on %2$s need your attention.":
     "Hej %1$s, följande sidor på %2$s behöver din uppmärksamhet.",
   "Hello %1$s, the following pages on %2$s (%3$s) need your attention.":

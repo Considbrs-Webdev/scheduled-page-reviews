@@ -35,7 +35,7 @@ export function PageDetail({ pageId }: PageDetailProps) {
     return (
       <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
         {__(
-          "Select a page from the tree to view and edit its scheduled-page-reviews rule.",
+          "Select a page from the tree to view and edit its review rule.",
           "scheduled-page-reviews",
         )}
       </div>

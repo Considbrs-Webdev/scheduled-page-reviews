@@ -368,7 +368,7 @@ msgid "Inherited from page #%d:"
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:25
-msgid "Select a page from the tree to view and edit its scheduled-page-reviews rule."
+msgid "Select a page from the tree to view and edit its review rule."
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:63
