@@ -21,7 +21,7 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
             id={inputId}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={__("Search pages…", "content-ownership")}
+            placeholder={__("Search pages…", "scheduled-page-reviews")}
             className="h-8 pl-7"
           />
         </div>
@@ -31,7 +31,7 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
           size="sm"
           className="h-8 w-8 p-0"
           onClick={() => qc.invalidateQueries({ queryKey: ["tree"] })}
-          aria-label={__("Refresh tree", "content-ownership")}
+          aria-label={__("Refresh tree", "scheduled-page-reviews")}
         >
           <RefreshCw className="h-3.5 w-3.5" />
         </Button>
@@ -39,7 +39,7 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
       <div className="mt-1 px-1 text-xs text-muted-foreground">
         {sprintf(
           /* translators: %d: number of pages */
-          _n("%d page", "%d pages", pageCount, "content-ownership"),
+          _n("%d page", "%d pages", pageCount, "scheduled-page-reviews"),
           pageCount,
         )}
       </div>

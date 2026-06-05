@@ -15,8 +15,8 @@ export function IntervalField({ effective }: { effective: EffectiveSettings }) {
 
   return (
     <SettingRow
-      label={__("Review interval", "content-ownership")}
-      description={__("How often this page must be reviewed.", "content-ownership")}
+      label={__("Review interval", "scheduled-page-reviews")}
+      description={__("How often this page must be reviewed.", "scheduled-page-reviews")}
     >
       <div className="space-y-3">
         <InheritanceRadio
@@ -27,13 +27,13 @@ export function IntervalField({ effective }: { effective: EffectiveSettings }) {
         {state === "inherit" ? (
           <InheritedFrom
             resolution={effective.interval_days}
-            formatValue={(n) => sprintf(__("%d days", "content-ownership"), n)}
+            formatValue={(n) => sprintf(__("%d days", "scheduled-page-reviews"), n)}
           />
         ) : (
           <div className="flex flex-wrap items-end gap-2">
             <div className="min-w-0 flex-1">
               <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                {__("Days between reviews", "content-ownership")}
+                {__("Days between reviews", "scheduled-page-reviews")}
               </label>
               <Input
                 type="number"
@@ -44,7 +44,7 @@ export function IntervalField({ effective }: { effective: EffectiveSettings }) {
               />
             </div>
             <p className="pb-2 text-xs text-muted-foreground">
-              {__("e.g. 180 = twice a year", "content-ownership")}
+              {__("e.g. 180 = twice a year", "scheduled-page-reviews")}
             </p>
           </div>
         )}

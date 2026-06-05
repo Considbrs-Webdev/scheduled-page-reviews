@@ -24,7 +24,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: Target
         onSelect={(t: RecipientTarget) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <User2 className="mr-1.5 h-3.5 w-3.5" /> {__("Add user", "content-ownership")}
+            <User2 className="mr-1.5 h-3.5 w-3.5" /> {__("Add user", "scheduled-page-reviews")}
           </Button>
         }
       />
@@ -33,7 +33,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: Target
         onSelect={(t) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <Users className="mr-1.5 h-3.5 w-3.5" /> {__("Add group", "content-ownership")}
+            <Users className="mr-1.5 h-3.5 w-3.5" /> {__("Add group", "scheduled-page-reviews")}
           </Button>
         }
       />
@@ -56,23 +56,23 @@ function EmailAdder({ onAdd }: { onAdd: (t: RecipientTarget) => void }) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" size="sm">
-          <Mail className="mr-1.5 h-3.5 w-3.5" /> {__("Add email", "content-ownership")}
+          <Mail className="mr-1.5 h-3.5 w-3.5" /> {__("Add email", "scheduled-page-reviews")}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <div className="grid gap-2">
           <label className="text-xs font-medium text-muted-foreground">
-            {__("Email address", "content-ownership")}
+            {__("Email address", "scheduled-page-reviews")}
           </label>
           <Input
             type="email"
-            placeholder={__("alerts@example.com", "content-ownership")}
+            placeholder={__("alerts@example.com", "scheduled-page-reviews")}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           />
           <Button type="button" size="sm" onClick={submit}>
-            <Plus className="mr-1 h-3.5 w-3.5" /> {__("Add", "content-ownership")}
+            <Plus className="mr-1 h-3.5 w-3.5" /> {__("Add", "scheduled-page-reviews")}
           </Button>
         </div>
       </PopoverContent>

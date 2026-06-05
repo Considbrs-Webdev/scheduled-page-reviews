@@ -1,5 +1,5 @@
 /** Dispatched after programmatic URL updates (pushState/replaceState). */
-export const URL_STATE_EVENT = "content-ownership:urlstatechange";
+export const URL_STATE_EVENT = "scheduled-page-reviews:urlstatechange";
 
 export type Tab = "pages" | "settings";
 
@@ -11,7 +11,9 @@ export interface AppUrlState {
 const TAB_KEY = "tab";
 const PAGE_ID_KEY = "page_id";
 const WP_PAGE_KEY = "page";
-const WP_PAGE_SLUG = "content-ownership";
+import { PLUGIN_SLUG } from "@/lib/plugin-slug";
+
+const WP_PAGE_SLUG = PLUGIN_SLUG;
 
 export const DEFAULT_TAB: Tab = "pages";
 

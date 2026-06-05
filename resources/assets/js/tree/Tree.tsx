@@ -80,7 +80,7 @@ export function Tree() {
         )}
         {q.data && data.length === 0 && (
           <div className="px-2 py-4 text-sm text-muted-foreground">
-            {__("No pages found. Create some pages first.", "content-ownership")}
+            {__("No pages found. Create some pages first.", "scheduled-page-reviews")}
           </div>
         )}
         {q.data && data.length > 0 && (

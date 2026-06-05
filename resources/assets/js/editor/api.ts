@@ -1,28 +1,8 @@
 import { wp } from "./wp";
+import { getEditorBoot } from "./api-helpers";
 
-export interface EditorBoot {
-  restRoot: string;
-  nonce: string;
-  settingsUrl: string;
-  canManageSettings: boolean;
-  pluginVersion: string;
-  locale: string;
-  dateFormat: string;
-}
-
-declare global {
-  interface Window {
-    contentOwnershipEditorBoot?: EditorBoot;
-  }
-}
-
-export function getEditorBoot(): EditorBoot {
-  const b = window.contentOwnershipEditorBoot;
-  if (!b) {
-    throw new Error("contentOwnershipEditorBoot is not defined; was the editor bundle enqueued before WP localised its data?");
-  }
-  return b;
-}
+export type { EditorBoot } from "./api-helpers";
+export { getEditorBoot } from "./api-helpers";
 
 export interface RuleResponse {
   page_id: number;
@@ -45,13 +25,26 @@ export interface MarkReviewedResponse {
   reviewer_display_name: string;
 }
 
+function restPath(suffix: string): string {
+  const root = getEditorBoot().restRoot.replace(/\/$/, "");
+  const pathname = new URL(root, window.location.origin).pathname;
+  const wpJson = "/wp-json";
+  const base =
+    pathname.includes(wpJson)
+      ? pathname.slice(pathname.indexOf(wpJson) + wpJson.length)
+      : pathname;
+  const normalizedBase = base.replace(/\/$/, "");
+  const path = suffix.startsWith("/") ? suffix : `/${suffix}`;
+  return `${normalizedBase}${path}`;
+}
+
 export async function fetchRule(pageId: number): Promise<RuleResponse> {
-  return wp.apiFetch<RuleResponse>({ path: `/content-ownership/v1/pages/${pageId}/rule` });
+  return wp.apiFetch<RuleResponse>({ path: restPath(`/pages/${pageId}/rule`) });
 }
 
 export async function markReviewed(pageId: number): Promise<MarkReviewedResponse> {
   return wp.apiFetch<MarkReviewedResponse>({
-    path: `/content-ownership/v1/pages/${pageId}/mark-reviewed`,
+    path: restPath(`/pages/${pageId}/mark-reviewed`),
     method: "POST",
   });
 }

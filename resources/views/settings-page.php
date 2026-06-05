@@ -6,14 +6,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-<div class="wrap content-ownership-app content-ownership-wrap">
+<div class="wrap scheduled-page-reviews-app scheduled-page-reviews-wrap">
     <h1 class="screen-reader-text">
-        <?php esc_html_e('Content Ownership', 'content-ownership'); ?>
+        <?php esc_html_e('Scheduled Page Reviews', 'scheduled-page-reviews'); ?>
     </h1>
-    <div id="content-ownership-root" class="content-ownership-root"></div>
+    <div id="scheduled-page-reviews-root" class="scheduled-page-reviews-root"></div>
     <noscript>
         <div class="notice notice-error">
-            <p><?php esc_html_e('This page requires JavaScript.', 'content-ownership'); ?></p>
+            <p><?php esc_html_e('This page requires JavaScript.', 'scheduled-page-reviews'); ?></p>
         </div>
     </noscript>
 </div>

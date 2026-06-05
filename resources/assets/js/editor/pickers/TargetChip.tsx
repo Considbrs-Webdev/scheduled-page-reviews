@@ -22,7 +22,7 @@ export function TargetChip({ target, onRemove }: TargetChipProps) {
         "gap-1.5 pl-1.5 pr-1 py-0.5 text-xs " +
         (isRole ? "cursor-pointer hover:bg-accent" : "")
       }
-      title={isRole ? __("Click to preview current members", "content-ownership") : undefined}
+      title={isRole ? __("Click to preview current members", "scheduled-page-reviews") : undefined}
     >
       <Icon target={target} />
       <span className="truncate"><ChipLabel target={target} /></span>
@@ -32,7 +32,7 @@ export function TargetChip({ target, onRemove }: TargetChipProps) {
         size="sm"
         className="h-5 w-5 p-0 hover:bg-transparent"
         onClick={(e) => { e.stopPropagation(); onRemove(); }}
-        aria-label={__("Remove", "content-ownership")}
+        aria-label={__("Remove", "scheduled-page-reviews")}
       >
         <X className="h-3 w-3" />
       </Button>
@@ -60,7 +60,7 @@ function ChipLabel({ target }: { target: Target }) {
 function UserName({ id }: { id: number }) {
   const q = useUsersByIds([id]);
   const u = q.data?.[0];
-  return <>{u?.display_name ?? sprintf(/* translators: %d: user ID */ __("User #%d", "content-ownership"), id)}</>;
+  return <>{u?.display_name ?? sprintf(/* translators: %d: user ID */ __("User #%d", "scheduled-page-reviews"), id)}</>;
 }
 
 function RoleName({ slug }: { slug: string }) {

@@ -22,12 +22,12 @@ export function RolePickerPopover({ trigger, onSelect, excludeSlugs = [] }: Role
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="start">
         <Command>
-          <CommandInput placeholder={__("Filter groups…", "content-ownership")} />
+          <CommandInput placeholder={__("Filter groups…", "scheduled-page-reviews")} />
           <CommandList>
             <CommandEmpty>
-              {q.isLoading ? __("Loading…", "content-ownership") : __("No groups available.", "content-ownership")}
+              {q.isLoading ? __("Loading…", "scheduled-page-reviews") : __("No groups available.", "scheduled-page-reviews")}
             </CommandEmpty>
-            <CommandGroup heading={__("Groups (roles)", "content-ownership")}>
+            <CommandGroup heading={__("Groups (roles)", "scheduled-page-reviews")}>
               {roles.map((r) => (
                 <CommandItem
                   key={r.slug}
