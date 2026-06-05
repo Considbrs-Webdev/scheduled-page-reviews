@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fill empty msgstr entries in content-ownership-sv_SE.po from the map below.
+ * Fill empty msgstr entries in scheduled-page-reviews-sv_SE.po from the map below.
  * Handles single-line and multiline msgid/msgstr blocks.
  */
 import fs from "fs";
@@ -8,7 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const poPath = path.join(__dirname, "../resources/languages/content-ownership-sv_SE.po");
+const poPath = path.join(__dirname, "../resources/languages/scheduled-page-reviews-sv_SE.po");
 
 /** @type {Record<string, string | [string, string]>} */
 const sv = {
@@ -114,7 +114,7 @@ const sv = {
   "Notify before due": "Avisera före förfallodatum",
   "Notify days before": "Avisera dagar före",
   "On track": "I fas",
-  "Open content ownership settings": "Öppna inställningar för innehållsägarskap",
+  "Open scheduled page reviews settings": "Öppna inställningar för innehållsägarskap",
   "Open in editor": "Öppna i redigeraren",
   "Overdue (%d)": "Försenade (%d)",
   Page: "Sida",
@@ -176,8 +176,8 @@ const sv = {
   "Server crontab — sync scan daily at 22:00":
     "Server-crontab — synkron skanning dagligen kl. 22:00",
   Status: "Status",
-  "This message was sent by the Content Ownership plugin.":
-    "Detta meddelande skickades av pluginet Content Ownership.",
+  "This message was sent by the Scheduled Page Reviews plugin.":
+    "Detta meddelande skickades av pluginet Scheduled Page Reviews.",
   "This page and subpages": "Den här sidan och undersidor",
   "This page only": "Endast den här sidan",
   "Time of day to register the scan (server time).":
@@ -202,7 +202,7 @@ const sv = {
     "Alternativ: bakgrundstart + kör förfallna WP-händelser",
   "Manage page review intervals, notification recipients and hierarchical inheritance for the whole site.":
     "Hantera granskningsintervall, aviseringsmottagare och hierariskt arv för hela webbplatsen.",
-  "Select a page from the tree to view and edit its content-ownership rule.":
+  "Select a page from the tree to view and edit its scheduled-page-reviews rule.":
     "Välj en sida i trädet för att visa och redigera regeln för innehållsägarskap.",
   "Hello %1$s, the following pages on %2$s need your attention.":
     "Hej %1$s, följande sidor på %2$s behöver din uppmärksamhet.",

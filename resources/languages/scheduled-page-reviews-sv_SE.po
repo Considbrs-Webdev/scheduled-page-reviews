@@ -1,44 +1,44 @@
-# Swedish translation for Content Ownership.
+# Swedish translation for Scheduled Page Reviews.
 # Copyright (C) 2026 William Undqvist
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Content Ownership 0.1.0\nReport-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/content-ownership\nPOT-Creation-Date: "
+"Project-Id-Version: Scheduled Page Reviews 0.1.0\nReport-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/scheduled-page-reviews\nPOT-Creation-Date: "
 "2026-05-29T15:48:35+02:00\nPO-Revision-Date: 2026-05-21 "
 "21:30+0200\nLast-Translator: William Undqvist\nLanguage-Team: "
 "Swedish\nLanguage: sv_SE\nMIME-Version: 1.0\nContent-Type: text/plain; "
 "charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; "
-"plural=(n != 1);\nX-Generator: manual\nX-Domain: content-ownership\n"
+"plural=(n != 1);\nX-Generator: manual\nX-Domain: scheduled-page-reviews\n"
 
 #. Plugin Name of the plugin
-#: content-ownership.php app/Admin/SettingsPage.php:28
+#: scheduled-page-reviews.php app/Admin/SettingsPage.php:28
 #: app/Admin/SettingsPage.php:29 resources/views/settings-page.php:11
-msgid "Content Ownership"
-msgstr "Innehållsägarskap"
+msgid "Scheduled Page Reviews"
+msgstr "Schemalagda sidgranskningar"
 
 #. Plugin URI of the plugin
-#: content-ownership.php
-msgid "https://github.com/williamundqvist/content-ownership"
-msgstr "https://github.com/williamundqvist/content-ownership"
+#: scheduled-page-reviews.php
+msgid "https://github.com/williamundqvist/scheduled-page-reviews"
+msgstr "https://github.com/williamundqvist/scheduled-page-reviews"
 
 #. Description of the plugin
-#: content-ownership.php
+#: scheduled-page-reviews.php
 msgid ""
-"Per-page review intervals, content ownership, inheritance, batched cron "
+"Per-page review intervals, scheduled page reviews, inheritance, batched cron "
 "notifications, and a React-based page-tree admin UI."
 msgstr ""
 "Granskningsintervall per sida, innehållsägarskap, arv, samlade "
 "cron-aviseringar och ett React-baserat sidträd i admin."
 
 #. Author of the plugin
-#: content-ownership.php
+#: scheduled-page-reviews.php
 msgid "William Lundqvist"
 msgstr "William Undqvist"
 
 #: app/Admin/DashboardWidget.php:37
-msgid "Content ownership — pages needing review"
-msgstr "Innehållsägarskap — sidor som behöver granskas"
+msgid "Scheduled page reviews — pages needing review"
+msgstr "Schemalagda sidgranskningar — sidor som behöver granskas"
 
 #: app/Admin/DashboardWidget.php:51
 msgid "No pages on the site need review right now."
@@ -63,7 +63,7 @@ msgid "(no title)"
 msgstr "(saknar titel)"
 
 #: app/Admin/DashboardWidget.php:152
-msgid "Open content ownership settings →"
+msgid "Open scheduled page reviews settings →"
 msgstr "Öppna inställningar för innehållsägarskap →"
 
 #. translators: %d = maximum number of list items shown
@@ -180,9 +180,9 @@ msgstr "Du måste vara inloggad för att markera en sida som granskad."
 msgid "Request body must be a JSON object."
 msgstr "Begäransinnehållet måste vara ett JSON-objekt."
 
-#: content-ownership.php:30
+#: scheduled-page-reviews.php:30
 msgid ""
-"Content Ownership: Composer dependencies are missing. Please run \"composer "
+"Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer "
 "install\" inside the plugin directory."
 msgstr ""
 "Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i "
@@ -240,8 +240,8 @@ msgstr "WordPress-administrationen"
 
 #: resources/views/emails/digest.html.php:141
 #: resources/views/emails/digest.text.php:106
-msgid "This message was sent by the Content Ownership plugin."
-msgstr "Detta meddelande skickades av pluginet Content Ownership."
+msgid "This message was sent by the Scheduled Page Reviews plugin."
+msgstr "Detta meddelande skickades av pluginet Scheduled Page Reviews."
 
 #: resources/views/emails/digest.text.php:58
 msgid "Edit:"
@@ -379,7 +379,7 @@ msgstr "Ärvs från sida #%d:"
 
 #: resources/assets/js/editor/PageDetail.tsx:25
 msgid ""
-"Select a page from the tree to view and edit its content-ownership rule."
+"Select a page from the tree to view and edit its scheduled-page-reviews rule."
 msgstr ""
 "Välj en sida i trädet för att visa och redigera regeln för "
 "innehållsägarskap."
@@ -580,7 +580,7 @@ msgid "Mark as reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:168
-msgid "Open content ownership settings"
+msgid "Open scheduled page reviews settings"
 msgstr "Öppna inställningar för innehållsägarskap"
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:31

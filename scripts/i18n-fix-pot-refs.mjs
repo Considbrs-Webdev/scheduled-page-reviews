@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pluginRoot = path.join(__dirname, "..");
 const srcRoot = path.join(pluginRoot, "resources/assets/js");
-const potPath = path.join(pluginRoot, "resources/languages/content-ownership.pot");
+const potPath = path.join(pluginRoot, "resources/languages/scheduled-page-reviews.pot");
 
 /**
  * @param {string} ref e.g. "layout/Header.js:12"

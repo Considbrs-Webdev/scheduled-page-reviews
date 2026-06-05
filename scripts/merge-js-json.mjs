@@ -37,10 +37,10 @@ const mergedByEntry = Object.fromEntries(
 );
 
 for (const file of fs.readdirSync(langDir)) {
-  if (!file.startsWith(`content-ownership-${locale}-`) || !file.endsWith(".json")) {
+  if (!file.startsWith(`scheduled-page-reviews-${locale}-`) || !file.endsWith(".json")) {
     continue;
   }
-  const hash = file.slice(`content-ownership-${locale}-`.length, -".json".length);
+  const hash = file.slice(`scheduled-page-reviews-${locale}-`.length, -".json".length);
   if (bundleHashes.has(hash)) {
     // Skip previous merged bundle outputs — they would overwrite fresh per-file JSON.
     continue;
@@ -56,13 +56,13 @@ for (const file of fs.readdirSync(langDir)) {
 
 for (const bundle of bundles) {
   const hash = md5(bundle.entry);
-  const outName = `content-ownership-${locale}-${hash}.json`;
+  const outName = `scheduled-page-reviews-${locale}-${hash}.json`;
   const outPath = path.join(langDir, outName);
   const payload = {
     "translation-revision-date": new Date().toISOString(),
-    generator: "content-ownership merge-js-json",
+    generator: "scheduled-page-reviews merge-js-json",
     source: bundle.entry,
-    domain: "content-ownership",
+    domain: "scheduled-page-reviews",
     locale_data: {
       messages: mergedByEntry[bundle.entry].messages,
     },
@@ -73,10 +73,10 @@ for (const bundle of bundles) {
 
 // Remove per-chunk JSON files (keep bundle files and po/mo/pot).
 for (const file of fs.readdirSync(langDir)) {
-  if (!file.startsWith(`content-ownership-${locale}-`) || !file.endsWith(".json")) {
+  if (!file.startsWith(`scheduled-page-reviews-${locale}-`) || !file.endsWith(".json")) {
     continue;
   }
-  const entry = bundles.find((b) => file === `content-ownership-${locale}-${md5(b.entry)}.json`);
+  const entry = bundles.find((b) => file === `scheduled-page-reviews-${locale}-${md5(b.entry)}.json`);
   if (!entry) {
     fs.unlinkSync(path.join(langDir, file));
   }

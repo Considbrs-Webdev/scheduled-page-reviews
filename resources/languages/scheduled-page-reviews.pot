@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Content Ownership 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/content-ownership\n"
+"Project-Id-Version: Scheduled Page Reviews 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/scheduled-page-reviews\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,28 +12,28 @@ msgstr ""
 "POT-Creation-Date: 2026-05-29T15:48:35+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: content-ownership\n"
+"X-Domain: scheduled-page-reviews\n"
 
 #. Plugin Name of the plugin
-#: content-ownership.php
+#: scheduled-page-reviews.php
 #: app/Admin/SettingsPage.php:28
 #: app/Admin/SettingsPage.php:29
 #: resources/views/settings-page.php:11
-msgid "Content Ownership"
+msgid "Scheduled Page Reviews"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: content-ownership.php
-msgid "https://github.com/williamundqvist/content-ownership"
+#: scheduled-page-reviews.php
+msgid "https://github.com/williamundqvist/scheduled-page-reviews"
 msgstr ""
 
 #. Description of the plugin
-#: content-ownership.php
-msgid "Per-page review intervals, content ownership, inheritance, batched cron notifications, and a React-based page-tree admin UI."
+#: scheduled-page-reviews.php
+msgid "Per-page review intervals, scheduled page reviews, inheritance, batched cron notifications, and a React-based page-tree admin UI."
 msgstr ""
 
 #. Author of the plugin
-#: content-ownership.php
+#: scheduled-page-reviews.php
 msgid "William Lundqvist"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgid "(no title)"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:152
-msgid "Open content ownership settings →"
+msgid "Open scheduled page reviews settings →"
 msgstr ""
 
 #. translators: %d = maximum number of list items shown
@@ -179,8 +179,8 @@ msgstr ""
 msgid "Request body must be a JSON object."
 msgstr ""
 
-#: content-ownership.php:30
-msgid "Content Ownership: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
+#: scheduled-page-reviews.php:30
+msgid "Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
 msgstr ""
 
 #: resources/views/emails/digest.html.php:21
@@ -235,7 +235,7 @@ msgstr ""
 
 #: resources/views/emails/digest.html.php:141
 #: resources/views/emails/digest.text.php:106
-msgid "This message was sent by the Content Ownership plugin."
+msgid "This message was sent by the Scheduled Page Reviews plugin."
 msgstr ""
 
 #: resources/views/emails/digest.text.php:58
@@ -368,7 +368,7 @@ msgid "Inherited from page #%d:"
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:25
-msgid "Select a page from the tree to view and edit its content-ownership rule."
+msgid "Select a page from the tree to view and edit its scheduled-page-reviews rule."
 msgstr ""
 
 #: resources/assets/js/editor/PageDetail.tsx:63
@@ -573,7 +573,7 @@ msgid "Mark as reviewed"
 msgstr ""
 
 #: resources/assets/js/editor/SidebarPanel.tsx:168
-msgid "Open content ownership settings"
+msgid "Open scheduled page reviews settings"
 msgstr ""
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:31
