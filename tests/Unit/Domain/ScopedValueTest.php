@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\RuleScope;
-use ContentOwnership\Domain\ScopedValue;
+use ScheduledPageReviews\Domain\RuleScope;
+use ScheduledPageReviews\Domain\ScopedValue;
 use PHPUnit\Framework\TestCase;
 
 final class ScopedValueTest extends TestCase

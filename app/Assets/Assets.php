@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Assets;
+namespace ScheduledPageReviews\Assets;
 
-use ContentOwnership\Admin\SettingsPage;
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Application\Config;
-use ContentOwnership\Application\Container;
+use ScheduledPageReviews\Admin\SettingsPage;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Application\Container;
+use ScheduledPageReviews\Application\PluginIdentity;
 
 /**
  * Enqueues the React SPA bundle (and its CSS) on the plugin's admin screens
@@ -31,7 +32,7 @@ final class Assets
 
         $manifest = Container::get(ViteManifest::class);
         $version  = (string) Config::get('app', 'version', '0.1.0');
-        $prefix   = (string) Config::get('paths', 'asset_handle_prefix', 'content-ownership');
+        $prefix   = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
         $handle   = $prefix . '-admin';
 
         foreach ($manifest->getEntryCssUrls(self::ENTRY_ADMIN) as $i => $cssUrl) {
@@ -56,11 +57,11 @@ final class Assets
 
         wp_set_script_translations(
             $handle,
-            'content-ownership',
+            PluginIdentity::textDomain(),
             (string) Config::get('paths', 'languages_dir', ''),
         );
 
-        wp_localize_script($handle, 'contentOwnershipBoot', $this->buildBoot());
+        wp_localize_script($handle, 'scheduledPageReviewsBoot', $this->buildBoot());
 
         add_filter('script_loader_tag', [$this, 'addModuleType'], 10, 3);
     }
@@ -72,7 +73,7 @@ final class Assets
      */
     public function addModuleType(string $tag, string $handle, string $src): string
     {
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'content-ownership');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
         if ($handle !== $prefix . '-admin') {
             return $tag;
         }
@@ -83,7 +84,7 @@ final class Assets
     }
 
     /**
-     * Boot payload exposed to the React SPA as window.contentOwnershipBoot.
+     * Boot payload exposed to the React SPA as window.scheduledPageReviewsBoot.
      *
      * @return array<string, mixed>
      */
@@ -92,7 +93,7 @@ final class Assets
         $user = wp_get_current_user();
 
         return [
-            'restRoot'      => esc_url_raw(rest_url('content-ownership/v1/')),
+            'restRoot'      => esc_url_raw(rest_url(PluginIdentity::restNamespace() . '/')),
             'nonce'         => wp_create_nonce('wp_rest'),
             'currentUserId' => (int) $user->ID,
             'locale'        => str_replace('_', '-', get_user_locale()),
@@ -101,6 +102,7 @@ final class Assets
             'capabilities'  => [
                 'manage' => current_user_can(Capabilities::menu()),
             ],
+            'pageSlug'      => PluginIdentity::slug(),
         ];
     }
 }

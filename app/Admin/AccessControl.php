@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Capabilities;
+use ScheduledPageReviews\Application\Capabilities;
 use WP_User;
 
 /**

@@ -30,7 +30,7 @@ export function App() {
         className="flex min-h-0 flex-1 flex-col"
       >
         {headerMount ? createPortal(<AppHeader />, headerMount) : null}
-        <div className="content-ownership-shell mx-auto flex min-h-0 w-full max-w-[1400px] flex-1 flex-col px-4 pt-5 pb-4">
+        <div className="scheduled-page-reviews-shell mx-auto flex min-h-0 w-full max-w-[1400px] flex-1 flex-col px-4 pt-5 pb-4">
           <main className="flex min-h-0 flex-1 flex-col">
             <TabsContent value="pages" className="flex min-h-0 flex-1 flex-col">
               <PagesTab />

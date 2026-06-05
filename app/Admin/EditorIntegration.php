@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Application\Config;
-use ContentOwnership\Application\Container;
-use ContentOwnership\Assets\ViteManifest;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Application\Container;
+use ScheduledPageReviews\Application\PluginIdentity;
+use ScheduledPageReviews\Assets\ViteManifest;
 
 final class EditorIntegration
 {
@@ -29,7 +30,7 @@ final class EditorIntegration
 
         $manifest = Container::get(ViteManifest::class);
         $version = (string) Config::get('app', 'version', '0.1.0');
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'content-ownership');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
         $handle = $prefix . '-editor';
 
         foreach ($manifest->getEntryCssUrls(self::ENTRY_EDITOR) as $i => $cssUrl) {
@@ -62,11 +63,11 @@ final class EditorIntegration
 
         wp_set_script_translations(
             $handle,
-            'content-ownership',
+            PluginIdentity::textDomain(),
             (string) Config::get('paths', 'languages_dir', ''),
         );
 
-        wp_localize_script($handle, 'contentOwnershipEditorBoot', $this->buildBoot());
+        wp_localize_script($handle, 'scheduledPageReviewsEditorBoot', $this->buildBoot());
     }
 
     /**
@@ -78,7 +79,7 @@ final class EditorIntegration
         $pageId = is_int($postId) && $postId > 0 ? $postId : null;
 
         return [
-            'restRoot' => esc_url_raw(rest_url('content-ownership/v1/')),
+            'restRoot' => esc_url_raw(rest_url(PluginIdentity::restNamespace() . '/')),
             'nonce' => wp_create_nonce('wp_rest'),
             'settingsUrl' => esc_url_raw(SettingsPage::adminUrl('pages', $pageId)),
             'canManageSettings' => current_user_can(Capabilities::menu()),
@@ -90,7 +91,7 @@ final class EditorIntegration
 
     public function addModuleType(string $tag, string $handle, string $src): string
     {
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'content-ownership');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
 
         if ($handle !== $prefix . '-editor') {
             return $tag;

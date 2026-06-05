@@ -20,11 +20,11 @@ if (!defined('ABSPATH')) {
                 </svg>
             </div>
             <h4 class="co-plugin-header-title">
-                <?php esc_html_e('Content ownership', 'content-ownership'); ?>
+                <?php esc_html_e('Scheduled Page Reviews', 'scheduled-page-reviews'); ?>
             </h4>
         </div>
         <div
-            id="<?php echo esc_attr(\ContentOwnership\Admin\Header::INTERACTIVE_MOUNT_ID); ?>"
+            id="<?php echo esc_attr(\ScheduledPageReviews\Admin\Header::INTERACTIVE_MOUNT_ID); ?>"
             class="co-plugin-header-interactive"
         ></div>
     </div>

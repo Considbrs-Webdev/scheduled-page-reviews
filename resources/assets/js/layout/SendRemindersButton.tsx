@@ -30,7 +30,7 @@ export function SendRemindersButton({ inHeader = false }: SendRemindersButtonPro
             /* translators: 1: pages checked, 2: emails sent */
             __(
               "Reminders sent — %1$d pages checked, %2$d emails sent.",
-              "content-ownership",
+              "scheduled-page-reviews",
             ),
             result.processed,
             result.emails_sent,
@@ -40,7 +40,7 @@ export function SendRemindersButton({ inHeader = false }: SendRemindersButtonPro
         toast.error(
           e instanceof Error
             ? e.message
-            : __("Failed to send reminders.", "content-ownership"),
+            : __("Failed to send reminders.", "scheduled-page-reviews"),
         ),
       onSettled: () => setOpen(false),
     });
@@ -57,8 +57,8 @@ export function SendRemindersButton({ inHeader = false }: SendRemindersButtonPro
       >
         <Mail className="mr-2 h-3.5 w-3.5" />
         {m.isPending
-          ? __("Sending reminders…", "content-ownership")
-          : __("Send reminders", "content-ownership")}
+          ? __("Sending reminders…", "scheduled-page-reviews")
+          : __("Send reminders", "scheduled-page-reviews")}
       </Button>
 
       <Dialog
@@ -72,12 +72,12 @@ export function SendRemindersButton({ inHeader = false }: SendRemindersButtonPro
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {__("Send review reminders now?", "content-ownership")}
+              {__("Send review reminders now?", "scheduled-page-reviews")}
             </DialogTitle>
             <DialogDescription>
               {__(
                 "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while.",
-                "content-ownership",
+                "scheduled-page-reviews",
               )}
             </DialogDescription>
           </DialogHeader>
@@ -88,12 +88,12 @@ export function SendRemindersButton({ inHeader = false }: SendRemindersButtonPro
               disabled={m.isPending}
               onClick={() => setOpen(false)}
             >
-              {__("Cancel", "content-ownership")}
+              {__("Cancel", "scheduled-page-reviews")}
             </Button>
             <Button type="button" disabled={m.isPending} onClick={handleConfirm}>
               {m.isPending
-                ? __("Sending reminders…", "content-ownership")
-                : __("Send reminders", "content-ownership")}
+                ? __("Sending reminders…", "scheduled-page-reviews")
+                : __("Send reminders", "scheduled-page-reviews")}
             </Button>
           </DialogFooter>
         </DialogContent>

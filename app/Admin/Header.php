@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Application\Config;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Application\Config;
 
 /**
  * Renders the plugin admin header shell via {@see in_admin_header}.
@@ -47,7 +47,7 @@ final class Header
     {
         $screen = get_current_screen();
         if ($screen !== null && $screen->base === SettingsPage::hookSuffix()) {
-            $classes .= ' content-ownership-admin-page';
+            $classes .= ' scheduled-page-reviews-admin-page';
         }
 
         return $classes;

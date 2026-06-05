@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron;
+namespace ScheduledPageReviews\Cron;
 
-use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
+use ScheduledPageReviews\Cron\Contracts\NotificationQueueInterface;
 use RuntimeException;
 
 final class Scheduler
 {
-    public const DAILY_HOOK = 'content_ownership_daily';
-    public const TICK_HOOK  = 'content_ownership_tick';
+    public const DAILY_HOOK = 'scheduled_page_reviews_daily';
+    public const TICK_HOOK  = 'scheduled_page_reviews_tick';
 
-    private const LOCK_KEY       = 'content_ownership_run_lock';
-    private const STATE_KEY      = 'content_ownership_run_state';
-    private const QUEUE_KEY      = 'content_ownership_run_queue';
+    private const LOCK_KEY       = 'scheduled_page_reviews_run_lock';
+    private const STATE_KEY      = 'scheduled_page_reviews_run_state';
+    private const QUEUE_KEY      = 'scheduled_page_reviews_run_queue';
     private const LOCK_TTL_SEC   = 21600;
     private const TICK_DELAY_SEC = 60;
 
@@ -40,7 +40,7 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                __('A scan is already in progress.', 'content-ownership')
+                __('A scan is already in progress.', 'scheduled-page-reviews')
             );
         }
 
@@ -52,21 +52,21 @@ final class Scheduler
         $counter    = static function () use (&$emailsSent): void {
             $emailsSent++;
         };
-        add_action('content_ownership/notification/sent', $counter, 10, 2);
+        add_action('scheduled_page_reviews/notification/sent', $counter, 10, 2);
 
         try {
             $state = $this->beginRun();
 
             do {
                 $batchSize = max(1, $this->scanner->batchSize());
-                $batchSize = (int) apply_filters('content_ownership/cron/batch_size', $batchSize);
+                $batchSize = (int) apply_filters('scheduled_page_reviews/cron/batch_size', $batchSize);
                 $result    = $this->scanner->tick($state, $batchSize);
                 $state     = $result['state'];
                 set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
             } while ($result['more']);
 
             $grouped = $this->queue->flush();
-            do_action('content_ownership/cron/run_completed', $state->toArray(), $grouped);
+            do_action('scheduled_page_reviews/cron/run_completed', $state->toArray(), $grouped);
             $this->releaseLock();
 
             return new RunResult(
@@ -77,7 +77,7 @@ final class Scheduler
                 completedAt: (int) current_time('timestamp', true),
             );
         } finally {
-            remove_action('content_ownership/notification/sent', $counter, 10);
+            remove_action('scheduled_page_reviews/notification/sent', $counter, 10);
         }
     }
 
@@ -90,7 +90,7 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                __('A scan is already in progress.', 'content-ownership')
+                __('A scan is already in progress.', 'scheduled-page-reviews')
             );
         }
 
@@ -138,7 +138,7 @@ final class Scheduler
         $this->restoreQueue($state->runId);
 
         $batchSize = max(1, $this->scanner->batchSize());
-        $batchSize = (int) apply_filters('content_ownership/cron/batch_size', $batchSize);
+        $batchSize = (int) apply_filters('scheduled_page_reviews/cron/batch_size', $batchSize);
 
         $result = $this->scanner->tick($state, $batchSize);
 
@@ -152,7 +152,7 @@ final class Scheduler
         }
 
         $grouped = $this->queue->flush();
-        do_action('content_ownership/cron/run_completed', $result['state']->toArray(), $grouped);
+        do_action('scheduled_page_reviews/cron/run_completed', $result['state']->toArray(), $grouped);
         delete_transient(self::QUEUE_KEY);
         delete_transient(self::STATE_KEY);
         delete_transient(self::LOCK_KEY);
@@ -170,7 +170,7 @@ final class Scheduler
         set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
         $this->queue->clear();
         delete_transient(self::QUEUE_KEY);
-        do_action('content_ownership/cron/before_run', $state->toArray());
+        do_action('scheduled_page_reviews/cron/before_run', $state->toArray());
 
         return $state;
     }

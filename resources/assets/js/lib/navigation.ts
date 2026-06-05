@@ -10,7 +10,7 @@ import { useUiStore } from "@/store/ui";
 
 const DISCARD_MESSAGE = __(
   "You have unsaved changes. Discard them and leave this page?",
-  "content-ownership",
+  "scheduled-page-reviews",
 );
 
 function confirmDiscardUnsaved(): boolean {

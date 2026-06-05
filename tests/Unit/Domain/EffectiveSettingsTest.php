@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\EffectiveSettings;
-use ContentOwnership\Domain\Resolution;
-use ContentOwnership\Domain\RuleField;
-use ContentOwnership\Domain\Target;
+use ScheduledPageReviews\Domain\EffectiveSettings;
+use ScheduledPageReviews\Domain\Resolution;
+use ScheduledPageReviews\Domain\RuleField;
+use ScheduledPageReviews\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class EffectiveSettingsTest extends TestCase

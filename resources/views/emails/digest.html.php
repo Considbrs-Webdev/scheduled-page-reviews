@@ -17,8 +17,8 @@ $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 
 $bucketLabel = static function (string $bucket) use ($h): string {
     $label = match ($bucket) {
-        'overdue'  => __('Overdue', 'content-ownership'),
-        'upcoming' => __('Upcoming', 'content-ownership'),
+        'overdue'  => __('Overdue', 'scheduled-page-reviews'),
+        'upcoming' => __('Upcoming', 'scheduled-page-reviews'),
         default    => $bucket,
     };
 
@@ -53,9 +53,9 @@ $renderSection = static function (
   <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Page', 'content-ownership'); ?></th>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Status', 'content-ownership'); ?></th>
-        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Next review', 'content-ownership'); ?></th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Page', 'scheduled-page-reviews'); ?></th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Status', 'scheduled-page-reviews'); ?></th>
+        <th align="left" style="padding: 8px 12px; border-bottom: 2px solid #e5e7eb; font-size: 12px; color: #6b7280;"><?php echo esc_html__('Next review', 'scheduled-page-reviews'); ?></th>
       </tr>
     </thead>
     <tbody>
@@ -98,7 +98,7 @@ $lang = str_replace('_', '-', determine_locale());
     <?php
     printf(
         /* translators: 1: recipient email, 2: linked site name */
-        __('Hello %1$s, the following pages on %2$s need your attention.', 'content-ownership'),
+        __('Hello %1$s, the following pages on %2$s need your attention.', 'scheduled-page-reviews'),
         esc_html($recipient_email),
         '<a href="' . esc_url($site_url) . '" style="color: #2563eb; text-decoration: none;">' . esc_html($site_name) . '</a>',
     );
@@ -109,7 +109,7 @@ $lang = str_replace('_', '-', determine_locale());
 $renderSection(
     sprintf(
         /* translators: %d: overdue page count */
-        __('Overdue (%d)', 'content-ownership'),
+        __('Overdue (%d)', 'scheduled-page-reviews'),
         $counts['overdue'],
     ),
     $overdue_pages,
@@ -120,7 +120,7 @@ $renderSection(
 $renderSection(
     sprintf(
         /* translators: %d: upcoming page count */
-        __('Upcoming (%d)', 'content-ownership'),
+        __('Upcoming (%d)', 'scheduled-page-reviews'),
         $counts['upcoming'],
     ),
     $upcoming_pages,
@@ -134,11 +134,11 @@ $renderSection(
     <?php
     printf(
         /* translators: %s: WordPress dashboard link */
-        __('Sign in to the %s to review your pages.', 'content-ownership'),
-        '<a href="' . esc_url($admin_url) . '" style="color: #2563eb; text-decoration: none;">' . esc_html__('WordPress dashboard', 'content-ownership') . '</a>',
+        __('Sign in to the %s to review your pages.', 'scheduled-page-reviews'),
+        '<a href="' . esc_url($admin_url) . '" style="color: #2563eb; text-decoration: none;">' . esc_html__('WordPress dashboard', 'scheduled-page-reviews') . '</a>',
     );
     ?>
-    <?php echo esc_html__('This message was sent by the Content Ownership plugin.', 'content-ownership'); ?>
+    <?php echo esc_html__('This message was sent by the Scheduled Page Reviews plugin.', 'scheduled-page-reviews'); ?>
   </p>
 </body>
 </html>

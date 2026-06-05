@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Application;
+namespace ScheduledPageReviews\Application;
 
 /**
  * Resolves capability strings from plugin config.
@@ -14,7 +14,7 @@ namespace ContentOwnership\Application;
 final class Capabilities
 {
     /** Meta-capability for the settings SPA menu and admin REST endpoints. */
-    public const MENU = 'manage_content_ownership';
+    public const MENU = 'manage_scheduled_page_reviews';
 
     public static function menu(): string
     {
@@ -44,7 +44,7 @@ final class Capabilities
         }
 
         return (bool) apply_filters(
-            'content_ownership/can_manage_settings',
+            'scheduled_page_reviews/can_manage_settings',
             $default,
             $userId
         );

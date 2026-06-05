@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
-use ContentOwnership\Application\Capabilities;
+use ScheduledPageReviews\Application\Capabilities;
 
 /**
  * Decides whether a page's review status should be visible to a given user.
@@ -39,7 +39,7 @@ final class RecipientVisibility
         }
 
         return (bool) apply_filters(
-            'content_ownership/can_view_site_overview',
+            'scheduled_page_reviews/can_view_site_overview',
             $default,
             $userId
         );
@@ -73,7 +73,7 @@ final class RecipientVisibility
         }
 
         return (bool) apply_filters(
-            'content_ownership/post_states/show',
+            'scheduled_page_reviews/post_states/show',
             $show,
             $pageId,
             $effective,

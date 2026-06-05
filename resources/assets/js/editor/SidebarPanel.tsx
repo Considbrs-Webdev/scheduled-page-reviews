@@ -17,11 +17,11 @@ const STATUS_STYLES: Record<RuleResponse["bucket"], { background: string; color:
 function statusLabel(bucket: RuleResponse["bucket"]): string {
   switch (bucket) {
     case "overdue":
-      return __("Overdue", "content-ownership");
+      return __("Overdue", "scheduled-page-reviews");
     case "upcoming":
-      return __("Upcoming", "content-ownership");
+      return __("Upcoming", "scheduled-page-reviews");
     case "none":
-      return __("On track", "content-ownership");
+      return __("On track", "scheduled-page-reviews");
   }
 }
 
@@ -40,7 +40,7 @@ function infoRow(label: string, value: ReactNode) {
 
 function formatDate(iso: string | null | undefined, locale: string): string {
   if (!iso) {
-    return __("Never", "content-ownership");
+    return __("Never", "scheduled-page-reviews");
   }
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) {
@@ -113,7 +113,7 @@ export function SidebarPanel() {
     setError(null);
     try {
       await markReviewed(postId);
-      setFlash(__("Marked as reviewed.", "content-ownership"));
+      setFlash(__("Marked as reviewed.", "scheduled-page-reviews"));
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -128,7 +128,7 @@ export function SidebarPanel() {
     if (data.bucket) {
       dataRows.push(
         infoRow(
-          __("Status", "content-ownership"),
+          __("Status", "scheduled-page-reviews"),
           h(
             "span",
             { style: STATUS_STYLES[data.bucket] ?? STATUS_STYLES.none },
@@ -141,7 +141,7 @@ export function SidebarPanel() {
     if (data.next_review_at) {
       dataRows.push(
         infoRow(
-          __("Next review", "content-ownership"),
+          __("Next review", "scheduled-page-reviews"),
           formatDate(data.next_review_at, boot.locale)
         )
       );
@@ -149,7 +149,7 @@ export function SidebarPanel() {
 
     dataRows.push(
       infoRow(
-        __("Last reviewed", "content-ownership"),
+        __("Last reviewed", "scheduled-page-reviews"),
         formatDate(data.last_reviewed_at, boot.locale)
       )
     );
@@ -157,8 +157,8 @@ export function SidebarPanel() {
     if (data.effective?.interval_days?.value != null) {
       dataRows.push(
         infoRow(
-          __("Review interval", "content-ownership"),
-          sprintf(__("%d days", "content-ownership"), data.effective.interval_days.value)
+          __("Review interval", "scheduled-page-reviews"),
+          sprintf(__("%d days", "scheduled-page-reviews"), data.effective.interval_days.value)
         )
       );
     }
@@ -166,10 +166,10 @@ export function SidebarPanel() {
     const recipientCount = data.effective?.recipients?.value?.length ?? 0;
     dataRows.push(
       infoRow(
-        __("Who to notify", "content-ownership"),
+        __("Who to notify", "scheduled-page-reviews"),
         recipientCount === 0
-          ? __("Nobody configured", "content-ownership")
-          : sprintf(__("%d recipient(s)", "content-ownership"), recipientCount)
+          ? __("Nobody configured", "scheduled-page-reviews")
+          : sprintf(__("%d recipient(s)", "scheduled-page-reviews"), recipientCount)
       )
     );
 
@@ -179,7 +179,7 @@ export function SidebarPanel() {
         isBusy: marking,
         disabled: marking,
         onClick: onMark,
-      }, __("Mark as reviewed", "content-ownership")))
+      }, __("Mark as reviewed", "scheduled-page-reviews")))
     );
 
     if (boot.canManageSettings) {
@@ -190,7 +190,7 @@ export function SidebarPanel() {
           h(
             "a",
             { href: boot.settingsUrl, target: "_blank", rel: "noreferrer" },
-            __("Open content ownership settings", "content-ownership")
+            __("Open Scheduled Page Reviews settings", "scheduled-page-reviews")
           )
         )
       );
@@ -200,9 +200,9 @@ export function SidebarPanel() {
   return h(
     PluginDocumentSettingPanel,
     {
-      name: "content-ownership-panel",
-      title: __("Content ownership", "content-ownership"),
-      className: "content-ownership-editor-panel",
+      name: "scheduled-page-reviews-panel",
+      title: __("Scheduled Page Reviews", "scheduled-page-reviews"),
+      className: "scheduled-page-reviews-editor-panel",
     },
     loading && h(PanelRow, null, h(Spinner, null)),
     error && h(Notice, { status: "error", isDismissible: false }, error),

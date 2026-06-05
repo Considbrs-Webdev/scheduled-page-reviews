@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Storage\SettingsRepository;
 
 /**
  * Marks a page as reviewed: plugin meta always; optional WP post_modified sync.
@@ -21,9 +21,9 @@ final class PageReviewMarker
     {
         $nowIso = gmdate('c');
         $keys   = (array) Config::get('settings', 'meta_keys', []);
-        $atKey  = (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
-        $byKey  = (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by');
-        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_content_ownership_last_notified_at');
+        $atKey  = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
+        $byKey  = (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by');
+        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
 
         update_post_meta($pageId, $atKey, $nowIso);
         update_post_meta($pageId, $byKey, $userId);
@@ -33,7 +33,7 @@ final class PageReviewMarker
             $this->syncPostModified($pageId, $nowIso);
         }
 
-        do_action('content_ownership/page/marked_reviewed', $pageId, $userId, $nowIso);
+        do_action('scheduled_page_reviews/page/marked_reviewed', $pageId, $userId, $nowIso);
 
         return $nowIso;
     }

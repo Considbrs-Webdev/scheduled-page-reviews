@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\FieldSource;
+use ScheduledPageReviews\Domain\FieldSource;
 use PHPUnit\Framework\TestCase;
 
 final class FieldSourceTest extends TestCase

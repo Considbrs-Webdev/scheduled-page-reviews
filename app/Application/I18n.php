@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Application;
+namespace ScheduledPageReviews\Application;
 
 /**
  * Loads the plugin text domain for PHP gettext (.mo) files.
@@ -12,8 +12,6 @@ namespace ContentOwnership\Application;
  */
 final class I18n
 {
-    private const TEXT_DOMAIN = 'content-ownership';
-
     public function __construct()
     {
         add_action('plugins_loaded', [$this, 'loadTextdomain']);
@@ -29,7 +27,7 @@ final class I18n
      */
     public function scriptRelativePath(string|false $relative, string $src): string|false
     {
-        $slug = (string) Config::get('app', 'slug', 'content-ownership');
+        $slug = PluginIdentity::slug();
 
         // Vite emits dist/js/admin.[hash].js — not the wp_enqueue_script handle name.
         if (str_contains($src, $slug) && preg_match('#/dist/js/admin\.[a-zA-Z0-9_.-]+\.js#', $src) === 1) {
@@ -52,7 +50,7 @@ final class I18n
         }
 
         load_plugin_textdomain(
-            self::TEXT_DOMAIN,
+            PluginIdentity::textDomain(),
             false,
             dirname(plugin_basename($pluginFile)) . '/resources/languages',
         );

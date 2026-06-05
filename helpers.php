@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership;
+namespace ScheduledPageReviews;
 
-use ContentOwnership\Application\Container;
+use ScheduledPageReviews\Application\Container;
 
 /**
  * Resolve a plugin service from the static container.

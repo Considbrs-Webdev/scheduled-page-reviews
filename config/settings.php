@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'option_key' => 'content_ownership_settings',
+    'option_key' => 'scheduled_page_reviews_settings',
 
     'defaults' => [
         'default_interval_days'    => 180,
@@ -19,10 +19,10 @@ return [
     ],
 
     'meta_keys' => [
-        'rule'             => '_content_ownership_rule',
-        'last_reviewed_at' => '_content_ownership_last_reviewed_at',
-        'last_reviewed_by' => '_content_ownership_last_reviewed_by',
-        'last_notified_at' => '_content_ownership_last_notified_at',
+        'rule'             => '_scheduled_page_reviews_rule',
+        'last_reviewed_at' => '_scheduled_page_reviews_last_reviewed_at',
+        'last_reviewed_by' => '_scheduled_page_reviews_last_reviewed_by',
+        'last_notified_at' => '_scheduled_page_reviews_last_notified_at',
     ],
 
     /** @deprecated Use admin_capability and overview_capability instead. */

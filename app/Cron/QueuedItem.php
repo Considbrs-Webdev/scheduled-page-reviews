@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron;
+namespace ScheduledPageReviews\Cron;
 
-use ContentOwnership\Domain\Bucket;
+use ScheduledPageReviews\Domain\Bucket;
 
 /**
  * Immutable per-page payload accumulated by the cron scanner.

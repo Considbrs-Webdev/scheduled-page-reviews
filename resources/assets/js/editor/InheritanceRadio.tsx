@@ -13,26 +13,26 @@ interface InheritanceRadioProps {
 const OPTIONS: { state: FieldState; label: string; hint: string }[] = [
   {
     state: "inherit",
-    label: __("Inherit", "content-ownership"),
+    label: __("Inherit", "scheduled-page-reviews"),
     hint: __(
       "Use the value from the closest ancestor (or global default).",
-      "content-ownership",
+      "scheduled-page-reviews",
     ),
   },
   {
     state: "self",
-    label: __("This page only", "content-ownership"),
+    label: __("This page only", "scheduled-page-reviews"),
     hint: __(
       "Replace the inherited value here. Descendants keep inheriting from above.",
-      "content-ownership",
+      "scheduled-page-reviews",
     ),
   },
   {
     state: "subtree",
-    label: __("This page and subpages", "content-ownership"),
+    label: __("This page and subpages", "scheduled-page-reviews"),
     hint: __(
       "Replace the inherited value here and apply it to descendants.",
-      "content-ownership",
+      "scheduled-page-reviews",
     ),
   },
 ];

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<ruleset name="content-ownership">
-    <description>Coding standards for the Content Ownership plugin.</description>
+<ruleset name="scheduled-page-reviews">
+    <description>Coding standards for the Scheduled Page Reviews plugin.</description>
 
     <file>app</file>
-    <file>content-ownership.php</file>
+    <file>scheduled-page-reviews.php</file>
     <file>helpers.php</file>
     <file>config</file>
     <file>tests</file>
@@ -22,7 +22,7 @@
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array">
-                <element value="content-ownership"/>
+                <element value="scheduled-page-reviews"/>
             </property>
         </properties>
     </rule>

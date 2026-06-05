@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Notifications;
+namespace ScheduledPageReviews\Notifications;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Cron\QueuedItem;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Cron\QueuedItem;
+use ScheduledPageReviews\Storage\SettingsRepository;
 
 /**
  * Drains the cron notification queue into multipart digest emails.
@@ -21,7 +21,7 @@ final class NotificationDispatcher
         private readonly EmailRenderer $renderer,
         private readonly SettingsRepository $settings,
     ) {
-        add_action('content_ownership/cron/run_completed', [$this, 'onRunCompleted'], 10, 2);
+        add_action('scheduled_page_reviews/cron/run_completed', [$this, 'onRunCompleted'], 10, 2);
     }
 
     /**
@@ -51,7 +51,7 @@ final class NotificationDispatcher
 
             if (str_starts_with($key, 'user:')) {
                 $userId = (int) substr($key, 5);
-                if (! (bool) apply_filters('content_ownership/owner/should_notify', true, $userId)) {
+                if (! (bool) apply_filters('scheduled_page_reviews/owner/should_notify', true, $userId)) {
                     continue;
                 }
 
@@ -95,7 +95,7 @@ final class NotificationDispatcher
                 ];
             }
 
-            $pages = (array) apply_filters('content_ownership/notification/pages', $pages, $email);
+            $pages = (array) apply_filters('scheduled_page_reviews/notification/pages', $pages, $email);
             if ($pages === []) {
                 continue;
             }
@@ -116,10 +116,10 @@ final class NotificationDispatcher
                 }
             }
 
-            $subject  = (string) apply_filters('content_ownership/email/subject', $rendered['subject'], $email, $pages);
-            $bodyHtml = (string) apply_filters('content_ownership/email/body_html', $rendered['html'], $email, $pages);
-            $bodyText = (string) apply_filters('content_ownership/email/body_text', $rendered['text'], $email, $pages);
-            $headers  = (array) apply_filters('content_ownership/email/headers', ['Content-Type: text/html; charset=UTF-8'], $email, $pages);
+            $subject  = (string) apply_filters('scheduled_page_reviews/email/subject', $rendered['subject'], $email, $pages);
+            $bodyHtml = (string) apply_filters('scheduled_page_reviews/email/body_html', $rendered['html'], $email, $pages);
+            $bodyText = (string) apply_filters('scheduled_page_reviews/email/body_text', $rendered['text'], $email, $pages);
+            $headers  = (array) apply_filters('scheduled_page_reviews/email/headers', ['Content-Type: text/html; charset=UTF-8'], $email, $pages);
 
             $altSetter = static function ($phpmailer) use ($bodyText): void {
                 $phpmailer->AltBody = $bodyText;
@@ -133,14 +133,14 @@ final class NotificationDispatcher
             }
 
             $metaKeys        = (array) Config::get('settings', 'meta_keys', []);
-            $lastNotifiedKey = (string) ($metaKeys['last_notified_at'] ?? '_content_ownership_last_notified_at');
+            $lastNotifiedKey = (string) ($metaKeys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
             $nowIso          = gmdate('c');
 
             foreach ($pages as $page) {
                 update_post_meta((int) $page['page_id'], $lastNotifiedKey, $nowIso);
             }
 
-            do_action('content_ownership/notification/sent', $email, $pages);
+            do_action('scheduled_page_reviews/notification/sent', $email, $pages);
         }
     }
 }

@@ -22,8 +22,8 @@ $wrap = static function (string $line, int $width = 78): string {
 
 $bucketLabel = static function (string $bucket): string {
     return match ($bucket) {
-        'overdue'  => __('Overdue', 'content-ownership'),
-        'upcoming' => __('Upcoming', 'content-ownership'),
+        'overdue'  => __('Overdue', 'scheduled-page-reviews'),
+        'upcoming' => __('Upcoming', 'scheduled-page-reviews'),
         default    => $bucket,
     };
 };
@@ -55,9 +55,9 @@ $renderSection = static function (
     echo str_repeat('-', min(78, strlen($heading))) . "\n\n";
     foreach ($sectionPages as $page) {
         echo '* ' . $wrap((string) $page['title']) . "\n";
-        echo '  ' . __('Edit:', 'content-ownership') . ' ' . $wrap((string) $page['edit_link']) . "\n";
-        echo '  ' . __('Status:', 'content-ownership') . ' ' . $bucketLabel((string) ($page['bucket'] ?? '')) . "\n";
-        echo '  ' . __('Next review:', 'content-ownership') . ' ' . $formatReviewAt((string) ($page['next_review_at'] ?? '')) . "\n\n";
+        echo '  ' . __('Edit:', 'scheduled-page-reviews') . ' ' . $wrap((string) $page['edit_link']) . "\n";
+        echo '  ' . __('Status:', 'scheduled-page-reviews') . ' ' . $bucketLabel((string) ($page['bucket'] ?? '')) . "\n";
+        echo '  ' . __('Next review:', 'scheduled-page-reviews') . ' ' . $formatReviewAt((string) ($page['next_review_at'] ?? '')) . "\n\n";
     }
 };
 
@@ -66,7 +66,7 @@ echo str_repeat('=', min(78, strlen($subject))) . "\n\n";
 echo $wrap(
     sprintf(
         /* translators: 1: recipient email, 2: site name, 3: site URL */
-        __('Hello %1$s, the following pages on %2$s (%3$s) need your attention.', 'content-ownership'),
+        __('Hello %1$s, the following pages on %2$s (%3$s) need your attention.', 'scheduled-page-reviews'),
         $recipient_email,
         $site_name,
         $site_url,
@@ -76,7 +76,7 @@ echo $wrap(
 $renderSection(
     sprintf(
         /* translators: %d: overdue page count */
-        __('Overdue (%d)', 'content-ownership'),
+        __('Overdue (%d)', 'scheduled-page-reviews'),
         $counts['overdue'],
     ),
     $overdue_pages,
@@ -87,7 +87,7 @@ $renderSection(
 $renderSection(
     sprintf(
         /* translators: %d: upcoming page count */
-        __('Upcoming (%d)', 'content-ownership'),
+        __('Upcoming (%d)', 'scheduled-page-reviews'),
         $counts['upcoming'],
     ),
     $upcoming_pages,
@@ -99,8 +99,8 @@ $renderSection(
 echo $wrap(
     sprintf(
         /* translators: %s: WordPress admin URL */
-        __('Sign in to the WordPress dashboard to review your pages: %s', 'content-ownership'),
+        __('Sign in to the WordPress dashboard to review your pages: %s', 'scheduled-page-reviews'),
         $admin_url,
     ),
 ) . "\n";
-echo $wrap(__('This message was sent by the Content Ownership plugin.', 'content-ownership')) . "\n";
+echo $wrap(__('This message was sent by the Scheduled Page Reviews plugin.', 'scheduled-page-reviews')) . "\n";

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron;
+namespace ScheduledPageReviews\Cron;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Cron\Contracts\NotificationQueueInterface;
-use ContentOwnership\Domain\Contracts\PageHierarchy;
-use ContentOwnership\Domain\EffectiveSettings;
-use ContentOwnership\Domain\InheritanceResolver;
-use ContentOwnership\Domain\NotificationEligibility;
-use ContentOwnership\Domain\ReviewDateCalculator;
-use ContentOwnership\Domain\Target;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Cron\Contracts\NotificationQueueInterface;
+use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
+use ScheduledPageReviews\Domain\EffectiveSettings;
+use ScheduledPageReviews\Domain\InheritanceResolver;
+use ScheduledPageReviews\Domain\NotificationEligibility;
+use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Domain\Target;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Exception;
 use WP_User;
@@ -68,14 +68,14 @@ final class ReviewScanner
         $now      = new DateTimeImmutable('@' . (int) current_time('timestamp', true));
 
         $metaKeys            = (array) Config::get('settings', 'meta_keys', []);
-        $lastReviewedAtKey   = (string) ($metaKeys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at');
-        $lastNotifiedAtKey   = (string) ($metaKeys['last_notified_at'] ?? '_content_ownership_last_notified_at');
+        $lastReviewedAtKey   = (string) ($metaKeys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
+        $lastNotifiedAtKey   = (string) ($metaKeys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
 
         $processed = 0;
         $queued    = 0;
 
         foreach ($slice as $pageId) {
-            if (! (bool) apply_filters('content_ownership/cron/should_process_page', true, $pageId)) {
+            if (! (bool) apply_filters('scheduled_page_reviews/cron/should_process_page', true, $pageId)) {
                 continue;
             }
 

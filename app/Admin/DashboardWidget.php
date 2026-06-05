@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Domain\DashboardLister;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Domain\DashboardLister;
 use DateTimeImmutable;
 use Throwable;
 
@@ -17,7 +17,7 @@ use Throwable;
  */
 final class DashboardWidget
 {
-    private const WIDGET_ID  = 'content_ownership_review_widget';
+    private const WIDGET_ID  = 'scheduled_page_reviews_review_widget';
     private const MAX_ITEMS  = 10;
 
     public function __construct(
@@ -34,7 +34,7 @@ final class DashboardWidget
 
         wp_add_dashboard_widget(
             self::WIDGET_ID,
-            esc_html__('Content ownership — pages needing review', 'content-ownership'),
+            esc_html__('Scheduled page reviews — pages needing review', 'scheduled-page-reviews'),
             [$this, 'render']
         );
     }
@@ -48,8 +48,8 @@ final class DashboardWidget
         if ($items === []) {
             echo '<p>' . esc_html(
                 $overview
-                    ? __('No pages on the site need review right now.', 'content-ownership')
-                    : __('Nothing assigned to you needs review right now. Nice work!', 'content-ownership')
+                    ? __('No pages on the site need review right now.', 'scheduled-page-reviews')
+                    : __('Nothing assigned to you needs review right now. Nice work!', 'scheduled-page-reviews')
             ) . '</p>';
             $this->renderFooter(0);
             return;
@@ -59,14 +59,14 @@ final class DashboardWidget
 
         if ($overdue !== []) {
             $this->renderSection(
-                esc_html__('Overdue', 'content-ownership'),
+                esc_html__('Overdue', 'scheduled-page-reviews'),
                 $overdue,
                 '#c0392b'
             );
         }
         if ($upcoming !== []) {
             $this->renderSection(
-                esc_html__('Due soon', 'content-ownership'),
+                esc_html__('Due soon', 'scheduled-page-reviews'),
                 $upcoming,
                 '#d97706'
             );
@@ -128,7 +128,7 @@ final class DashboardWidget
             printf(
                 '<a href="%s">%s</a>',
                 esc_url($editLink),
-                esc_html($title !== '' ? $title : __('(no title)', 'content-ownership'))
+                esc_html($title !== '' ? $title : __('(no title)', 'scheduled-page-reviews'))
             );
         } else {
             echo esc_html($title);
@@ -149,14 +149,14 @@ final class DashboardWidget
         printf(
             '<a href="%s">%s</a>',
             esc_url($url),
-            esc_html__('Open content ownership settings →', 'content-ownership')
+            esc_html__('Open Scheduled Page Reviews settings →', 'scheduled-page-reviews')
         );
         if ($itemsShown >= self::MAX_ITEMS) {
             echo ' <span style="color:#646970;">'
                 . esc_html(
                     sprintf(
                         /* translators: %d = maximum number of list items shown */
-                        __('(showing first %d)', 'content-ownership'),
+                        __('(showing first %d)', 'scheduled-page-reviews'),
                         self::MAX_ITEMS,
                     ),
                 )
@@ -181,19 +181,19 @@ final class DashboardWidget
 
         if ($diff < 0) {
             return $absDays === 0
-                ? __('due today', 'content-ownership')
+                ? __('due today', 'scheduled-page-reviews')
                 : sprintf(
                     /* translators: %d = number of days */
-                    _n('%d day overdue', '%d days overdue', $absDays, 'content-ownership'),
+                    _n('%d day overdue', '%d days overdue', $absDays, 'scheduled-page-reviews'),
                     $absDays
                 );
         }
 
         return $absDays === 0
-            ? __('due today', 'content-ownership')
+            ? __('due today', 'scheduled-page-reviews')
             : sprintf(
                 /* translators: %d = number of days */
-                _n('due in %d day', 'due in %d days', $absDays, 'content-ownership'),
+                _n('due in %d day', 'due in %d days', $absDays, 'scheduled-page-reviews'),
                 $absDays
             );
     }

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Domain\PageAuthorization;
-use ContentOwnership\Domain\PageReviewMarker;
+use ScheduledPageReviews\Domain\PageAuthorization;
+use ScheduledPageReviews\Domain\PageReviewMarker;
 use WP_Post;
 
 final class RowActions
 {
-    public const ACTION = 'content_ownership_mark_reviewed';
-    public const NONCE = 'content_ownership_mark_reviewed';
-    public const FLASH_QUERY_VAR = 'content_ownership_reviewed';
+    public const ACTION = 'scheduled_page_reviews_mark_reviewed';
+    public const NONCE = 'scheduled_page_reviews_mark_reviewed';
+    public const FLASH_QUERY_VAR = 'scheduled_page_reviews_reviewed';
 
     public function __construct(
         private readonly PageReviewMarker $marker,
@@ -42,10 +42,10 @@ final class RowActions
             self::NONCE . '_' . (int) $post->ID
         );
 
-        $actions['content_ownership_mark_reviewed'] = sprintf(
+        $actions['scheduled_page_reviews_mark_reviewed'] = sprintf(
             '<a href="%s">%s</a>',
             esc_url($url),
-            esc_html__('Mark reviewed', 'content-ownership')
+            esc_html__('Mark reviewed', 'scheduled-page-reviews')
         );
 
         return $actions;
@@ -56,13 +56,13 @@ final class RowActions
         $postId = isset($_GET['post']) ? absint(wp_unslash($_GET['post'])) : 0;
 
         if ($postId <= 0 || get_post_type($postId) !== 'page') {
-            wp_die(esc_html__('Invalid request.', 'content-ownership'), '', ['response' => 400]);
+            wp_die(esc_html__('Invalid request.', 'scheduled-page-reviews'), '', ['response' => 400]);
         }
 
         check_admin_referer(self::NONCE . '_' . $postId);
 
         if (! $this->authorization->canMarkReviewed($postId, get_current_user_id())) {
-            wp_die(esc_html__('You do not have permission to mark this page as reviewed.', 'content-ownership'), '', ['response' => 403]);
+            wp_die(esc_html__('You do not have permission to mark this page as reviewed.', 'scheduled-page-reviews'), '', ['response' => 403]);
         }
 
         $userId = get_current_user_id();
@@ -88,7 +88,7 @@ final class RowActions
             '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
             esc_html(sprintf(
                 /* translators: %s = page title */
-                __('Marked "%s" as reviewed.', 'content-ownership'),
+                __('Marked "%s" as reviewed.', 'scheduled-page-reviews'),
                 get_the_title($flashId)
             ))
         );

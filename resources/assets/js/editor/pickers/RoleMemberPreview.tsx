@@ -10,16 +10,16 @@ export function RoleMemberPreview({ slug, trigger }: { slug: string; trigger: Re
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <div className="text-xs font-medium uppercase text-muted-foreground">
-          {__("Members", "content-ownership")}
+          {__("Members", "scheduled-page-reviews")}
         </div>
         {q.isLoading && (
           <div className="mt-2 text-sm text-muted-foreground">
-            {__("Loading…", "content-ownership")}
+            {__("Loading…", "scheduled-page-reviews")}
           </div>
         )}
         {!q.isLoading && users.length === 0 && (
           <div className="mt-2 text-sm text-muted-foreground">
-            {__("No users currently in this group.", "content-ownership")}
+            {__("No users currently in this group.", "scheduled-page-reviews")}
           </div>
         )}
         <ul className="mt-2 max-h-56 space-y-1 overflow-auto text-sm">
@@ -34,7 +34,7 @@ export function RoleMemberPreview({ slug, trigger }: { slug: string; trigger: Re
           <div className="mt-2 text-xs text-muted-foreground">
             {sprintf(
               /* translators: %d: additional member count */
-              __("+%d more", "content-ownership"),
+              __("+%d more", "scheduled-page-reviews"),
               users.length - 8,
             )}
           </div>

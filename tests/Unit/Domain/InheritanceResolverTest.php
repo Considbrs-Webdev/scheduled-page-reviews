@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Tests\Unit\Domain;
+namespace ScheduledPageReviews\Tests\Unit\Domain;
 
-use ContentOwnership\Domain\EffectiveSettings;
-use ContentOwnership\Domain\FieldSource;
-use ContentOwnership\Domain\GlobalSettings;
-use ContentOwnership\Domain\InheritanceResolver;
-use ContentOwnership\Domain\Rule;
-use ContentOwnership\Domain\RuleField;
-use ContentOwnership\Domain\ScopedValue;
-use ContentOwnership\Domain\Target;
-use ContentOwnership\Tests\Unit\Domain\Fakes\FakePageHierarchy;
-use ContentOwnership\Tests\Unit\Domain\Fakes\FakeRuleSource;
+use ScheduledPageReviews\Domain\EffectiveSettings;
+use ScheduledPageReviews\Domain\FieldSource;
+use ScheduledPageReviews\Domain\GlobalSettings;
+use ScheduledPageReviews\Domain\InheritanceResolver;
+use ScheduledPageReviews\Domain\Rule;
+use ScheduledPageReviews\Domain\RuleField;
+use ScheduledPageReviews\Domain\ScopedValue;
+use ScheduledPageReviews\Domain\Target;
+use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakePageHierarchy;
+use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakeRuleSource;
 use PHPUnit\Framework\TestCase;
 
 /**

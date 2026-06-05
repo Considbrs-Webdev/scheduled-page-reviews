@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Domain\DashboardLister;
+use ScheduledPageReviews\Domain\DashboardLister;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -22,7 +22,7 @@ final class DashboardController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/dashboard',
             [
                 'methods'             => WP_REST_Server::READABLE,
@@ -52,7 +52,7 @@ final class DashboardController
             self::MAX_ITEMS
         );
 
-        $response = apply_filters('content_ownership/rest/dashboard_response', $items, $bucketFilter);
+        $response = apply_filters('scheduled_page_reviews/rest/dashboard_response', $items, $bucketFilter);
 
         return new WP_REST_Response($response, 200);
     }

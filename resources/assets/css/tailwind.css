@@ -111,7 +111,7 @@
   }
 }
 
-.content-ownership-admin-page {
+.scheduled-page-reviews-admin-page {
   --co-admin-primary: var(--wp-admin-theme-color, #2271b1);
   --co-admin-primary-dark: color-mix(
     in srgb,
@@ -128,7 +128,7 @@
   --ring: var(--wp-admin-theme-color, #2271b1);
 }
 
-.content-ownership-root {
+.scheduled-page-reviews-root {
   --co-chrome-offset: 12rem;
   display: flex;
   flex-direction: column;
@@ -190,6 +190,6 @@
   gap: 1rem;
 }
 
-.content-ownership-admin-page .wrap.content-ownership-app {
+.scheduled-page-reviews-admin-page .wrap.scheduled-page-reviews-app {
   margin-top: 0;
 }
