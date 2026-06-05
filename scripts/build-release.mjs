@@ -10,7 +10,7 @@ import { execSync } from "node:child_process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pluginRoot = resolve(__dirname, "..");
-const slug = "content-ownership";
+const slug = "scheduled-page-reviews";
 const distignorePath = join(pluginRoot, ".distignore");
 const buildRoot = join(pluginRoot, ".build");
 const stagingDir = join(buildRoot, slug);

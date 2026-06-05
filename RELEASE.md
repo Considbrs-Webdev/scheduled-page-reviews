@@ -29,7 +29,7 @@ npm run build
 
 3. GitHub Actions ([`.github/workflows/release.yml`](.github/workflows/release.yml)) will:
    - Run tests and `npm run build`
-   - Build `content-ownership-<version>.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
+   - Build `scheduled-page-reviews-<version>.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
    - Attach the ZIP to a GitHub Release (marked prerelease when the tag contains `test`, `alpha`, `beta`, or `rc`)
 
 4. Install the ZIP on a clean WordPress site (Plugins → Add New → Upload). No `composer install` or `npm run build` on the server.
@@ -40,7 +40,7 @@ npm run build
 composer install
 npm ci
 npm run release
-# Output: .build/content-ownership-<version>.zip
+# Output: .build/scheduled-page-reviews-<version>.zip
 ```
 
 ## Optional `release/*` branches
@@ -59,6 +59,6 @@ Until then, distribute test builds via **GitHub Release ZIPs** only.
 
 ## Versioning
 
-- Plugin header in [`content-ownership.php`](content-ownership.php) is the WordPress-visible version.
+- Plugin header in [`scheduled-page-reviews.php`](scheduled-page-reviews.php) is the WordPress-visible version.
 - Keep [`config/app.php`](config/app.php) and [`package.json`](package.json) in sync when bumping releases.
 - Tag names should match the header, prefixed with `v` (e.g. header `0.1.0` → tag `v0.1.0`).

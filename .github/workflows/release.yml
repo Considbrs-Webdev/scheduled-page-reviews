@@ -40,14 +40,14 @@ jobs:
       - name: Upload release ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: content-ownership-${{ github.ref_name }}
-          path: .build/content-ownership-*.zip
+          name: scheduled-page-reviews-${{ github.ref_name }}
+          path: .build/scheduled-page-reviews-*.zip
 
       - name: Create GitHub prerelease with ZIP
         uses: softprops/action-gh-release@v2
         with:
           prerelease: ${{ contains(github.ref_name, 'test') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
-          files: .build/content-ownership-*.zip
+          files: .build/scheduled-page-reviews-*.zip
           generate_release_notes: true
 
   # Deploy to WordPress.org when SVN secrets are configured (plugin must exist on .org).
@@ -76,8 +76,8 @@ jobs:
           npm run build
           node scripts/build-release.mjs
           rm -rf build
-          unzip -q .build/content-ownership-*.zip -d build
-          mv build/content-ownership build/package
+          unzip -q .build/scheduled-page-reviews-*.zip -d build
+          mv build/scheduled-page-reviews build/package
 
       - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@v2

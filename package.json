@@ -1,5 +1,5 @@
 {
-  "name": "content-ownership",
+  "name": "scheduled-page-reviews",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,9 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "release": "node scripts/build-release.mjs",
     "typecheck": "tsc --noEmit",
-    "i18n:pot": "node scripts/i18n-prepare-js.mjs && ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/content-ownership wp-content/plugins/content-ownership/resources/languages/content-ownership.pot --domain=content-ownership --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache,resources/assets/js && node scripts/i18n-fix-pot-refs.mjs",
-    "i18n:mo": "ddev exec --dir=/var/www/html wp i18n make-mo wp-content/plugins/content-ownership/resources/languages",
-    "i18n:json": "ddev exec --dir=/var/www/html wp i18n make-json wp-content/plugins/content-ownership/resources/languages --domain=content-ownership --extensions=tsx,ts,jsx,js --no-purge && node scripts/merge-js-json.mjs"
+    "i18n:pot": "node scripts/i18n-prepare-js.mjs && ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/scheduled-page-reviews wp-content/plugins/scheduled-page-reviews/resources/languages/scheduled-page-reviews.pot --domain=scheduled-page-reviews --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache,resources/assets/js && node scripts/i18n-fix-pot-refs.mjs",
+    "i18n:mo": "ddev exec --dir=/var/www/html wp i18n make-mo wp-content/plugins/scheduled-page-reviews/resources/languages",
+    "i18n:json": "ddev exec --dir=/var/www/html wp i18n make-json wp-content/plugins/scheduled-page-reviews/resources/languages --domain=scheduled-page-reviews --extensions=tsx,ts,jsx,js --no-purge && node scripts/merge-js-json.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
