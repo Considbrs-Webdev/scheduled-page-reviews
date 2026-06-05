@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Notifications;
+namespace ScheduledPageReviews\Notifications;
 
 final class EmailRenderer
 {
@@ -84,7 +84,7 @@ final class EmailRenderer
         $suffix   = $siteName !== ''
             ? sprintf(
                 /* translators: %s: site name */
-                __(' on %s', 'content-ownership'),
+                __(' on %s', 'scheduled-page-reviews'),
                 $siteName,
             )
             : '';
@@ -92,7 +92,7 @@ final class EmailRenderer
         if ($overdue > 0 && $upcoming > 0) {
             return sprintf(
                 /* translators: 1: overdue page count, 2: upcoming page count, 3: site suffix */
-                __('[Content review] %1$d overdue, %2$d upcoming%3$s', 'content-ownership'),
+                __('[Content review] %1$d overdue, %2$d upcoming%3$s', 'scheduled-page-reviews'),
                 $overdue,
                 $upcoming,
                 $suffix,
@@ -106,7 +106,7 @@ final class EmailRenderer
                     '[Content review] %1$d page overdue%2$s',
                     '[Content review] %1$d pages overdue%2$s',
                     $overdue,
-                    'content-ownership',
+                    'scheduled-page-reviews',
                 ),
                 $overdue,
                 $suffix,
@@ -119,7 +119,7 @@ final class EmailRenderer
                 '[Content review] %1$d page upcoming%2$s',
                 '[Content review] %1$d pages upcoming%2$s',
                 $upcoming,
-                'content-ownership',
+                'scheduled-page-reviews',
             ),
             $upcoming,
             $suffix,

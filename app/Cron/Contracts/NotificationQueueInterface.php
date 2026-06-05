@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron\Contracts;
+namespace ScheduledPageReviews\Cron\Contracts;
 
-use ContentOwnership\Cron\QueuedItem;
+use ScheduledPageReviews\Cron\QueuedItem;
 
 /**
  * In-memory accumulator for one cron run's notification work.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
 /**
  * Where the resolved value for a single field came from.

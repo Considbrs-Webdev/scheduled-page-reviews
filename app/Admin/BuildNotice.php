@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Admin;
+namespace ScheduledPageReviews\Admin;
 
-use ContentOwnership\Application\Config;
+use ScheduledPageReviews\Application\Config;
 
 /**
  * Warns administrators when Vite build output is missing.
@@ -30,8 +30,8 @@ final class BuildNotice
 
         echo '<div class="notice notice-error"><p>';
         echo esc_html__(
-            'Content Ownership: front-end assets are missing. Run "npm run build" in the plugin directory, or install a release ZIP that includes the dist/ folder.',
-            'content-ownership'
+            'Scheduled Page Reviews: front-end assets are missing. Run "npm run build" in the plugin directory, or install a release ZIP that includes the dist/ folder.',
+            'scheduled-page-reviews'
         );
         echo '</p></div>';
     }

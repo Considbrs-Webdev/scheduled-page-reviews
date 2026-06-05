@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron;
+namespace ScheduledPageReviews\Cron;
 
-use ContentOwnership\Domain\GlobalSettings;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Domain\GlobalSettings;
+use ScheduledPageReviews\Storage\SettingsRepository;
 
 /**
  * Registers or clears the recurring {@see Scheduler::DAILY_HOOK} event
@@ -17,20 +17,20 @@ final class ScheduleManager
         private readonly SettingsRepository $settings,
     ) {
         add_filter('cron_schedules', [$this, 'addWeeklySchedule']);
-        add_action('content_ownership/settings/updated', [$this, 'onSettingsUpdated'], 10, 1);
+        add_action('scheduled_page_reviews/settings/updated', [$this, 'onSettingsUpdated'], 10, 1);
         add_action('plugins_loaded', [$this, 'runOneTimeScheduleMigration'], 5);
     }
 
     public function runOneTimeScheduleMigration(): void
     {
-        if (get_option('content_ownership_schedule_v2', false)) {
+        if (get_option('scheduled_page_reviews_schedule_v2', false)) {
             return;
         }
 
         wp_clear_scheduled_hook(Scheduler::DAILY_HOOK);
         wp_clear_scheduled_hook(Scheduler::TICK_HOOK);
         $this->maybeScheduleCron($this->settings->get());
-        update_option('content_ownership_schedule_v2', true, false);
+        update_option('scheduled_page_reviews_schedule_v2', true, false);
     }
 
     /**
@@ -42,7 +42,7 @@ final class ScheduleManager
         if (! isset($schedules['weekly'])) {
             $schedules['weekly'] = [
                 'interval' => WEEK_IN_SECONDS,
-                'display'  => __('Once Weekly', 'content-ownership'),
+                'display'  => __('Once Weekly', 'scheduled-page-reviews'),
             ];
         }
 

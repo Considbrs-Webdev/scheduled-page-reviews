@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Storage;
+namespace ScheduledPageReviews\Storage;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Domain\Contracts\SettingsReader;
-use ContentOwnership\Domain\GlobalSettings;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Domain\Contracts\SettingsReader;
+use ScheduledPageReviews\Domain\GlobalSettings;
 
 /**
  * Persists the plugin's global defaults in a single wp_options row.
@@ -40,7 +40,7 @@ final class SettingsRepository implements SettingsReader
 
         update_option($this->optionKey(), $settings->toArray(), false);
 
-        do_action('content_ownership/settings/updated', $settings);
+        do_action('scheduled_page_reviews/settings/updated', $settings);
 
         return $settings;
     }
@@ -56,13 +56,13 @@ final class SettingsRepository implements SettingsReader
     {
         $settings = GlobalSettings::fromArray($values, $this->defaults());
         update_option($this->optionKey(), $settings->toArray(), false);
-        do_action('content_ownership/settings/updated', $settings);
+        do_action('scheduled_page_reviews/settings/updated', $settings);
         return $settings;
     }
 
     private function optionKey(): string
     {
-        return (string) Config::get('settings', 'option_key', 'content_ownership_settings');
+        return (string) Config::get('settings', 'option_key', 'scheduled_page_reviews_settings');
     }
 
     /**

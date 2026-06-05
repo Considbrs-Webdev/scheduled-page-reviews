@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Cron;
+namespace ScheduledPageReviews\Cron;
 
 use Random\RandomException;
 

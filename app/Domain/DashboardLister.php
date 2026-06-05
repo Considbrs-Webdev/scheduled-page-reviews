@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Throwable;
 use WP_User;
@@ -108,8 +108,8 @@ final class DashboardLister
         $keys = (array) Config::get('settings', 'meta_keys', []);
 
         return [
-            'last_reviewed_at' => (string) ($keys['last_reviewed_at'] ?? '_content_ownership_last_reviewed_at'),
-            'last_reviewed_by' => (string) ($keys['last_reviewed_by'] ?? '_content_ownership_last_reviewed_by'),
+            'last_reviewed_at' => (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at'),
+            'last_reviewed_by' => (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by'),
         ];
     }
 

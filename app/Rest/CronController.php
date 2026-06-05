@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Cron\ScheduleManager;
-use ContentOwnership\Cron\Scheduler;
-use ContentOwnership\Storage\SettingsRepository;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Cron\ScheduleManager;
+use ScheduledPageReviews\Cron\Scheduler;
+use ScheduledPageReviews\Storage\SettingsRepository;
 use RuntimeException;
 use WP_Error;
 use WP_REST_Request;
@@ -25,7 +25,7 @@ final class CronController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/cron/run-now',
             [
                 'methods'             => WP_REST_Server::CREATABLE,
@@ -43,13 +43,13 @@ final class CronController
         $userId    = get_current_user_id();
         $timestamp = (int) current_time('timestamp', true);
 
-        do_action('content_ownership/cron/run_now_requested', $userId, $timestamp);
+        do_action('scheduled_page_reviews/cron/run_now_requested', $userId, $timestamp);
 
         try {
             $result = $this->scheduler->runToCompletion();
         } catch (RuntimeException $exception) {
             return new WP_Error(
-                'content_ownership_scan_in_progress',
+                'scheduled_page_reviews_scan_in_progress',
                 $exception->getMessage(),
                 ['status' => 409]
             );

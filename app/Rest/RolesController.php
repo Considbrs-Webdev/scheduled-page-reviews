@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Capabilities;
+use ScheduledPageReviews\Application\Capabilities;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -15,7 +15,7 @@ use WP_Roles;
  *
  * Each entry includes the role slug, display name, and the count of users
  * currently in that role. Filterable via
- * {@see content_ownership/selectable_roles} so site owners can prune the
+ * {@see scheduled_page_reviews/selectable_roles} so site owners can prune the
  * list (e.g. hide the WP defaults and only expose SAML/IdP-imported groups).
  */
 final class RolesController
@@ -28,7 +28,7 @@ final class RolesController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/roles',
             [
                 'methods'             => WP_REST_Server::READABLE,
@@ -52,7 +52,7 @@ final class RolesController
          * @param array<string, array{name:string}> $rolesMeta The raw role meta for context.
          */
         $allowed = (array) apply_filters(
-            'content_ownership/selectable_roles',
+            'scheduled_page_reviews/selectable_roles',
             array_keys($available),
             $available
         );

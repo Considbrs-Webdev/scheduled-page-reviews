@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Storage;
+namespace ScheduledPageReviews\Storage;
 
-use ContentOwnership\Application\Config;
-use ContentOwnership\Domain\Contracts\RuleSource;
-use ContentOwnership\Domain\Rule;
-use ContentOwnership\Domain\RuleField;
-use ContentOwnership\Domain\ScopedValue;
-use ContentOwnership\Domain\Target;
+use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Domain\Contracts\RuleSource;
+use ScheduledPageReviews\Domain\Rule;
+use ScheduledPageReviews\Domain\RuleField;
+use ScheduledPageReviews\Domain\ScopedValue;
+use ScheduledPageReviews\Domain\Target;
 
 /**
  * Persists per-page {@see Rule}s as a single JSON post_meta row.
@@ -26,13 +26,13 @@ use ContentOwnership\Domain\Target;
  */
 final class RuleRepository implements RuleSource
 {
-    private const CACHE_GROUP    = 'content_ownership';
+    private const CACHE_GROUP    = 'scheduled_page_reviews';
     private const CACHE_SENTINEL = '__none__';
 
     public function __construct()
     {
         add_action('deleted_post', [$this, 'onPostDeleted'], 10, 1);
-        add_action('content_ownership/rule/save_completed', [$this, 'onPostSaved'], 10, 1);
+        add_action('scheduled_page_reviews/rule/save_completed', [$this, 'onPostSaved'], 10, 1);
     }
 
     public function getForPage(int $pageId): ?Rule
@@ -102,7 +102,7 @@ final class RuleRepository implements RuleSource
         update_post_meta($pageId, $this->metaKey(), wp_slash($json));
         $this->invalidate($pageId);
 
-        do_action('content_ownership/rule/save_completed', $pageId);
+        do_action('scheduled_page_reviews/rule/save_completed', $pageId);
     }
 
     public function delete(int $pageId): void
@@ -182,7 +182,7 @@ final class RuleRepository implements RuleSource
     {
         /** @var array<string, string> $keys */
         $keys = Config::get('settings', 'meta_keys', []);
-        return $keys['rule'] ?? '_content_ownership_rule';
+        return $keys['rule'] ?? '_scheduled_page_reviews_rule';
     }
 
     private function cacheKey(int $pageId): string

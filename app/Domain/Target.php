@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Domain;
+namespace ScheduledPageReviews\Domain;
 
 use InvalidArgumentException;
 use JsonSerializable;
@@ -18,8 +18,8 @@ use JsonSerializable;
  *
  * Targets are used everywhere `owners` and `recipients` flow:
  * {@see Rule}, {@see EffectiveSettings},
- * {@see \ContentOwnership\Cron\ReviewScanner},
- * {@see \ContentOwnership\Notifications\NotificationDispatcher}.
+ * {@see \ScheduledPageReviews\Cron\ReviewScanner},
+ * {@see \ScheduledPageReviews\Notifications\NotificationDispatcher}.
  */
 final class Target implements JsonSerializable
 {

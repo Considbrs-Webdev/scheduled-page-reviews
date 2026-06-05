@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ContentOwnership\Rest;
+namespace ScheduledPageReviews\Rest;
 
-use ContentOwnership\Application\Capabilities;
-use ContentOwnership\Domain\EffectiveSettings;
-use ContentOwnership\Domain\InheritanceResolver;
-use ContentOwnership\Domain\InheritanceSummary;
-use ContentOwnership\Domain\Rule;
-use ContentOwnership\Domain\RuleField;
-use ContentOwnership\Storage\RuleRepository;
-use ContentOwnership\Storage\SettingsRepository;
-use ContentOwnership\Storage\WpPageHierarchy;
+use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Domain\EffectiveSettings;
+use ScheduledPageReviews\Domain\InheritanceResolver;
+use ScheduledPageReviews\Domain\InheritanceSummary;
+use ScheduledPageReviews\Domain\Rule;
+use ScheduledPageReviews\Domain\RuleField;
+use ScheduledPageReviews\Storage\RuleRepository;
+use ScheduledPageReviews\Storage\SettingsRepository;
+use ScheduledPageReviews\Storage\WpPageHierarchy;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -31,7 +31,7 @@ final class TreeController
     public function registerRoutes(): void
     {
         register_rest_route(
-            Routes::NAMESPACE,
+            Routes::restNamespace(),
             '/tree',
             [
                 'methods'             => WP_REST_Server::READABLE,
@@ -67,7 +67,7 @@ final class TreeController
             ? $this->collectRecursive($parentId, 0, $effectiveByPage)
             : $this->collectChildren($parentId, 0, $effectiveByPage);
 
-        $nodes = apply_filters('content_ownership/rest/tree_response', $nodes, $parentId);
+        $nodes = apply_filters('scheduled_page_reviews/rest/tree_response', $nodes, $parentId);
 
         return new WP_REST_Response($nodes, 200);
     }
