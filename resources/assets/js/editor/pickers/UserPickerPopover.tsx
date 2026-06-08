@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { User2 } from "lucide-react";
 
 import { __ } from "@wordpress/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -45,7 +45,7 @@ export function UserPickerPopover({ trigger, onSelect, excludeIds = [] }: UserPi
                     setSearch("");
                   }}
                 >
-                  <Search className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
+                  <User2 className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
                   <div className="flex flex-col">
                     <span>{u.display_name}</span>
                     <span className="text-xs text-muted-foreground">{u.user_email}</span>
