@@ -25,6 +25,18 @@ $scheduled_page_reviews_wrap = static function (string $line, int $width = 78): 
     return wordwrap($line, $width, "\n", true);
 };
 
+$scheduled_page_reviews_text = static function (string $value): string {
+    $charset = (string) (get_option('blog_charset') ?: 'UTF-8');
+
+    return html_entity_decode(wp_strip_all_tags($value), ENT_QUOTES, $charset);
+};
+
+$scheduled_page_reviews_url = static function (string $value): string {
+    $charset = (string) (get_option('blog_charset') ?: 'UTF-8');
+
+    return html_entity_decode(esc_url_raw($value), ENT_QUOTES, $charset);
+};
+
 $scheduled_page_reviews_bucket_label = static function (string $bucket): string {
     return match ($bucket) {
         'overdue'  => __('Overdue', 'scheduled-page-reviews'),
@@ -50,6 +62,8 @@ $scheduled_page_reviews_render_section = static function (
     string $heading,
     array $sectionPages,
     callable $wrap,
+    callable $text,
+    callable $url,
     callable $bucketLabel,
     callable $formatReviewAt,
 ): void {
@@ -57,27 +71,28 @@ $scheduled_page_reviews_render_section = static function (
         return;
     }
 
-    echo esc_html($wrap($heading)) . "\n";
-    echo esc_html(str_repeat('-', min(78, strlen($heading)))) . "\n\n";
+    echo $wrap($text($heading)) . "\n";
+    echo str_repeat('-', min(78, strlen($text($heading)))) . "\n\n";
 
     foreach ($sectionPages as $page) {
-        echo '* ' . esc_html($wrap((string) $page['title'])) . "\n";
-        echo '  ' . esc_html__('Edit:', 'scheduled-page-reviews') . ' ' . esc_url((string) $page['edit_link']) . "\n";
-        echo '  ' . esc_html__('Status:', 'scheduled-page-reviews') . ' ' . esc_html($bucketLabel((string) ($page['bucket'] ?? ''))) . "\n";
-        echo '  ' . esc_html__('Next review:', 'scheduled-page-reviews') . ' ' . esc_html($formatReviewAt((string) ($page['next_review_at'] ?? ''))) . "\n\n";
+        echo '* ' . $wrap($text((string) $page['title'])) . "\n";
+        echo '  ' . $text(__('Edit:', 'scheduled-page-reviews')) . ' ' . $url((string) $page['edit_link']) . "\n";
+        echo '  ' . $text(__('Status:', 'scheduled-page-reviews')) . ' ' . $text($bucketLabel((string) ($page['bucket'] ?? ''))) . "\n";
+        echo '  ' . $text(__('Next review:', 'scheduled-page-reviews')) . ' ' . $text($formatReviewAt((string) ($page['next_review_at'] ?? ''))) . "\n\n";
     }
 };
 
-echo esc_html($scheduled_page_reviews_wrap($subject)) . "\n";
-echo esc_html(str_repeat('=', min(78, strlen($subject)))) . "\n\n";
-echo esc_html(
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- This template renders PHPMailer AltBody text/plain; HTML escaping would expose entities to recipients.
+echo $scheduled_page_reviews_wrap($scheduled_page_reviews_text($subject)) . "\n";
+echo str_repeat('=', min(78, strlen($scheduled_page_reviews_text($subject)))) . "\n\n";
+echo $scheduled_page_reviews_text(
     $scheduled_page_reviews_wrap(
         sprintf(
             /* translators: 1: recipient email, 2: site name, 3: site URL */
             __('Hello %1$s, the following pages on %2$s (%3$s) need your attention.', 'scheduled-page-reviews'),
-            $recipient_email,
-            $site_name,
-            $site_url,
+            $scheduled_page_reviews_text($recipient_email),
+            $scheduled_page_reviews_text($site_name),
+            $scheduled_page_reviews_url($site_url),
         ),
     ),
 ) . "\n\n";
@@ -90,6 +105,8 @@ $scheduled_page_reviews_render_section(
     ),
     $overdue_pages,
     $scheduled_page_reviews_wrap,
+    $scheduled_page_reviews_text,
+    $scheduled_page_reviews_url,
     $scheduled_page_reviews_bucket_label,
     $scheduled_page_reviews_format_review_at,
 );
@@ -101,17 +118,20 @@ $scheduled_page_reviews_render_section(
     ),
     $upcoming_pages,
     $scheduled_page_reviews_wrap,
+    $scheduled_page_reviews_text,
+    $scheduled_page_reviews_url,
     $scheduled_page_reviews_bucket_label,
     $scheduled_page_reviews_format_review_at,
 );
 
-echo esc_html(
+echo $scheduled_page_reviews_text(
     $scheduled_page_reviews_wrap(
         sprintf(
             /* translators: %s: WordPress admin URL */
             __('Sign in to the WordPress dashboard to review your pages: %s', 'scheduled-page-reviews'),
-            $admin_url,
+            $scheduled_page_reviews_url($admin_url),
         ),
     ),
 ) . "\n";
-echo esc_html($scheduled_page_reviews_wrap(__('This message was sent by the Scheduled Page Reviews plugin.', 'scheduled-page-reviews'))) . "\n";
+echo $scheduled_page_reviews_wrap($scheduled_page_reviews_text(__('This message was sent by the Scheduled Page Reviews plugin.', 'scheduled-page-reviews'))) . "\n";
+// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
