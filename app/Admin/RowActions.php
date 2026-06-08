@@ -78,9 +78,10 @@ final class RowActions
 
     public function maybeRenderFlash(): void
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only success notice; value is sanitized and gated by the plugin authorization model.
         $flashId = isset($_GET[self::FLASH_QUERY_VAR]) ? absint(wp_unslash($_GET[self::FLASH_QUERY_VAR])) : 0;
 
-        if ($flashId <= 0) {
+        if ($flashId <= 0 || ! $this->authorization->canMarkReviewed($flashId, get_current_user_id())) {
             return;
         }
 

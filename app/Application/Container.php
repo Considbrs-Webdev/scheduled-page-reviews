@@ -41,6 +41,7 @@ final class Container
     public static function get(string $key): object
     {
         if (!isset(self::$instances[$key])) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception; message is for logs/CLI only.
             throw new RuntimeException(sprintf('Service not registered: %s', $key));
         }
         /** @var T */

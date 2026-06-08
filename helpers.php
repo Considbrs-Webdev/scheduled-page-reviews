@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace ScheduledPageReviews;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use ScheduledPageReviews\Application\Container;
 
 /**

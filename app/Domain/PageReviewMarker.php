@@ -56,6 +56,7 @@ final class PageReviewMarker
             ? get_date_from_gmt($modifiedGmt, 'Y-m-d H:i:s')
             : $modifiedGmt;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Intentionally sync only post_modified fields without firing post update hooks.
         $updated = $wpdb->update(
             $wpdb->posts,
             [

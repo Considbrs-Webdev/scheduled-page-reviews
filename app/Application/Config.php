@@ -47,6 +47,7 @@ final class Config
         $path = self::pluginRoot() . '/config/' . $file . '.php';
 
         if (!is_file($path)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception; message is for logs/CLI only.
             throw new RuntimeException(sprintf('Config file not found: %s', $path));
         }
 
@@ -54,6 +55,7 @@ final class Config
         $data = require $path;
 
         if (!is_array($data)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception; message is for logs/CLI only.
             throw new RuntimeException(sprintf('Config file did not return an array: %s', $path));
         }
 

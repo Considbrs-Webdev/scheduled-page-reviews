@@ -40,11 +40,12 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                __('A scan is already in progress.', 'scheduled-page-reviews')
+                esc_html__('A scan is already in progress.', 'scheduled-page-reviews')
             );
         }
 
         if (function_exists('set_time_limit')) {
+            // phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged -- Long-running synchronous scan may exceed default PHP time limits.
             @set_time_limit(0);
         }
 
@@ -90,7 +91,7 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                __('A scan is already in progress.', 'scheduled-page-reviews')
+                esc_html__('A scan is already in progress.', 'scheduled-page-reviews')
             );
         }
 

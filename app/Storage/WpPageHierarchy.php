@@ -82,6 +82,7 @@ final class WpPageHierarchy implements PageHierarchy
             'no_found_rows'          => true,
             'update_post_meta_cache' => false,
             'update_post_term_cache' => false,
+            // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters -- Cron must enumerate all pages, including filtered-out translations.
             'suppress_filters'       => true,
         ]);
 

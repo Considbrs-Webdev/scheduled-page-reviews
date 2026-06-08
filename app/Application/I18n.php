@@ -49,6 +49,7 @@ final class I18n
             return;
         }
 
+        // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Custom Domain Path; required for self-hosted installs outside WordPress.org.
         load_plugin_textdomain(
             PluginIdentity::textDomain(),
             false,

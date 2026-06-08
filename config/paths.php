@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-$pluginRoot = dirname(__DIR__);
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$scheduled_page_reviews_plugin_root = dirname(__DIR__);
 
 return [
-    'plugin_root'         => $pluginRoot,
-    'plugin_file'         => $pluginRoot . '/scheduled-page-reviews.php',
-    'dist_dir'            => $pluginRoot . '/dist',
-    'views_dir'           => $pluginRoot . '/resources/views',
-    'emails_dir'          => $pluginRoot . '/resources/views/emails',
-    'languages_dir'       => $pluginRoot . '/resources/languages',
+    'plugin_root'         => $scheduled_page_reviews_plugin_root,
+    'plugin_file'         => $scheduled_page_reviews_plugin_root . '/scheduled-page-reviews.php',
+    'dist_dir'            => $scheduled_page_reviews_plugin_root . '/dist',
+    'views_dir'           => $scheduled_page_reviews_plugin_root . '/resources/views',
+    'emails_dir'          => $scheduled_page_reviews_plugin_root . '/resources/views/emails',
+    'languages_dir'       => $scheduled_page_reviews_plugin_root . '/resources/languages',
     'asset_handle_prefix' => 'scheduled-page-reviews',
 ];
