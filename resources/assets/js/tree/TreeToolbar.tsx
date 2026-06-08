@@ -2,12 +2,12 @@ import { useId } from "react";
 import { Search, RefreshCw } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { __, _n, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useUiStore } from "@/store/ui";
 
-export function TreeToolbar({ pageCount }: { pageCount: number }) {
+export function TreeToolbar() {
   const inputId = useId();
   const search = useUiStore((s) => s.treeSearch);
   const setSearch = useUiStore((s) => s.setTreeSearch);
@@ -35,13 +35,6 @@ export function TreeToolbar({ pageCount }: { pageCount: number }) {
         >
           <RefreshCw className="h-3.5 w-3.5" />
         </Button>
-      </div>
-      <div className="mt-1 px-1 text-xs text-muted-foreground">
-        {sprintf(
-          /* translators: %d: number of pages */
-          _n("%d page", "%d pages", pageCount, "scheduled-page-reviews"),
-          pageCount,
-        )}
       </div>
     </div>
   );

@@ -70,7 +70,7 @@ export function Tree() {
 
   return (
     <div className="flex h-full flex-col">
-      <TreeToolbar pageCount={q.data?.length ?? 0} />
+      <TreeToolbar />
       <div ref={containerRef} className="flex-1 overflow-hidden px-2 py-2">
         {q.isLoading && <TreeSkeleton />}
         {q.error && (
@@ -113,7 +113,7 @@ export function Tree() {
           </Arborist>
         )}
       </div>
-      <TreeLegend />
+      <TreeLegend pageCount={q.data?.length ?? 0} />
     </div>
   );
 }
