@@ -28,12 +28,9 @@ final class SettingsPage
 
     public function register(): void
     {
-        $domain = PluginIdentity::textDomain();
-        $name   = PluginIdentity::name();
-
         add_menu_page(
-            __($name, $domain),
-            __($name, $domain),
+            __('Scheduled Page Reviews', 'scheduled-page-reviews'),
+            __('Scheduled Page Reviews', 'scheduled-page-reviews'),
             Capabilities::menu(),
             self::pageSlug(),
             [$this, 'render'],

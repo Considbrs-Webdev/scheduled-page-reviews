@@ -32,9 +32,11 @@ final class EmailRenderer
     public function render(array $pages, array $context): array
     {
         if (!is_file($this->htmlViewPath)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception; message is for logs/CLI only.
             throw new \RuntimeException('Email view not found: ' . $this->htmlViewPath);
         }
         if (!is_file($this->textViewPath)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Internal exception; message is for logs/CLI only.
             throw new \RuntimeException('Email view not found: ' . $this->textViewPath);
         }
 
@@ -100,8 +102,8 @@ final class EmailRenderer
         }
 
         if ($overdue > 0) {
-            /* translators: 1: overdue page count, 2: site suffix */
             return sprintf(
+                /* translators: 1: overdue page count, 2: site suffix */
                 _n(
                     '[Content review] %1$d page overdue%2$s',
                     '[Content review] %1$d pages overdue%2$s',
@@ -113,8 +115,8 @@ final class EmailRenderer
             );
         }
 
-        /* translators: 1: upcoming page count, 2: site suffix */
         return sprintf(
+            /* translators: 1: upcoming page count, 2: site suffix */
             _n(
                 '[Content review] %1$d page upcoming%2$s',
                 '[Content review] %1$d pages upcoming%2$s',
