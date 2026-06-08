@@ -40,12 +40,6 @@ final class PageReviewMarker
 
     private function syncPostModified(int $pageId, string $nowIso): void
     {
-        global $wpdb;
-
-        if (!isset($wpdb->posts)) {
-            return;
-        }
-
         $timestamp = strtotime($nowIso);
         if ($timestamp === false) {
             $timestamp = time();
@@ -56,18 +50,16 @@ final class PageReviewMarker
             ? get_date_from_gmt($modifiedGmt, 'Y-m-d H:i:s')
             : $modifiedGmt;
 
-        $updated = $wpdb->update(
-            $wpdb->posts,
+        $updated = wp_update_post(
             [
+                'ID'                => $pageId,
                 'post_modified'     => $modifiedLocal,
                 'post_modified_gmt' => $modifiedGmt,
             ],
-            ['ID' => $pageId],
-            ['%s', '%s'],
-            ['%d']
+            true,
         );
 
-        if ($updated !== false && function_exists('clean_post_cache')) {
+        if (!is_wp_error($updated) && function_exists('clean_post_cache')) {
             clean_post_cache($pageId);
         }
     }

@@ -324,7 +324,9 @@ final class Target implements JsonSerializable
         match ($this->type) {
             TargetType::User => is_int($this->value) && $this->value > 0
                 ? null
-                : throw new InvalidArgumentException('User target requires a positive integer user ID; got ' . var_export($this->value, true)),
+                : throw new InvalidArgumentException(
+                    'User target requires a positive integer user ID; got ' . wp_json_encode($this->value)
+                ),
             TargetType::Role => is_string($this->value) && $this->value !== ''
                 ? null
                 : throw new InvalidArgumentException('Role target requires a non-empty string slug.'),
