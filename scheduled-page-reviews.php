@@ -23,9 +23,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$autoloader = __DIR__ . '/vendor/autoload.php';
+$scheduled_page_reviews_autoloader = __DIR__ . '/vendor/autoload.php';
 
-if (!file_exists($autoloader)) {
+if (!file_exists($scheduled_page_reviews_autoloader)) {
     add_action('admin_notices', static function (): void {
         echo '<div class="notice notice-error"><p>';
         echo esc_html__(
@@ -37,7 +37,7 @@ if (!file_exists($autoloader)) {
     return;
 }
 
-require_once $autoloader;
+require_once $scheduled_page_reviews_autoloader;
 
 register_deactivation_hook(__FILE__, static function (): void {
     $timestamp = wp_next_scheduled(\ScheduledPageReviews\Cron\Scheduler::DAILY_HOOK);
