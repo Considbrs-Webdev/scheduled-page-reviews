@@ -1,9 +1,10 @@
 name: Release
 
 on:
-  # Triggas när du skapar en release i GitHubs gränssnitt, ELLER manuellt
+  # Triggas när du publicerar en release via GitHubs gränssnitt
   release:
     types: [published]
+  # Gör att du kan trigga flödet manuellt från Actions-fliken
   workflow_dispatch:
     inputs:
       version:
@@ -19,23 +20,68 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main # Vi bygger utifrån main-branchen
+          ref: main # Vi bygger alltid utifrån stabila main
           fetch-depth: 0
 
-      # ... (Här ligger dina vanliga steg: setup-php, setup-node, npm run build) ...
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
 
-      - name: Commit built assets and CREATE NEW Git Tag
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies and verify
+        run: |
+          composer install --optimize-autoloader
+          npm ci
+          composer test
+          npm run typecheck
+          npm run build
+
+      - name: Build release ZIP
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
+        run: node scripts/build-release.mjs
+
+      - name: Upload release ZIP as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scheduled-page-reviews-${{ github.event.inputs.version || github.event.release.tag_name }}
+          path: .build/scheduled-page-reviews-*.zip
+
+      - name: Prepare production assets for Git Tag
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Sätt versionsnummer baserat på om det är en release eller manuell körning
+          # Hämta rätt version dynamiskt
           VERSION=${{ github.event.inputs.version || github.event.release.tag_name }}
 
-          # Unpacka zip eller lägg till filer direkt
+          # Packa upp den rena produktions-ZIP:en direkt i mappen (så vi slipper node_modules etc.)
+          mkdir -p .tmp_unzip
+          unzip -q .build/scheduled-page-reviews-*.zip -d .tmp_unzip
+          
+          # Töm arbetskatalogen utom .git och .build, flytta sedan in produktionsfilerna
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name '.build' ! -name '.tmp_unzip' -exec rm -rf {} +
+          cp -r .tmp_unzip/scheduled-page-reviews/* .
+          rm -rf .tmp_unzip
+
+          # Tvinga Git att indexera ALLA filer (inklusive de som normalt är i .gitignore, t.ex. dist)
           git add -A --force
           git commit -m "Build: Production assets for $VERSION"
           
-          # Skapa en HELT NY tagg på denna commit
-          git tag $VERSION
-          git push origin $VERSION
+          # Skapa/skriv över taggen med den byggda koden och force-pusha till GitHub
+          git tag -f $VERSION
+          git push origin $VERSION --force
+
+      # Uppdaterar GitHub-releasen med den färdiga ZIP-filen (om flödet startades från en Release)
+      - name: Update GitHub Release Assets
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: .build/scheduled-page-reviews-*.zip
+          tag_name: ${{ github.event.release.tag_name }}
+          append_body: true
