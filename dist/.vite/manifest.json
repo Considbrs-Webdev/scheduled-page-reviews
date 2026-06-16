@@ -1,0 +1,27 @@
+{
+  "_wp-i18n.CpMm_Uh9.js": {
+    "file": "js/wp-i18n.CpMm_Uh9.js",
+    "name": "wp-i18n"
+  },
+  "resources/assets/js/admin.tsx": {
+    "file": "js/admin.CTIwuKcB.js",
+    "name": "admin",
+    "src": "resources/assets/js/admin.tsx",
+    "isEntry": true,
+    "imports": [
+      "_wp-i18n.CpMm_Uh9.js"
+    ],
+    "css": [
+      "css/admin.I36vyr_A.css"
+    ]
+  },
+  "resources/assets/js/editor.tsx": {
+    "file": "js/editor.bC4k3M3W.js",
+    "name": "editor",
+    "src": "resources/assets/js/editor.tsx",
+    "isEntry": true,
+    "imports": [
+      "_wp-i18n.CpMm_Uh9.js"
+    ]
+  }
+}
