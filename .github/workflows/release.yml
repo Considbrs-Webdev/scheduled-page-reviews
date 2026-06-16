@@ -46,7 +46,7 @@ jobs:
           name: scheduled-page-reviews-${{ github.ref_name }}
           path: .build/scheduled-page-reviews-*.zip
 
-      # --- NYTT STEG HÄR ---
+      # --- Packagist-fix ---
       - name: Commit built assets and update Git Tag for Packagist
         run: |
           # 1. Konfigurera en tillfällig git-användare på runnern
@@ -54,7 +54,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
 
           # 2. Packa upp din färdiga, rena ZIP över ditt arbetsflöde 
-          # (Detta ser till att du bara får med exakt de filer som ska ligga i pluginet, inga node_modules etc.)
           mkdir -p .tmp_unzip
           unzip -q .build/scheduled-page-reviews-*.zip -d .tmp_unzip
           
@@ -64,10 +63,9 @@ jobs:
           rm -rf .tmp_unzip
 
           # 3. Tvinga git att skita i .gitignore för de kompilerade filerna
-          # Vi lägger till allt som finns i den rena produktionsmappen
           git add -A --force
 
-          # 4. Gör en lokal commit (denna kommer bara leva på taggen, inte på din master/main branch)
+          # 4. Gör en lokal commit (denna kommer bara leva på taggen)
           git commit -m "Build: Production assets for ${{ github.ref_name }}"
 
           # 5. Ta bort den gamla lokala taggen och sätt den på vår nya produktions-commit
@@ -78,7 +76,6 @@ jobs:
           git push origin ${{ github.ref_name }} --force
       # ---------------------
 
-      # Detta steg kommer nu att plocka upp den uppdaterade taggen med alla byggda filer i
       - name: Create GitHub prerelease with ZIP
         uses: softprops/action-gh-release@v2
         with:
@@ -99,7 +96,7 @@ jobs:
           php-version: "8.3"
           tools: composer
 
-      - shift: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
