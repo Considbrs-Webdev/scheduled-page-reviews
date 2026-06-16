@@ -1,12 +1,13 @@
 {
   "name": "scheduled-page-reviews",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode development",
     "build": "tsc --noEmit && vite build",
     "release": "node scripts/build-release.mjs",
+    "version:sync": "node scripts/sync-version.mjs",
     "typecheck": "tsc --noEmit",
     "i18n:pot": "node scripts/i18n-prepare-js.mjs && ddev exec --dir=/var/www/html wp i18n make-pot wp-content/plugins/scheduled-page-reviews wp-content/plugins/scheduled-page-reviews/resources/languages/scheduled-page-reviews.pot --domain=scheduled-page-reviews --exclude=vendor,node_modules,dist,tests,.git,.phpunit.cache,resources/assets/js && node scripts/i18n-fix-pot-refs.mjs",
     "i18n:mo": "ddev exec --dir=/var/www/html wp i18n make-mo wp-content/plugins/scheduled-page-reviews/resources/languages",

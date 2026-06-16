@@ -74,21 +74,18 @@ function copyRecursive(src, dest, base = "") {
   }
 }
 
-function versionFromTag() {
+function versionFromPackageJson() {
+  const pkg = JSON.parse(readFileSync(join(pluginRoot, "package.json"), "utf8"));
+  return pkg.version ?? "0.0.0";
+}
+
+function resolveVersion() {
   const env = process.env.RELEASE_VERSION?.trim();
   if (env) {
     return env.replace(/^v/, "");
   }
-  try {
-    const tag = execSync("git describe --tags --exact-match 2>/dev/null", {
-      cwd: pluginRoot,
-      encoding: "utf8",
-    }).trim();
-    return tag.replace(/^v/, "");
-  } catch {
-    const pkg = JSON.parse(readFileSync(join(pluginRoot, "package.json"), "utf8"));
-    return pkg.version ?? "0.0.0";
-  }
+
+  return versionFromPackageJson();
 }
 
 function run(cmd, cwd = pluginRoot) {
@@ -96,7 +93,7 @@ function run(cmd, cwd = pluginRoot) {
   execSync(cmd, { cwd, stdio: "inherit" });
 }
 
-const version = versionFromTag();
+const version = resolveVersion();
 console.log(`Building ${slug} ${version}…`);
 
 rmSync(buildRoot, { recursive: true, force: true });

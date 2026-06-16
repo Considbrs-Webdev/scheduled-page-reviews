@@ -17,24 +17,43 @@ npm install
 npm run build
 ```
 
-## Test releases (recommended first)
+## Releasing a version
 
-1. Merge packaging and authorization fixes to `main`.
-2. Create an annotated tag, for example `v0.1.0-test.1`:
+CI owns tags and GitHub Releases. **Do not push tags or create releases manually.**
+
+1. Bump the version in all three places (or use the sync script):
 
    ```bash
-   git tag -a v0.1.0-test.1 -m "Test release 0.1.0-test.1"
-   git push origin v0.1.0-test.1
+   node scripts/sync-version.mjs 0.1.3
    ```
 
-3. GitHub Actions ([`.github/workflows/release.yml`](.github/workflows/release.yml)) will:
-   - Run tests and `npm run build`
-   - Build `scheduled-page-reviews-<version>.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
-   - Attach the ZIP to a GitHub Release (marked prerelease when the tag contains `test`, `alpha`, `beta`, or `rc`)
+   This updates `scheduled-page-reviews.php`, `config/app.php`, `package.json`, and `package-lock.json`.
 
-4. Install the ZIP on a clean WordPress site (Plugins → Add New → Upload). No `composer install` or `npm run build` on the server.
+2. Merge the version bump to `main`.
 
-### Local ZIP without pushing a tag
+3. GitHub Actions ([`.github/workflows/release.yml`](.github/workflows/release.yml)) runs automatically and:
+   - Skips if tag `v{version}` already exists
+   - Runs tests and `npm run build`
+   - Builds `scheduled-page-reviews-{version}.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
+   - Force-pushes the `release` branch with the production tree (`vendor/`, `dist/`, etc.)
+   - Creates tag `v{version}` on the release commit (once — no retagging)
+   - Creates a GitHub Release with the ZIP attached
+   - Marks the release as prerelease when the version contains `test`, `alpha`, `beta`, or `rc`
+
+4. After Packagist updates, install via Composer in the monorepo:
+
+   ```bash
+   # composer.local.json → "williamundqvist/scheduled-page-reviews": "v0.1.3"
+   composer update williamundqvist/scheduled-page-reviews
+   ```
+
+Composer installs from the **git tag commit**, not the GitHub Release ZIP. The tag must point at the built commit on the `release` branch — CI handles that.
+
+### Manual trigger
+
+If needed, re-run from the Actions tab via **workflow_dispatch** (uses the version in `package.json` on `main`).
+
+### Local ZIP without CI
 
 ```bash
 composer install
@@ -43,9 +62,17 @@ npm run release
 # Output: .build/scheduled-page-reviews-<version>.zip
 ```
 
-## Optional `release/*` branches
+Use this for smoke-testing the package contents before merging a version bump.
 
-You may create a short-lived branch such as `release/0.1.0-test.1` **only** to inspect the exact packaged tree. **Never merge `release/*` back into `main`.** Prefer GitHub Release artifacts instead.
+## Branch layout
+
+| Branch / ref | Contents |
+|--------------|----------|
+| `main` | Source only — day-to-day development |
+| `release` | Latest production tree — CI-owned, force-pushed each release |
+| `vX.Y.Z` tag | Immutable pointer to the release commit (includes `vendor/` + `dist/`) |
+
+**Never merge `release` back into `main`.**
 
 ## WordPress.org deployment (later)
 
@@ -53,12 +80,12 @@ When the plugin is registered on WordPress.org:
 
 1. Add repository secrets `SVN_USERNAME` and `SVN_PASSWORD`.
 2. Set repository variable `WPORG_DEPLOY_ENABLED` to `true`.
-3. The `deploy-wordpress-org` job in `release.yml` uses [10up/action-wordpress-plugin-deploy](https://github.com/marketplace/actions/wordpress-plugin-deploy) with `build-dir` pointing at the CI-built package (same contents as the ZIP).
+3. Add a `deploy-wordpress-org` job to `release.yml` using [10up/action-wordpress-plugin-deploy](https://github.com/marketplace/actions/wordpress-plugin-deploy) with `build-dir` pointing at the CI-built package (same contents as the ZIP).
 
-Until then, distribute test builds via **GitHub Release ZIPs** only.
+Until then, distribute builds via **GitHub Release ZIPs** and **Composer/Packagist**.
 
 ## Versioning
 
 - Plugin header in [`scheduled-page-reviews.php`](scheduled-page-reviews.php) is the WordPress-visible version.
-- Keep [`config/app.php`](config/app.php) and [`package.json`](package.json) in sync when bumping releases.
-- Tag names should match the header, prefixed with `v` (e.g. header `0.1.0` → tag `v0.1.0`).
+- Keep [`config/app.php`](config/app.php) and [`package.json`](package.json) in sync — use `scripts/sync-version.mjs`.
+- Tag names match the header with a `v` prefix (e.g. header `0.1.3` → tag `v0.1.3`).
