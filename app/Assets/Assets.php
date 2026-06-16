@@ -21,7 +21,7 @@ final class Assets
 
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', [$this, 'enqueueAdmin']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueueAdmin'], 999);
     }
 
     public function enqueueAdmin(string $hookSuffix): void
