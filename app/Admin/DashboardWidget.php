@@ -141,17 +141,30 @@ final class DashboardWidget
 
     private function renderFooter(int $itemsShown): void
     {
-        if (!current_user_can(Capabilities::menu())) {
+        $truncated    = $itemsShown >= self::MAX_ITEMS;
+        $canSettings  = current_user_can(Capabilities::menu());
+
+        if (!$truncated && !$canSettings) {
             return;
         }
-        $url = SettingsPage::adminUrl();
+
         echo '<p style="margin-top: 10px;">';
-        printf(
-            '<a href="%s">%s</a>',
-            esc_url($url),
-            esc_html__('Open Scheduled Page Reviews settings →', 'scheduled-page-reviews')
-        );
-        if ($itemsShown >= self::MAX_ITEMS) {
+
+        if ($canSettings) {
+            printf(
+                '<a href="%s">%s</a>',
+                esc_url(SettingsPage::adminUrl()),
+                esc_html__('Open Scheduled Page Reviews settings →', 'scheduled-page-reviews')
+            );
+        } elseif ($truncated) {
+            printf(
+                '<a href="%s">%s</a>',
+                esc_url(admin_url('edit.php?post_type=page')),
+                esc_html__('View all in the Pages list →', 'scheduled-page-reviews')
+            );
+        }
+
+        if ($truncated) {
             echo ' <span style="color:#646970;">'
                 . esc_html(
                     sprintf(
@@ -162,6 +175,7 @@ final class DashboardWidget
                 )
                 . '</span>';
         }
+
         echo '</p>';
     }
 
