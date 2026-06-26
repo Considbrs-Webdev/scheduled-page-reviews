@@ -34,7 +34,7 @@ export function TreeNode({
       onClick={() => node.select()}
       onDoubleClick={() => node.toggle()}
       className={cn(
-        "group relative flex h-[30px] cursor-pointer items-center gap-1 rounded px-1 text-sm",
+        "group relative flex h-[30px] cursor-pointer items-center gap-1 rounded pr-1 text-sm",
         node.isSelected
           ? "bg-accent text-accent-foreground"
           : "hover:bg-muted/60",
