@@ -114,7 +114,17 @@ const sv = {
   "Notify before due": "Avisera före förfallodatum",
   "Notify days before": "Avisera dagar före",
   "On track": "I fas",
-  "Open scheduled page reviews settings": "Öppna inställningar för innehållsägarskap",
+  "Open Scheduled Page Reviews settings":
+    "Öppna inställningar för schemalagda sidgranskningar",
+  "Open Scheduled Page Reviews settings →":
+    "Öppna inställningar för schemalagda sidgranskningar →",
+  "View all in the Pages list →": "Visa alla i sidlistan →",
+  "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.":
+    "Påminnelser om innehållsfärskhet — granskningsintervall per sida, mottagare, arv och samlingsmejl vid förfallodatum.",
+  "Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder.":
+    "Schemalagda sidgranskningar: front-end-resurser saknas. Kör \"npm run build\" i plugin-katalogen, eller installera ett release-ZIP som innehåller dist/-mappen.",
+  "Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory.":
+    "Schemalagda sidgranskningar: Composer-beroenden saknas. Kör \"composer install\" i plugin-katalogen.",
   "Open in editor": "Öppna i redigeraren",
   "Overdue (%d)": "Försenade (%d)",
   Page: "Sida",

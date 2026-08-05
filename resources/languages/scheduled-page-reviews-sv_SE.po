@@ -4,37 +4,50 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Scheduled Page Reviews 0.1.0\nReport-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/scheduled-page-reviews\nPOT-Creation-Date: "
-"2026-05-29T15:48:35+02:00\nPO-Revision-Date: 2026-05-21 "
+"https://wordpress.org/support/plugin/sche"
+"duled-page-reviews\nPOT-Creation-Date: 202"
+"6-06-26T14:38:47+02:00\nPO-Revision-Date: 2026-05-21 "
 "21:30+0200\nLast-Translator: William Undqvist\nLanguage-Team: "
 "Swedish\nLanguage: sv_SE\nMIME-Version: 1.0\nContent-Type: text/plain; "
 "charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; "
 "plural=(n != 1);\nX-Generator: manual\nX-Domain: scheduled-page-reviews\n"
 
 #. Plugin Name of the plugin
-#: scheduled-page-reviews.php app/Admin/SettingsPage.php:28
-#: app/Admin/SettingsPage.php:29 resources/views/settings-page.php:11
+#: scheduled-page-reviews.php app/Admin/SettingsPage.php:32
+#: app/Admin/SettingsPage.php:33 resources/views/header.php:23
+#: resources/views/settings-page.php:11
+#: resources/assets/js/editor/SidebarPanel.tsx:178
 msgid "Scheduled Page Reviews"
 msgstr "Schemalagda sidgranskningar"
 
 #. Plugin URI of the plugin
 #: scheduled-page-reviews.php
-msgid "https://github.com/williamundqvist/scheduled-page-reviews"
+msgid "https://github.com/Considbrs-Webdev/scheduled-page-reviews"
 msgstr "https://github.com/williamundqvist/scheduled-page-reviews"
 
 #. Description of the plugin
 #: scheduled-page-reviews.php
 msgid ""
-"Per-page review intervals, scheduled page reviews, inheritance, batched cron "
-"notifications, and a React-based page-tree admin UI."
+"Content freshness reminders — per-page review intervals, assignees, "
+"inheritance, and due-date email digests."
 msgstr ""
-"Granskningsintervall per sida, innehållsägarskap, arv, samlade "
-"cron-aviseringar och ett React-baserat sidträd i admin."
+"Påminnelser om innehållsfärskhet — granskningsintervall per sida, "
+"mottagare, arv och samlingsmejl vid förfallodatum."
 
 #. Author of the plugin
 #: scheduled-page-reviews.php
 msgid "William Lundqvist"
 msgstr "William Undqvist"
+
+#: app/Admin/BuildNotice.php:32
+msgid ""
+"Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" "
+"in the plugin directory, or install a release ZIP that includes the dist/ "
+"folder."
+msgstr ""
+"Schemalagda sidgranskningar: front-end-resurser saknas. Kör \"npm run build\" "
+"i plugin-katalogen, eller installera ett release-ZIP som innehåller "
+"dist/-mappen."
 
 #: app/Admin/DashboardWidget.php:37
 msgid "Scheduled page reviews — pages needing review"
@@ -48,8 +61,8 @@ msgstr "Inga sidor på webbplatsen behöver granskas just nu."
 msgid "Nothing assigned to you needs review right now. Nice work!"
 msgstr "Inget som är tilldelat dig behöver granskas just nu. Bra jobbat!"
 
-#: app/Admin/DashboardWidget.php:62 resources/views/emails/digest.html.php:20
-#: resources/views/emails/digest.text.php:25
+#: app/Admin/DashboardWidget.php:62 resources/views/emails/digest.html.php:22
+#: resources/views/emails/digest.text.php:42
 #: resources/assets/js/editor/SidebarPanel.tsx:15
 msgid "Overdue"
 msgstr "Försenad"
@@ -62,22 +75,26 @@ msgstr "Snart dags"
 msgid "(no title)"
 msgstr "(saknar titel)"
 
-#: app/Admin/DashboardWidget.php:152
-msgid "Open scheduled page reviews settings →"
-msgstr "Öppna inställningar för innehållsägarskap →"
+#: app/Admin/DashboardWidget.php:157
+msgid "Open Scheduled Page Reviews settings →"
+msgstr "Öppna inställningar för schemalagda sidgranskningar →"
+
+#: app/Admin/DashboardWidget.php:163
+msgid "View all in the Pages list →"
+msgstr "Visa alla i sidlistan →"
 
 #. translators: %d = maximum number of list items shown
-#: app/Admin/DashboardWidget.php:159
+#: app/Admin/DashboardWidget.php:172
 #, php-format
 msgid "(showing first %d)"
 msgstr "(visar de första %d)"
 
-#: app/Admin/DashboardWidget.php:184 app/Admin/DashboardWidget.php:193
+#: app/Admin/DashboardWidget.php:198 app/Admin/DashboardWidget.php:207
 msgid "due today"
 msgstr "ska granskas idag"
 
 #. translators: %d = number of days
-#: app/Admin/DashboardWidget.php:187
+#: app/Admin/DashboardWidget.php:201
 #, php-format
 msgid "%d day overdue"
 msgid_plural "%d days overdue"
@@ -85,7 +102,7 @@ msgstr[0] "%d dag försenad"
 msgstr[1] "%d dagar försenade"
 
 #. translators: %d = number of days
-#: app/Admin/DashboardWidget.php:196
+#: app/Admin/DashboardWidget.php:210
 #, php-format
 msgid "due in %d day"
 msgid_plural "due in %d days"
@@ -113,7 +130,7 @@ msgid "You do not have permission to mark this page as reviewed."
 msgstr "Du har inte behörighet att markera den här sidan som granskad."
 
 #. translators: %s = page title
-#: app/Admin/RowActions.php:91
+#: app/Admin/RowActions.php:92
 #, php-format
 msgid "Marked \"%s\" as reviewed."
 msgstr "Markerade \"%s\" som granskad."
@@ -138,34 +155,36 @@ msgstr ""
 "Skanning klar — %1$d sidor bearbetade, %2$d köade för avisering, %3$d "
 "e-post skickade."
 
-#: app/Cron/ScheduleManager.php:45
+#: app/Cron/ScheduleManager.php:50
 msgid "Once Weekly"
 msgstr "En gång i veckan"
 
-#: app/Cron/Scheduler.php:43 app/Cron/Scheduler.php:93
+#: app/Cron/Scheduler.php:43 app/Cron/Scheduler.php:94
 msgid "A scan is already in progress."
 msgstr "En skanning pågår redan."
 
 #. translators: %s: site name
-#: app/Notifications/EmailRenderer.php:87
+#: app/Notifications/EmailRenderer.php:89
 #, php-format
 msgid " on %s"
 msgstr " på %s"
 
 #. translators: 1: overdue page count, 2: upcoming page count, 3: site suffix
-#: app/Notifications/EmailRenderer.php:95
+#: app/Notifications/EmailRenderer.php:97
 #, php-format
 msgid "[Content review] %1$d overdue, %2$d upcoming%3$s"
 msgstr "[Innehållsgranskning] %1$d försenade, %2$d kommande%3$s"
 
-#: app/Notifications/EmailRenderer.php:105
+#. translators: 1: overdue page count, 2: site suffix
+#: app/Notifications/EmailRenderer.php:107
 #, php-format
 msgid "[Content review] %1$d page overdue%2$s"
 msgid_plural "[Content review] %1$d pages overdue%2$s"
 msgstr[0] "[Innehållsgranskning] %1$d sida försenad%2$s"
 msgstr[1] "[Innehållsgranskning] %1$d sidor försenade%2$s"
 
-#: app/Notifications/EmailRenderer.php:118
+#. translators: 1: upcoming page count, 2: site suffix
+#: app/Notifications/EmailRenderer.php:120
 #, php-format
 msgid "[Content review] %1$d page upcoming%2$s"
 msgid_plural "[Content review] %1$d pages upcoming%2$s"
@@ -180,30 +199,22 @@ msgstr "Du måste vara inloggad för att markera en sida som granskad."
 msgid "Request body must be a JSON object."
 msgstr "Begäransinnehållet måste vara ett JSON-objekt."
 
-#: scheduled-page-reviews.php:30
-msgid ""
-"Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer "
-"install\" inside the plugin directory."
-msgstr ""
-"Innehållsägarskap: Composer-beroenden saknas. Kör \"composer install\" i "
-"plugin-katalogen."
-
-#: resources/views/emails/digest.html.php:21
-#: resources/views/emails/digest.text.php:26
+#: resources/views/emails/digest.html.php:23
+#: resources/views/emails/digest.text.php:43
 #: resources/assets/js/editor/SidebarPanel.tsx:17
 msgid "Upcoming"
 msgstr "Kommande"
 
-#: resources/views/emails/digest.html.php:56
+#: resources/views/emails/digest.html.php:55
 msgid "Page"
 msgstr "Sida"
 
-#: resources/views/emails/digest.html.php:57
+#: resources/views/emails/digest.html.php:56
 #: resources/assets/js/editor/SidebarPanel.tsx:114
 msgid "Status"
 msgstr "Status"
 
-#: resources/views/emails/digest.html.php:58
+#: resources/views/emails/digest.html.php:57
 #: resources/assets/js/editor/SidebarPanel.tsx:126
 msgid "Next review"
 msgstr "Nästa granskning"
@@ -215,66 +226,69 @@ msgid "Hello %1$s, the following pages on %2$s need your attention."
 msgstr "Hej %1$s, följande sidor på %2$s behöver din uppmärksamhet."
 
 #. translators: %d: overdue page count
-#: resources/views/emails/digest.html.php:112
-#: resources/views/emails/digest.text.php:79
+#: resources/views/emails/digest.html.php:119
+#: resources/views/emails/digest.text.php:103
 #, php-format
 msgid "Overdue (%d)"
 msgstr "Försenade (%d)"
 
 #. translators: %d: upcoming page count
-#: resources/views/emails/digest.html.php:123
-#: resources/views/emails/digest.text.php:90
+#: resources/views/emails/digest.html.php:129
+#: resources/views/emails/digest.text.php:116
 #, php-format
 msgid "Upcoming (%d)"
 msgstr "Kommande (%d)"
 
 #. translators: %s: WordPress dashboard link
-#: resources/views/emails/digest.html.php:137
+#: resources/views/emails/digest.html.php:143
 #, php-format
 msgid "Sign in to the %s to review your pages."
 msgstr "Logga in i %s för att granska dina sidor."
 
-#: resources/views/emails/digest.html.php:138
+#: resources/views/emails/digest.html.php:144
 msgid "WordPress dashboard"
 msgstr "WordPress-administrationen"
 
-#: resources/views/emails/digest.html.php:141
-#: resources/views/emails/digest.text.php:106
+#: resources/views/emails/digest.html.php:154
+#: resources/views/emails/digest.text.php:136
 msgid "This message was sent by the Scheduled Page Reviews plugin."
 msgstr "Detta meddelande skickades av pluginet Scheduled Page Reviews."
 
-#: resources/views/emails/digest.text.php:58
+#: resources/views/emails/digest.text.php:79
 msgid "Edit:"
 msgstr "Redigera:"
 
-#: resources/views/emails/digest.text.php:59
+#: resources/views/emails/digest.text.php:80
 msgid "Status:"
 msgstr "Status"
 
-#: resources/views/emails/digest.text.php:60
+#: resources/views/emails/digest.text.php:81
 msgid "Next review:"
 msgstr "Nästa granskning"
 
 #. translators: 1: recipient email, 2: site name, 3: site URL
-#: resources/views/emails/digest.text.php:69
+#: resources/views/emails/digest.text.php:92
 #, php-format
 msgid "Hello %1$s, the following pages on %2$s (%3$s) need your attention."
 msgstr "Hej %1$s, följande sidor på %2$s (%3$s) behöver din uppmärksamhet."
 
 #. translators: %s: WordPress admin URL
-#: resources/views/emails/digest.text.php:102
+#: resources/views/emails/digest.text.php:131
 #, php-format
 msgid "Sign in to the WordPress dashboard to review your pages: %s"
 msgstr "Logga in i WordPress-administrationen för att granska dina sidor: %s"
 
-#: resources/views/header.php:23
-#: resources/assets/js/editor/SidebarPanel.tsx:178
-msgid "Content ownership"
-msgstr "Innehållsägarskap"
-
 #: resources/views/settings-page.php:16
 msgid "This page requires JavaScript."
 msgstr "Den här sidan kräver JavaScript."
+
+#: scheduled-page-reviews.php:31
+msgid ""
+"Scheduled Page Reviews: Composer dependencies are missing. Please run "
+"\"composer install\" inside the plugin directory."
+msgstr ""
+"Schemalagda sidgranskningar: Composer-beroenden saknas. Kör \"composer "
+"install\" i plugin-katalogen."
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:13
 #: resources/assets/js/editor/SidebarPanel.tsx:140
@@ -379,8 +393,7 @@ msgstr "Ärvs från sida #%d:"
 
 #: resources/assets/js/editor/PageDetail.tsx:25
 msgid "Select a page from the tree to view and edit its review rule."
-msgstr ""
-"Välj en sida i trädet för att visa och redigera dess granskningsregel."
+msgstr "Välj en sida i trädet för att visa och redigera dess granskningsregel."
 
 #: resources/assets/js/editor/PageDetail.tsx:63
 msgid "Failed to load."
@@ -578,8 +591,8 @@ msgid "Mark as reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:168
-msgid "Open scheduled page reviews settings"
-msgstr "Öppna inställningar för innehållsägarskap"
+msgid "Open Scheduled Page Reviews settings"
+msgstr "Öppna inställningar för schemalagda sidgranskningar"
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:31
 msgid "Global settings saved."
@@ -714,33 +727,39 @@ msgid "Settings"
 msgstr "Inställningar"
 
 #. translators: 1: pages checked, 2: emails sent
-#: resources/assets/js/layout/SendRemindersButton.tsx:30
+#: resources/assets/js/layout/SendRemindersButton.tsx:23
 msgid "Reminders sent — %1$d pages checked, %2$d emails sent."
 msgstr "Påminnelser skickade — %1$d sidor kontrollerade, %2$d e-post skickade."
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:42
+#: resources/assets/js/layout/SendRemindersButton.tsx:32
 msgid "Failed to send reminders."
 msgstr "Kunde inte skicka påminnelser."
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:60
-#: resources/assets/js/layout/SendRemindersButton.tsx:96
+#: resources/assets/js/layout/SendRemindersButton.tsx:47
+#: resources/assets/js/layout/SendRemindersButton.tsx:70
 msgid "Sending reminders…"
 msgstr "Skickar påminnelser…"
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:61
-#: resources/assets/js/layout/SendRemindersButton.tsx:97
+#: resources/assets/js/layout/SendRemindersButton.tsx:47
+#: resources/assets/js/layout/SendRemindersButton.tsx:70
 msgid "Send reminders"
 msgstr "Skicka påminnelser"
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:76
+#: resources/assets/js/layout/SendRemindersButton.tsx:58
 msgid "Send review reminders now?"
 msgstr "Skicka granskningspåminnelser nu?"
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:79
-msgid "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while."
-msgstr "Detta kontrollerar alla sidor mot dina granskningsregler och skickar samlingsmejl till ägare som har sidor som är förfallna eller försenade. Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund."
+#: resources/assets/js/layout/SendRemindersButton.tsx:58
+msgid ""
+"This checks all pages against your review rules and sends digest emails to "
+"owners who have pages that are due or overdue. Sent emails cannot be "
+"undone. On large sites this may take a while."
+msgstr ""
+"Detta kontrollerar alla sidor mot dina granskningsregler och skickar "
+"samlingsmejl till ägare som har sidor som är förfallna eller försenade. "
+"Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund."
 
-#: resources/assets/js/layout/SendRemindersButton.tsx:92
+#: resources/assets/js/layout/SendRemindersButton.tsx:69
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -931,6 +950,13 @@ msgstr "Sprids till undersidor"
 msgid "Inherited from ancestor"
 msgstr "Ärvs från förfader"
 
+#. translators: %d: number of pages
+#: resources/assets/js/tree/TreeLegend.tsx:6
+msgid "%d page"
+msgid_plural "%d pages"
+msgstr[0] "%d sida"
+msgstr[1] "%d sidor"
+
 #: resources/assets/js/tree/TreeNode.tsx:46
 msgid "Collapse"
 msgstr "Fäll ihop"
@@ -954,10 +980,3 @@ msgstr "Sök sidor…"
 #: resources/assets/js/tree/TreeToolbar.tsx:30
 msgid "Refresh tree"
 msgstr "Uppdatera träd"
-
-#. translators: %d: number of pages
-#: resources/assets/js/tree/TreeToolbar.tsx:35
-msgid "%d page"
-msgid_plural "%d pages"
-msgstr[0] "%d sida"
-msgstr[1] "%d sidor"
