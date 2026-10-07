@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- **Breaking:** Composer package renamed from `williamundqvist/scheduled-page-reviews` to `considbrs-webdev/scheduled-page-reviews`. Require the new name. The package replaces the old name at the same version. Tags cut before this rename stay on the old Packagist package.
 - **Breaking:** Renamed plugin from *Content Ownership* to **Scheduled Page Reviews** (`scheduled-page-reviews` slug, `ScheduledPageReviews\` namespace, new REST namespace, hooks, option/meta keys). No data migration — deactivate the old folder and activate the new one.
 
 ### Added

@@ -43,9 +43,11 @@ CI owns tags and GitHub Releases. **Do not push tags or create releases manually
 4. After Packagist updates, install via Composer in the monorepo:
 
    ```bash
-   # composer.local.json → "williamundqvist/scheduled-page-reviews": "v0.1.3"
-   composer update williamundqvist/scheduled-page-reviews
+   # composer.local.json → "considbrs-webdev/scheduled-page-reviews": "vX.Y.Z"
+   composer update considbrs-webdev/scheduled-page-reviews
    ```
+
+   Tags created before the vendor rename stay on `williamundqvist/scheduled-page-reviews`. The first installable release of `considbrs-webdev/scheduled-page-reviews` is the next tag cut after that rename. The new package replaces the old name at the same version.
 
 Composer installs from the **git tag commit**, not the GitHub Release ZIP. The tag must point at the built commit on the `release` branch — CI handles that.
 
