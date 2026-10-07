@@ -58,6 +58,7 @@ $scheduled_page_reviews_format_review_at = static function (string $iso): string
     return (string) wp_date((string) get_option('date_format'), $timestamp);
 };
 
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- This template renders PHPMailer AltBody text/plain; HTML escaping would expose entities to recipients.
 $scheduled_page_reviews_render_section = static function (
     string $heading,
     array $sectionPages,
@@ -82,7 +83,6 @@ $scheduled_page_reviews_render_section = static function (
     }
 };
 
-// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- This template renders PHPMailer AltBody text/plain; HTML escaping would expose entities to recipients.
 echo $scheduled_page_reviews_wrap($scheduled_page_reviews_text($subject)) . "\n";
 echo str_repeat('=', min(78, strlen($scheduled_page_reviews_text($subject)))) . "\n\n";
 echo $scheduled_page_reviews_text(

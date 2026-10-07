@@ -10,6 +10,7 @@ use ScheduledPageReviews\Admin\DashboardWidget;
 use ScheduledPageReviews\Admin\EditorIntegration;
 use ScheduledPageReviews\Admin\Header;
 use ScheduledPageReviews\Admin\PostStates;
+use ScheduledPageReviews\Admin\Privacy;
 use ScheduledPageReviews\Admin\RowActions;
 use ScheduledPageReviews\Admin\SettingsPage;
 use ScheduledPageReviews\Assets\Assets;
@@ -124,6 +125,7 @@ final class App
         Container::register(AccessControl::class, new AccessControl());
         Container::register(MetaRegistration::class, new MetaRegistration());
         Container::register(BuildNotice::class, new BuildNotice());
+        Container::register(Privacy::class, new Privacy());
         Container::register(SettingsPage::class, new SettingsPage());
         Container::register(Header::class, new Header());
 

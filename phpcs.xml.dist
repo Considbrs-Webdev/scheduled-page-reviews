@@ -4,6 +4,7 @@
 
     <file>app</file>
     <file>scheduled-page-reviews.php</file>
+    <file>uninstall.php</file>
     <file>helpers.php</file>
     <file>config</file>
     <file>tests</file>

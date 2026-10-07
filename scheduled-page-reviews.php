@@ -4,7 +4,7 @@
  * Plugin Name:       Scheduled Page Reviews
  * Plugin URI:        https://github.com/Considbrs-Webdev/scheduled-page-reviews
  * Description:       Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.
- * Version:           0.1.5
+ * Version:           0.1.6
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            William Lundqvist
@@ -38,6 +38,7 @@ if (!file_exists($scheduled_page_reviews_autoloader)) {
 }
 
 require_once $scheduled_page_reviews_autoloader;
+require_once __DIR__ . '/helpers.php';
 
 register_deactivation_hook(__FILE__, static function (): void {
     $timestamp = wp_next_scheduled(\ScheduledPageReviews\Cron\Scheduler::DAILY_HOOK);

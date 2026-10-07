@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Sync plugin version across scheduled-page-reviews.php, config/app.php,
- * package.json, and package-lock.json.
+ * package.json, package-lock.json, and the readme.txt Stable tag.
  *
  * Usage: node scripts/sync-version.mjs 0.1.3
  */
@@ -57,8 +57,21 @@ if (lockJson.packages?.[""]) {
 }
 writeFileSync(lockFile, `${JSON.stringify(lockJson, null, 2)}\n`);
 
+const readmeFile = join(pluginRoot, "readme.txt");
+let readme = readFileSync(readmeFile, "utf8");
+const stablePattern = /^(Stable tag:\s*)\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/m;
+
+if (!stablePattern.test(readme)) {
+  console.error("Could not find Stable tag in readme.txt");
+  process.exit(1);
+}
+
+readme = readme.replace(stablePattern, `$1${version}`);
+writeFileSync(readmeFile, readme);
+
 console.log(`Synced version to ${version} in:`);
 console.log("  - scheduled-page-reviews.php");
 console.log("  - config/app.php");
 console.log("  - package.json");
 console.log("  - package-lock.json");
+console.log("  - readme.txt");
