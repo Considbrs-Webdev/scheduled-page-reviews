@@ -55,6 +55,16 @@ if (! function_exists('add_filter')) {
     }
 }
 
+if (! function_exists('wp_json_encode')) {
+    /**
+     * @param mixed $data
+     */
+    function wp_json_encode(mixed $data, int $options = 0, int $depth = 512): string|false
+    {
+        return json_encode($data, $options, $depth);
+    }
+}
+
 if (! function_exists('esc_html__')) {
     /**
      * @param string $text

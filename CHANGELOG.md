@@ -8,7 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- **Breaking:** Composer package renamed from `williamundqvist/scheduled-page-reviews` to `considbrs-webdev/scheduled-page-reviews`. Require the new name. The package replaces the old name at the same version. Tags cut before this rename stay on the old Packagist package.
 - **Breaking:** Renamed plugin from *Content Ownership* to **Scheduled Page Reviews** (`scheduled-page-reviews` slug, `ScheduledPageReviews\` namespace, new REST namespace, hooks, option/meta keys). No data migration — deactivate the old folder and activate the new one.
 
 ### Added
@@ -24,6 +23,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Security
 
 - Ownership post meta can no longer be written through generic meta APIs without passing plugin authorization.
+
+## [0.1.6] - 2026-10-07
+
+### Added
+
+- Deleting the plugin removes its settings, page review data, and scheduled scans.
+- Privacy policy text describing stored recipients and what a review email contains.
+
+### Changed
+
+- **Breaking:** Composer package renamed from `williamundqvist/scheduled-page-reviews` to `considbrs-webdev/scheduled-page-reviews`. Require the new name. The package replaces the old name at the same version. Tags cut before this rename stay on the old Packagist package.
 
 ## [0.1.0] - 2026-06-01
 
