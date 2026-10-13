@@ -6,7 +6,7 @@ namespace ScheduledPageReviews\Domain;
 
 use ScheduledPageReviews\Application\Capabilities;
 use ScheduledPageReviews\Domain\Contracts\SettingsReader;
-use WP_User;
+use ScheduledPageReviews\Groups\GroupRegistry;
 
 /**
  * Gates ownership-specific actions (view status, mark reviewed, edit rules).
@@ -20,6 +20,7 @@ final class PageAuthorization
         private readonly SettingsReader $settings,
         private readonly InheritanceResolver $resolver,
         private readonly RecipientVisibility $visibility,
+        private readonly GroupRegistry $groups,
     ) {
     }
 
@@ -62,7 +63,7 @@ final class PageAuthorization
 
         $effective = $this->resolver->resolveForPage($pageId, $this->settings->get());
 
-        return $effective->isAssignedToUser($userId, $this->loadUserRoles($userId));
+        return $effective->isAssignedToUser($userId, $this->groups->groupsForUser($userId));
     }
 
     private function userCanRead(int $userId): bool
@@ -72,25 +73,5 @@ final class PageAuthorization
         }
 
         return user_can($userId, 'read');
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function loadUserRoles(int $userId): array
-    {
-        if (!function_exists('get_userdata')) {
-            return [];
-        }
-
-        $user = get_userdata($userId);
-        if (!$user instanceof WP_User) {
-            return [];
-        }
-
-        return array_values(array_filter(
-            (array) $user->roles,
-            static fn ($role): bool => is_string($role) && $role !== ''
-        ));
     }
 }

@@ -45,7 +45,10 @@ final class EffectiveSettingsTest extends TestCase
     {
         $eff = new EffectiveSettings(
             intervalDays: Resolution::local('not-an-int', 1),
-            recipients:   Resolution::local([Target::email('a@b.se'), 7, Target::user(42), Target::role('editor')], 1),
+            recipients:   Resolution::local(
+                [Target::email('a@b.se'), 7, Target::user(42), Target::group('role:editor')],
+                1
+            ),
             notifyBefore: Resolution::local(null, 1),
         );
 
@@ -55,21 +58,27 @@ final class EffectiveSettingsTest extends TestCase
         self::assertCount(3, $eff->recipientsValue());
         self::assertSame(['a@b.se'], $eff->recipientEmails());
         self::assertSame([42], $eff->recipientUserIds());
-        self::assertSame(['editor'], $eff->recipientRoleSlugs());
+        self::assertSame(['role:editor'], $eff->recipientGroupRefs());
     }
 
-    public function testIsAssignedToUserMatchesDirectUserOrRole(): void
+    public function testIsAssignedToUserMatchesDirectUserOrGroup(): void
     {
         $eff = new EffectiveSettings(
             intervalDays: Resolution::local(30, 1),
-            recipients:   Resolution::local([Target::user(7), Target::role('editor')], 1),
+            recipients:   Resolution::local(
+                [Target::user(7), Target::group('role:editor'), Target::group('acme:webb')],
+                1
+            ),
             notifyBefore: Resolution::local(0, 1),
         );
 
         self::assertTrue($eff->isAssignedToUser(7, []));
-        self::assertTrue($eff->isAssignedToUser(99, ['editor']));
-        self::assertFalse($eff->isAssignedToUser(99, ['subscriber']));
-        self::assertFalse($eff->isAssignedToUser(0, ['editor']));
+        self::assertTrue($eff->isAssignedToUser(99, ['role:editor']));
+        self::assertTrue($eff->isAssignedToUser(99, ['role:subscriber', 'acme:webb']));
+        self::assertFalse($eff->isAssignedToUser(99, ['role:subscriber']));
+        self::assertFalse($eff->isAssignedToUser(99, ['editor']));
+        self::assertFalse($eff->isAssignedToUser(99, ['other:editor']));
+        self::assertFalse($eff->isAssignedToUser(0, ['role:editor']));
     }
 
     public function testIsAssignedToUserIgnoresEmailOnlyTargets(): void

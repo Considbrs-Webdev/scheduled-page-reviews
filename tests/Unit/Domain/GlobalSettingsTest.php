@@ -68,7 +68,7 @@ final class GlobalSettingsTest extends TestCase
         );
 
         $keys = array_map(static fn (Target $t) => $t->key(), $settings->defaultRecipients);
-        self::assertSame(['email:ops@example.com', 'role:editor', 'user:5'], $keys);
+        self::assertSame(['email:ops@example.com', 'group:role:editor', 'user:5'], $keys);
     }
 
     public function testInvalidValuesRevertToDefaults(): void

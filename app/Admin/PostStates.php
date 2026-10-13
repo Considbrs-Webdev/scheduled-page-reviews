@@ -9,15 +9,15 @@ use ScheduledPageReviews\Domain\Bucket;
 use ScheduledPageReviews\Domain\InheritanceResolver;
 use ScheduledPageReviews\Domain\RecipientVisibility;
 use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Groups\GroupRegistry;
 use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use WP_Post;
-use WP_User;
 
 final class PostStates
 {
-    /** @var array{userId: int, roles: list<string>}|null */
+    /** @var array{userId: int, groups: list<string>}|null */
     private ?array $currentUserContext = null;
 
     public function __construct(
@@ -25,6 +25,7 @@ final class PostStates
         private readonly InheritanceResolver $resolver,
         private readonly ReviewDateCalculator $calculator,
         private readonly RecipientVisibility $visibility,
+        private readonly GroupRegistry $groups,
     ) {
         add_filter('display_post_states', [$this, 'addStates'], 10, 2);
     }
@@ -55,9 +56,9 @@ final class PostStates
             return $states;
         }
 
-        [$userId, $userRoles] = $this->currentUserContext();
+        [$userId, $userGroups] = $this->currentUserContext();
 
-        if (!$this->visibility->shouldShowPageWithFilter($effective, $userId, $userRoles, $pageId)) {
+        if (!$this->visibility->shouldShowPageWithFilter($effective, $userId, $userGroups, $pageId)) {
             return $states;
         }
 
@@ -80,25 +81,15 @@ final class PostStates
     private function currentUserContext(): array
     {
         if ($this->currentUserContext !== null) {
-            return [$this->currentUserContext['userId'], $this->currentUserContext['roles']];
+            return [$this->currentUserContext['userId'], $this->currentUserContext['groups']];
         }
 
         $userId = (int) get_current_user_id();
-        $roles  = [];
+        $groups = $this->groups->groupsForUser($userId);
 
-        if ($userId > 0 && function_exists('get_userdata')) {
-            $user = get_userdata($userId);
-            if ($user instanceof WP_User) {
-                $roles = array_values(array_filter(
-                    (array) $user->roles,
-                    static fn ($r): bool => is_string($r) && $r !== ''
-                ));
-            }
-        }
+        $this->currentUserContext = ['userId' => $userId, 'groups' => $groups];
 
-        $this->currentUserContext = ['userId' => $userId, 'roles' => $roles];
-
-        return [$userId, $roles];
+        return [$userId, $groups];
     }
 
     private function parseDate(mixed $raw): ?DateTimeImmutable

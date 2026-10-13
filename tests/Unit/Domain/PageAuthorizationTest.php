@@ -13,9 +13,11 @@ use ScheduledPageReviews\Domain\Rule;
 use ScheduledPageReviews\Domain\RuleField;
 use ScheduledPageReviews\Domain\ScopedValue;
 use ScheduledPageReviews\Domain\Target;
+use ScheduledPageReviews\Groups\GroupRegistry;
 use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakePageHierarchy;
 use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakeRuleSource;
 use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakeSettingsReader;
+use ScheduledPageReviews\Tests\Unit\Groups\Fakes\FakeGroupProvider;
 use PHPUnit\Framework\TestCase;
 
 final class PageAuthorizationTest extends TestCase
@@ -49,7 +51,23 @@ final class PageAuthorizationTest extends TestCase
         $resolver = new InheritanceResolver($this->rules, $this->hierarchy);
         $visibility = new RecipientVisibility('never_granted_cap');
 
-        $this->authorization = new PageAuthorization($settings, $resolver, $visibility);
+        $groups = new GroupRegistry([
+            new FakeGroupProvider('acme', userGroups: [11 => ['webb']]),
+        ]);
+
+        $this->authorization = new PageAuthorization($settings, $resolver, $visibility, $groups);
+    }
+
+    public function testGroupMemberCanViewAndMarkReviewed(): void
+    {
+        $this->rules->set(
+            1,
+            (new Rule())->with(RuleField::Recipients, ScopedValue::subtree([Target::group('acme:webb')]))
+        );
+
+        self::assertTrue($this->authorization->canViewStatus(2, 11));
+        self::assertTrue($this->authorization->canMarkReviewed(2, 11));
+        self::assertFalse($this->authorization->canViewStatus(2, 12));
     }
 
     public function testRecipientCanViewAndMarkReviewed(): void

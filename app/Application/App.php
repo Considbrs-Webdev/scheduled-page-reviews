@@ -80,14 +80,14 @@ final class App
         $visibility = RecipientVisibility::fromConfig();
         Container::register(RecipientVisibility::class, $visibility);
 
-        $authorization = new PageAuthorization($settings, $resolver, $visibility);
+        $authorization = new PageAuthorization($settings, $resolver, $visibility, $groups);
         Container::register(PageAuthorization::class, $authorization);
 
-        $lister = new DashboardLister($settings, $resolver, $calculator, $visibility);
+        $lister = new DashboardLister($settings, $resolver, $calculator, $visibility, $groups);
         Container::register(DashboardLister::class, $lister);
 
         $queue   = new NotificationQueue();
-        $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy);
+        $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy, $groups);
         $scheduler = new Scheduler($scanner, $queue);
         $scheduleManager = new ScheduleManager($settings);
 
@@ -136,7 +136,7 @@ final class App
         Container::register(SettingsPage::class, new SettingsPage());
         Container::register(Header::class, new Header());
 
-        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility));
+        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility, $groups));
         Container::register(RowActions::class, new RowActions($reviewMarker, $authorization));
         Container::register(EditorIntegration::class, new EditorIntegration());
         Container::register(DashboardWidget::class, new DashboardWidget($lister));

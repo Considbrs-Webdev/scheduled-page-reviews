@@ -9,7 +9,7 @@ use ScheduledPageReviews\Application\Capabilities;
 /**
  * Decides whether a page's review status should be visible to a given user.
  *
- * Recipients (direct user or role membership) always see pages they are
+ * Recipients (direct user or group membership) always see pages they are
  * assigned to. Users with the site overview capability (config:
  * overview_capability, default manage_options) see every page that needs
  * review — for oversight, not because they are personally responsible.
@@ -46,27 +46,27 @@ final class RecipientVisibility
     }
 
     /**
-     * @param list<string> $userRoles
+     * @param list<string> $userGroupRefs
      */
-    public function shouldShowPage(EffectiveSettings $effective, int $userId, array $userRoles): bool
+    public function shouldShowPage(EffectiveSettings $effective, int $userId, array $userGroupRefs): bool
     {
         if ($this->canViewSiteOverview($userId)) {
             return true;
         }
 
-        return $effective->isAssignedToUser($userId, $userRoles);
+        return $effective->isAssignedToUser($userId, $userGroupRefs);
     }
 
     /**
-     * @param list<string> $userRoles
+     * @param list<string> $userGroupRefs
      */
     public function shouldShowPageWithFilter(
         EffectiveSettings $effective,
         int $userId,
-        array $userRoles,
+        array $userGroupRefs,
         int $pageId,
     ): bool {
-        $show = $this->shouldShowPage($effective, $userId, $userRoles);
+        $show = $this->shouldShowPage($effective, $userId, $userGroupRefs);
 
         if (!function_exists('apply_filters')) {
             return $show;

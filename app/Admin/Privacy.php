@@ -30,7 +30,7 @@ final class Privacy
     {
         $paragraphs = [
             __(
-                'Scheduled Page Reviews stores review rules on pages. A rule can include WordPress users, roles, and email addresses chosen by an administrator.',
+                'Scheduled Page Reviews stores review rules on pages. A rule can include WordPress users, groups of users (such as roles), and email addresses chosen by an administrator.',
                 'scheduled-page-reviews'
             ),
             __(

@@ -75,7 +75,7 @@ final class RuleTest extends TestCase
         $recipients = $rule->get(RuleField::Recipients)?->value;
         self::assertIsArray($recipients);
         self::assertSame(
-            ['email:a@b.se', 'user:99', 'role:editor'],
+            ['email:a@b.se', 'user:99', 'group:role:editor'],
             array_map(static fn (Target $t) => $t->key(), $recipients)
         );
     }
@@ -102,7 +102,7 @@ final class RuleTest extends TestCase
         $recipients = $rule->get(RuleField::Recipients)?->value;
         self::assertIsArray($recipients);
         self::assertSame(
-            ['email:a@b.se', 'user:99', 'user:3', 'role:editor'],
+            ['email:a@b.se', 'user:99', 'user:3', 'group:role:editor'],
             array_map(static fn (Target $t) => $t->key(), $recipients)
         );
         self::assertSame(RuleScope::Subtree, $rule->get(RuleField::Recipients)?->scope);
