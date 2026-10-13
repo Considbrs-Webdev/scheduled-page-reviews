@@ -25,19 +25,10 @@ if (!defined('ABSPATH')) {
 
 $scheduled_page_reviews_autoloader = __DIR__ . '/vendor/autoload.php';
 
-if (!file_exists($scheduled_page_reviews_autoloader)) {
-    add_action('admin_notices', static function (): void {
-        echo '<div class="notice notice-error"><p>';
-        echo esc_html__(
-            'Scheduled Page Reviews: Composer dependencies are missing. Please run "composer install" inside the plugin directory.',
-            'scheduled-page-reviews'
-        );
-        echo '</p></div>';
-    });
-    return;
+if (file_exists($scheduled_page_reviews_autoloader)) {
+    require_once $scheduled_page_reviews_autoloader;
 }
 
-require_once $scheduled_page_reviews_autoloader;
 require_once __DIR__ . '/helpers.php';
 
 register_deactivation_hook(__FILE__, static function (): void {
