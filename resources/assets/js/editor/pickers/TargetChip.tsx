@@ -3,10 +3,10 @@ import { User2, Users, Mail, X } from "lucide-react";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useUsersByIds, useRoles } from "@/api/queries";
+import { useUsersByIds, useGroups } from "@/api/queries";
 import type { Target } from "@/types";
 
-import { RoleMemberPreview } from "./RoleMemberPreview";
+import { GroupMemberPreview } from "./GroupMemberPreview";
 
 interface TargetChipProps {
   target: Target;
@@ -14,15 +14,15 @@ interface TargetChipProps {
 }
 
 export function TargetChip({ target, onRemove }: TargetChipProps) {
-  const isRole = target.type === "role";
+  const isGroup = target.type === "group";
   const chip = (
     <Badge
       variant="secondary"
       className={
         "gap-1.5 pl-1.5 pr-1 py-0.5 text-xs " +
-        (isRole ? "cursor-pointer hover:bg-accent" : "")
+        (isGroup ? "cursor-pointer hover:bg-accent" : "")
       }
-      title={isRole ? __("Click to preview current members", "scheduled-page-reviews") : undefined}
+      title={isGroup ? __("Click to preview current members", "scheduled-page-reviews") : undefined}
     >
       <Icon target={target} />
       <span className="truncate"><ChipLabel target={target} /></span>
@@ -39,22 +39,22 @@ export function TargetChip({ target, onRemove }: TargetChipProps) {
     </Badge>
   );
 
-  if (target.type === "role") {
-    return <RoleMemberPreview slug={target.value} trigger={chip} />;
+  if (target.type === "group") {
+    return <GroupMemberPreview groupRef={target.value} trigger={chip} />;
   }
   return chip;
 }
 
 function Icon({ target }: { target: Target }) {
   if (target.type === "user") return <User2 className="h-3 w-3" />;
-  if (target.type === "role") return <Users className="h-3 w-3" />;
+  if (target.type === "group") return <Users className="h-3 w-3" />;
   return <Mail className="h-3 w-3" />;
 }
 
 function ChipLabel({ target }: { target: Target }) {
   if (target.type === "email") return <>{target.value}</>;
   if (target.type === "user") return <UserName id={target.value} />;
-  return <RoleName slug={target.value} />;
+  return <GroupName groupRef={target.value} />;
 }
 
 function UserName({ id }: { id: number }) {
@@ -63,8 +63,8 @@ function UserName({ id }: { id: number }) {
   return <>{u?.display_name ?? sprintf(/* translators: %d: user ID */ __("User #%d", "scheduled-page-reviews"), id)}</>;
 }
 
-function RoleName({ slug }: { slug: string }) {
-  const q = useRoles();
-  const r = q.data?.find((x) => x.slug === slug);
-  return <>{r?.name ?? slug}</>;
+function GroupName({ groupRef }: { groupRef: string }) {
+  const q = useGroups();
+  const g = q.data?.flatMap((s) => s.groups).find((x) => x.ref === groupRef);
+  return <>{g?.name ?? groupRef}</>;
 }

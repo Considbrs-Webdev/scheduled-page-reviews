@@ -2,8 +2,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useUserSearch } from "@/api/queries";
 
-export function RoleMemberPreview({ slug, trigger }: { slug: string; trigger: React.ReactNode }) {
-  const q = useUserSearch("", slug);
+export function GroupMemberPreview({ groupRef, trigger }: { groupRef: string; trigger: React.ReactNode }) {
+  const q = useUserSearch("", groupRef);
   const users = q.data ?? [];
   return (
     <Popover>

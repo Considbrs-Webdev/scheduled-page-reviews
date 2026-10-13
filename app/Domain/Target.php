@@ -6,14 +6,16 @@ namespace ScheduledPageReviews\Domain;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use ScheduledPageReviews\Groups\GroupRef;
+use ScheduledPageReviews\Groups\RoleGroupProvider;
 
 /**
  * Immutable "thing we can notify or pin ownership to".
  *
  * A target is one of:
  *  - User  (a WP user ID — for owner-style notifications)
- *  - Role  (a WP role slug — expanded to its current member user IDs at run-time;
- *           reference, not snapshot)
+ *  - Group (a "<provider>:<id>" reference, e.g. "role:editor" — expanded to its
+ *           current member user IDs at run-time; reference, not snapshot)
  *  - Email (a free-form email address — for external CC / mailing-list addresses)
  *
  * Targets are used everywhere `owners` and `recipients` flow:
@@ -25,7 +27,8 @@ final class Target implements JsonSerializable
 {
     /**
      * @param int|string $value int when {@see $type} is {@see TargetType::User},
-     *                          non-empty string for Role and Email.
+     *                          a valid group reference for Group, and a
+     *                          non-empty string for Email.
      */
     public function __construct(
         public readonly TargetType $type,
@@ -47,9 +50,9 @@ final class Target implements JsonSerializable
         return new self(TargetType::User, $id);
     }
 
-    public static function role(string $slug): self
+    public static function group(string $ref): self
     {
-        return new self(TargetType::Role, $slug);
+        return new self(TargetType::Group, $ref);
     }
 
     public static function email(string $email): self
@@ -62,9 +65,9 @@ final class Target implements JsonSerializable
         return $this->type === TargetType::User;
     }
 
-    public function isRole(): bool
+    public function isGroup(): bool
     {
-        return $this->type === TargetType::Role;
+        return $this->type === TargetType::Group;
     }
 
     public function isEmail(): bool
@@ -77,9 +80,9 @@ final class Target implements JsonSerializable
         return $this->isUser() && is_int($this->value) ? $this->value : null;
     }
 
-    public function roleSlug(): ?string
+    public function groupRef(): ?string
     {
-        return $this->isRole() && is_string($this->value) ? $this->value : null;
+        return $this->isGroup() && is_string($this->value) ? $this->value : null;
     }
 
     public function emailValue(): ?string
@@ -88,7 +91,7 @@ final class Target implements JsonSerializable
     }
 
     /**
-     * Stable key for dedupe, e.g. "user:7", "role:editor", "email:foo@bar.com".
+     * Stable key for dedupe, e.g. "user:7", "group:role:editor", "email:foo@bar.com".
      */
     public function key(): string
     {
@@ -116,15 +119,19 @@ final class Target implements JsonSerializable
         if (!is_array($raw)) {
             return null;
         }
-        $type = TargetType::tryParse($raw['type'] ?? null);
+        $rawType  = $raw['type'] ?? null;
+        $rawValue = $raw['value'] ?? null;
+        if ($rawType === TargetType::LEGACY_ROLE) {
+            return self::tryLegacyRole($rawValue);
+        }
+        $type = TargetType::tryParse($rawType);
         if ($type === null) {
             return null;
         }
-        $rawValue = $raw['value'] ?? null;
 
         return match ($type) {
             TargetType::User  => self::tryUser($rawValue),
-            TargetType::Role  => self::tryRole($rawValue),
+            TargetType::Group => self::tryGroup($rawValue),
             TargetType::Email => self::tryEmail($rawValue),
         };
     }
@@ -180,8 +187,8 @@ final class Target implements JsonSerializable
                 $target = self::tryUser($item);
             } elseif ($kindIfLegacy === TargetType::Email) {
                 $target = self::tryEmail($item);
-            } elseif ($kindIfLegacy === TargetType::Role) {
-                $target = self::tryRole($item);
+            } elseif ($kindIfLegacy === TargetType::Group) {
+                $target = self::tryGroup($item);
             }
             if ($target === null) {
                 continue;
@@ -193,8 +200,8 @@ final class Target implements JsonSerializable
 
     /**
      * Convenience: extract the user IDs from a target list (excluding any
-     * Role or Email entries). Roles are NOT expanded here — that happens in
-     * the cron scanner where {@see get_users()} is available.
+     * Group or Email entries). Groups are NOT expanded here — that happens in
+     * the cron scanner through the group registry.
      *
      * @param list<self> $targets
      * @return list<int>
@@ -230,21 +237,21 @@ final class Target implements JsonSerializable
     }
 
     /**
-     * Convenience: extract role slugs from a target list.
+     * Convenience: extract group references from a target list.
      *
      * @param list<self> $targets
      * @return list<string>
      */
-    public static function pluckRoleSlugs(array $targets): array
+    public static function pluckGroupRefs(array $targets): array
     {
-        $slugs = [];
+        $refs = [];
         foreach ($targets as $target) {
-            $slug = $target->roleSlug();
-            if ($slug !== null && $slug !== '') {
-                $slugs[] = $slug;
+            $ref = $target->groupRef();
+            if ($ref !== null && $ref !== '') {
+                $refs[] = $ref;
             }
         }
-        return array_values(array_unique($slugs));
+        return array_values(array_unique($refs));
     }
 
     /**
@@ -295,7 +302,19 @@ final class Target implements JsonSerializable
         return null;
     }
 
-    private static function tryRole(mixed $raw): ?self
+    private static function tryGroup(mixed $raw): ?self
+    {
+        if (!is_string($raw)) {
+            return null;
+        }
+        $ref = trim($raw);
+        if (!GroupRef::isValid($ref)) {
+            return null;
+        }
+        return new self(TargetType::Group, $ref);
+    }
+
+    private static function tryLegacyRole(mixed $raw): ?self
     {
         if (!is_string($raw)) {
             return null;
@@ -304,7 +323,7 @@ final class Target implements JsonSerializable
         if ($slug === '') {
             return null;
         }
-        return new self(TargetType::Role, $slug);
+        return self::tryGroup(GroupRef::make(RoleGroupProvider::KEY, $slug));
     }
 
     private static function tryEmail(mixed $raw): ?self
@@ -327,9 +346,9 @@ final class Target implements JsonSerializable
                 : throw new InvalidArgumentException(
                     'User target requires a positive integer user ID; got ' . wp_json_encode($this->value)
                 ),
-            TargetType::Role => is_string($this->value) && $this->value !== ''
+            TargetType::Group => is_string($this->value) && GroupRef::isValid($this->value)
                 ? null
-                : throw new InvalidArgumentException('Role target requires a non-empty string slug.'),
+                : throw new InvalidArgumentException('Group target requires a "<provider>:<id>" reference.'),
             TargetType::Email => is_string($this->value) && $this->value !== ''
                 ? null
                 : throw new InvalidArgumentException('Email target requires a non-empty string email.'),

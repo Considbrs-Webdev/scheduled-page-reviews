@@ -17,7 +17,7 @@ final class TargetTest extends TestCase
 
         $this->assertTrue($t->isUser());
         $this->assertSame(7, $t->userId());
-        $this->assertNull($t->roleSlug());
+        $this->assertNull($t->groupRef());
         $this->assertNull($t->emailValue());
         $this->assertSame('user:7', $t->key());
         $this->assertSame(['type' => 'user', 'value' => 7], $t->toArray());
@@ -27,17 +27,38 @@ final class TargetTest extends TestCase
         $this->assertSame($t->key(), $clone->key());
     }
 
-    public function test_role_target_round_trips_through_array(): void
+    public function test_group_target_round_trips_through_array(): void
     {
-        $t = Target::role('editor');
+        $t = Target::group('acme:team:a');
 
-        $this->assertTrue($t->isRole());
-        $this->assertSame('editor', $t->roleSlug());
-        $this->assertSame('role:editor', $t->key());
+        $this->assertTrue($t->isGroup());
+        $this->assertSame('acme:team:a', $t->groupRef());
+        $this->assertSame('group:acme:team:a', $t->key());
+        $this->assertSame(['type' => 'group', 'value' => 'acme:team:a'], $t->toArray());
 
         $clone = Target::fromArray($t->toArray());
         $this->assertNotNull($clone);
         $this->assertSame($t->key(), $clone->key());
+    }
+
+    public function test_legacy_role_target_is_read_as_role_group(): void
+    {
+        $t = Target::fromArray(['type' => 'role', 'value' => ' editor ']);
+
+        $this->assertNotNull($t);
+        $this->assertTrue($t->isGroup());
+        $this->assertSame('role:editor', $t->groupRef());
+        $this->assertSame(['type' => 'group', 'value' => 'role:editor'], $t->toArray());
+    }
+
+    public function test_legacy_role_and_role_group_dedupe_to_one_target(): void
+    {
+        $list = Target::listFromArray([
+            ['type' => 'role', 'value' => 'editor'],
+            ['type' => 'group', 'value' => 'role:editor'],
+        ]);
+
+        $this->assertSame(['group:role:editor'], array_map(fn (Target $t) => $t->key(), $list));
     }
 
     public function test_email_target_round_trips_through_array(): void
@@ -55,10 +76,10 @@ final class TargetTest extends TestCase
         Target::user(0);
     }
 
-    public function test_constructor_rejects_empty_role_slug(): void
+    public function test_constructor_rejects_group_ref_without_provider(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        Target::role('');
+        Target::group('editor');
     }
 
     public function test_constructor_rejects_empty_email(): void
@@ -76,6 +97,8 @@ final class TargetTest extends TestCase
     {
         $this->assertNull(Target::fromArray(['type' => 'user', 'value' => 'not-a-number']));
         $this->assertNull(Target::fromArray(['type' => 'role', 'value' => '']));
+        $this->assertNull(Target::fromArray(['type' => 'group', 'value' => 'no-provider']));
+        $this->assertNull(Target::fromArray(['type' => 'group', 'value' => 'role:']));
         $this->assertNull(Target::fromArray(['type' => 'email', 'value' => null]));
     }
 
@@ -91,7 +114,7 @@ final class TargetTest extends TestCase
 
         $this->assertCount(3, $list);
         $keys = array_map(fn (Target $t) => $t->key(), $list);
-        $this->assertSame(['user:7', 'role:editor', 'email:a@b.c'], $keys);
+        $this->assertSame(['user:7', 'group:role:editor', 'email:a@b.c'], $keys);
     }
 
     public function test_list_from_array_drops_malformed_entries(): void
@@ -134,38 +157,38 @@ final class TargetTest extends TestCase
         );
 
         $this->assertSame(
-            ['user:7', 'role:editor', 'user:9'],
+            ['user:7', 'group:role:editor', 'user:9'],
             array_map(fn (Target $t) => $t->key(), $list)
         );
     }
 
     public function test_pluck_user_ids_filters_to_user_targets_only(): void
     {
-        $list = [Target::user(1), Target::role('x'), Target::email('a@b'), Target::user(2)];
+        $list = [Target::user(1), Target::group('role:x'), Target::email('a@b'), Target::user(2)];
         $this->assertSame([1, 2], Target::pluckUserIds($list));
     }
 
     public function test_pluck_emails_filters_to_email_targets_only(): void
     {
-        $list = [Target::user(1), Target::email('a@b'), Target::role('x'), Target::email('c@d')];
+        $list = [Target::user(1), Target::email('a@b'), Target::group('role:x'), Target::email('c@d')];
         $this->assertSame(['a@b', 'c@d'], Target::pluckEmails($list));
     }
 
-    public function test_pluck_role_slugs_filters_to_role_targets_only(): void
+    public function test_pluck_group_refs_filters_to_group_targets_only(): void
     {
-        $list = [Target::user(1), Target::email('a@b'), Target::role('editor'), Target::role('author')];
-        $this->assertSame(['editor', 'author'], Target::pluckRoleSlugs($list));
+        $list = [Target::user(1), Target::email('a@b'), Target::group('role:editor'), Target::group('acme:42')];
+        $this->assertSame(['role:editor', 'acme:42'], Target::pluckGroupRefs($list));
     }
 
     public function test_list_to_array_serialises_round_trip(): void
     {
-        $list = [Target::user(1), Target::role('editor'), Target::email('a@b')];
+        $list = [Target::user(1), Target::group('role:editor'), Target::email('a@b')];
         $serialised = Target::listToArray($list);
 
         $this->assertSame(
             [
                 ['type' => 'user',  'value' => 1],
-                ['type' => 'role',  'value' => 'editor'],
+                ['type' => 'group', 'value' => 'role:editor'],
                 ['type' => 'email', 'value' => 'a@b'],
             ],
             $serialised
@@ -173,6 +196,9 @@ final class TargetTest extends TestCase
 
         $hydrated = Target::listFromArray($serialised);
         $this->assertCount(3, $hydrated);
-        $this->assertSame(['user:1', 'role:editor', 'email:a@b'], array_map(fn (Target $t) => $t->key(), $hydrated));
+        $this->assertSame(
+            ['user:1', 'group:role:editor', 'email:a@b'],
+            array_map(fn (Target $t) => $t->key(), $hydrated)
+        );
     }
 }

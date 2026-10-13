@@ -1,12 +1,13 @@
 // ----- Targets ------------------------------------------------------------
-export type TargetType = "user" | "role" | "email";
+export type TargetType = "user" | "group" | "email";
 
 export interface UserTarget {
   type: "user";
   value: number;
 }
-export interface RoleTarget {
-  type: "role";
+/** `value` is a "<provider>:<id>" reference, e.g. "role:editor". */
+export interface GroupTarget {
+  type: "group";
   value: string;
 }
 export interface EmailTarget {
@@ -14,7 +15,7 @@ export interface EmailTarget {
   value: string;
 }
 
-export type Target = UserTarget | RoleTarget | EmailTarget;
+export type Target = UserTarget | GroupTarget | EmailTarget;
 export type RecipientTarget = Target;
 
 export function targetKey(t: Target): string {
@@ -121,11 +122,18 @@ export interface GlobalSettings {
 /** Partial shape for PUT /settings; PHP merges over the current settings. */
 export type GlobalSettingsUpdate = Partial<GlobalSettings>;
 
-// ----- Roles + users -----------------------------------------------------
-export interface RoleListItem {
-  slug: string;
+// ----- Groups + users ----------------------------------------------------
+export interface GroupListItem {
+  ref: string;
   name: string;
-  count: number;
+  count: number | null;
+}
+
+/** One provider's groups, e.g. WordPress roles. */
+export interface GroupSection {
+  key: string;
+  label: string;
+  groups: GroupListItem[];
 }
 
 export interface UserListItem {
@@ -166,8 +174,8 @@ export interface ScanRunResult {
 export function isUserTarget(t: Target): t is UserTarget {
   return t.type === "user";
 }
-export function isRoleTarget(t: Target): t is RoleTarget {
-  return t.type === "role";
+export function isGroupTarget(t: Target): t is GroupTarget {
+  return t.type === "group";
 }
 export function isEmailTarget(t: Target): t is EmailTarget {
   return t.type === "email";

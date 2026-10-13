@@ -278,7 +278,7 @@ export function GeneralSettingsTab() {
         <SettingSection
           title={__("Default recipients", "scheduled-page-reviews")}
           description={__(
-            "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too.",
+            "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and groups too.",
             "scheduled-page-reviews",
           )}
         >

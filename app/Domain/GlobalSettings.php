@@ -11,7 +11,7 @@ namespace ScheduledPageReviews\Domain;
  * config/settings.php. Hydration applies defensive defaults so that a
  * missing or corrupted option never produces a malformed object.
  *
- * Default recipients support the full {@see Target} mix (user|role|email)
+ * Default recipients support the full {@see Target} mix (user|group|email)
  * so an admin can configure e.g. "always notify the 'editors' role plus
  * compliance@example.com" without per-page rules.
  */

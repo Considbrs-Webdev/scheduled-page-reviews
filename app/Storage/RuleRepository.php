@@ -155,11 +155,8 @@ final class RuleRepository implements RuleSource
                 $clean[$target->key()] = $target;
                 continue;
             }
-            if ($target->isRole()) {
-                $slug = (string) $target->roleSlug();
-                if ($slug !== '') {
-                    $clean[$target->key()] = $target;
-                }
+            if ($target->isGroup()) {
+                $clean[$target->key()] = $target;
                 continue;
             }
             if ($target->isEmail()) {

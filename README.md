@@ -90,10 +90,11 @@ scheduled-page-reviews/
 │   │   ├── Bucket                                    Overdue / Upcoming / None enum
 │   │   ├── DashboardLister                           Shared "pages needing review" lister
 │   │   └── Contracts/                                RuleSource, PageHierarchy interfaces
+│   ├── Groups/                     GroupProvider contract, GroupRegistry, built-in RoleGroupProvider
 │   ├── Storage/                    RuleRepository (post meta JSON), SettingsRepository (option),
 │   │                               WpPageHierarchy (single WP_Query + in-memory cache)
-│   ├── Rest/                       Routes namespace + 7 controllers (settings, dashboard,
-│   │                               page-rule, mark-reviewed, tree, cron)
+│   ├── Rest/                       Routes namespace + controllers (settings, dashboard,
+│   │                               page-rule, mark-reviewed, tree, cron, groups, users, roles)
 │   ├── Cron/
 │   │   ├── Scheduler.php           Daily + self-rescheduling chunked runs, transient locking
 │   │   ├── ReviewScanner.php       Batch scanner: resolves inheritance, enqueues notifications
@@ -142,7 +143,7 @@ Empty rules are deleted from post meta automatically — no orphan rows.
 | `type`  | `value`            | Dashboard widget | Email notifications |
 | ------- | ------------------ | ---------------- | ------------------- |
 | `user`  | `int` (WP user ID) | Yes              | Yes (via WP account email) |
-| `role`  | `string` (slug)    | Yes (role members) | Yes (expanded at cron time) |
+| `group` | `string` (`"<provider>:<id>"`) | Yes (group members) | Yes (expanded at cron time) |
 | `email` | `string`           | No               | Yes (standalone mailbox) |
 
 Example rule fragment:
@@ -152,7 +153,8 @@ Example rule fragment:
   "recipients": {
     "value": [
       { "type": "user",  "value": 7 },
-      { "type": "role",  "value": "pitea-content-team" },
+      { "type": "group", "value": "role:editor" },
+      { "type": "group", "value": "directory:webb-skribenter" },
       { "type": "email", "value": "frididkultur@pitea.se" }
     ],
     "scope": "subtree"
@@ -160,9 +162,25 @@ Example rule fragment:
 }
 ```
 
-Role targets are expanded **at notification time** by `ReviewScanner`, so changing a role's membership in WP (or via a SAML/OIDC sync) is reflected on the very next cron run. Roles that no longer exist simply expand to zero users — no error, no notifications.
+Group targets are expanded **at notification time** by `ReviewScanner`, so membership changes (in WP, or in whatever source a provider reads from) are reflected on the very next cron run. Groups that no longer exist, or whose provider is no longer registered, simply expand to zero users — no error, no notifications.
 
-Legacy data shapes (plain integer arrays in the old `owners` field, plain string arrays in `recipients`) are still accepted by `Rule::fromArray()` and merged into `recipients` on load.
+Legacy data shapes (plain integer arrays in the old `owners` field, plain string arrays in `recipients`) are still accepted by `Rule::fromArray()` and merged into `recipients` on load. Targets saved as `{ "type": "role", "value": "editor" }` before groups existed are read as the group `role:editor`; they are rewritten in the new shape the next time the rule or settings are saved.
+
+## Groups
+
+A group is a named set of WordPress users. The plugin does not care where a group or its membership comes from — that is up to a **group provider**. WordPress roles are the only built-in provider (key `role`); anything else (a user taxonomy, user meta, an external directory, a hardcoded list) is added from site code by implementing `ScheduledPageReviews\Groups\GroupProvider`:
+
+| Method | Returns | Used for |
+| ------ | ------- | -------- |
+| `key(): string` | Stable provider key (`[a-z0-9_-]+`), the prefix of stored references | Routing `"<key>:<id>"` references |
+| `label(): string` | Section heading | Recipient picker |
+| `groups(): list<Group>` | `new Group(id, name, ?count)` per selectable group | Recipient picker |
+| `members(string $id): list<int>` | WP user IDs in the group | Reminder emails, member preview |
+| `groupsForUser(int $userId): list<string>` | IDs of the groups the user is in | Dashboard, Pages list badges, page access |
+
+Register providers with the `scheduled_page_reviews/group_providers` filter. Providers are collected the first time groups are needed, so themes and mu-plugins can register theirs too. If two providers share a key, the first one in the list wins.
+
+Keep group IDs stable (prefer an immutable identifier over a display name) so saved rules keep matching. Providers should return empty lists rather than throw when their source is unavailable. The plugin caches `members()` and `groupsForUser()` only for the current request, so a provider backed by a slow or remote source should cache its own lookups (for example with transients).
 
 ## Inheritance model (tri-state)
 
@@ -180,7 +198,7 @@ The Pages list badges ("Review overdue" / "Review due soon"), the dashboard widg
 
 | Viewer | Sees status for… |
 | ------ | ---------------- |
-| Assigned recipient (WP user or role member) | Pages where they appear in the effective `recipients` list (including nested pages via inheritance) |
+| Assigned recipient (WP user or group member) | Pages where they appear in the effective `recipients` list (including nested pages via inheritance) |
 | Site overview user (default: `overview_capability`, usually `manage_options`) | **All** pages that need review — oversight only, not personal responsibility |
 | Standalone email targets | Never — they receive email digests but have no WP account |
 
@@ -205,8 +223,9 @@ Namespace: `scheduled-page-reviews/v1`. All endpoints require `is_user_logged_in
 | POST     | `/pages/<id>/mark-reviewed`                | Recipient, overview, or settings admin | Stamp last_reviewed meta                       |
 | POST     | `/cron/run-now`                            | Settings admin | Run a full synchronous scan and send digest emails             |
 | GET      | `/cron/schedule-info`                      | Settings admin | Read automatic scan schedule and next WP-Cron run              |
-| GET      | `/roles`                                   | Settings admin | Selectable WP roles for the group picker                       |
-| GET      | `/users?search=&role=&per_page=&include=`  | Settings admin | Async user search for the picker + role-member preview         |
+| GET      | `/groups`                                  | Settings admin | Selectable groups for the picker, one section per provider     |
+| GET      | `/roles`                                   | Settings admin | Selectable WP roles (kept for backward compatibility)          |
+| GET      | `/users?search=&role=&group=&per_page=&include=` | Settings admin | Async user search for the picker + group-member preview |
 
 The `/pages/<id>/rule` GET response also includes `last_reviewed_at`, `last_reviewed_by`, `next_review_at`, and `bucket` so the editor sidebar renders in a single request.
 
@@ -243,7 +262,8 @@ All actions and filters are namespaced under `scheduled_page_reviews/...`.
 | `scheduled_page_reviews/email/headers`                 | `array $headers, string $email, array $pages` | `Content-Type: text/html` | Add CC/BCC/From/Reply-To etc.               |
 | `scheduled_page_reviews/rest/dashboard_response`       | `array $items, string $bucketFilter`          | unchanged             | Filter the dashboard REST payload               |
 | `scheduled_page_reviews/rest/tree_response`            | `array $nodes, int $parentId`                 | unchanged             | Filter the tree REST payload                    |
-| `scheduled_page_reviews/selectable_roles`              | `list<string> $slugs, array $rolesMeta`       | all registered roles  | Prune the list of roles offered by the picker (e.g. hide WP defaults, only surface custom/SAML-imported ones) |
+| `scheduled_page_reviews/group_providers`               | `list<GroupProvider> $providers`              | `[RoleGroupProvider]` | Register recipient group sources (see [Groups](#groups)) |
+| `scheduled_page_reviews/selectable_roles`              | `list<string> $slugs, array $rolesMeta`       | all registered roles  | Prune the roles offered in the picker's Roles section (e.g. hide WP defaults). Saved role groups keep resolving. |
 
 ### Example: redirect owner reminders to a Slack webhook instead of email
 
@@ -276,6 +296,86 @@ add_filter('scheduled_page_reviews/selectable_roles', function (array $slugs): a
     return array_values(array_diff($slugs, $defaults));
 });
 ```
+
+### Example: add groups from an external directory
+
+Any source works as long as it can list groups and map members to WP users. This provider reads groups from a remote API, caches them for an hour, and matches members to WP accounts by email:
+
+```php
+use ScheduledPageReviews\Groups\Group;
+use ScheduledPageReviews\Groups\GroupProvider;
+
+final class DirectoryGroups implements GroupProvider
+{
+    public function key(): string
+    {
+        return 'directory';
+    }
+
+    public function label(): string
+    {
+        return 'Directory groups';
+    }
+
+    public function groups(): array
+    {
+        return array_map(
+            fn (array $g) => new Group($g['id'], $g['name'], count($g['members'])),
+            $this->fetch()
+        );
+    }
+
+    public function members(string $id): array
+    {
+        foreach ($this->fetch() as $g) {
+            if ($g['id'] === $id) {
+                return array_values(array_filter(array_map(
+                    fn (string $email) => (int) (get_user_by('email', $email)->ID ?? 0),
+                    $g['members']
+                )));
+            }
+        }
+        return [];
+    }
+
+    public function groupsForUser(int $userId): array
+    {
+        $user = get_userdata($userId);
+        if (!$user) {
+            return [];
+        }
+        $ids = [];
+        foreach ($this->fetch() as $g) {
+            if (in_array($user->user_email, $g['members'], true)) {
+                $ids[] = $g['id'];
+            }
+        }
+        return $ids;
+    }
+
+    /** @return list<array{id: string, name: string, members: list<string>}> */
+    private function fetch(): array
+    {
+        $cached = get_transient('directory_groups');
+        if (is_array($cached)) {
+            return $cached;
+        }
+        $groups = json_decode(wp_remote_retrieve_body(wp_remote_get('https://directory.example.com/groups')), true);
+        if (!is_array($groups)) {
+            return [];
+        }
+        set_transient('directory_groups', $groups, HOUR_IN_SECONDS);
+        return $groups;
+    }
+}
+
+add_filter('scheduled_page_reviews/group_providers', function (array $providers): array {
+    $providers[] = new DirectoryGroups();
+    return $providers;
+});
+```
+
+Groups stored in a user taxonomy, user meta, or a custom table follow the same pattern: list them in `groups()`, map a group to user IDs in `members()`, and map a user back to group IDs in `groupsForUser()`.
 
 ### Example: stop the scanner from touching auto-draft pages
 
@@ -360,7 +460,7 @@ The plugin separates three independent concerns. They must not be conflated — 
 | ----- | --- | ---------------- | -------------- |
 | **Plugin configuration** | Users passing `scheduled_page_reviews/can_manage_settings` (default: `user_can(admin_capability)`) | Open the settings SPA, change global defaults, browse the page tree, run cron manually | `admin_capability` + `scheduled_page_reviews/can_manage_settings` filter |
 | **Site-wide overview** | Users passing `scheduled_page_reviews/can_view_site_overview` (default: `user_can(overview_capability)`) | See review badges and dashboard entries for **all** actionable pages, and mark any page reviewed | `overview_capability` + `scheduled_page_reviews/can_view_site_overview` filter |
-| **Content owner** | Users or roles listed in a page's effective `recipients` | See review status and mark pages reviewed for pages they are assigned to (including nested pages via inheritance) | Per-page rules in the admin SPA |
+| **Content owner** | Users or groups listed in a page's effective `recipients` | See review status and mark pages reviewed for pages they are assigned to (including nested pages via inheritance) | Per-page rules in the admin SPA |
 
 **Editor workflow (content owners only):** dashboard widget, Pages list badges, Gutenberg sidebar, row actions, and email digests. None of these require the settings SPA. Links to the settings page are shown only to users who pass `scheduled_page_reviews/can_manage_settings`.
 

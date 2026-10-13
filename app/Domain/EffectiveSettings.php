@@ -10,7 +10,7 @@ namespace ScheduledPageReviews\Domain;
  * Each field carries both its value and a {@see Resolution} describing
  * where the value came from. Recipients are returned as typed lists of
  * {@see Target}s so callers (cron, REST, dashboard) can act on mixed
- * user/role/email targeting without re-parsing.
+ * user/group/email targeting without re-parsing.
  */
 final class EffectiveSettings
 {
@@ -41,7 +41,7 @@ final class EffectiveSettings
     }
 
     /**
-     * Typed list of recipient targets (user|role|email).
+     * Typed list of recipient targets (user|group|email).
      *
      * @return list<Target>
      */
@@ -81,22 +81,22 @@ final class EffectiveSettings
     }
 
     /**
-     * Just the role slugs among the recipient targets.
+     * Just the group references among the recipient targets.
      *
      * @return list<string>
      */
-    public function recipientRoleSlugs(): array
+    public function recipientGroupRefs(): array
     {
-        return Target::pluckRoleSlugs($this->recipientsValue());
+        return Target::pluckGroupRefs($this->recipientsValue());
     }
 
     /**
-     * Whether a WP user (by ID or role membership) is among the effective
+     * Whether a WP user (by ID or group membership) is among the effective
      * recipients. Email-only targets are excluded — they have no WP account.
      *
-     * @param list<string> $userRoles
+     * @param list<string> $userGroupRefs References of the groups the user belongs to.
      */
-    public function isAssignedToUser(int $userId, array $userRoles): bool
+    public function isAssignedToUser(int $userId, array $userGroupRefs): bool
     {
         if ($userId <= 0) {
             return false;
@@ -106,8 +106,8 @@ final class EffectiveSettings
             return true;
         }
 
-        foreach ($this->recipientRoleSlugs() as $slug) {
-            if (in_array($slug, $userRoles, true)) {
+        foreach ($this->recipientGroupRefs() as $ref) {
+            if (in_array($ref, $userGroupRefs, true)) {
                 return true;
             }
         }

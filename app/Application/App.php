@@ -26,10 +26,13 @@ use ScheduledPageReviews\Domain\PageAuthorization;
 use ScheduledPageReviews\Domain\PageReviewMarker;
 use ScheduledPageReviews\Domain\RecipientVisibility;
 use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Groups\GroupRegistry;
+use ScheduledPageReviews\Groups\RoleGroupProvider;
 use ScheduledPageReviews\Notifications\EmailRenderer;
 use ScheduledPageReviews\Notifications\NotificationDispatcher;
 use ScheduledPageReviews\Rest\CronController;
 use ScheduledPageReviews\Rest\DashboardController;
+use ScheduledPageReviews\Rest\GroupsController;
 use ScheduledPageReviews\Rest\MarkReviewedController;
 use ScheduledPageReviews\Rest\PageRuleController;
 use ScheduledPageReviews\Rest\RolesController;
@@ -67,20 +70,25 @@ final class App
         Container::register(InheritanceResolver::class, $resolver);
         Container::register(ReviewDateCalculator::class, $calculator);
 
+        $roleGroups = new RoleGroupProvider();
+        $groups     = new GroupRegistry([$roleGroups]);
+        Container::register(RoleGroupProvider::class, $roleGroups);
+        Container::register(GroupRegistry::class, $groups);
+
         $reviewMarker = new PageReviewMarker($settings);
         Container::register(PageReviewMarker::class, $reviewMarker);
 
         $visibility = RecipientVisibility::fromConfig();
         Container::register(RecipientVisibility::class, $visibility);
 
-        $authorization = new PageAuthorization($settings, $resolver, $visibility);
+        $authorization = new PageAuthorization($settings, $resolver, $visibility, $groups);
         Container::register(PageAuthorization::class, $authorization);
 
-        $lister = new DashboardLister($settings, $resolver, $calculator, $visibility);
+        $lister = new DashboardLister($settings, $resolver, $calculator, $visibility, $groups);
         Container::register(DashboardLister::class, $lister);
 
         $queue   = new NotificationQueue();
-        $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy);
+        $scanner = new ReviewScanner($settings, $resolver, $calculator, $queue, $hierarchy, $groups);
         $scheduler = new Scheduler($scanner, $queue);
         $scheduleManager = new ScheduleManager($settings);
 
@@ -117,8 +125,9 @@ final class App
         );
         Container::register(CronController::class, new CronController($scheduler));
         Container::register(ScheduleController::class, new ScheduleController($settings, $scheduleManager));
-        Container::register(RolesController::class, new RolesController());
-        Container::register(UsersController::class, new UsersController());
+        Container::register(RolesController::class, new RolesController($roleGroups));
+        Container::register(GroupsController::class, new GroupsController($groups));
+        Container::register(UsersController::class, new UsersController($groups));
 
         Container::register(ViteManifest::class, new ViteManifest());
         Container::register(Assets::class, new Assets());
@@ -129,7 +138,7 @@ final class App
         Container::register(SettingsPage::class, new SettingsPage());
         Container::register(Header::class, new Header());
 
-        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility));
+        Container::register(PostStates::class, new PostStates($settings, $resolver, $calculator, $visibility, $groups));
         Container::register(RowActions::class, new RowActions($reviewMarker, $authorization));
         Container::register(EditorIntegration::class, new EditorIntegration());
         Container::register(DashboardWidget::class, new DashboardWidget($lister));

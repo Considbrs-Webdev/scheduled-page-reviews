@@ -11,10 +11,10 @@ import type {
   DashboardItem,
   GlobalSettings,
   GlobalSettingsUpdate,
+  GroupSection,
   MarkReviewedResponse,
   PageRuleResponse,
   Rule,
-  RoleListItem,
   ScanRunResult,
   ScheduleInfo,
   TreeNode,
@@ -103,19 +103,19 @@ export function useDashboard(
   });
 }
 
-export function useRoles() {
+export function useGroups() {
   return useQuery({
-    queryKey: queryKeys.roles(),
-    queryFn: ({ signal }) => apiRequest<RoleListItem[]>("roles", { signal }),
+    queryKey: queryKeys.groups(),
+    queryFn: ({ signal }) => apiRequest<GroupSection[]>("groups", { signal }),
     staleTime: 60_000,
   });
 }
 
-export function useUserSearch(search: string, role = "") {
+export function useUserSearch(search: string, group = "") {
   return useQuery({
-    queryKey: queryKeys.users(search, role),
+    queryKey: queryKeys.users(search, group),
     queryFn: ({ signal }) =>
-      apiRequest<UserListItem[]>("users", { query: { search, role }, signal }),
+      apiRequest<UserListItem[]>("users", { query: { search, group }, signal }),
     staleTime: 30_000,
   });
 }

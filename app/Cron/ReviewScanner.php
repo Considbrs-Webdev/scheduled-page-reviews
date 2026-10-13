@@ -12,10 +12,10 @@ use ScheduledPageReviews\Domain\InheritanceResolver;
 use ScheduledPageReviews\Domain\NotificationEligibility;
 use ScheduledPageReviews\Domain\ReviewDateCalculator;
 use ScheduledPageReviews\Domain\Target;
+use ScheduledPageReviews\Groups\GroupRegistry;
 use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Exception;
-use WP_User;
 
 final class ReviewScanner
 {
@@ -25,6 +25,7 @@ final class ReviewScanner
         private readonly ReviewDateCalculator $calculator,
         private readonly NotificationQueueInterface $queue,
         private readonly PageHierarchy $hierarchy,
+        private readonly GroupRegistry $groups,
     ) {
     }
 
@@ -141,9 +142,9 @@ final class ReviewScanner
      * Expand the effective recipient target list into the flat shape
      * {@see QueuedItem} expects.
      *
-     * Roles are looked up here, at run-time — never snapshotted into the
-     * rule — so changes to role membership are picked up on the very next
-     * cron run.
+     * Group members are looked up here, at run-time — never snapshotted into
+     * the rule — so membership changes are picked up on the very next cron
+     * run. The registry caches each group's members for the request.
      *
      * @return array{0: list<string>, 1: list<int>}
      *         [recipientEmails, notifyUserIds]
@@ -168,10 +169,9 @@ final class ReviewScanner
                 }
                 continue;
             }
-            if ($target->isRole()) {
-                $slug = (string) $target->roleSlug();
-                foreach ($this->usersInRole($slug) as $user) {
-                    $notifyUserIds[(int) $user->ID] = true;
+            if ($target->isGroup()) {
+                foreach ($this->groups->members((string) $target->groupRef()) as $userId) {
+                    $notifyUserIds[$userId] = true;
                 }
             }
         }
@@ -180,30 +180,5 @@ final class ReviewScanner
             array_keys($emails),
             array_map('intval', array_keys($notifyUserIds)),
         ];
-    }
-
-    /**
-     * Resolve a role slug into the list of {@see WP_User} objects in that role.
-     *
-     * Cached per scanner instance (one cron tick lifetime) to avoid
-     * repeated queries when the same role appears on many pages.
-     *
-     * @return list<WP_User>
-     */
-    private function usersInRole(string $slug): array
-    {
-        static $cache = [];
-        if ($slug === '') {
-            return [];
-        }
-        if (!array_key_exists($slug, $cache)) {
-            if (!function_exists('get_users')) {
-                $cache[$slug] = [];
-            } else {
-                $users        = get_users(['role' => $slug, 'fields' => ['ID']]);
-                $cache[$slug] = is_array($users) ? array_values($users) : [];
-            }
-        }
-        return $cache[$slug];
     }
 }

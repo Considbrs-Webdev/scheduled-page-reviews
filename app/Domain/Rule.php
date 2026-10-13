@@ -127,7 +127,7 @@ final class Rule
      * responsibility — this method only enforces shape.
      *
      * Recipients are coerced into lists of {@see Target} value objects
-     * (user|role|email). Legacy flat shapes (bare integer user IDs or bare
+     * (user|group|email). Legacy flat shapes (bare integer user IDs or bare
      * email strings) are tolerated so older persisted rules keep loading.
      */
     private static function coerceFieldValue(RuleField $field, mixed $raw): mixed
@@ -150,7 +150,7 @@ final class Rule
     }
 
     /**
-     * Recipients: user|role|email targets all welcome.
+     * Recipients: user|group|email targets all welcome.
      *
      * @return list<Target>|null
      */

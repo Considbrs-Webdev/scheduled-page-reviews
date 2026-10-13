@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace ScheduledPageReviews\Domain;
 
 use ScheduledPageReviews\Application\Config;
+use ScheduledPageReviews\Groups\GroupRegistry;
 use ScheduledPageReviews\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Throwable;
-use WP_User;
 
 /**
  * Builds the "pages needing review" list for a given user.
@@ -28,6 +28,7 @@ final class DashboardLister
         private readonly InheritanceResolver $resolver,
         private readonly ReviewDateCalculator $calculator,
         private readonly RecipientVisibility $visibility,
+        private readonly GroupRegistry $groups,
     ) {
     }
 
@@ -57,11 +58,11 @@ final class DashboardLister
         $defaults  = $this->settings->get();
         $now       = new DateTimeImmutable('@' . (int) current_time('timestamp', true));
         $metaKeys  = $this->metaKeys();
-        $userRoles = $this->loadUserRoles($userId);
-        $items     = [];
+        $userGroups = $this->groups->groupsForUser($userId);
+        $items      = [];
 
         foreach ($this->resolver->walkTree($defaults) as $pageId => $effective) {
-            if (!$this->visibility->shouldShowPage($effective, $userId, $userRoles)) {
+            if (!$this->visibility->shouldShowPage($effective, $userId, $userGroups)) {
                 continue;
             }
 
@@ -144,23 +145,5 @@ final class DashboardLister
         }
 
         return $bucket->value === $filter;
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function loadUserRoles(int $userId): array
-    {
-        if (!function_exists('get_userdata')) {
-            return [];
-        }
-        $user = get_userdata($userId);
-        if (!$user instanceof WP_User) {
-            return [];
-        }
-        return array_values(array_filter(
-            (array) $user->roles,
-            static fn ($r): bool => is_string($r) && $r !== ''
-        ));
     }
 }

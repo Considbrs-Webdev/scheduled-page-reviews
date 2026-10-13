@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ScheduledPageReviews\Rest;
 
 use ScheduledPageReviews\Application\Capabilities;
+use ScheduledPageReviews\Groups\GroupRegistry;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -14,9 +15,9 @@ use WP_User_Query;
 /**
  * Async-search endpoint for the user picker.
  *
- * GET /users?search=<q>&role=<slug>&per_page=<n>
+ * GET /users?search=<q>&role=<slug>&group=<provider:id>&per_page=<n>
  *
- * Returns a small shape suitable for combobox + role-preview lists.
+ * Returns a small shape suitable for combobox + group-preview lists.
  * Capped at 50 per request; the picker is expected to paginate or just
  * show "+N more" when needed.
  */
@@ -25,7 +26,7 @@ final class UsersController
     private const DEFAULT_PER_PAGE = 20;
     private const MAX_PER_PAGE     = 50;
 
-    public function __construct()
+    public function __construct(private readonly GroupRegistry $groups)
     {
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
@@ -49,6 +50,11 @@ final class UsersController
                         'type'              => 'string',
                         'default'           => '',
                         'sanitize_callback' => 'sanitize_key',
+                    ],
+                    'group' => [
+                        'type'              => 'string',
+                        'default'           => '',
+                        'sanitize_callback' => 'sanitize_text_field',
                     ],
                     'per_page' => [
                         'type'              => 'integer',
@@ -87,6 +93,7 @@ final class UsersController
     {
         $search  = (string) $request->get_param('search');
         $role    = (string) $request->get_param('role');
+        $group   = (string) $request->get_param('group');
         $perPage = (int) $request->get_param('per_page');
         $include = (array) $request->get_param('include');
 
@@ -107,6 +114,16 @@ final class UsersController
         if ($include !== []) {
             $args['include'] = $include;
             $args['number']  = max($perPage, count($include));
+        }
+        if ($group !== '') {
+            $members = $this->groups->members($group);
+            if ($include !== []) {
+                $members = array_values(array_intersect($members, $include));
+            }
+            if ($members === []) {
+                return new WP_REST_Response([], 200);
+            }
+            $args['include'] = $members;
         }
 
         $query  = new WP_User_Query($args);

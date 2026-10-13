@@ -4,7 +4,7 @@ Tags: content, review, reminders, pages, email
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.6
+Stable tag: 0.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,7 +17,7 @@ Scheduled Page Reviews helps editorial teams keep WordPress pages up to date. Co
 = Features =
 
 * Per-page review intervals with hierarchical inheritance
-* Assignees via users, roles, or standalone email addresses
+* Assignees via users, groups (WordPress roles or groups added by your own code), or standalone email addresses
 * Gutenberg sidebar and React admin UI for managing rules
 * Batched email digests for due and overdue pages
 * WP-Cron and WP-CLI scanning
@@ -32,17 +32,20 @@ Scheduled Page Reviews helps editorial teams keep WordPress pages up to date. Co
 
 = Who receives review emails? =
 
-Recipients configured on each page's rule, including users, roles, and standalone email addresses. An administrator chooses those recipients. Digests are sent with WordPress email and include the page title, whether the review is due or overdue, and a link to edit the page.
+Recipients configured on each page's rule, including users, groups of users (such as roles), and standalone email addresses. An administrator chooses those recipients. Digests are sent with WordPress email and include the page title, whether the review is due or overdue, and a link to edit the page.
 
 = What personal data does this plugin store? =
 
-Review rules on pages, including WordPress users, roles, and email addresses. It also stores who last marked a page reviewed, when that happened, when a reminder was last sent, and the site-wide default recipients and scan schedule. Deleting the plugin removes that data.
+Review rules on pages, including WordPress users, groups of users (such as roles), and email addresses. It also stores who last marked a page reviewed, when that happened, when a reminder was last sent, and the site-wide default recipients and scan schedule. Deleting the plugin removes that data.
 
 = Does the plugin send data to an external service? =
 
 No. Mail is sent through WordPress email on your site. Nothing is sent to the plugin author.
 
 == Changelog ==
+
+= 0.2.0 =
+* Recipient groups: pick WordPress roles or groups added by your own code (for example from a user taxonomy or an external directory). Existing role recipients keep working.
 
 = 0.1.6 =
 * Remove stored settings, page review data, and scheduled scans when the plugin is deleted.

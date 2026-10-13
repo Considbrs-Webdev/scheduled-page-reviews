@@ -21,11 +21,11 @@ final class RecipientVisibilityTest extends TestCase
         );
     }
 
-    private function effectiveWithRole(string $slug): EffectiveSettings
+    private function effectiveWithGroup(string $ref): EffectiveSettings
     {
         return new EffectiveSettings(
             intervalDays: Resolution::defaulted(90),
-            recipients:   Resolution::local([Target::role($slug)], 1),
+            recipients:   Resolution::local([Target::group($ref)], 1),
             notifyBefore: Resolution::defaulted(14),
         );
     }
@@ -35,15 +35,15 @@ final class RecipientVisibilityTest extends TestCase
         $visibility = new RecipientVisibility('manage_options');
         $effective  = $this->effectiveWithUser(7);
 
-        self::assertTrue($visibility->shouldShowPage($effective, 7, ['editor']));
+        self::assertTrue($visibility->shouldShowPage($effective, 7, ['role:editor']));
     }
 
-    public function testShouldShowPageWhenUserHasMatchingRole(): void
+    public function testShouldShowPageWhenUserIsInMatchingGroup(): void
     {
         $visibility = new RecipientVisibility('manage_options');
-        $effective  = $this->effectiveWithRole('editor');
+        $effective  = $this->effectiveWithGroup('acme:webb');
 
-        self::assertTrue($visibility->shouldShowPage($effective, 99, ['editor', 'subscriber']));
+        self::assertTrue($visibility->shouldShowPage($effective, 99, ['role:subscriber', 'acme:webb']));
     }
 
     public function testShouldHidePageWhenUserIsNotAssigned(): void
@@ -51,7 +51,7 @@ final class RecipientVisibilityTest extends TestCase
         $visibility = new RecipientVisibility('manage_options');
         $effective  = $this->effectiveWithUser(7);
 
-        self::assertFalse($visibility->shouldShowPage($effective, 42, ['editor']));
+        self::assertFalse($visibility->shouldShowPage($effective, 42, ['role:editor']));
     }
 
     public function testShouldHidePageWhenOnlyEmailRecipientsConfigured(): void
@@ -71,6 +71,6 @@ final class RecipientVisibilityTest extends TestCase
         $visibility = new RecipientVisibility('never_granted_cap');
         $effective  = $this->effectiveWithUser(7);
 
-        self::assertFalse($visibility->shouldShowPage($effective, 42, ['editor']));
+        self::assertFalse($visibility->shouldShowPage($effective, 42, ['role:editor']));
     }
 }

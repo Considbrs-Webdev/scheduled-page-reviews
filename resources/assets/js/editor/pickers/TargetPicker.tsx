@@ -8,15 +8,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import type { RecipientTarget, Target } from "@/types";
 
 import { UserPickerPopover } from "./UserPickerPopover";
-import { RolePickerPopover } from "./RolePickerPopover";
+import { GroupPickerPopover } from "./GroupPickerPopover";
 
 interface TargetPickerProps {
   onAdd: (t: Target) => void;
   excludeUserIds?: number[];
-  excludeRoleSlugs?: string[];
+  excludeGroupRefs?: string[];
 }
 
-export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: TargetPickerProps) {
+export function TargetPicker({ onAdd, excludeUserIds, excludeGroupRefs }: TargetPickerProps) {
   return (
     <div className="flex flex-wrap gap-2">
       <UserPickerPopover
@@ -28,8 +28,8 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeRoleSlugs }: Target
           </Button>
         }
       />
-      <RolePickerPopover
-        excludeSlugs={excludeRoleSlugs}
+      <GroupPickerPopover
+        excludeRefs={excludeGroupRefs}
         onSelect={(t) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
