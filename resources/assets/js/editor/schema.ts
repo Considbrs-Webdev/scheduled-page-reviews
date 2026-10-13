@@ -7,9 +7,19 @@ const fieldStateSchema = z.enum(["inherit", "self", "subtree"]);
 
 const recipientTargetSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("user"), value: z.number().int().positive() }),
-  z.object({ type: z.literal("role"), value: z.string().min(1) }),
+  z.object({ type: z.literal("group"), value: z.string().regex(/^[a-z0-9_-]+:.+$/) }),
   z.object({ type: z.literal("email"), value: z.string().email() }),
 ]);
+
+/** Rules saved before groups existed may still carry `{ type: "role", value: slug }`. */
+function normalizeTargets(targets: RecipientTarget[]): RecipientTarget[] {
+  return targets.map((t) => {
+    const raw = t as { type: string; value: unknown };
+    return raw.type === "role" && typeof raw.value === "string"
+      ? { type: "group", value: `role:${raw.value}` }
+      : t;
+  });
+}
 
 export const ruleFormSchema = z.object({
   interval: z.object({
@@ -50,8 +60,8 @@ export function ruleResponseToFormValues(
       ? { state: rule.notify_before.scope, value: rule.notify_before.value }
       : { state: "inherit", value: effective.notify_before },
     recipients: rule.recipients
-      ? { state: rule.recipients.scope, value: rule.recipients.value }
-      : { state: "inherit", value: effective.recipients },
+      ? { state: rule.recipients.scope, value: normalizeTargets(rule.recipients.value) }
+      : { state: "inherit", value: normalizeTargets(effective.recipients) },
   };
 }
 

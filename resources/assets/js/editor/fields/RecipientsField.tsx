@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { __, sprintf } from "@wordpress/i18n";
 import { SettingRow } from "@/components/ui/setting-row";
 import type { EffectiveSettings, RecipientTarget } from "@/types";
-import { isEmailTarget, isRoleTarget, isUserTarget, targetKey } from "@/types";
+import { isEmailTarget, isGroupTarget, isUserTarget, targetKey } from "@/types";
 
 import { InheritanceRadio } from "../InheritanceRadio";
 import { InheritedFrom } from "../InheritedFrom";
@@ -17,7 +17,7 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
   const value = f.watch("recipients.value");
 
   const excludeUserIds = value.filter(isUserTarget).map((t) => t.value);
-  const excludeRoleSlugs = value.filter(isRoleTarget).map((t) => t.value);
+  const excludeGroupRefs = value.filter(isGroupTarget).map((t) => t.value);
   const excludeEmails = new Set(value.filter(isEmailTarget).map((t) => t.value.toLowerCase()));
 
   const setValue = (next: RecipientTarget[]) =>
@@ -71,7 +71,7 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
                 setValue([...value, t]);
               }}
               excludeUserIds={excludeUserIds}
-              excludeRoleSlugs={excludeRoleSlugs}
+              excludeGroupRefs={excludeGroupRefs}
             />
           </div>
         )}
