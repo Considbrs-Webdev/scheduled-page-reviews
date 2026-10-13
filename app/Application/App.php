@@ -26,6 +26,8 @@ use ScheduledPageReviews\Domain\PageAuthorization;
 use ScheduledPageReviews\Domain\PageReviewMarker;
 use ScheduledPageReviews\Domain\RecipientVisibility;
 use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use ScheduledPageReviews\Groups\GroupRegistry;
+use ScheduledPageReviews\Groups\RoleGroupProvider;
 use ScheduledPageReviews\Notifications\EmailRenderer;
 use ScheduledPageReviews\Notifications\NotificationDispatcher;
 use ScheduledPageReviews\Rest\CronController;
@@ -66,6 +68,11 @@ final class App
         Container::register(WpPageHierarchy::class, $hierarchy);
         Container::register(InheritanceResolver::class, $resolver);
         Container::register(ReviewDateCalculator::class, $calculator);
+
+        $roleGroups = new RoleGroupProvider();
+        $groups     = new GroupRegistry([$roleGroups]);
+        Container::register(RoleGroupProvider::class, $roleGroups);
+        Container::register(GroupRegistry::class, $groups);
 
         $reviewMarker = new PageReviewMarker($settings);
         Container::register(PageReviewMarker::class, $reviewMarker);
@@ -117,7 +124,7 @@ final class App
         );
         Container::register(CronController::class, new CronController($scheduler));
         Container::register(ScheduleController::class, new ScheduleController($settings, $scheduleManager));
-        Container::register(RolesController::class, new RolesController());
+        Container::register(RolesController::class, new RolesController($roleGroups));
         Container::register(UsersController::class, new UsersController());
 
         Container::register(ViteManifest::class, new ViteManifest());
