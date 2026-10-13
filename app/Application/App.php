@@ -32,6 +32,7 @@ use ScheduledPageReviews\Notifications\EmailRenderer;
 use ScheduledPageReviews\Notifications\NotificationDispatcher;
 use ScheduledPageReviews\Rest\CronController;
 use ScheduledPageReviews\Rest\DashboardController;
+use ScheduledPageReviews\Rest\GroupsController;
 use ScheduledPageReviews\Rest\MarkReviewedController;
 use ScheduledPageReviews\Rest\PageRuleController;
 use ScheduledPageReviews\Rest\RolesController;
@@ -125,7 +126,8 @@ final class App
         Container::register(CronController::class, new CronController($scheduler));
         Container::register(ScheduleController::class, new ScheduleController($settings, $scheduleManager));
         Container::register(RolesController::class, new RolesController($roleGroups));
-        Container::register(UsersController::class, new UsersController());
+        Container::register(GroupsController::class, new GroupsController($groups));
+        Container::register(UsersController::class, new UsersController($groups));
 
         Container::register(ViteManifest::class, new ViteManifest());
         Container::register(Assets::class, new Assets());
