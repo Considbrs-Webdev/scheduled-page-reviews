@@ -4,7 +4,7 @@ Tags: content, review, reminders, pages, email
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.6
+Stable tag: 0.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,9 @@ Review rules on pages, including WordPress users, groups of users (such as roles
 No. Mail is sent through WordPress email on your site. Nothing is sent to the plugin author.
 
 == Changelog ==
+
+= 0.2.0 =
+* Recipient groups: pick WordPress roles or groups added by your own code (for example from a user taxonomy or an external directory). Existing role recipients keep working.
 
 = 0.1.6 =
 * Remove stored settings, page review data, and scheduled scans when the plugin is deleted.

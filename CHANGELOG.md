@@ -9,13 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - **Breaking:** Renamed plugin from *Content Ownership* to **Scheduled Page Reviews** (`scheduled-page-reviews` slug, `ScheduledPageReviews\` namespace, new REST namespace, hooks, option/meta keys). No data migration — deactivate the old folder and activate the new one.
-- Recipients are now users, **groups**, or email addresses. WordPress roles became the built-in `role` group provider, and the picker lists groups in one section per provider. Saved `{type: "role"}` recipients load as `role:<slug>` groups with no data migration, and are stored as `{type: "group", value: "role:<slug>"}` the next time a rule or the settings are saved. Rolling back to an earlier version after that drops those recipients, because earlier versions ignore the `group` type.
-- PHP API: `Target::role()`, `roleSlug()`, `isRole()` and `pluckRoleSlugs()` are replaced by `Target::group()`, `groupRef()`, `isGroup()` and `pluckGroupRefs()`; `EffectiveSettings::isAssignedToUser()` now takes the user's group references.
 
 ### Added
-
-- Pluggable recipient groups: implement `ScheduledPageReviews\Groups\GroupProvider` and register it with the `scheduled_page_reviews/group_providers` filter to offer groups from any source (taxonomy, user meta, external directory). See "Groups" in the README.
-- `GET /groups` REST endpoint and a `group` parameter on `GET /users`.
 
 - GitHub Actions CI workflow (tests, typecheck, build on `main`).
 - Tag-based release workflow producing an installable ZIP (no generated assets on `main`).
@@ -28,6 +23,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Security
 
 - Ownership post meta can no longer be written through generic meta APIs without passing plugin authorization.
+
+## [0.2.0] - 2026-10-13
+
+### Added
+
+- Pluggable recipient groups: implement `ScheduledPageReviews\Groups\GroupProvider` and register it with the `scheduled_page_reviews/group_providers` filter to offer groups from any source (taxonomy, user meta, external directory). See "Groups" in the README.
+- `GET /groups` REST endpoint and a `group` parameter on `GET /users`.
+
+### Changed
+
+- Recipients are now users, **groups**, or email addresses. WordPress roles became the built-in `role` group provider, and the picker lists groups in one section per provider. Saved `{type: "role"}` recipients load as `role:<slug>` groups with no data migration, and are stored as `{type: "group", value: "role:<slug>"}` the next time a rule or the settings are saved. Rolling back to an earlier version after that drops those recipients, because earlier versions ignore the `group` type.
+- **Breaking (PHP API):** `Target::role()`, `roleSlug()`, `isRole()` and `pluckRoleSlugs()` are replaced by `Target::group()`, `groupRef()`, `isGroup()` and `pluckGroupRefs()`; `EffectiveSettings::isAssignedToUser()` now takes the user's group references.
 
 ## [0.1.6] - 2026-10-07
 
