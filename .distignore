@@ -1,5 +1,6 @@
 /.git
 /.build
+/review
 audit.log
 /.github
 /.cursor
