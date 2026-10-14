@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
                 </svg>
             </div>
             <h4 class="co-plugin-header-title">
-                <?php esc_html_e('Scheduled Page Reviews', 'scheduled-page-reviews'); ?>
+                <?php esc_html_e('Renewpage - Scheduled Page Reviews', 'renewpage-scheduled-page-reviews'); ?>
             </h4>
         </div>
         <div

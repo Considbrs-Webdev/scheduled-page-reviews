@@ -27,7 +27,7 @@ jobs:
         run: |
           VERSION=$(jq -r '.version' package.json)
           TAG="v${VERSION}"
-          HEADER_VERSION=$(grep -oP 'Version:\s*\K[0-9.]+(?:-[0-9A-Za-z.-]+)?' scheduled-page-reviews.php)
+          HEADER_VERSION=$(grep -oP 'Version:\s*\K[0-9.]+(?:-[0-9A-Za-z.-]+)?' renewpage-scheduled-page-reviews.php)
           CONFIG_VERSION=$(grep -oP "'version'\s*=>\s*'\K[^']+" config/app.php)
 
           if git ls-remote --tags origin "refs/tags/${TAG}" | grep -q .; then
@@ -97,9 +97,9 @@ jobs:
           git config user.name "github-actions[bot]"
 
           mkdir -p .tmp_unzip
-          unzip -q .build/scheduled-page-reviews-*.zip -d .tmp_unzip
+          unzip -q .build/renewpage-scheduled-page-reviews-*.zip -d .tmp_unzip
           find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name '.build' ! -name '.tmp_unzip' -exec rm -rf {} +
-          cp -r .tmp_unzip/scheduled-page-reviews/* .
+          cp -r .tmp_unzip/renewpage-scheduled-page-reviews/* .
           rm -rf .tmp_unzip
 
           git checkout -B release
@@ -119,4 +119,4 @@ jobs:
           tag: ${{ needs.check.outputs.tag }}
           generateReleaseNotes: true
           prerelease: ${{ needs.check.outputs.prerelease == 'true' }}
-          artifacts: .build/scheduled-page-reviews-*.zip
+          artifacts: .build/renewpage-scheduled-page-reviews-*.zip

@@ -1,32 +1,32 @@
-# Swedish translation for Scheduled Page Reviews.
-# Copyright (C) 2026 William Undqvist
+# Swedish translation for Renewpage - Scheduled Page Reviews.
+# Copyright (C) 2026 William Lundqvist
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Scheduled Page Reviews 0.1.0\nReport-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/sche"
-"duled-page-reviews\nPOT-Creation-Date: 202"
-"6-06-26T14:38:47+02:00\nPO-Revision-Date: 2026-05-21 "
-"21:30+0200\nLast-Translator: William Undqvist\nLanguage-Team: "
+"Project-Id-Version: Renewpage - Scheduled Page Reviews 0.2.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/renewpage-scheduled-page-reviews\n"
+"POT-Creation-Date: 2026-06-26T14:38:47+02:00\n"
+"PO-Revision-Date: 2026-05-21 "
+"21:30+0200\nLast-Translator: William Lundqvist\nLanguage-Team: "
 "Swedish\nLanguage: sv_SE\nMIME-Version: 1.0\nContent-Type: text/plain; "
 "charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; "
-"plural=(n != 1);\nX-Generator: manual\nX-Domain: scheduled-page-reviews\n"
+"plural=(n != 1);\nX-Generator: manual\nX-Domain: renewpage-scheduled-page-reviews\n"
 
 #. Plugin Name of the plugin
-#: scheduled-page-reviews.php app/Admin/SettingsPage.php:32
+#: renewpage-scheduled-page-reviews.php app/Admin/SettingsPage.php:32
 #: app/Admin/SettingsPage.php:33 resources/views/header.php:23
 #: resources/views/settings-page.php:11
 #: resources/assets/js/editor/SidebarPanel.tsx:178
-msgid "Scheduled Page Reviews"
-msgstr "Schemalagda sidgranskningar"
+msgid "Renewpage - Scheduled Page Reviews"
+msgstr "Renewpage - Scheduled Page Reviews"
 
 #. Plugin URI of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid "https://github.com/Considbrs-Webdev/scheduled-page-reviews"
-msgstr "https://github.com/williamundqvist/scheduled-page-reviews"
+msgstr "https://github.com/Considbrs-Webdev/scheduled-page-reviews"
 
 #. Description of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid ""
 "Content freshness reminders — per-page review intervals, assignees, "
 "inheritance, and due-date email digests."
@@ -35,23 +35,23 @@ msgstr ""
 "mottagare, arv och samlingsmejl vid förfallodatum."
 
 #. Author of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid "William Lundqvist"
-msgstr "William Undqvist"
+msgstr "William Lundqvist"
 
 #: app/Admin/BuildNotice.php:32
 msgid ""
-"Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" "
+"Renewpage - Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" "
 "in the plugin directory, or install a release ZIP that includes the dist/ "
 "folder."
 msgstr ""
-"Schemalagda sidgranskningar: front-end-resurser saknas. Kör \"npm run build\" "
+"Renewpage - Scheduled Page Reviews: front-end-resurser saknas. Kör \"npm run build\" "
 "i plugin-katalogen, eller installera ett release-ZIP som innehåller "
 "dist/-mappen."
 
 #: app/Admin/DashboardWidget.php:37
-msgid "Scheduled page reviews — pages needing review"
-msgstr "Schemalagda sidgranskningar — sidor som behöver granskas"
+msgid "Renewpage — pages needing review"
+msgstr "Renewpage — sidor som behöver granskas"
 
 #: app/Admin/DashboardWidget.php:51
 msgid "No pages on the site need review right now."
@@ -76,8 +76,8 @@ msgid "(no title)"
 msgstr "(saknar titel)"
 
 #: app/Admin/DashboardWidget.php:157
-msgid "Open Scheduled Page Reviews settings →"
-msgstr "Öppna inställningar för schemalagda sidgranskningar →"
+msgid "Open Renewpage - Scheduled Page Reviews settings →"
+msgstr "Öppna inställningar för Renewpage →"
 
 #: app/Admin/DashboardWidget.php:163
 msgid "View all in the Pages list →"
@@ -251,8 +251,8 @@ msgstr "WordPress-administrationen"
 
 #: resources/views/emails/digest.html.php:154
 #: resources/views/emails/digest.text.php:136
-msgid "This message was sent by the Scheduled Page Reviews plugin."
-msgstr "Detta meddelande skickades av pluginet Scheduled Page Reviews."
+msgid "This message was sent by the Renewpage - Scheduled Page Reviews plugin."
+msgstr "Detta meddelande skickades av pluginet Renewpage - Scheduled Page Reviews."
 
 #: resources/views/emails/digest.text.php:79
 msgid "Edit:"
@@ -282,12 +282,12 @@ msgstr "Logga in i WordPress-administrationen för att granska dina sidor: %s"
 msgid "This page requires JavaScript."
 msgstr "Den här sidan kräver JavaScript."
 
-#: scheduled-page-reviews.php:31
+#: renewpage-scheduled-page-reviews.php:31
 msgid ""
-"Scheduled Page Reviews: Composer dependencies are missing. Please run "
+"Renewpage - Scheduled Page Reviews: Composer dependencies are missing. Please run "
 "\"composer install\" inside the plugin directory."
 msgstr ""
-"Schemalagda sidgranskningar: Composer-beroenden saknas. Kör \"composer "
+"Renewpage - Scheduled Page Reviews: Composer-beroenden saknas. Kör \"composer "
 "install\" i plugin-katalogen."
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:13
@@ -591,8 +591,8 @@ msgid "Mark as reviewed"
 msgstr "Markera som granskad"
 
 #: resources/assets/js/editor/SidebarPanel.tsx:168
-msgid "Open Scheduled Page Reviews settings"
-msgstr "Öppna inställningar för schemalagda sidgranskningar"
+msgid "Open Renewpage - Scheduled Page Reviews settings"
+msgstr "Öppna inställningar för Renewpage"
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:31
 msgid "Global settings saved."

@@ -47,7 +47,7 @@ final class Header
     {
         $screen = get_current_screen();
         if ($screen !== null && $screen->base === SettingsPage::hookSuffix()) {
-            $classes .= ' scheduled-page-reviews-admin-page';
+            $classes .= ' renewpage-scheduled-page-reviews-admin-page';
         }
 
         return $classes;

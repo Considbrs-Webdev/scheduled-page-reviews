@@ -40,7 +40,7 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                esc_html__('A scan is already in progress.', 'scheduled-page-reviews')
+                esc_html__('A scan is already in progress.', 'renewpage-scheduled-page-reviews')
             );
         }
 
@@ -91,7 +91,7 @@ final class Scheduler
     {
         if ($this->isLocked()) {
             throw new RuntimeException(
-                esc_html__('A scan is already in progress.', 'scheduled-page-reviews')
+                esc_html__('A scan is already in progress.', 'renewpage-scheduled-page-reviews')
             );
         }
 

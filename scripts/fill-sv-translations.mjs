@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fill empty msgstr entries in scheduled-page-reviews-sv_SE.po from the map below.
+ * Fill empty msgstr entries in renewpage-scheduled-page-reviews-sv_SE.po from the map below.
  * Handles single-line and multiline msgid/msgstr blocks.
  */
 import fs from "fs";
@@ -8,7 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const poPath = path.join(__dirname, "../resources/languages/scheduled-page-reviews-sv_SE.po");
+const poPath = path.join(__dirname, "../resources/languages/renewpage-scheduled-page-reviews-sv_SE.po");
 
 /** @type {Record<string, string | [string, string]>} */
 const sv = {
@@ -114,17 +114,17 @@ const sv = {
   "Notify before due": "Avisera före förfallodatum",
   "Notify days before": "Avisera dagar före",
   "On track": "I fas",
-  "Open Scheduled Page Reviews settings":
-    "Öppna inställningar för schemalagda sidgranskningar",
-  "Open Scheduled Page Reviews settings →":
-    "Öppna inställningar för schemalagda sidgranskningar →",
+  "Open Renewpage - Scheduled Page Reviews settings":
+    "Öppna inställningar för Renewpage",
+  "Open Renewpage - Scheduled Page Reviews settings →":
+    "Öppna inställningar för Renewpage →",
   "View all in the Pages list →": "Visa alla i sidlistan →",
   "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.":
     "Påminnelser om innehållsfärskhet — granskningsintervall per sida, mottagare, arv och samlingsmejl vid förfallodatum.",
-  "Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder.":
-    "Schemalagda sidgranskningar: front-end-resurser saknas. Kör \"npm run build\" i plugin-katalogen, eller installera ett release-ZIP som innehåller dist/-mappen.",
-  "Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory.":
-    "Schemalagda sidgranskningar: Composer-beroenden saknas. Kör \"composer install\" i plugin-katalogen.",
+  "Renewpage - Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder.":
+    "Renewpage - Scheduled Page Reviews: front-end-resurser saknas. Kör \"npm run build\" i plugin-katalogen, eller installera ett release-ZIP som innehåller dist/-mappen.",
+  "Renewpage - Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory.":
+    "Renewpage - Scheduled Page Reviews: Composer-beroenden saknas. Kör \"composer install\" i plugin-katalogen.",
   "Open in editor": "Öppna i redigeraren",
   "Overdue (%d)": "Försenade (%d)",
   Page: "Sida",
@@ -186,8 +186,8 @@ const sv = {
   "Server crontab — sync scan daily at 22:00":
     "Server-crontab — synkron skanning dagligen kl. 22:00",
   Status: "Status",
-  "This message was sent by the Scheduled Page Reviews plugin.":
-    "Detta meddelande skickades av pluginet Scheduled Page Reviews.",
+  "This message was sent by the Renewpage - Scheduled Page Reviews plugin.":
+    "Detta meddelande skickades av pluginet Renewpage - Scheduled Page Reviews.",
   "This page and subpages": "Den här sidan och undersidor",
   "This page only": "Endast den här sidan",
   "Time of day to register the scan (server time).":

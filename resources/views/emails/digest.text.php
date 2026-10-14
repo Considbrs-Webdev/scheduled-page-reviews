@@ -39,8 +39,8 @@ $scheduled_page_reviews_url = static function (string $value): string {
 
 $scheduled_page_reviews_bucket_label = static function (string $bucket): string {
     return match ($bucket) {
-        'overdue'  => __('Overdue', 'scheduled-page-reviews'),
-        'upcoming' => __('Upcoming', 'scheduled-page-reviews'),
+        'overdue'  => __('Overdue', 'renewpage-scheduled-page-reviews'),
+        'upcoming' => __('Upcoming', 'renewpage-scheduled-page-reviews'),
         default    => $bucket,
     };
 };
@@ -77,9 +77,9 @@ $scheduled_page_reviews_render_section = static function (
 
     foreach ($sectionPages as $page) {
         echo '* ' . $wrap($text((string) $page['title'])) . "\n";
-        echo '  ' . $text(__('Edit:', 'scheduled-page-reviews')) . ' ' . $url((string) $page['edit_link']) . "\n";
-        echo '  ' . $text(__('Status:', 'scheduled-page-reviews')) . ' ' . $text($bucketLabel((string) ($page['bucket'] ?? ''))) . "\n";
-        echo '  ' . $text(__('Next review:', 'scheduled-page-reviews')) . ' ' . $text($formatReviewAt((string) ($page['next_review_at'] ?? ''))) . "\n\n";
+        echo '  ' . $text(__('Edit:', 'renewpage-scheduled-page-reviews')) . ' ' . $url((string) $page['edit_link']) . "\n";
+        echo '  ' . $text(__('Status:', 'renewpage-scheduled-page-reviews')) . ' ' . $text($bucketLabel((string) ($page['bucket'] ?? ''))) . "\n";
+        echo '  ' . $text(__('Next review:', 'renewpage-scheduled-page-reviews')) . ' ' . $text($formatReviewAt((string) ($page['next_review_at'] ?? ''))) . "\n\n";
     }
 };
 
@@ -89,7 +89,7 @@ echo $scheduled_page_reviews_text(
     $scheduled_page_reviews_wrap(
         sprintf(
             /* translators: 1: recipient email, 2: site name, 3: site URL */
-            __('Hello %1$s, the following pages on %2$s (%3$s) need your attention.', 'scheduled-page-reviews'),
+            __('Hello %1$s, the following pages on %2$s (%3$s) need your attention.', 'renewpage-scheduled-page-reviews'),
             $scheduled_page_reviews_text($recipient_email),
             $scheduled_page_reviews_text($site_name),
             $scheduled_page_reviews_url($site_url),
@@ -100,7 +100,7 @@ echo $scheduled_page_reviews_text(
 $scheduled_page_reviews_render_section(
     sprintf(
         /* translators: %d: overdue page count */
-        __('Overdue (%d)', 'scheduled-page-reviews'),
+        __('Overdue (%d)', 'renewpage-scheduled-page-reviews'),
         $counts['overdue'],
     ),
     $overdue_pages,
@@ -113,7 +113,7 @@ $scheduled_page_reviews_render_section(
 $scheduled_page_reviews_render_section(
     sprintf(
         /* translators: %d: upcoming page count */
-        __('Upcoming (%d)', 'scheduled-page-reviews'),
+        __('Upcoming (%d)', 'renewpage-scheduled-page-reviews'),
         $counts['upcoming'],
     ),
     $upcoming_pages,
@@ -128,10 +128,10 @@ echo $scheduled_page_reviews_text(
     $scheduled_page_reviews_wrap(
         sprintf(
             /* translators: %s: WordPress admin URL */
-            __('Sign in to the WordPress dashboard to review your pages: %s', 'scheduled-page-reviews'),
+            __('Sign in to the WordPress dashboard to review your pages: %s', 'renewpage-scheduled-page-reviews'),
             $scheduled_page_reviews_url($admin_url),
         ),
     ),
 ) . "\n";
-echo $scheduled_page_reviews_wrap($scheduled_page_reviews_text(__('This message was sent by the Scheduled Page Reviews plugin.', 'scheduled-page-reviews'))) . "\n";
+echo $scheduled_page_reviews_wrap($scheduled_page_reviews_text(__('This message was sent by the Renewpage - Scheduled Page Reviews plugin.', 'renewpage-scheduled-page-reviews'))) . "\n";
 // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped

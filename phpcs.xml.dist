@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<ruleset name="scheduled-page-reviews">
-    <description>Coding standards for the Scheduled Page Reviews plugin.</description>
+<ruleset name="renewpage-scheduled-page-reviews">
+    <description>Coding standards for the Renewpage - Scheduled Page Reviews plugin.</description>
 
     <file>app</file>
-    <file>scheduled-page-reviews.php</file>
+    <file>renewpage-scheduled-page-reviews.php</file>
     <file>uninstall.php</file>
     <file>helpers.php</file>
     <file>config</file>
@@ -23,7 +23,7 @@
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array">
-                <element value="scheduled-page-reviews"/>
+                <element value="renewpage-scheduled-page-reviews"/>
             </property>
         </properties>
     </rule>

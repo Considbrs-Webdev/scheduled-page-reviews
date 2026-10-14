@@ -30,7 +30,7 @@ final class EditorIntegration
 
         $manifest = Container::get(ViteManifest::class);
         $version = (string) Config::get('app', 'version', '0.1.0');
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'renewpage-scheduled-page-reviews');
         $handle = $prefix . '-editor';
 
         foreach ($manifest->getEntryCssUrls(self::ENTRY_EDITOR) as $i => $cssUrl) {
@@ -91,7 +91,7 @@ final class EditorIntegration
 
     public function addModuleType(string $tag, string $handle, string $src): string
     {
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'renewpage-scheduled-page-reviews');
 
         if ($handle !== $prefix . '-editor') {
             return $tag;

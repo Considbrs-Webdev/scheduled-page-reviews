@@ -11,17 +11,17 @@ final class PluginIdentity
 {
     public static function name(): string
     {
-        return (string) Config::get('app', 'name', 'Scheduled Page Reviews');
+        return (string) Config::get('app', 'name', 'Renewpage - Scheduled Page Reviews');
     }
 
     public static function slug(): string
     {
-        return (string) Config::get('app', 'slug', 'scheduled-page-reviews');
+        return (string) Config::get('app', 'slug', 'renewpage-scheduled-page-reviews');
     }
 
     public static function textDomain(): string
     {
-        return (string) Config::get('app', 'text_domain', 'scheduled-page-reviews');
+        return (string) Config::get('app', 'text_domain', 'renewpage-scheduled-page-reviews');
     }
 
     public static function restNamespace(): string

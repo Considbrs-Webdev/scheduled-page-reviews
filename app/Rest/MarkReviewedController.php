@@ -44,7 +44,7 @@ final class MarkReviewedController
         if ($userId === 0) {
             return new WP_Error(
                 'scheduled_page_reviews_unauthenticated',
-                __('You must be logged in to mark a page as reviewed.', 'scheduled-page-reviews'),
+                __('You must be logged in to mark a page as reviewed.', 'renewpage-scheduled-page-reviews'),
                 ['status' => 401]
             );
         }

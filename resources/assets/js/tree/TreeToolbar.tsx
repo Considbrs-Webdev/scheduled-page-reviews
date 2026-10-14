@@ -21,7 +21,7 @@ export function TreeToolbar() {
             id={inputId}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={__("Search pages…", "scheduled-page-reviews")}
+            placeholder={__("Search pages…", "renewpage-scheduled-page-reviews")}
             className="h-8 pl-7"
           />
         </div>
@@ -31,7 +31,7 @@ export function TreeToolbar() {
           size="sm"
           className="h-8 w-8 p-0"
           onClick={() => qc.invalidateQueries({ queryKey: ["tree"] })}
-          aria-label={__("Refresh tree", "scheduled-page-reviews")}
+          aria-label={__("Refresh tree", "renewpage-scheduled-page-reviews")}
         >
           <RefreshCw className="h-3.5 w-3.5" />
         </Button>

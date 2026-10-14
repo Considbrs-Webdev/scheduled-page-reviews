@@ -30,8 +30,8 @@ final class BuildNotice
 
         echo '<div class="notice notice-error"><p>';
         echo esc_html__(
-            'Scheduled Page Reviews: front-end assets are missing. Run "npm run build" in the plugin directory, or install a release ZIP that includes the dist/ folder.',
-            'scheduled-page-reviews'
+            'Renewpage - Scheduled Page Reviews: front-end assets are missing. Run "npm run build" in the plugin directory, or install a release ZIP that includes the dist/ folder.',
+            'renewpage-scheduled-page-reviews'
         );
         echo '</p></div>';
     }

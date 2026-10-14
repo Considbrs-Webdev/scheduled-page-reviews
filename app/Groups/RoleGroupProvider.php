@@ -25,7 +25,7 @@ final class RoleGroupProvider implements GroupProvider
 
     public function label(): string
     {
-        return __('Roles', 'scheduled-page-reviews');
+        return __('Roles', 'renewpage-scheduled-page-reviews');
     }
 
     /**

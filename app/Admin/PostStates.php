@@ -64,11 +64,11 @@ final class PostStates
 
         if ($bucket === Bucket::Overdue) {
             $states['scheduled_page_reviews_overdue'] = '<span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
-                . esc_html__('Review overdue', 'scheduled-page-reviews')
+                . esc_html__('Review overdue', 'renewpage-scheduled-page-reviews')
                 . '</span>';
         } elseif ($bucket === Bucket::Upcoming) {
             $states['scheduled_page_reviews_upcoming'] = '<span style="background:#d97706;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
-                . esc_html__('Review due soon', 'scheduled-page-reviews')
+                . esc_html__('Review due soon', 'renewpage-scheduled-page-reviews')
                 . '</span>';
         }
 

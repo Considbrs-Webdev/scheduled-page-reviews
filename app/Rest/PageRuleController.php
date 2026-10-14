@@ -72,7 +72,7 @@ final class PageRuleController
         if (!is_array($params)) {
             return new WP_Error(
                 'scheduled_page_reviews_invalid_body',
-                __('Request body must be a JSON object.', 'scheduled-page-reviews'),
+                __('Request body must be a JSON object.', 'renewpage-scheduled-page-reviews'),
                 ['status' => 400]
             );
         }

@@ -24,8 +24,8 @@ final class ScanCommand
      *
      * ## EXAMPLES
      *
-     *     wp scheduled-page-reviews scan
-     *     wp scheduled-page-reviews scan --background
+     *     wp renewpage-scheduled-page-reviews scan
+     *     wp renewpage-scheduled-page-reviews scan --background
      *
      * @param list<string>        $args
      * @param array<string, mixed> $assocArgs
@@ -41,7 +41,7 @@ final class ScanCommand
                 WP_CLI::success(
                     sprintf(
                         /* translators: %s: run id */
-                        __('Background scan scheduled (run %s). Execute due WP-Cron events to process batches.', 'scheduled-page-reviews'),
+                        __('Background scan scheduled (run %s). Execute due WP-Cron events to process batches.', 'renewpage-scheduled-page-reviews'),
                         $result->runId
                     )
                 );
@@ -52,7 +52,7 @@ final class ScanCommand
             WP_CLI::success(
                 sprintf(
                     /* translators: 1: pages processed, 2: notifications queued, 3: emails sent */
-                    __('Scan complete — %1$d pages processed, %2$d queued for notification, %3$d emails sent.', 'scheduled-page-reviews'),
+                    __('Scan complete — %1$d pages processed, %2$d queued for notification, %3$d emails sent.', 'renewpage-scheduled-page-reviews'),
                     $result->stats['processed'],
                     $result->stats['queued'],
                     $result->emailsSent

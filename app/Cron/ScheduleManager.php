@@ -47,7 +47,7 @@ final class ScheduleManager
         if (! isset($schedules['weekly'])) {
             $schedules['weekly'] = [
                 'interval' => WEEK_IN_SECONDS,
-                'display'  => __('Once Weekly', 'scheduled-page-reviews'),
+                'display'  => __('Once Weekly', 'renewpage-scheduled-page-reviews'),
             ];
         }
 

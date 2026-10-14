@@ -1,7 +1,7 @@
 import { getBoot } from "@/lib/boot";
 
 /** Dispatched after programmatic URL updates (pushState/replaceState). */
-export const URL_STATE_EVENT = "scheduled-page-reviews:urlstatechange";
+export const URL_STATE_EVENT = "renewpage-scheduled-page-reviews:urlstatechange";
 
 export type Tab = "pages" | "settings";
 
