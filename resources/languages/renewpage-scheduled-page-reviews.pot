@@ -24,6 +24,10 @@ msgstr ""
 msgid "Renewpage - Scheduled Page Reviews"
 msgstr ""
 
+#: app/Admin/SettingsPage.php:44
+msgid "Renewpage"
+msgstr ""
+
 #. Plugin URI of the plugin
 #: renewpage-scheduled-page-reviews.php
 msgid "https://github.com/Considbrs-Webdev/scheduled-page-reviews"

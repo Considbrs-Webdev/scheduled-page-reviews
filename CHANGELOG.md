@@ -4,6 +4,23 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.1] - 2026-10-15
+
+### Added
+
+- Renewpage logo: a vector mark in the settings header and a one-colour icon for the admin menu.
+- WordPress.org assets in `.wordpress-org/` (icons and banners).
+- Rewritten `readme.txt` with a fuller description, how-it-works steps and more FAQ entries.
+- `deploy-wordpress-org` step in the release workflow, off until `WPORG_DEPLOY_ENABLED` is set.
+
+### Changed
+
+- The admin menu entry is now called **Renewpage**.
+- Complete Swedish translation. "Ancestor" is now "överordnad sida" and "notify" is "påminn".
+- The one-time schedule migration also clears the 0.2.x cron events, and uninstall removes the 0.2.x options, post meta and transients.
+- The Vite manifest is written to `dist/manifest.json`, so the release ZIP has no hidden directory.
+- The block editor sidebar builds its REST path from the namespace, so plain permalinks work.
+
 ## [0.3.0] - 2026-10-15
 
 ### Changed
