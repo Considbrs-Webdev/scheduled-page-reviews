@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
 /**
  * The kind of a recipient/owner target.
  *
  * The string value is what's stored in JSON and sent over the wire.
  * Adding a case requires updating {@see Target}, the cron expansion in
- * {@see \ScheduledPageReviews\Cron\ReviewScanner}, and any consumers that
+ * {@see \Renewpage\Cron\ReviewScanner}, and any consumers that
  * walk {@see Target} lists.
  *
  * Rules saved before groups existed store WordPress roles as

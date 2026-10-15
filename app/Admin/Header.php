@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Application\Config;
+use Renewpage\Application\Capabilities;
+use Renewpage\Application\Config;
 
 /**
  * Renders the plugin admin header shell via {@see in_admin_header}.

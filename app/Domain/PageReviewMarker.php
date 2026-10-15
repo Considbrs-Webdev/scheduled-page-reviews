@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Config;
+use Renewpage\Storage\SettingsRepository;
 
 /**
  * Marks a page as reviewed: plugin meta always; optional WP post_modified sync.
@@ -21,9 +21,9 @@ final class PageReviewMarker
     {
         $nowIso = gmdate('c');
         $keys   = (array) Config::get('settings', 'meta_keys', []);
-        $atKey  = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
-        $byKey  = (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by');
-        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
+        $atKey  = (string) ($keys['last_reviewed_at'] ?? '_renewpage_last_reviewed_at');
+        $byKey  = (string) ($keys['last_reviewed_by'] ?? '_renewpage_last_reviewed_by');
+        $notifiedKey = (string) ($keys['last_notified_at'] ?? '_renewpage_last_notified_at');
 
         update_post_meta($pageId, $atKey, $nowIso);
         update_post_meta($pageId, $byKey, $userId);
@@ -33,7 +33,7 @@ final class PageReviewMarker
             $this->syncPostModified($pageId, $nowIso);
         }
 
-        do_action('scheduled_page_reviews/page/marked_reviewed', $pageId, $userId, $nowIso);
+        do_action('renewpage/page/marked_reviewed', $pageId, $userId, $nowIso);
 
         return $nowIso;
     }

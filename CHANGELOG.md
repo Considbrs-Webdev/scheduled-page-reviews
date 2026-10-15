@@ -4,6 +4,18 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0] - 2026-10-15
+
+### Changed
+
+- **Breaking:** Every internal identifier now uses the `renewpage` prefix. The PHP namespace is `Renewpage\`, hooks are `renewpage/...`, the REST namespace is `renewpage/v1`, the capability is `renewpage_manage`, the CLI command is `wp renewpage scan`, and the JS globals are `renewpageBoot` and `renewpageEditorBoot`. The slug, text domain and plugin file stay `renewpage-scheduled-page-reviews`.
+- **Breaking:** Stored keys were renamed (options, post meta, cron events, transients). Data is not migrated automatically; see "Upgrading from 0.2.x" in `README.md`.
+- Composer package is now `considbrs-webdev/renewpage-scheduled-page-reviews` and replaces `considbrs-webdev/scheduled-page-reviews` and `williamundqvist/scheduled-page-reviews`.
+
+### Removed
+
+- The committed review ZIP under `review/`.
+
 ## [0.2.1] - 2026-10-14
 
 ### Changed

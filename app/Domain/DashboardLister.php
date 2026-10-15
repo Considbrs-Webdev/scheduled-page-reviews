@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Groups\GroupRegistry;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Config;
+use Renewpage\Groups\GroupRegistry;
+use Renewpage\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Throwable;
 
@@ -109,8 +109,8 @@ final class DashboardLister
         $keys = (array) Config::get('settings', 'meta_keys', []);
 
         return [
-            'last_reviewed_at' => (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at'),
-            'last_reviewed_by' => (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by'),
+            'last_reviewed_at' => (string) ($keys['last_reviewed_at'] ?? '_renewpage_last_reviewed_at'),
+            'last_reviewed_by' => (string) ($keys['last_reviewed_by'] ?? '_renewpage_last_reviewed_by'),
         ];
     }
 

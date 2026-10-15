@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Application;
+namespace Renewpage\Application;
 
 /**
  * Resolves capability strings from plugin config.
@@ -14,7 +14,7 @@ namespace ScheduledPageReviews\Application;
 final class Capabilities
 {
     /** Meta-capability for the settings SPA menu and admin REST endpoints. */
-    public const MENU = 'manage_scheduled_page_reviews';
+    public const MENU = 'renewpage_manage';
 
     public static function menu(): string
     {
@@ -44,7 +44,7 @@ final class Capabilities
         }
 
         return (bool) apply_filters(
-            'scheduled_page_reviews/can_manage_settings',
+            'renewpage/can_manage_settings',
             $default,
             $userId
         );

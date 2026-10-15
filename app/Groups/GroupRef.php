@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Groups;
+namespace Renewpage\Groups;
 
 /**
  * Builds and parses stored group references of the form "<provider>:<id>".

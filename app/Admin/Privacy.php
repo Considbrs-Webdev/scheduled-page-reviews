@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
 /**
  * Suggests privacy-policy text for the personal data this plugin stores and emails.

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Domain\InheritanceResolver;
-use ScheduledPageReviews\Domain\PageAuthorization;
-use ScheduledPageReviews\Domain\ReviewDateCalculator;
-use ScheduledPageReviews\Domain\Rule;
-use ScheduledPageReviews\Storage\RuleRepository;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Config;
+use Renewpage\Domain\InheritanceResolver;
+use Renewpage\Domain\PageAuthorization;
+use Renewpage\Domain\ReviewDateCalculator;
+use Renewpage\Domain\Rule;
+use Renewpage\Storage\RuleRepository;
+use Renewpage\Storage\SettingsRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use Throwable;
@@ -71,7 +71,7 @@ final class PageRuleController
         $params = $request->get_json_params();
         if (!is_array($params)) {
             return new WP_Error(
-                'scheduled_page_reviews_invalid_body',
+                'renewpage_invalid_body',
                 __('Request body must be a JSON object.', 'renewpage-scheduled-page-reviews'),
                 ['status' => 400]
             );
@@ -115,8 +115,8 @@ final class PageRuleController
         $effective = $this->resolver->resolveForPage($pageId, $this->settings->get());
 
         $keys              = (array) Config::get('settings', 'meta_keys', []);
-        $atKey             = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
-        $byKey             = (string) ($keys['last_reviewed_by'] ?? '_scheduled_page_reviews_last_reviewed_by');
+        $atKey             = (string) ($keys['last_reviewed_at'] ?? '_renewpage_last_reviewed_at');
+        $byKey             = (string) ($keys['last_reviewed_by'] ?? '_renewpage_last_reviewed_by');
         $lastReviewedRaw   = (string) get_post_meta($pageId, $atKey, true);
         $lastReviewedById  = (int) get_post_meta($pageId, $byKey, true);
         $lastReviewedAt    = $this->parseDate($lastReviewedRaw);

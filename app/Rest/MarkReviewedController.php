@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Domain\PageAuthorization;
-use ScheduledPageReviews\Domain\PageReviewMarker;
+use Renewpage\Domain\PageAuthorization;
+use Renewpage\Domain\PageReviewMarker;
 use WP_Error;
 use WP_User;
 use WP_REST_Request;
@@ -43,7 +43,7 @@ final class MarkReviewedController
         $userId = get_current_user_id();
         if ($userId === 0) {
             return new WP_Error(
-                'scheduled_page_reviews_unauthenticated',
+                'renewpage_unauthenticated',
                 __('You must be logged in to mark a page as reviewed.', 'renewpage-scheduled-page-reviews'),
                 ['status' => 401]
             );

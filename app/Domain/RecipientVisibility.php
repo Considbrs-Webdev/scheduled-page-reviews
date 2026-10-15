@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
-use ScheduledPageReviews\Application\Capabilities;
+use Renewpage\Application\Capabilities;
 
 /**
  * Decides whether a page's review status should be visible to a given user.
@@ -39,7 +39,7 @@ final class RecipientVisibility
         }
 
         return (bool) apply_filters(
-            'scheduled_page_reviews/can_view_site_overview',
+            'renewpage/can_view_site_overview',
             $default,
             $userId
         );
@@ -73,7 +73,7 @@ final class RecipientVisibility
         }
 
         return (bool) apply_filters(
-            'scheduled_page_reviews/post_states/show',
+            'renewpage/post_states/show',
             $show,
             $pageId,
             $effective,

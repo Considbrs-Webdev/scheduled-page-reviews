@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron;
+namespace Renewpage\Cron;
 
 use Random\RandomException;
 

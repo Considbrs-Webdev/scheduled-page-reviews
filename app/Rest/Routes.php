@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\PluginIdentity;
+use Renewpage\Application\PluginIdentity;
 
 /**
  * REST API identifiers shared by all controllers.

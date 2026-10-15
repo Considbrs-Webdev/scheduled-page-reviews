@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cli;
+namespace Renewpage\Cli;
 
-use ScheduledPageReviews\Cron\Scheduler;
+use Renewpage\Cron\Scheduler;
 use RuntimeException;
 use WP_CLI;
 
@@ -32,7 +32,7 @@ final class ScanCommand
      */
     public function __invoke(array $args, array $assocArgs): void
     {
-        $scheduler  = \ScheduledPageReviews\di(Scheduler::class);
+        $scheduler  = \Renewpage\di(Scheduler::class);
         $background = isset($assocArgs['background']);
 
         try {

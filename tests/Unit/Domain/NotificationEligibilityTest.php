@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\NotificationEligibility;
+use Renewpage\Domain\NotificationEligibility;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 

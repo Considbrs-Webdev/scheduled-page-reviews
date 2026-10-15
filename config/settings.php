@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'option_key' => 'scheduled_page_reviews_settings',
+    'option_key' => 'renewpage_settings',
 
     'defaults' => [
         'default_interval_days'    => 180,
@@ -19,10 +19,10 @@ return [
     ],
 
     'meta_keys' => [
-        'rule'             => '_scheduled_page_reviews_rule',
-        'last_reviewed_at' => '_scheduled_page_reviews_last_reviewed_at',
-        'last_reviewed_by' => '_scheduled_page_reviews_last_reviewed_by',
-        'last_notified_at' => '_scheduled_page_reviews_last_notified_at',
+        'rule'             => '_renewpage_rule',
+        'last_reviewed_at' => '_renewpage_last_reviewed_at',
+        'last_reviewed_by' => '_renewpage_last_reviewed_by',
+        'last_notified_at' => '_renewpage_last_notified_at',
     ],
 
     /** @deprecated Use admin_capability and overview_capability instead. */

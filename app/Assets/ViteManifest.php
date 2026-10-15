@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Assets;
+namespace Renewpage\Assets;
 
-use ScheduledPageReviews\Application\Config;
+use Renewpage\Application\Config;
 
 /**
  * Resolver for Vite's build manifest.

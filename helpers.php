@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews;
+namespace Renewpage;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-use ScheduledPageReviews\Application\Container;
+use Renewpage\Application\Container;
 
 /**
  * Resolve a plugin service from the static container.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Groups;
+namespace Renewpage\Tests\Unit\Groups;
 
 use PHPUnit\Framework\TestCase;
-use ScheduledPageReviews\Groups\Group;
-use ScheduledPageReviews\Groups\GroupRef;
-use ScheduledPageReviews\Groups\GroupRegistry;
-use ScheduledPageReviews\Tests\Unit\Groups\Fakes\FakeGroupProvider;
+use Renewpage\Groups\Group;
+use Renewpage\Groups\GroupRef;
+use Renewpage\Groups\GroupRegistry;
+use Renewpage\Tests\Unit\Groups\Fakes\FakeGroupProvider;
 
 final class GroupRegistryTest extends TestCase
 {
-    private const FILTER = 'scheduled_page_reviews/group_providers';
+    private const FILTER = 'renewpage/group_providers';
 
     protected function tearDown(): void
     {

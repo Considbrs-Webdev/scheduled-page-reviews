@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Config;
+use Renewpage\Application\Config;
 
 /**
  * Warns administrators when Vite build output is missing.

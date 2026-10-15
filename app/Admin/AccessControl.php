@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Capabilities;
+use Renewpage\Application\Capabilities;
 use WP_User;
 
 /**

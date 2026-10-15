@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Groups;
+namespace Renewpage\Groups;
 
 use WP_Roles;
 use WP_User;
@@ -10,7 +10,7 @@ use WP_User;
 /**
  * Built-in provider exposing WordPress roles as groups ("role:<slug>").
  *
- * The picker list honours `scheduled_page_reviews/selectable_roles`, but
+ * The picker list honours `renewpage/selectable_roles`, but
  * membership lookups do not: a role that was saved on a rule keeps resolving
  * even if it is later hidden from the picker.
  */
@@ -42,7 +42,7 @@ final class RoleGroupProvider implements GroupProvider
          * @param array<string, array{name:string}> $rolesMeta The raw role meta for context.
          */
         $allowed = (array) apply_filters(
-            'scheduled_page_reviews/selectable_roles',
+            'renewpage/selectable_roles',
             array_keys($available),
             $available
         );

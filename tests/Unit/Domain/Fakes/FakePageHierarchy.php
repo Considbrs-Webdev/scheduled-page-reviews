@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain\Fakes;
+namespace Renewpage\Tests\Unit\Domain\Fakes;
 
-use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
+use Renewpage\Domain\Contracts\PageHierarchy;
 
 /**
  * In-memory page tree built from a parent-of map.

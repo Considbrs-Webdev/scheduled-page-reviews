@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
 /**
  * Immutable pairing of a per-field value with its propagation {@see RuleScope}.
@@ -10,7 +10,7 @@ namespace ScheduledPageReviews\Domain;
  * The value is typed as mixed because each {@see RuleField} has its own
  * underlying PHP type (int, list<int>, list<string>, etc.). Per-field type
  * checking is performed at the storage boundary in
- * {@see \ScheduledPageReviews\Storage\RuleRepository}.
+ * {@see \Renewpage\Storage\RuleRepository}.
  */
 final class ScopedValue
 {

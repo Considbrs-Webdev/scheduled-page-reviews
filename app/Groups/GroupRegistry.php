@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Groups;
+namespace Renewpage\Groups;
 
 /**
  * Single entry point for everything group-related.
  *
  * Collects providers (built-ins first, then whatever the
- * `scheduled_page_reviews/group_providers` filter adds), routes stored
+ * `renewpage/group_providers` filter adds), routes stored
  * "<provider>:<id>" references to the right provider and normalises what
  * providers return. Providers are collected on first use rather than at boot
  * so that themes and late-loading plugins can still register theirs.
@@ -50,7 +50,7 @@ final class GroupRegistry
              *
              * @param list<GroupProvider> $providers Providers registered so far, built-ins first.
              */
-            $candidates = (array) apply_filters('scheduled_page_reviews/group_providers', $candidates);
+            $candidates = (array) apply_filters('renewpage/group_providers', $candidates);
         }
 
         $byKey = [];

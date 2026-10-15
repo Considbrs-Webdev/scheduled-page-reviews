@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain\Fakes;
+namespace Renewpage\Tests\Unit\Domain\Fakes;
 
-use ScheduledPageReviews\Domain\Contracts\RuleSource;
-use ScheduledPageReviews\Domain\Rule;
+use Renewpage\Domain\Contracts\RuleSource;
+use Renewpage\Domain\Rule;
 
 final class FakeRuleSource implements RuleSource
 {

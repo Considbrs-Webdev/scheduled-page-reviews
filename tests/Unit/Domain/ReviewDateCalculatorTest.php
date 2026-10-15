@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\Bucket;
-use ScheduledPageReviews\Domain\EffectiveSettings;
-use ScheduledPageReviews\Domain\Resolution;
-use ScheduledPageReviews\Domain\ReviewDateCalculator;
+use Renewpage\Domain\Bucket;
+use Renewpage\Domain\EffectiveSettings;
+use Renewpage\Domain\Resolution;
+use Renewpage\Domain\ReviewDateCalculator;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 

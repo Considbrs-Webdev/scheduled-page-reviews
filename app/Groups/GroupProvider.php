@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Groups;
+namespace Renewpage\Groups;
 
 /**
  * A source of recipient groups.
@@ -10,7 +10,7 @@ namespace ScheduledPageReviews\Groups;
  * A group is a named set of WordPress users. Where groups and memberships come
  * from (roles, a taxonomy, user meta, an external directory) is entirely up to
  * the provider. Register additional providers through the
- * `scheduled_page_reviews/group_providers` filter.
+ * `renewpage/group_providers` filter.
  *
  * Providers should return empty lists rather than throw when their source is
  * unavailable, and should cache slow lookups themselves; the plugin only

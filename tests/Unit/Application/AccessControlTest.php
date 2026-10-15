@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Application;
+namespace Renewpage\Tests\Unit\Application;
 
-use ScheduledPageReviews\Admin\AccessControl;
-use ScheduledPageReviews\Application\Capabilities;
+use Renewpage\Admin\AccessControl;
+use Renewpage\Application\Capabilities;
 use PHPUnit\Framework\TestCase;
 
 final class AccessControlTest extends TestCase
@@ -13,7 +13,7 @@ final class AccessControlTest extends TestCase
     protected function tearDown(): void
     {
         if (function_exists('remove_all_filters')) {
-            remove_all_filters('scheduled_page_reviews/can_manage_settings');
+            remove_all_filters('renewpage/can_manage_settings');
         }
         parent::tearDown();
     }
@@ -28,7 +28,7 @@ final class AccessControlTest extends TestCase
     public function test_map_meta_cap_returns_meta_cap_when_filter_grants_without_admin_primitive(): void
     {
         add_filter(
-            'scheduled_page_reviews/can_manage_settings',
+            'renewpage/can_manage_settings',
             static fn (): bool => true,
             10,
             2
@@ -42,7 +42,7 @@ final class AccessControlTest extends TestCase
     public function test_map_meta_cap_denies_when_filter_revokes(): void
     {
         add_filter(
-            'scheduled_page_reviews/can_manage_settings',
+            'renewpage/can_manage_settings',
             static fn (): bool => false,
             10,
             2

@@ -1,4 +1,4 @@
-export interface ScheduledPageReviewsBoot {
+export interface RenewpageBoot {
   restRoot: string;
   nonce: string;
   currentUserId: number;
@@ -13,11 +13,11 @@ export interface ScheduledPageReviewsBoot {
 
 declare global {
   interface Window {
-    scheduledPageReviewsBoot?: ScheduledPageReviewsBoot;
+    renewpageBoot?: RenewpageBoot;
   }
 }
 
-const fallback: ScheduledPageReviewsBoot = {
+const fallback: RenewpageBoot = {
   restRoot: "",
   nonce: "",
   currentUserId: 0,
@@ -28,6 +28,6 @@ const fallback: ScheduledPageReviewsBoot = {
   capabilities: { manage: false },
 };
 
-export function getBoot(): ScheduledPageReviewsBoot {
-  return window.scheduledPageReviewsBoot ?? fallback;
+export function getBoot(): RenewpageBoot {
+  return window.renewpageBoot ?? fallback;
 }

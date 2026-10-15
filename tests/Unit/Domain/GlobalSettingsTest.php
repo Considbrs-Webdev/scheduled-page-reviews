@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\GlobalSettings;
-use ScheduledPageReviews\Domain\Target;
+use Renewpage\Domain\GlobalSettings;
+use Renewpage\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class GlobalSettingsTest extends TestCase

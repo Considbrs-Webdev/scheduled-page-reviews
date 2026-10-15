@@ -13,25 +13,25 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 /**
  * Delete options, scheduled events, and page review meta for the current site.
  */
-function scheduled_page_reviews_delete_site_data(): void
+function renewpage_delete_site_data(): void
 {
-    delete_option('scheduled_page_reviews_settings');
-    delete_option('scheduled_page_reviews_schedule_v2');
+    delete_option('renewpage_settings');
+    delete_option('renewpage_schedule_v2');
 
-    wp_clear_scheduled_hook('scheduled_page_reviews_daily');
-    wp_clear_scheduled_hook('scheduled_page_reviews_tick');
+    wp_clear_scheduled_hook('renewpage_daily');
+    wp_clear_scheduled_hook('renewpage_tick');
     wp_clear_scheduled_hook('content_ownership_daily');
     wp_clear_scheduled_hook('content_ownership_tick');
 
-    delete_transient('scheduled_page_reviews_run_lock');
-    delete_transient('scheduled_page_reviews_run_state');
-    delete_transient('scheduled_page_reviews_run_queue');
+    delete_transient('renewpage_run_lock');
+    delete_transient('renewpage_run_state');
+    delete_transient('renewpage_run_queue');
 
     $metaKeys = [
-        '_scheduled_page_reviews_rule',
-        '_scheduled_page_reviews_last_reviewed_at',
-        '_scheduled_page_reviews_last_reviewed_by',
-        '_scheduled_page_reviews_last_notified_at',
+        '_renewpage_rule',
+        '_renewpage_last_reviewed_at',
+        '_renewpage_last_reviewed_by',
+        '_renewpage_last_notified_at',
     ];
 
     foreach ($metaKeys as $metaKey) {
@@ -42,10 +42,10 @@ function scheduled_page_reviews_delete_site_data(): void
 /**
  * Delete plugin data on every site in the network, or on this site alone.
  */
-function scheduled_page_reviews_uninstall(): void
+function renewpage_uninstall(): void
 {
     if (!is_multisite()) {
-        scheduled_page_reviews_delete_site_data();
+        renewpage_delete_site_data();
         return;
     }
 
@@ -60,7 +60,7 @@ function scheduled_page_reviews_uninstall(): void
 
         foreach ($siteIds as $siteId) {
             switch_to_blog((int) $siteId);
-            scheduled_page_reviews_delete_site_data();
+            renewpage_delete_site_data();
             restore_current_blog();
         }
 
@@ -68,4 +68,4 @@ function scheduled_page_reviews_uninstall(): void
     } while (count($siteIds) === 100);
 }
 
-scheduled_page_reviews_uninstall();
+renewpage_uninstall();

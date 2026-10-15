@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Application\Container;
-use ScheduledPageReviews\Application\PluginIdentity;
-use ScheduledPageReviews\Assets\ViteManifest;
+use Renewpage\Application\Capabilities;
+use Renewpage\Application\Config;
+use Renewpage\Application\Container;
+use Renewpage\Application\PluginIdentity;
+use Renewpage\Assets\ViteManifest;
 
 final class EditorIntegration
 {
@@ -67,7 +67,7 @@ final class EditorIntegration
             (string) Config::get('paths', 'languages_dir', ''),
         );
 
-        wp_localize_script($handle, 'scheduledPageReviewsEditorBoot', $this->buildBoot());
+        wp_localize_script($handle, 'renewpageEditorBoot', $this->buildBoot());
     }
 
     /**

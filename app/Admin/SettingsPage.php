@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Application\PluginIdentity;
+use Renewpage\Application\Capabilities;
+use Renewpage\Application\Config;
+use Renewpage\Application\PluginIdentity;
 
 /**
  * Top-level admin menu page hosting the React settings SPA.

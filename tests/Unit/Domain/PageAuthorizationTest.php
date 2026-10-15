@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\GlobalSettings;
-use ScheduledPageReviews\Domain\InheritanceResolver;
-use ScheduledPageReviews\Domain\PageAuthorization;
-use ScheduledPageReviews\Domain\RecipientVisibility;
-use ScheduledPageReviews\Domain\Resolution;
-use ScheduledPageReviews\Domain\Rule;
-use ScheduledPageReviews\Domain\RuleField;
-use ScheduledPageReviews\Domain\ScopedValue;
-use ScheduledPageReviews\Domain\Target;
-use ScheduledPageReviews\Groups\GroupRegistry;
-use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakePageHierarchy;
-use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakeRuleSource;
-use ScheduledPageReviews\Tests\Unit\Domain\Fakes\FakeSettingsReader;
-use ScheduledPageReviews\Tests\Unit\Groups\Fakes\FakeGroupProvider;
+use Renewpage\Domain\GlobalSettings;
+use Renewpage\Domain\InheritanceResolver;
+use Renewpage\Domain\PageAuthorization;
+use Renewpage\Domain\RecipientVisibility;
+use Renewpage\Domain\Resolution;
+use Renewpage\Domain\Rule;
+use Renewpage\Domain\RuleField;
+use Renewpage\Domain\ScopedValue;
+use Renewpage\Domain\Target;
+use Renewpage\Groups\GroupRegistry;
+use Renewpage\Tests\Unit\Domain\Fakes\FakePageHierarchy;
+use Renewpage\Tests\Unit\Domain\Fakes\FakeRuleSource;
+use Renewpage\Tests\Unit\Domain\Fakes\FakeSettingsReader;
+use Renewpage\Tests\Unit\Groups\Fakes\FakeGroupProvider;
 use PHPUnit\Framework\TestCase;
 
 final class PageAuthorizationTest extends TestCase
