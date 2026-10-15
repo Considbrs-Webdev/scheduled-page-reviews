@@ -76,15 +76,22 @@ Use this for smoke-testing the package contents before merging a version bump.
 
 **Never merge `release` back into `main`.**
 
-## WordPress.org deployment (later)
+## WordPress.org deployment
 
-When the plugin is registered on WordPress.org:
+The `deploy-wordpress-org` job in [`release.yml`](.github/workflows/release.yml) publishes the CI-built package (the same files as the ZIP) to the plugin's Subversion repository. It runs after the GitHub Release job, so a Subversion problem never blocks the tag, the release or Composer.
 
-1. Add repository secrets `SVN_USERNAME` and `SVN_PASSWORD`.
-2. Set repository variable `WPORG_DEPLOY_ENABLED` to `true`.
-3. Add a `deploy-wordpress-org` job to `release.yml` using [10up/action-wordpress-plugin-deploy](https://github.com/marketplace/actions/wordpress-plugin-deploy) with `build-dir` pointing at the CI-built package (same contents as the ZIP).
+What it does: copies the build to `trunk/` and `tags/<version>/`, and copies [`.wordpress-org/`](.wordpress-org) (icons, banners, screenshots) to `assets/`. It skips versions whose tag already exists in Subversion, and it never runs for `test`, `alpha`, `beta` or `rc` versions.
 
-Until then, distribute builds via **GitHub Release ZIPs** and **Composer/Packagist**.
+One-time setup in the GitHub repository settings:
+
+1. Add repository **secrets** `SVN_USERNAME` and `SVN_PASSWORD` (your WordPress.org username and password).
+2. Set repository **variable** `WPORG_DEPLOY_DRY_RUN` to `true` for the first run. The job then checks out Subversion and prepares the commit but does not commit.
+3. Set repository **variable** `WPORG_DEPLOY_ENABLED` to `true`.
+4. Merge a version bump. When the dry run in the Actions log looks right, set `WPORG_DEPLOY_DRY_RUN` to `false` and re-run the workflow.
+
+`Stable tag` in `readme.txt` is kept in sync by `scripts/sync-version.mjs`, so the directory always serves the version that was just tagged.
+
+To change only the readme, icons or banners without a new version, use [10up/action-wordpress-plugin-asset-update](https://github.com/10up/action-wordpress-plugin-asset-update).
 
 ## Versioning
 

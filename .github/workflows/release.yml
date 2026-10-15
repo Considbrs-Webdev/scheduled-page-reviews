@@ -88,6 +88,14 @@ jobs:
           RELEASE_VERSION: ${{ needs.check.outputs.version }}
         run: node scripts/build-release.mjs
 
+      - name: Keep the ZIP for the WordPress.org job
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-zip
+          path: .build/renewpage-scheduled-page-reviews-*.zip
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Push release branch and tag
         env:
           VERSION: ${{ needs.check.outputs.version }}
@@ -120,3 +128,33 @@ jobs:
           generateReleaseNotes: true
           prerelease: ${{ needs.check.outputs.prerelease == 'true' }}
           artifacts: .build/renewpage-scheduled-page-reviews-*.zip
+
+  deploy-wordpress-org:
+    needs: [check, release]
+    if: >-
+      needs.check.outputs.should_release == 'true' &&
+      needs.check.outputs.prerelease != 'true' &&
+      vars.WPORG_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-zip
+          path: .release
+
+      - name: Unpack the release build
+        run: unzip -q .release/renewpage-scheduled-page-reviews-*.zip -d .release/unpacked
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: renewpage-scheduled-page-reviews
+          VERSION: ${{ needs.check.outputs.version }}
+          BUILD_DIR: .release/unpacked/renewpage-scheduled-page-reviews
+          ASSETS_DIR: .wordpress-org
+        with:
+          dry-run: ${{ vars.WPORG_DEPLOY_DRY_RUN == 'true' }}

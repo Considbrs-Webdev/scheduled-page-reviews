@@ -28,7 +28,7 @@ const sv = {
   ],
   "A scan is already in progress.": "En skanning pågår redan.",
   "Background scan scheduled (run %s). Execute due WP-Cron events to process batches.":
-    "Bakgrundsskanning schemalagd (körning %s). Kör förfallna WP-Cron-händelser för att bearbeta batchar.",
+    "Bakgrundsskanning schemalagd (körning %s). Kör förfallna WP-Cron-händelser för att bearbeta omgångarna.",
   "+%d more": "+%d till",
   "%d days": "%d dagar",
   Add: "Lägg till",
@@ -40,7 +40,7 @@ const sv = {
   "Applies to descendant pages: %s": "Gäller undersidor: %s",
   "Automatic scan": "Automatisk skanning",
   "Background mode (schedules batched ticks via WP-Cron)":
-    "Bakgrundsläge (schemalägger batchade tick via WP-Cron)",
+    "Bakgrundsläge (delar upp skanningen i omgångar via WP-Cron)",
   "Batch size": "Batchstorlek",
   "Click to preview current members": "Klicka för att förhandsgranska nuvarande medlemmar",
   Collapse: "Fäll ihop",
@@ -76,13 +76,13 @@ const sv = {
   "How often this page must be reviewed.": "Hur ofta den här sidan ska granskas.",
   "How often the scheduled scan is registered.": "Hur ofta den schemalagda skanningen registreras.",
   Inherit: "Ärv",
-  "Inherited from ancestor": "Ärvs från förfader",
+  "Inherited from ancestor": "Ärvs från överordnad sida",
   "Inherited from page #%d:": "Ärvs från sida #%d:",
   "Inherits %1$s from page #%2$d": "Ärver %1$s från sida #%2$d",
   "Inherits %1$s from pages %2$s": "Ärver %1$s från sidorna %2$s",
-  "Inherits %s from an ancestor page": "Ärver %s från en förfadersida",
-  "Inherits from ancestor": "Ärver från förfader",
-  "Inherits settings from an ancestor page": "Ärver inställningar från en förfadersida",
+  "Inherits %s from an ancestor page": "Ärver %s från en överordnad sida",
+  "Inherits from ancestor": "Ärver från överordnad sida",
+  "Inherits settings from an ancestor page": "Ärver inställningar från en överordnad sida",
   "Last reviewed": "Senast granskad",
   "Last reviewed %s": "Senast granskad %s",
   "Loading page rule…": "Läser in sidregel…",
@@ -111,8 +111,8 @@ const sv = {
   "nobody configured": "ingen konfigurerad",
   "Nobody configured": "Ingen konfigurerad",
   "Not scheduled": "Inte schemalagd",
-  "Notify before due": "Avisera före förfallodatum",
-  "Notify days before": "Avisera dagar före",
+  "Notify before due": "Påminn före förfallodatum",
+  "Notify days before": "Påminn dagar före",
   "On track": "I fas",
   "Open Renewpage - Scheduled Page Reviews settings":
     "Öppna inställningar för Renewpage",
@@ -120,7 +120,7 @@ const sv = {
     "Öppna inställningar för Renewpage →",
   "View all in the Pages list →": "Visa alla i sidlistan →",
   "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.":
-    "Påminnelser om innehållsfärskhet — granskningsintervall per sida, mottagare, arv och samlingsmejl vid förfallodatum.",
+    "Påminnelser om att hålla sidor aktuella — granskningsintervall per sida, mottagare, arv och samlingsmejl när det är dags att granska.",
   "Renewpage - Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder.":
     "Renewpage - Scheduled Page Reviews: front-end-resurser saknas. Kör \"npm run build\" i plugin-katalogen, eller installera ett release-ZIP som innehåller dist/-mappen.",
   "Renewpage - Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory.":
@@ -172,7 +172,7 @@ const sv = {
   "Scanning…": "Skannar…",
   Cancel: "Avbryt",
   "This checks all pages against your review rules and sends digest emails to owners who have pages that are due or overdue. Sent emails cannot be undone. On large sites this may take a while.":
-    "Detta kontrollerar alla sidor mot dina granskningsregler och skickar samlingsmejl till ägare som har sidor som är förfallna eller försenade. Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund.",
+    "Det här går igenom alla sidor mot dina granskningsregler och skickar samlingsmejl till den som har sidor som snart ska granskas eller är försenade. Skickade mejl kan inte ångras. På stora webbplatser kan det ta en stund.",
   "Search pages…": "Sök sidor…",
   "Search users…": "Sök användare…",
   "Searching…": "Söker…",
@@ -187,7 +187,7 @@ const sv = {
     "Server-crontab — synkron skanning dagligen kl. 22:00",
   Status: "Status",
   "This message was sent by the Renewpage - Scheduled Page Reviews plugin.":
-    "Detta meddelande skickades av pluginet Renewpage - Scheduled Page Reviews.",
+    "Detta meddelande skickades av tillägget Renewpage - Scheduled Page Reviews.",
   "This page and subpages": "Den här sidan och undersidor",
   "This page only": "Endast den här sidan",
   "Time of day to register the scan (server time).":
@@ -201,7 +201,7 @@ const sv = {
   "User #%d": "Användare #%d",
   Users: "Användare",
   Weekly: "Veckovis",
-  "Who to notify": "Vem ska aviseras",
+  "Who to notify": "Vem ska få påminnelser",
   "WordPress dashboard": "WordPress-administrationen",
   "WP Cron": "WP Cron",
   "WP-CLI & server crontab": "WP-CLI och server-crontab",
@@ -220,32 +220,32 @@ const sv = {
     "Hej %1$s, följande sidor på %2$s (%3$s) behöver din uppmärksamhet.",
   "How often pages must be reviewed and when reminders go out.":
     "Hur ofta sidor ska granskas och när påminnelser skickas.",
-  'Window in which a page is "due soon".': 'Fönster då en sida är "snart dags".',
+  'Window in which a page is "due soon".': 'Hur långt i förväg en sida räknas som "snart dags".',
   "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.":
-    "Styr upprepade e-postmeddelanden medan en sida är förfallen eller försenad. Att markera en sida granskad startar en ny cykel.",
+    "Styr upprepade e-postmeddelanden medan en sida snart ska granskas eller är försenad. När sidan markeras som granskad börjar en ny omgång.",
   'When to show "due soon" in the dashboard widget.':
     'När statusen "snart dags" ska visas i instrumentpanelen.',
   "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval.":
     "Av: varje sida ingår högst en gång per granskningscykel (tills den markerats granskad). På: försenade sidor kan visas igen efter påminnelseintervallet.",
-  "Notification recipients": "Aviseringsmottagare",
+  "Notification recipients": "Mottagare av påminnelser",
   "Interval and reminder timing for this page.":
     "Intervall och påminnelsetid för den här sidan.",
   "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.":
     "Minsta antal dagar innan samma försenade sida kan visas i ett nytt utskick. Spåras per sida, inte per mottagare — se README.",
   "What happens when someone marks a page as reviewed. Plugin review meta is always stored.":
-    "Vad som händer när någon markerar en sida som granskad. Pluginets granskningsmetadata sparas alltid.",
+    "Vad som händer när någon markerar en sida som granskad. Granskningsuppgifterna sparas alltid.",
   'Also updates the post\'s modified timestamp (shown as "updated" on the front-end). Does not create a new revision.':
     'Uppdaterar även inläggets ändringstidpunkt (visas som "uppdaterad" på webbplatsen). Skapar ingen ny revision.',
   "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and roles too.":
-    "Mottagare som reserv när ingen sida- eller ärvd mottagare finns. Endast e-postadresser här för tillfället; sidregler stödjer även användare och roller.",
+    "Mottagare som används när varken sidan eller en överordnad sida har egna mottagare. Här anges bara e-postadresser. Regler per sida kan även ha användare och grupper.",
   "Pages processed per cron tick. Larger values finish full scans faster but use more memory.":
     "Sidor som bearbetas per cron-tick. Större värden ger snabbare full skanning men mer minne.",
   "Pages processed per background tick. Larger values finish scheduled scans faster but use more memory.":
-    "Sidor som bearbetas per bakgrundstick. Större värden ger snabbare schemalagda skanningar men mer minne.",
+    "Sidor som bearbetas per omgång. Större värden gör schemalagda skanningar snabbare men använder mer minne.",
   "Add WordPress users, groups, or email addresses. Users and groups receive review reminders and see these pages in their dashboard. Standalone email addresses receive reminders only.":
     "Lägg till WordPress-användare, grupper eller e-postadresser. Användare och grupper får påminnelser och ser sidorna i sin instrumentpanel. Fristående e-post får endast påminnelser.",
   "Use the value from the closest ancestor (or global default).":
-    "Använd värdet från närmaste förfader (eller global standard).",
+    "Använd värdet från närmaste överordnade sida (eller den globala standarden).",
   "Replace the inherited value here and apply it to descendants.":
     "Ersätt det ärvda värdet här och tillämpa det på undersidor.",
   "Replace the inherited value here. Descendants keep inheriting from above.":
