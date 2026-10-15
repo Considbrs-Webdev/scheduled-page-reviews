@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     'name'           => 'Renewpage - Scheduled Page Reviews',
     'slug'           => 'renewpage-scheduled-page-reviews',
-    'version'        => '0.3.1',
+    'version'        => '0.3.2',
     'text_domain'    => 'renewpage-scheduled-page-reviews',
     'rest_namespace' => 'renewpage/v1',
     'hook_prefix'    => 'renewpage',

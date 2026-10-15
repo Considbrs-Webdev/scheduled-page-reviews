@@ -4,7 +4,7 @@ Tags: content, review, reminders, pages, email
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -106,6 +106,9 @@ No. Mail is sent through WordPress email on your site. Nothing is sent to the pl
 
 == Upgrade Notice ==
 
+= 0.3.2 =
+First release on the WordPress.org plugin directory. Same plugin as 0.3.1.
+
 = 0.3.1 =
 Adds the Renewpage logo and completes the Swedish translation.
 
@@ -113,6 +116,9 @@ Adds the Renewpage logo and completes the Swedish translation.
 Internal names changed to the renewpage prefix. Saved settings and page rules from 0.2.x are not carried over. Reactivate the plugin after updating. Developers using hooks or the PHP namespace must rename them.
 
 == Changelog ==
+
+= 0.3.2 =
+* First release on the WordPress.org plugin directory. Same plugin as 0.3.1.
 
 = 0.3.1 =
 * New Renewpage logo in the admin menu and the settings header.
