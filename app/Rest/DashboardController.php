@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Domain\DashboardLister;
+use Renewpage\Domain\DashboardLister;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -52,7 +52,7 @@ final class DashboardController
             self::MAX_ITEMS
         );
 
-        $response = apply_filters('scheduled_page_reviews/rest/dashboard_response', $items, $bucketFilter);
+        $response = apply_filters('renewpage/rest/dashboard_response', $items, $bucketFilter);
 
         return new WP_REST_Response($response, 200);
     }

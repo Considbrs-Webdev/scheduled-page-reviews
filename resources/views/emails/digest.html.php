@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
  * @var string $admin_url
  * @var string $recipient_email
  */
-$scheduled_page_reviews_bucket_label = static function (string $bucket): string {
+$renewpage_bucket_label = static function (string $bucket): string {
     return match ($bucket) {
         'overdue'  => __('Overdue', 'renewpage-scheduled-page-reviews'),
         'upcoming' => __('Upcoming', 'renewpage-scheduled-page-reviews'),
@@ -25,7 +25,7 @@ $scheduled_page_reviews_bucket_label = static function (string $bucket): string 
     };
 };
 
-$scheduled_page_reviews_format_review_at = static function (string $iso): string {
+$renewpage_format_review_at = static function (string $iso): string {
     if ($iso === '') {
         return '';
     }
@@ -38,7 +38,7 @@ $scheduled_page_reviews_format_review_at = static function (string $iso): string
     return (string) wp_date((string) get_option('date_format'), $timestamp);
 };
 
-$scheduled_page_reviews_render_section = static function (
+$renewpage_render_section = static function (
     string $heading,
     array $sectionPages,
     callable $bucketLabel,
@@ -83,10 +83,10 @@ $scheduled_page_reviews_render_section = static function (
     <?php
 };
 
-$scheduled_page_reviews_lang = str_replace('_', '-', determine_locale());
+$renewpage_lang = str_replace('_', '-', determine_locale());
 ?>
 <!doctype html>
-<html lang="<?php echo esc_attr($scheduled_page_reviews_lang); ?>">
+<html lang="<?php echo esc_attr($renewpage_lang); ?>">
 <head>
   <meta charset="utf-8">
   <title><?php echo esc_html($subject); ?></title>
@@ -113,25 +113,25 @@ $scheduled_page_reviews_lang = str_replace('_', '-', determine_locale());
   </p>
 
 <?php
-$scheduled_page_reviews_render_section(
+$renewpage_render_section(
     sprintf(
         /* translators: %d: overdue page count */
         __('Overdue (%d)', 'renewpage-scheduled-page-reviews'),
         $counts['overdue'],
     ),
     $overdue_pages,
-    $scheduled_page_reviews_bucket_label,
-    $scheduled_page_reviews_format_review_at,
+    $renewpage_bucket_label,
+    $renewpage_format_review_at,
 );
-$scheduled_page_reviews_render_section(
+$renewpage_render_section(
     sprintf(
         /* translators: %d: upcoming page count */
         __('Upcoming (%d)', 'renewpage-scheduled-page-reviews'),
         $counts['upcoming'],
     ),
     $upcoming_pages,
-    $scheduled_page_reviews_bucket_label,
-    $scheduled_page_reviews_format_review_at,
+    $renewpage_bucket_label,
+    $renewpage_format_review_at,
 );
 ?>
 

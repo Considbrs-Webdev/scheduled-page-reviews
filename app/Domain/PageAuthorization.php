@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Domain\Contracts\SettingsReader;
-use ScheduledPageReviews\Groups\GroupRegistry;
+use Renewpage\Application\Capabilities;
+use Renewpage\Domain\Contracts\SettingsReader;
+use Renewpage\Groups\GroupRegistry;
 
 /**
  * Gates ownership-specific actions (view status, mark reviewed, edit rules).

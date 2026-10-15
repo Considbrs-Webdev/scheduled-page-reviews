@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
 /**
  * Fully-resolved settings for a single page.

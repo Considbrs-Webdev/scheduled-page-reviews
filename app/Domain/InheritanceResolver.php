@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
-use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
-use ScheduledPageReviews\Domain\Contracts\RuleSource;
+use Renewpage\Domain\Contracts\PageHierarchy;
+use Renewpage\Domain\Contracts\RuleSource;
 use Generator;
 
 /**

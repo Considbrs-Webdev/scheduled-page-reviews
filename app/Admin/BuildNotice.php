@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Config;
+use Renewpage\Application\Config;
 
 /**
  * Warns administrators when Vite build output is missing.
@@ -22,7 +22,7 @@ final class BuildNotice
             return;
         }
 
-        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/.vite/manifest.json';
+        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/manifest.json';
 
         if (is_file($manifestPath)) {
             return;

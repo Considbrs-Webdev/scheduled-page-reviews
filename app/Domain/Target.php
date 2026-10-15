@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
 use InvalidArgumentException;
 use JsonSerializable;
-use ScheduledPageReviews\Groups\GroupRef;
-use ScheduledPageReviews\Groups\RoleGroupProvider;
+use Renewpage\Groups\GroupRef;
+use Renewpage\Groups\RoleGroupProvider;
 
 /**
  * Immutable "thing we can notify or pin ownership to".
@@ -20,8 +20,8 @@ use ScheduledPageReviews\Groups\RoleGroupProvider;
  *
  * Targets are used everywhere `owners` and `recipients` flow:
  * {@see Rule}, {@see EffectiveSettings},
- * {@see \ScheduledPageReviews\Cron\ReviewScanner},
- * {@see \ScheduledPageReviews\Notifications\NotificationDispatcher}.
+ * {@see \Renewpage\Cron\ReviewScanner},
+ * {@see \Renewpage\Notifications\NotificationDispatcher}.
  */
 final class Target implements JsonSerializable
 {

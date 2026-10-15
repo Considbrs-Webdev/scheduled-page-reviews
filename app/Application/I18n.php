@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Application;
+namespace Renewpage\Application;
 
 /**
  * Loads the plugin text domain for PHP gettext (.mo) files.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Application;
+namespace Renewpage\Application;
 
 /**
  * Canonical plugin identifiers read from config/app.php.
@@ -26,12 +26,12 @@ final class PluginIdentity
 
     public static function restNamespace(): string
     {
-        return (string) Config::get('app', 'rest_namespace', 'scheduled-page-reviews/v1');
+        return (string) Config::get('app', 'rest_namespace', 'renewpage/v1');
     }
 
     public static function hookPrefix(): string
     {
-        return (string) Config::get('app', 'hook_prefix', 'scheduled_page_reviews');
+        return (string) Config::get('app', 'hook_prefix', 'renewpage');
     }
 
     public static function hook(string $suffix): string

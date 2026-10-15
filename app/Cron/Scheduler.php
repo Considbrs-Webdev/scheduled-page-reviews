@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron;
+namespace Renewpage\Cron;
 
-use ScheduledPageReviews\Cron\Contracts\NotificationQueueInterface;
+use Renewpage\Cron\Contracts\NotificationQueueInterface;
 use RuntimeException;
 
 final class Scheduler
 {
-    public const DAILY_HOOK = 'scheduled_page_reviews_daily';
-    public const TICK_HOOK  = 'scheduled_page_reviews_tick';
+    public const DAILY_HOOK = 'renewpage_daily';
+    public const TICK_HOOK  = 'renewpage_tick';
 
-    private const LOCK_KEY       = 'scheduled_page_reviews_run_lock';
-    private const STATE_KEY      = 'scheduled_page_reviews_run_state';
-    private const QUEUE_KEY      = 'scheduled_page_reviews_run_queue';
+    private const LOCK_KEY       = 'renewpage_run_lock';
+    private const STATE_KEY      = 'renewpage_run_state';
+    private const QUEUE_KEY      = 'renewpage_run_queue';
     private const LOCK_TTL_SEC   = 21600;
     private const TICK_DELAY_SEC = 60;
 
@@ -53,21 +53,21 @@ final class Scheduler
         $counter    = static function () use (&$emailsSent): void {
             $emailsSent++;
         };
-        add_action('scheduled_page_reviews/notification/sent', $counter, 10, 2);
+        add_action('renewpage/notification/sent', $counter, 10, 2);
 
         try {
             $state = $this->beginRun();
 
             do {
                 $batchSize = max(1, $this->scanner->batchSize());
-                $batchSize = (int) apply_filters('scheduled_page_reviews/cron/batch_size', $batchSize);
+                $batchSize = (int) apply_filters('renewpage/cron/batch_size', $batchSize);
                 $result    = $this->scanner->tick($state, $batchSize);
                 $state     = $result['state'];
                 set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
             } while ($result['more']);
 
             $grouped = $this->queue->flush();
-            do_action('scheduled_page_reviews/cron/run_completed', $state->toArray(), $grouped);
+            do_action('renewpage/cron/run_completed', $state->toArray(), $grouped);
             $this->releaseLock();
 
             return new RunResult(
@@ -78,7 +78,7 @@ final class Scheduler
                 completedAt: (int) current_time('timestamp', true),
             );
         } finally {
-            remove_action('scheduled_page_reviews/notification/sent', $counter, 10);
+            remove_action('renewpage/notification/sent', $counter, 10);
         }
     }
 
@@ -139,7 +139,7 @@ final class Scheduler
         $this->restoreQueue($state->runId);
 
         $batchSize = max(1, $this->scanner->batchSize());
-        $batchSize = (int) apply_filters('scheduled_page_reviews/cron/batch_size', $batchSize);
+        $batchSize = (int) apply_filters('renewpage/cron/batch_size', $batchSize);
 
         $result = $this->scanner->tick($state, $batchSize);
 
@@ -153,7 +153,7 @@ final class Scheduler
         }
 
         $grouped = $this->queue->flush();
-        do_action('scheduled_page_reviews/cron/run_completed', $result['state']->toArray(), $grouped);
+        do_action('renewpage/cron/run_completed', $result['state']->toArray(), $grouped);
         delete_transient(self::QUEUE_KEY);
         delete_transient(self::STATE_KEY);
         delete_transient(self::LOCK_KEY);
@@ -171,7 +171,7 @@ final class Scheduler
         set_transient(self::STATE_KEY, $state->toArray(), self::LOCK_TTL_SEC);
         $this->queue->clear();
         delete_transient(self::QUEUE_KEY);
-        do_action('scheduled_page_reviews/cron/before_run', $state->toArray());
+        do_action('renewpage/cron/before_run', $state->toArray());
 
         return $state;
     }

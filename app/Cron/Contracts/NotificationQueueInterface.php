@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron\Contracts;
+namespace Renewpage\Cron\Contracts;
 
-use ScheduledPageReviews\Cron\QueuedItem;
+use Renewpage\Cron\QueuedItem;
 
 /**
  * In-memory accumulator for one cron run's notification work.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain\Contracts;
+namespace Renewpage\Domain\Contracts;
 
-use ScheduledPageReviews\Domain\GlobalSettings;
+use Renewpage\Domain\GlobalSettings;
 
 interface SettingsReader
 {

@@ -26,16 +26,9 @@ export interface MarkReviewedResponse {
 }
 
 function restPath(suffix: string): string {
-  const root = getEditorBoot().restRoot.replace(/\/$/, "");
-  const pathname = new URL(root, window.location.origin).pathname;
-  const wpJson = "/wp-json";
-  const base =
-    pathname.includes(wpJson)
-      ? pathname.slice(pathname.indexOf(wpJson) + wpJson.length)
-      : pathname;
-  const normalizedBase = base.replace(/\/$/, "");
+  const namespace = getEditorBoot().restNamespace.replace(/^\/|\/$/g, "");
   const path = suffix.startsWith("/") ? suffix : `/${suffix}`;
-  return `${normalizedBase}${path}`;
+  return `/${namespace}${path}`;
 }
 
 export async function fetchRule(pageId: number): Promise<RuleResponse> {

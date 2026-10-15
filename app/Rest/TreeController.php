@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Domain\EffectiveSettings;
-use ScheduledPageReviews\Domain\InheritanceResolver;
-use ScheduledPageReviews\Domain\InheritanceSummary;
-use ScheduledPageReviews\Domain\Rule;
-use ScheduledPageReviews\Domain\RuleField;
-use ScheduledPageReviews\Storage\RuleRepository;
-use ScheduledPageReviews\Storage\SettingsRepository;
-use ScheduledPageReviews\Storage\WpPageHierarchy;
+use Renewpage\Application\Capabilities;
+use Renewpage\Domain\EffectiveSettings;
+use Renewpage\Domain\InheritanceResolver;
+use Renewpage\Domain\InheritanceSummary;
+use Renewpage\Domain\Rule;
+use Renewpage\Domain\RuleField;
+use Renewpage\Storage\RuleRepository;
+use Renewpage\Storage\SettingsRepository;
+use Renewpage\Storage\WpPageHierarchy;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -67,7 +67,7 @@ final class TreeController
             ? $this->collectRecursive($parentId, 0, $effectiveByPage)
             : $this->collectChildren($parentId, 0, $effectiveByPage);
 
-        $nodes = apply_filters('scheduled_page_reviews/rest/tree_response', $nodes, $parentId);
+        $nodes = apply_filters('renewpage/rest/tree_response', $nodes, $parentId);
 
         return new WP_REST_Response($nodes, 200);
     }

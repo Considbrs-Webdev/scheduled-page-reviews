@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Groups\Fakes;
+namespace Renewpage\Tests\Unit\Groups\Fakes;
 
-use ScheduledPageReviews\Groups\Group;
-use ScheduledPageReviews\Groups\GroupProvider;
+use Renewpage\Groups\Group;
+use Renewpage\Groups\GroupProvider;
 
 final class FakeGroupProvider implements GroupProvider
 {

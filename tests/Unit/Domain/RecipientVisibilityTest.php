@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\EffectiveSettings;
-use ScheduledPageReviews\Domain\RecipientVisibility;
-use ScheduledPageReviews\Domain\Resolution;
-use ScheduledPageReviews\Domain\Target;
+use Renewpage\Domain\EffectiveSettings;
+use Renewpage\Domain\RecipientVisibility;
+use Renewpage\Domain\Resolution;
+use Renewpage\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class RecipientVisibilityTest extends TestCase

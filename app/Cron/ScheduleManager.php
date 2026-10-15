@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron;
+namespace Renewpage\Cron;
 
-use ScheduledPageReviews\Domain\GlobalSettings;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Domain\GlobalSettings;
+use Renewpage\Storage\SettingsRepository;
 
 /**
  * Registers or clears the recurring {@see Scheduler::DAILY_HOOK} event
@@ -15,27 +15,31 @@ final class ScheduleManager
 {
     private const LEGACY_DAILY_HOOK = 'content_ownership_daily';
     private const LEGACY_TICK_HOOK  = 'content_ownership_tick';
+    private const PREVIOUS_DAILY_HOOK = 'scheduled_page_reviews_daily';
+    private const PREVIOUS_TICK_HOOK  = 'scheduled_page_reviews_tick';
 
     public function __construct(
         private readonly SettingsRepository $settings,
     ) {
         add_filter('cron_schedules', [$this, 'addWeeklySchedule']);
-        add_action('scheduled_page_reviews/settings/updated', [$this, 'onSettingsUpdated'], 10, 1);
+        add_action('renewpage/settings/updated', [$this, 'onSettingsUpdated'], 10, 1);
         add_action('plugins_loaded', [$this, 'runOneTimeScheduleMigration'], 5);
     }
 
     public function runOneTimeScheduleMigration(): void
     {
-        if (get_option('scheduled_page_reviews_schedule_v2', false)) {
+        if (get_option('renewpage_schedule_v2', false)) {
             return;
         }
 
         wp_clear_scheduled_hook(self::LEGACY_DAILY_HOOK);
         wp_clear_scheduled_hook(self::LEGACY_TICK_HOOK);
+        wp_clear_scheduled_hook(self::PREVIOUS_DAILY_HOOK);
+        wp_clear_scheduled_hook(self::PREVIOUS_TICK_HOOK);
         wp_clear_scheduled_hook(Scheduler::DAILY_HOOK);
         wp_clear_scheduled_hook(Scheduler::TICK_HOOK);
         $this->maybeScheduleCron($this->settings->get());
-        update_option('scheduled_page_reviews_schedule_v2', true, false);
+        update_option('renewpage_schedule_v2', true, false);
     }
 
     /**

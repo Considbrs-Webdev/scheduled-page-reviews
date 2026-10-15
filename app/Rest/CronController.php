@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Cron\ScheduleManager;
-use ScheduledPageReviews\Cron\Scheduler;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Capabilities;
+use Renewpage\Cron\ScheduleManager;
+use Renewpage\Cron\Scheduler;
+use Renewpage\Storage\SettingsRepository;
 use RuntimeException;
 use WP_Error;
 use WP_REST_Request;
@@ -43,13 +43,13 @@ final class CronController
         $userId    = get_current_user_id();
         $timestamp = (int) current_time('timestamp', true);
 
-        do_action('scheduled_page_reviews/cron/run_now_requested', $userId, $timestamp);
+        do_action('renewpage/cron/run_now_requested', $userId, $timestamp);
 
         try {
             $result = $this->scheduler->runToCompletion();
         } catch (RuntimeException $exception) {
             return new WP_Error(
-                'scheduled_page_reviews_scan_in_progress',
+                'renewpage_scan_in_progress',
                 $exception->getMessage(),
                 ['status' => 409]
             );

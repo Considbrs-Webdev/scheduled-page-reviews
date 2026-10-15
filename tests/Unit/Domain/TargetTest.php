@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\Target;
-use ScheduledPageReviews\Domain\TargetType;
+use Renewpage\Domain\Target;
+use Renewpage\Domain\TargetType;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

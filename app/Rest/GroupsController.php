@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Groups\GroupRegistry;
+use Renewpage\Application\Capabilities;
+use Renewpage\Groups\GroupRegistry;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;

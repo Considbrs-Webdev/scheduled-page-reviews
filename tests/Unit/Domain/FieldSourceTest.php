@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\FieldSource;
+use Renewpage\Domain\FieldSource;
 use PHPUnit\Framework\TestCase;
 
 final class FieldSourceTest extends TestCase

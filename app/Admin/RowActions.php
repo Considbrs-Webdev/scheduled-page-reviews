@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Domain\PageAuthorization;
-use ScheduledPageReviews\Domain\PageReviewMarker;
+use Renewpage\Domain\PageAuthorization;
+use Renewpage\Domain\PageReviewMarker;
 use WP_Post;
 
 final class RowActions
 {
-    public const ACTION = 'scheduled_page_reviews_mark_reviewed';
-    public const NONCE = 'scheduled_page_reviews_mark_reviewed';
-    public const FLASH_QUERY_VAR = 'scheduled_page_reviews_reviewed';
+    public const ACTION = 'renewpage_mark_reviewed';
+    public const NONCE = 'renewpage_mark_reviewed';
+    public const FLASH_QUERY_VAR = 'renewpage_reviewed';
 
     public function __construct(
         private readonly PageReviewMarker $marker,
@@ -42,7 +42,7 @@ final class RowActions
             self::NONCE . '_' . (int) $post->ID
         );
 
-        $actions['scheduled_page_reviews_mark_reviewed'] = sprintf(
+        $actions['renewpage_mark_reviewed'] = sprintf(
             '<a href="%s">%s</a>',
             esc_url($url),
             esc_html__('Mark reviewed', 'renewpage-scheduled-page-reviews')

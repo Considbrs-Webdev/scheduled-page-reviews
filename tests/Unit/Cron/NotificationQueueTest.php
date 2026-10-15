@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Cron;
+namespace Renewpage\Tests\Unit\Cron;
 
-use ScheduledPageReviews\Cron\NotificationQueue;
-use ScheduledPageReviews\Cron\QueuedItem;
-use ScheduledPageReviews\Domain\Bucket;
+use Renewpage\Cron\NotificationQueue;
+use Renewpage\Cron\QueuedItem;
+use Renewpage\Domain\Bucket;
 use PHPUnit\Framework\TestCase;
 
 final class NotificationQueueTest extends TestCase

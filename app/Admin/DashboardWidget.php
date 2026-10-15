@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Domain\DashboardLister;
+use Renewpage\Application\Capabilities;
+use Renewpage\Domain\DashboardLister;
 use DateTimeImmutable;
 use Throwable;
 
@@ -17,7 +17,7 @@ use Throwable;
  */
 final class DashboardWidget
 {
-    private const WIDGET_ID  = 'scheduled_page_reviews_review_widget';
+    private const WIDGET_ID  = 'renewpage_review_widget';
     private const MAX_ITEMS  = 10;
 
     public function __construct(

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain\Fakes;
+namespace Renewpage\Tests\Unit\Domain\Fakes;
 
-use ScheduledPageReviews\Domain\Contracts\SettingsReader;
-use ScheduledPageReviews\Domain\GlobalSettings;
+use Renewpage\Domain\Contracts\SettingsReader;
+use Renewpage\Domain\GlobalSettings;
 
 final class FakeSettingsReader implements SettingsReader
 {

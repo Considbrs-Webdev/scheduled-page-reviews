@@ -1,5 +1,5 @@
 {
-    "name": "considbrs-webdev/scheduled-page-reviews",
+    "name": "considbrs-webdev/renewpage-scheduled-page-reviews",
     "description": "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.",
     "type": "wordpress-plugin",
     "license": "GPL-3.0-or-later",
@@ -14,16 +14,17 @@
         "yoast/phpunit-polyfills": "^2.0"
     },
     "replace": {
+        "considbrs-webdev/scheduled-page-reviews": "self.version",
         "williamundqvist/scheduled-page-reviews": "self.version"
     },
     "autoload": {
         "psr-4": {
-            "ScheduledPageReviews\\": "app/"
+            "Renewpage\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ScheduledPageReviews\\Tests\\": "tests/"
+            "Renewpage\\Tests\\": "tests/"
         }
     },
     "config": {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Domain;
+namespace Renewpage\Domain;
 
 /**
  * Review-state bucket for a single page.

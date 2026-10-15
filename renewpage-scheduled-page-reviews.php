@@ -4,7 +4,7 @@
  * Plugin Name:       Renewpage - Scheduled Page Reviews
  * Plugin URI:        https://github.com/Considbrs-Webdev/scheduled-page-reviews
  * Description:       Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.
- * Version:           0.2.1
+ * Version:           0.3.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            William Lundqvist
@@ -16,16 +16,16 @@
 
 declare(strict_types=1);
 
-use ScheduledPageReviews\Application\App;
-use ScheduledPageReviews\Application\PluginIdentity;
+use Renewpage\Application\App;
+use Renewpage\Application\PluginIdentity;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$scheduled_page_reviews_autoloader = __DIR__ . '/vendor/autoload.php';
+$renewpage_autoloader = __DIR__ . '/vendor/autoload.php';
 
-if (!file_exists($scheduled_page_reviews_autoloader)) {
+if (!file_exists($renewpage_autoloader)) {
     add_action('admin_notices', static function (): void {
         echo '<div class="notice notice-error"><p>';
         echo esc_html__(
@@ -37,22 +37,22 @@ if (!file_exists($scheduled_page_reviews_autoloader)) {
     return;
 }
 
-require_once $scheduled_page_reviews_autoloader;
+require_once $renewpage_autoloader;
 require_once __DIR__ . '/helpers.php';
 
 register_deactivation_hook(__FILE__, static function (): void {
-    $timestamp = wp_next_scheduled(\ScheduledPageReviews\Cron\Scheduler::DAILY_HOOK);
+    $timestamp = wp_next_scheduled(\Renewpage\Cron\Scheduler::DAILY_HOOK);
     if ($timestamp !== false) {
-        wp_unschedule_event($timestamp, \ScheduledPageReviews\Cron\Scheduler::DAILY_HOOK);
+        wp_unschedule_event($timestamp, \Renewpage\Cron\Scheduler::DAILY_HOOK);
     }
-    wp_clear_scheduled_hook(\ScheduledPageReviews\Cron\Scheduler::TICK_HOOK);
-    delete_transient('scheduled_page_reviews_run_lock');
-    delete_transient('scheduled_page_reviews_run_state');
-    delete_transient('scheduled_page_reviews_run_queue');
+    wp_clear_scheduled_hook(\Renewpage\Cron\Scheduler::TICK_HOOK);
+    delete_transient('renewpage_run_lock');
+    delete_transient('renewpage_run_state');
+    delete_transient('renewpage_run_queue');
 });
 
 if (defined('WP_CLI') && WP_CLI) {
-    WP_CLI::add_command(PluginIdentity::cliCommand(), \ScheduledPageReviews\Cli\ScanCommand::class);
+    WP_CLI::add_command(PluginIdentity::cliCommand(), \Renewpage\Cli\ScanCommand::class);
 }
 
 App::boot();

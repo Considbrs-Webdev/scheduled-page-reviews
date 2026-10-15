@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit;
+namespace Renewpage\Tests\Unit;
 
-use ScheduledPageReviews\Application\App;
-use ScheduledPageReviews\Application\Container;
+use Renewpage\Application\App;
+use Renewpage\Application\Container;
 use PHPUnit\Framework\TestCase;
 
 final class AutoloadTest extends TestCase

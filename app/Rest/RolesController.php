@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Rest;
+namespace Renewpage\Rest;
 
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Groups\RoleGroupProvider;
+use Renewpage\Application\Capabilities;
+use Renewpage\Groups\RoleGroupProvider;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -16,7 +16,7 @@ use WP_REST_Server;
  *
  * Each entry includes the role slug, display name, and the count of users
  * currently in that role. Filterable via
- * {@see scheduled_page_reviews/selectable_roles}.
+ * {@see renewpage/selectable_roles}.
  */
 final class RolesController
 {

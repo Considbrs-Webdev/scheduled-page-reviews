@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Notifications;
+namespace Renewpage\Notifications;
 
 final class EmailRenderer
 {

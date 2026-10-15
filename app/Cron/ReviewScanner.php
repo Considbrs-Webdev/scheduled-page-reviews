@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron;
+namespace Renewpage\Cron;
 
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Cron\Contracts\NotificationQueueInterface;
-use ScheduledPageReviews\Domain\Contracts\PageHierarchy;
-use ScheduledPageReviews\Domain\EffectiveSettings;
-use ScheduledPageReviews\Domain\InheritanceResolver;
-use ScheduledPageReviews\Domain\NotificationEligibility;
-use ScheduledPageReviews\Domain\ReviewDateCalculator;
-use ScheduledPageReviews\Domain\Target;
-use ScheduledPageReviews\Groups\GroupRegistry;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Config;
+use Renewpage\Cron\Contracts\NotificationQueueInterface;
+use Renewpage\Domain\Contracts\PageHierarchy;
+use Renewpage\Domain\EffectiveSettings;
+use Renewpage\Domain\InheritanceResolver;
+use Renewpage\Domain\NotificationEligibility;
+use Renewpage\Domain\ReviewDateCalculator;
+use Renewpage\Domain\Target;
+use Renewpage\Groups\GroupRegistry;
+use Renewpage\Storage\SettingsRepository;
 use DateTimeImmutable;
 use Exception;
 
@@ -69,14 +69,14 @@ final class ReviewScanner
         $now      = new DateTimeImmutable('@' . (int) current_time('timestamp', true));
 
         $metaKeys            = (array) Config::get('settings', 'meta_keys', []);
-        $lastReviewedAtKey   = (string) ($metaKeys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
-        $lastNotifiedAtKey   = (string) ($metaKeys['last_notified_at'] ?? '_scheduled_page_reviews_last_notified_at');
+        $lastReviewedAtKey   = (string) ($metaKeys['last_reviewed_at'] ?? '_renewpage_last_reviewed_at');
+        $lastNotifiedAtKey   = (string) ($metaKeys['last_notified_at'] ?? '_renewpage_last_notified_at');
 
         $processed = 0;
         $queued    = 0;
 
         foreach ($slice as $pageId) {
-            if (! (bool) apply_filters('scheduled_page_reviews/cron/should_process_page', true, $pageId)) {
+            if (! (bool) apply_filters('renewpage/cron/should_process_page', true, $pageId)) {
                 continue;
             }
 

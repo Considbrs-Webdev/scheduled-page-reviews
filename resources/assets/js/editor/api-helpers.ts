@@ -1,5 +1,6 @@
 export interface EditorBoot {
   restRoot: string;
+  restNamespace: string;
   nonce: string;
   settingsUrl: string;
   canManageSettings: boolean;
@@ -10,15 +11,15 @@ export interface EditorBoot {
 
 declare global {
   interface Window {
-    scheduledPageReviewsEditorBoot?: EditorBoot;
+    renewpageEditorBoot?: EditorBoot;
   }
 }
 
 export function getEditorBoot(): EditorBoot {
-  const b = window.scheduledPageReviewsEditorBoot;
+  const b = window.renewpageEditorBoot;
   if (!b) {
     throw new Error(
-      "scheduledPageReviewsEditorBoot is not defined; was the editor bundle enqueued before WP localised its data?",
+      "renewpageEditorBoot is not defined; was the editor bundle enqueued before WP localised its data?",
     );
   }
   return b;

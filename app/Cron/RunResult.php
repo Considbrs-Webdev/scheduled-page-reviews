@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Cron;
+namespace Renewpage\Cron;
 
 /**
  * Outcome of a synchronous scan run ({@see Scheduler::runToCompletion()}).

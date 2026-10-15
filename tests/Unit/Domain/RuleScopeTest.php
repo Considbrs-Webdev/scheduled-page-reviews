@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\RuleScope;
+use Renewpage\Domain\RuleScope;
 use PHPUnit\Framework\TestCase;
 
 final class RuleScopeTest extends TestCase

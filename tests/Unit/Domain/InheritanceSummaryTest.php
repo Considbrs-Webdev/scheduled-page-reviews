@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Tests\Unit\Domain;
+namespace Renewpage\Tests\Unit\Domain;
 
-use ScheduledPageReviews\Domain\EffectiveSettings;
-use ScheduledPageReviews\Domain\FieldSource;
-use ScheduledPageReviews\Domain\InheritanceSummary;
-use ScheduledPageReviews\Domain\Resolution;
-use ScheduledPageReviews\Domain\Rule;
-use ScheduledPageReviews\Domain\RuleField;
-use ScheduledPageReviews\Domain\ScopedValue;
-use ScheduledPageReviews\Domain\Target;
+use Renewpage\Domain\EffectiveSettings;
+use Renewpage\Domain\FieldSource;
+use Renewpage\Domain\InheritanceSummary;
+use Renewpage\Domain\Resolution;
+use Renewpage\Domain\Rule;
+use Renewpage\Domain\RuleField;
+use Renewpage\Domain\ScopedValue;
+use Renewpage\Domain\Target;
 use PHPUnit\Framework\TestCase;
 
 final class InheritanceSummaryTest extends TestCase

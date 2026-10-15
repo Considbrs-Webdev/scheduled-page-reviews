@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Assets;
+namespace Renewpage\Assets;
 
-use ScheduledPageReviews\Admin\SettingsPage;
-use ScheduledPageReviews\Application\Capabilities;
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Application\Container;
-use ScheduledPageReviews\Application\PluginIdentity;
+use Renewpage\Admin\SettingsPage;
+use Renewpage\Application\Capabilities;
+use Renewpage\Application\Config;
+use Renewpage\Application\Container;
+use Renewpage\Application\PluginIdentity;
 
 /**
  * Enqueues the React SPA bundle (and its CSS) on the plugin's admin screens
@@ -61,7 +61,7 @@ final class Assets
             (string) Config::get('paths', 'languages_dir', ''),
         );
 
-        wp_localize_script($handle, 'scheduledPageReviewsBoot', $this->buildBoot());
+        wp_localize_script($handle, 'renewpageBoot', $this->buildBoot());
 
         add_filter('script_loader_tag', [$this, 'addModuleType'], 10, 3);
     }
@@ -84,7 +84,7 @@ final class Assets
     }
 
     /**
-     * Boot payload exposed to the React SPA as window.scheduledPageReviewsBoot.
+     * Boot payload exposed to the React SPA as window.renewpageBoot.
      *
      * @return array<string, mixed>
      */

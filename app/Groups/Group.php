@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Groups;
+namespace Renewpage\Groups;
 
 use InvalidArgumentException;
 

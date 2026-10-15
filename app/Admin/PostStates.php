@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ScheduledPageReviews\Admin;
+namespace Renewpage\Admin;
 
-use ScheduledPageReviews\Application\Config;
-use ScheduledPageReviews\Domain\Bucket;
-use ScheduledPageReviews\Domain\InheritanceResolver;
-use ScheduledPageReviews\Domain\RecipientVisibility;
-use ScheduledPageReviews\Domain\ReviewDateCalculator;
-use ScheduledPageReviews\Groups\GroupRegistry;
-use ScheduledPageReviews\Storage\SettingsRepository;
+use Renewpage\Application\Config;
+use Renewpage\Domain\Bucket;
+use Renewpage\Domain\InheritanceResolver;
+use Renewpage\Domain\RecipientVisibility;
+use Renewpage\Domain\ReviewDateCalculator;
+use Renewpage\Groups\GroupRegistry;
+use Renewpage\Storage\SettingsRepository;
 use DateTimeImmutable;
 use DateTimeZone;
 use WP_Post;
@@ -44,7 +44,7 @@ final class PostStates
         $effective = $this->resolver->resolveForPage($pageId, $this->settings->get());
 
         $keys           = (array) Config::get('settings', 'meta_keys', []);
-        $atKey          = (string) ($keys['last_reviewed_at'] ?? '_scheduled_page_reviews_last_reviewed_at');
+        $atKey          = (string) ($keys['last_reviewed_at'] ?? '_renewpage_last_reviewed_at');
         $lastReviewedAt = $this->parseDate(get_post_meta($pageId, $atKey, true));
 
         $postModifiedAt = new DateTimeImmutable($post->post_modified_gmt, new DateTimeZone('UTC'));
@@ -63,11 +63,11 @@ final class PostStates
         }
 
         if ($bucket === Bucket::Overdue) {
-            $states['scheduled_page_reviews_overdue'] = '<span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
+            $states['renewpage_overdue'] = '<span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
                 . esc_html__('Review overdue', 'renewpage-scheduled-page-reviews')
                 . '</span>';
         } elseif ($bucket === Bucket::Upcoming) {
-            $states['scheduled_page_reviews_upcoming'] = '<span style="background:#d97706;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
+            $states['renewpage_upcoming'] = '<span style="background:#d97706;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;">'
                 . esc_html__('Review due soon', 'renewpage-scheduled-page-reviews')
                 . '</span>';
         }

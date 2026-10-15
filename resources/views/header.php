@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
             </h4>
         </div>
         <div
-            id="<?php echo esc_attr(\ScheduledPageReviews\Admin\Header::INTERACTIVE_MOUNT_ID); ?>"
+            id="<?php echo esc_attr(\Renewpage\Admin\Header::INTERACTIVE_MOUNT_ID); ?>"
             class="co-plugin-header-interactive"
         ></div>
     </div>

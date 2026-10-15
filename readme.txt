@@ -4,7 +4,7 @@ Tags: content, review, reminders, pages, email
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -42,7 +42,15 @@ Review rules on pages, including WordPress users, groups of users (such as roles
 
 No. Mail is sent through WordPress email on your site. Nothing is sent to the plugin author.
 
+== Upgrade Notice ==
+
+= 0.3.0 =
+Internal names changed to the renewpage prefix. Saved settings and page rules from 0.2.x are not carried over. Reactivate the plugin after updating. Developers using hooks or the PHP namespace must rename them.
+
 == Changelog ==
+
+= 0.3.0 =
+* All internal names (hooks, REST routes, stored keys, PHP namespace) now start with renewpage. Settings and page rules saved by 0.2.x are not migrated.
 
 = 0.2.1 =
 * The plugin is named Renewpage - Scheduled Page Reviews.
