@@ -17,11 +17,11 @@ const STATUS_STYLES: Record<RuleResponse["bucket"], { background: string; color:
 function statusLabel(bucket: RuleResponse["bucket"]): string {
   switch (bucket) {
     case "overdue":
-      return __("Overdue", "scheduled-page-reviews");
+      return __("Overdue", "renewpage-scheduled-page-reviews");
     case "upcoming":
-      return __("Upcoming", "scheduled-page-reviews");
+      return __("Upcoming", "renewpage-scheduled-page-reviews");
     case "none":
-      return __("On track", "scheduled-page-reviews");
+      return __("On track", "renewpage-scheduled-page-reviews");
   }
 }
 
@@ -40,7 +40,7 @@ function infoRow(label: string, value: ReactNode) {
 
 function formatDate(iso: string | null | undefined, locale: string): string {
   if (!iso) {
-    return __("Never", "scheduled-page-reviews");
+    return __("Never", "renewpage-scheduled-page-reviews");
   }
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) {
@@ -113,7 +113,7 @@ export function SidebarPanel() {
     setError(null);
     try {
       await markReviewed(postId);
-      setFlash(__("Marked as reviewed.", "scheduled-page-reviews"));
+      setFlash(__("Marked as reviewed.", "renewpage-scheduled-page-reviews"));
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -128,7 +128,7 @@ export function SidebarPanel() {
     if (data.bucket) {
       dataRows.push(
         infoRow(
-          __("Status", "scheduled-page-reviews"),
+          __("Status", "renewpage-scheduled-page-reviews"),
           h(
             "span",
             { style: STATUS_STYLES[data.bucket] ?? STATUS_STYLES.none },
@@ -141,7 +141,7 @@ export function SidebarPanel() {
     if (data.next_review_at) {
       dataRows.push(
         infoRow(
-          __("Next review", "scheduled-page-reviews"),
+          __("Next review", "renewpage-scheduled-page-reviews"),
           formatDate(data.next_review_at, boot.locale)
         )
       );
@@ -149,7 +149,7 @@ export function SidebarPanel() {
 
     dataRows.push(
       infoRow(
-        __("Last reviewed", "scheduled-page-reviews"),
+        __("Last reviewed", "renewpage-scheduled-page-reviews"),
         formatDate(data.last_reviewed_at, boot.locale)
       )
     );
@@ -157,8 +157,8 @@ export function SidebarPanel() {
     if (data.effective?.interval_days?.value != null) {
       dataRows.push(
         infoRow(
-          __("Review interval", "scheduled-page-reviews"),
-          sprintf(__("%d days", "scheduled-page-reviews"), data.effective.interval_days.value)
+          __("Review interval", "renewpage-scheduled-page-reviews"),
+          sprintf(__("%d days", "renewpage-scheduled-page-reviews"), data.effective.interval_days.value)
         )
       );
     }
@@ -166,10 +166,10 @@ export function SidebarPanel() {
     const recipientCount = data.effective?.recipients?.value?.length ?? 0;
     dataRows.push(
       infoRow(
-        __("Who to notify", "scheduled-page-reviews"),
+        __("Who to notify", "renewpage-scheduled-page-reviews"),
         recipientCount === 0
-          ? __("Nobody configured", "scheduled-page-reviews")
-          : sprintf(__("%d recipient(s)", "scheduled-page-reviews"), recipientCount)
+          ? __("Nobody configured", "renewpage-scheduled-page-reviews")
+          : sprintf(__("%d recipient(s)", "renewpage-scheduled-page-reviews"), recipientCount)
       )
     );
 
@@ -179,7 +179,7 @@ export function SidebarPanel() {
         isBusy: marking,
         disabled: marking,
         onClick: onMark,
-      }, __("Mark as reviewed", "scheduled-page-reviews")))
+      }, __("Mark as reviewed", "renewpage-scheduled-page-reviews")))
     );
 
     if (boot.canManageSettings) {
@@ -190,7 +190,7 @@ export function SidebarPanel() {
           h(
             "a",
             { href: boot.settingsUrl, target: "_blank", rel: "noreferrer" },
-            __("Open Scheduled Page Reviews settings", "scheduled-page-reviews")
+            __("Open Renewpage - Scheduled Page Reviews settings", "renewpage-scheduled-page-reviews")
           )
         )
       );
@@ -200,9 +200,9 @@ export function SidebarPanel() {
   return h(
     PluginDocumentSettingPanel,
     {
-      name: "scheduled-page-reviews-panel",
-      title: __("Scheduled Page Reviews", "scheduled-page-reviews"),
-      className: "scheduled-page-reviews-editor-panel",
+      name: "renewpage-scheduled-page-reviews-panel",
+      title: __("Renewpage - Scheduled Page Reviews", "renewpage-scheduled-page-reviews"),
+      className: "renewpage-scheduled-page-reviews-editor-panel",
     },
     loading && h(PanelRow, null, h(Spinner, null)),
     error && h(Notice, { status: "error", isDismissible: false }, error),

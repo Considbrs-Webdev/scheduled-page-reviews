@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.1] - 2026-10-14
+
+### Changed
+
+- Directory name for the WordPress.org review is **Renewpage - Scheduled Page Reviews** (`renewpage-scheduled-page-reviews`). Saved review data, the REST route, and the Composer package name stay as they are. This version is not a tagged release.
+
 ## [Unreleased]
 
 ### Changed

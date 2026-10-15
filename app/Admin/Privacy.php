@@ -21,7 +21,7 @@ final class Privacy
         }
 
         wp_add_privacy_policy_content(
-            __('Scheduled Page Reviews', 'scheduled-page-reviews'),
+            __('Renewpage - Scheduled Page Reviews', 'renewpage-scheduled-page-reviews'),
             wp_kses_post(self::policyHtml())
         );
     }
@@ -30,20 +30,20 @@ final class Privacy
     {
         $paragraphs = [
             __(
-                'Scheduled Page Reviews stores review rules on pages. A rule can include WordPress users, groups of users (such as roles), and email addresses chosen by an administrator.',
-                'scheduled-page-reviews'
+                'Renewpage - Scheduled Page Reviews stores review rules on pages. A rule can include WordPress users, groups of users (such as roles), and email addresses chosen by an administrator.',
+                'renewpage-scheduled-page-reviews'
             ),
             __(
                 'It also stores who last marked a page reviewed, when that happened, when a reminder was last sent, and the site-wide default recipients and scan schedule.',
-                'scheduled-page-reviews'
+                'renewpage-scheduled-page-reviews'
             ),
             __(
                 'When a scan runs, the plugin sends a digest with WordPress email to those recipients. The message includes the site name, page titles, whether a review is due or overdue, and a link to edit the page.',
-                'scheduled-page-reviews'
+                'renewpage-scheduled-page-reviews'
             ),
             __(
                 'The plugin does not send this data to the plugin author or to any service outside your site. The data stays in your WordPress database until an administrator changes it or deletes the plugin. Deleting the plugin removes these settings, page rules, review history, and scheduled scans.',
-                'scheduled-page-reviews'
+                'renewpage-scheduled-page-reviews'
             ),
         ];
 

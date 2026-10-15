@@ -27,14 +27,14 @@ CI owns tags and GitHub Releases. **Do not push tags or create releases manually
    node scripts/sync-version.mjs 0.1.3
    ```
 
-   This updates `scheduled-page-reviews.php`, `config/app.php`, `package.json`, and `package-lock.json`.
+   This updates `renewpage-scheduled-page-reviews.php`, `config/app.php`, `package.json`, and `package-lock.json`.
 
 2. Merge the version bump to `main`.
 
 3. GitHub Actions ([`.github/workflows/release.yml`](.github/workflows/release.yml)) runs automatically and:
    - Skips if tag `v{version}` already exists
    - Runs tests and `npm run build`
-   - Builds `scheduled-page-reviews-{version}.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
+   - Builds `renewpage-scheduled-page-reviews-{version}.zip` via [`scripts/build-release.mjs`](scripts/build-release.mjs)
    - Force-pushes the `release` branch with the production tree (`vendor/`, `dist/`, etc.)
    - Creates tag `v{version}` on the release commit (once — no retagging)
    - Creates a GitHub Release with the ZIP attached
@@ -61,7 +61,7 @@ If needed, re-run from the Actions tab via **workflow_dispatch** (uses the versi
 composer install
 npm ci
 npm run release
-# Output: .build/scheduled-page-reviews-<version>.zip
+# Output: .build/renewpage-scheduled-page-reviews-<version>.zip
 ```
 
 Use this for smoke-testing the package contents before merging a version bump.
@@ -88,6 +88,6 @@ Until then, distribute builds via **GitHub Release ZIPs** and **Composer/Packagi
 
 ## Versioning
 
-- Plugin header in [`scheduled-page-reviews.php`](scheduled-page-reviews.php) is the WordPress-visible version.
+- Plugin header in [`renewpage-scheduled-page-reviews.php`](renewpage-scheduled-page-reviews.php) is the WordPress-visible version.
 - Keep [`config/app.php`](config/app.php) and [`package.json`](package.json) in sync — use `scripts/sync-version.mjs`.
 - Tag names match the header with a `v` prefix (e.g. header `0.1.3` → tag `v0.1.3`).

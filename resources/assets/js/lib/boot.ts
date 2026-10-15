@@ -24,7 +24,7 @@ const fallback: ScheduledPageReviewsBoot = {
   locale: "en-US",
   dateFormat: "Y-m-d",
   pluginVersion: "0.0.0",
-  pageSlug: "scheduled-page-reviews",
+  pageSlug: "renewpage-scheduled-page-reviews",
   capabilities: { manage: false },
 };
 

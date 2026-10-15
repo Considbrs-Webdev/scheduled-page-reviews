@@ -10,16 +10,16 @@ export function GroupMemberPreview({ groupRef, trigger }: { groupRef: string; tr
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <div className="text-xs font-medium uppercase text-muted-foreground">
-          {__("Members", "scheduled-page-reviews")}
+          {__("Members", "renewpage-scheduled-page-reviews")}
         </div>
         {q.isLoading && (
           <div className="mt-2 text-sm text-muted-foreground">
-            {__("Loading…", "scheduled-page-reviews")}
+            {__("Loading…", "renewpage-scheduled-page-reviews")}
           </div>
         )}
         {!q.isLoading && users.length === 0 && (
           <div className="mt-2 text-sm text-muted-foreground">
-            {__("No users currently in this group.", "scheduled-page-reviews")}
+            {__("No users currently in this group.", "renewpage-scheduled-page-reviews")}
           </div>
         )}
         <ul className="mt-2 max-h-56 space-y-1 overflow-auto text-sm">
@@ -34,7 +34,7 @@ export function GroupMemberPreview({ groupRef, trigger }: { groupRef: string; tr
           <div className="mt-2 text-xs text-muted-foreground">
             {sprintf(
               /* translators: %d: additional member count */
-              __("+%d more", "scheduled-page-reviews"),
+              __("+%d more", "renewpage-scheduled-page-reviews"),
               users.length - 8,
             )}
           </div>

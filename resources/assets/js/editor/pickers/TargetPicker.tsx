@@ -24,7 +24,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeGroupRefs }: Target
         onSelect={(t: RecipientTarget) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <User2 className="mr-1.5 h-3.5 w-3.5" /> {__("Add user", "scheduled-page-reviews")}
+            <User2 className="mr-1.5 h-3.5 w-3.5" /> {__("Add user", "renewpage-scheduled-page-reviews")}
           </Button>
         }
       />
@@ -33,7 +33,7 @@ export function TargetPicker({ onAdd, excludeUserIds, excludeGroupRefs }: Target
         onSelect={(t) => onAdd(t)}
         trigger={
           <Button type="button" variant="outline" size="sm">
-            <Users className="mr-1.5 h-3.5 w-3.5" /> {__("Add group", "scheduled-page-reviews")}
+            <Users className="mr-1.5 h-3.5 w-3.5" /> {__("Add group", "renewpage-scheduled-page-reviews")}
           </Button>
         }
       />
@@ -56,23 +56,23 @@ function EmailAdder({ onAdd }: { onAdd: (t: RecipientTarget) => void }) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" size="sm">
-          <Mail className="mr-1.5 h-3.5 w-3.5" /> {__("Add email", "scheduled-page-reviews")}
+          <Mail className="mr-1.5 h-3.5 w-3.5" /> {__("Add email", "renewpage-scheduled-page-reviews")}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64" align="start">
         <div className="grid gap-2">
           <label className="text-xs font-medium text-muted-foreground">
-            {__("Email address", "scheduled-page-reviews")}
+            {__("Email address", "renewpage-scheduled-page-reviews")}
           </label>
           <Input
             type="email"
-            placeholder={__("alerts@example.com", "scheduled-page-reviews")}
+            placeholder={__("alerts@example.com", "renewpage-scheduled-page-reviews")}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           />
           <Button type="button" size="sm" onClick={submit}>
-            <Plus className="mr-1 h-3.5 w-3.5" /> {__("Add", "scheduled-page-reviews")}
+            <Plus className="mr-1 h-3.5 w-3.5" /> {__("Add", "renewpage-scheduled-page-reviews")}
           </Button>
         </div>
       </PopoverContent>

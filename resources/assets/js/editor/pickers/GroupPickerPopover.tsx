@@ -24,10 +24,10 @@ export function GroupPickerPopover({ trigger, onSelect, excludeRefs = [] }: Grou
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="w-72 p-0" align="start">
         <Command>
-          <CommandInput placeholder={__("Filter groups…", "scheduled-page-reviews")} />
+          <CommandInput placeholder={__("Filter groups…", "renewpage-scheduled-page-reviews")} />
           <CommandList>
             <CommandEmpty>
-              {q.isLoading ? __("Loading…", "scheduled-page-reviews") : __("No groups available.", "scheduled-page-reviews")}
+              {q.isLoading ? __("Loading…", "renewpage-scheduled-page-reviews") : __("No groups available.", "renewpage-scheduled-page-reviews")}
             </CommandEmpty>
             {sections.map((section) => (
               <CommandGroup key={section.key} heading={section.label}>

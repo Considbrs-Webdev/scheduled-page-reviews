@@ -25,10 +25,10 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
 
   return (
     <SettingRow
-      label={__("Who to notify", "scheduled-page-reviews")}
+      label={__("Who to notify", "renewpage-scheduled-page-reviews")}
       description={__(
         "Add WordPress users, groups, or email addresses. Users and groups receive review reminders and see these pages in their dashboard. Standalone email addresses receive reminders only.",
-        "scheduled-page-reviews",
+        "renewpage-scheduled-page-reviews",
       )}
     >
       <div className="space-y-3">
@@ -42,15 +42,15 @@ export function RecipientsField({ effective }: { effective: EffectiveSettings })
             resolution={effective.recipients}
             formatValue={(v) =>
               v.length === 0
-                ? __("nobody configured", "scheduled-page-reviews")
-                : sprintf(__("%d recipient(s)", "scheduled-page-reviews"), v.length)}
+                ? __("nobody configured", "renewpage-scheduled-page-reviews")
+                : sprintf(__("%d recipient(s)", "renewpage-scheduled-page-reviews"), v.length)}
           />
         ) : (
           <div className="grid gap-3">
             <div className="flex flex-wrap gap-1.5">
               {value.length === 0 ? (
                 <span className="text-xs text-muted-foreground">
-                  {__("No recipients assigned.", "scheduled-page-reviews")}
+                  {__("No recipients assigned.", "renewpage-scheduled-page-reviews")}
                 </span>
               ) : (
                 value.map((t) => (

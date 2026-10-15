@@ -34,9 +34,9 @@ import {
 export function GeneralSettingsTab() {
   const settingsQ = useGlobalSettings();
   const updateM = useUpdateGlobalSettings({
-    onSuccess: () => toast.success(__("Global settings saved.", "scheduled-page-reviews")),
+    onSuccess: () => toast.success(__("Global settings saved.", "renewpage-scheduled-page-reviews")),
     onError: (e) =>
-      toast.error(e instanceof Error ? e.message : __("Could not save settings.", "scheduled-page-reviews")),
+      toast.error(e instanceof Error ? e.message : __("Could not save settings.", "renewpage-scheduled-page-reviews")),
   });
   const setUnsaved = useUiStore((s) => s.setHasUnsavedChanges);
 
@@ -112,7 +112,7 @@ export function GeneralSettingsTab() {
   if (settingsQ.error) {
     return (
       <div className="text-sm text-destructive">
-        {__("Failed to load settings:", "scheduled-page-reviews")} {settingsQ.error.message}
+        {__("Failed to load settings:", "renewpage-scheduled-page-reviews")} {settingsQ.error.message}
       </div>
     );
   }
@@ -123,10 +123,10 @@ export function GeneralSettingsTab() {
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">
         <SettingSection
-          title={__("Review intervals", "scheduled-page-reviews")}
+          title={__("Review intervals", "renewpage-scheduled-page-reviews")}
           description={__(
             "How often pages must be reviewed and when reminders go out.",
-            "scheduled-page-reviews",
+            "renewpage-scheduled-page-reviews",
           )}
         >
           <FormField
@@ -134,10 +134,10 @@ export function GeneralSettingsTab() {
             name="default_interval_days"
             render={({ field }) => (
               <SettingRow
-                label={__("Default review interval (days)", "scheduled-page-reviews")}
+                label={__("Default review interval (days)", "renewpage-scheduled-page-reviews")}
                 description={__(
                   "Used when a page has no rule of its own.",
-                  "scheduled-page-reviews",
+                  "renewpage-scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -160,10 +160,10 @@ export function GeneralSettingsTab() {
             name="notify_days_before"
             render={({ field }) => (
               <SettingRow
-                label={__("Notify days before", "scheduled-page-reviews")}
+                label={__("Notify days before", "renewpage-scheduled-page-reviews")}
                 description={__(
                   'Window in which a page is "due soon".',
-                  "scheduled-page-reviews",
+                  "renewpage-scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -184,17 +184,17 @@ export function GeneralSettingsTab() {
         </SettingSection>
 
         <SettingSection
-          title={__("Reminders", "scheduled-page-reviews")}
+          title={__("Reminders", "renewpage-scheduled-page-reviews")}
           description={__(
             "Control repeat emails while a page stays due or overdue. Marking a page reviewed starts a new cycle.",
-            "scheduled-page-reviews",
+            "renewpage-scheduled-page-reviews",
           )}
         >
           <FormField
             control={form.control}
             name="send_reminder_after_due"
             render={({ field }) => (
-              <SettingRow label={__("Send reminders after due date", "scheduled-page-reviews")}>
+              <SettingRow label={__("Send reminders after due date", "renewpage-scheduled-page-reviews")}>
                 <FormItem>
                   <FormControl>
                     <Switch
@@ -205,7 +205,7 @@ export function GeneralSettingsTab() {
                   <FormDescription>
                     {__(
                       "When off, each page is included in at most one digest per review cycle (until marked reviewed). When on, overdue pages can appear again after the cadence interval.",
-                      "scheduled-page-reviews",
+                      "renewpage-scheduled-page-reviews",
                     )}
                   </FormDescription>
                   <FormMessage />
@@ -219,10 +219,10 @@ export function GeneralSettingsTab() {
               name="reminder_cadence_days"
               render={({ field }) => (
                 <SettingRow
-                  label={__("Reminder cadence (days)", "scheduled-page-reviews")}
+                  label={__("Reminder cadence (days)", "renewpage-scheduled-page-reviews")}
                   description={__(
                     "Minimum days before the same overdue page can appear in another digest. Currently tracked per page, not per recipient — see README.",
-                    "scheduled-page-reviews",
+                    "renewpage-scheduled-page-reviews",
                   )}
                 >
                   <FormItem>
@@ -244,17 +244,17 @@ export function GeneralSettingsTab() {
         </SettingSection>
 
         <SettingSection
-          title={__("Mark as reviewed", "scheduled-page-reviews")}
+          title={__("Mark as reviewed", "renewpage-scheduled-page-reviews")}
           description={__(
             "What happens when someone marks a page as reviewed. Plugin review meta is always stored.",
-            "scheduled-page-reviews",
+            "renewpage-scheduled-page-reviews",
           )}
         >
           <FormField
             control={form.control}
             name="sync_wp_modified_on_review"
             render={({ field }) => (
-              <SettingRow label={__("Update WordPress last modified date", "scheduled-page-reviews")}>
+              <SettingRow label={__("Update WordPress last modified date", "renewpage-scheduled-page-reviews")}>
                 <FormItem>
                   <FormControl>
                     <Switch
@@ -265,7 +265,7 @@ export function GeneralSettingsTab() {
                   <FormDescription>
                     {__(
                       'Also updates the post\'s modified timestamp (shown as "updated" on the front-end). Does not create a new revision.',
-                      "scheduled-page-reviews",
+                      "renewpage-scheduled-page-reviews",
                     )}
                   </FormDescription>
                   <FormMessage />
@@ -276,10 +276,10 @@ export function GeneralSettingsTab() {
         </SettingSection>
 
         <SettingSection
-          title={__("Default recipients", "scheduled-page-reviews")}
+          title={__("Default recipients", "renewpage-scheduled-page-reviews")}
           description={__(
             "Recipients used as a fallback when no per-page or inherited recipient is set. Email addresses only here for now; per-page rules support users and groups too.",
-            "scheduled-page-reviews",
+            "renewpage-scheduled-page-reviews",
           )}
         >
           <FormField
@@ -287,10 +287,10 @@ export function GeneralSettingsTab() {
             name="default_recipient_emails_text"
             render={({ field }) => (
               <SettingRow
-                label={__("Default recipient emails", "scheduled-page-reviews")}
+                label={__("Default recipient emails", "renewpage-scheduled-page-reviews")}
                 description={__(
                   "Separate multiple addresses with commas or whitespace.",
-                  "scheduled-page-reviews",
+                  "renewpage-scheduled-page-reviews",
                 )}
               >
                 <FormItem>
@@ -298,7 +298,7 @@ export function GeneralSettingsTab() {
                     <Textarea
                       rows={3}
                       className="min-h-28 max-w-xl"
-                      placeholder={__("alerts@example.com, ops@example.com", "scheduled-page-reviews")}
+                      placeholder={__("alerts@example.com, ops@example.com", "renewpage-scheduled-page-reviews")}
                       {...field}
                     />
                   </FormControl>
@@ -318,14 +318,14 @@ export function GeneralSettingsTab() {
             disabled={!form.formState.isDirty || updateM.isPending}
             onClick={resetToServer}
           >
-            {__("Reset", "scheduled-page-reviews")}
+            {__("Reset", "renewpage-scheduled-page-reviews")}
           </Button>
           <Button
             type="submit"
             disabled={!form.formState.isDirty || updateM.isPending}
           >
             <Save className="mr-2 h-4 w-4" />
-            {updateM.isPending ? __("Saving…", "scheduled-page-reviews") : __("Save changes", "scheduled-page-reviews")}
+            {updateM.isPending ? __("Saving…", "renewpage-scheduled-page-reviews") : __("Save changes", "renewpage-scheduled-page-reviews")}
           </Button>
         </div>
       </form>

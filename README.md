@@ -1,4 +1,4 @@
-# Scheduled Page Reviews
+# Renewpage - Scheduled Page Reviews
 
 A WordPress plugin for **content freshness reminders**: per-page review intervals, assignees, hierarchical rule inheritance, due/overdue tracking, batched email digests, a Gutenberg sidebar, and a React page-tree admin UI.
 
@@ -35,7 +35,7 @@ npm ci
 npm run release
 ```
 
-Output: `.build/scheduled-page-reviews-<version>.zip`
+Output: `.build/renewpage-scheduled-page-reviews-<version>.zip`
 
 ## Scripts
 
@@ -58,8 +58,8 @@ See **[LOCALIZATION.md](LOCALIZATION.md)** for the full i18n plan (PHP, emails, 
 ## Architecture (short tour)
 
 ```text
-scheduled-page-reviews/
-├── scheduled-page-reviews.php           Plugin header + Composer autoload + App::boot()
+renewpage-scheduled-page-reviews/
+├── renewpage-scheduled-page-reviews.php           Plugin header + Composer autoload + App::boot()
 ├── helpers.php                     Global ScheduledPageReviews\di() helper
 ├── composer.json                   PSR-4 ScheduledPageReviews\ => app/
 ├── package.json                    React 19, Vite, Tailwind v4, shadcn primitives
@@ -420,16 +420,16 @@ Three ways to start a scan:
 
 ```bash
 # Synchronous — recommended when DISABLE_WP_CRON is true
-wp scheduled-page-reviews scan
+wp renewpage-scheduled-page-reviews scan
 
 # Background — schedules batched ticks (requires something to execute due WP events)
-wp scheduled-page-reviews scan --background
+wp renewpage-scheduled-page-reviews scan --background
 ```
 
 Server crontab example (sync, daily at 22:00):
 
 ```bash
-0 22 * * * cd /path/to/wordpress && wp --path=wp scheduled-page-reviews scan
+0 22 * * * cd /path/to/wordpress && wp --path=wp renewpage-scheduled-page-reviews scan
 ```
 
 If using `--background`, also run due WP events regularly:

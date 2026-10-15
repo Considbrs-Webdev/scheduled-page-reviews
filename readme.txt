@@ -1,10 +1,10 @@
-=== Scheduled Page Reviews ===
-Contributors: williamundqvist
+=== Renewpage - Scheduled Page Reviews ===
+Contributors: williamlundqvist
 Tags: content, review, reminders, pages, email
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ Content freshness reminders with per-page review intervals, assignees, inheritan
 
 == Description ==
 
-Scheduled Page Reviews helps editorial teams keep WordPress pages up to date. Configure review intervals per page, assign recipients, inherit rules through the page tree, and receive batched email digests when content is due or overdue.
+Renewpage - Scheduled Page Reviews helps editorial teams keep WordPress pages up to date. Configure review intervals per page, assign recipients, inherit rules through the page tree, and receive batched email digests when content is due or overdue.
 
 = Features =
 
@@ -24,9 +24,9 @@ Scheduled Page Reviews helps editorial teams keep WordPress pages up to date. Co
 
 == Installation ==
 
-1. Upload the plugin folder to `/wp-content/plugins/scheduled-page-reviews/`.
+1. Upload the plugin folder to `/wp-content/plugins/renewpage-scheduled-page-reviews/`.
 2. Activate the plugin through the **Plugins** menu in WordPress.
-3. Open **Scheduled Page Reviews** in the admin menu to configure global settings.
+3. Open **Renewpage - Scheduled Page Reviews** in the admin menu to configure global settings.
 
 == Frequently Asked Questions ==
 
@@ -43,6 +43,9 @@ Review rules on pages, including WordPress users, groups of users (such as roles
 No. Mail is sent through WordPress email on your site. Nothing is sent to the plugin author.
 
 == Changelog ==
+
+= 0.2.1 =
+* The plugin is named Renewpage - Scheduled Page Reviews.
 
 = 0.2.0 =
 * Recipient groups: pick WordPress roles or groups added by your own code (for example from a user taxonomy or an external directory). Existing role recipients keep working.

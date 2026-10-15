@@ -12,7 +12,7 @@ export function InheritedFrom<T>({ resolution, formatValue }: {
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <Globe className="h-3 w-3" />
         <span>
-          {__("Global default:", "scheduled-page-reviews")}{" "}
+          {__("Global default:", "renewpage-scheduled-page-reviews")}{" "}
           <strong>{formatValue(resolution.value)}</strong>
         </span>
       </div>
@@ -25,7 +25,7 @@ export function InheritedFrom<T>({ resolution, formatValue }: {
         <span>
           {sprintf(
             /* translators: %d: page ID */
-            __("Inherited from page #%d:", "scheduled-page-reviews"),
+            __("Inherited from page #%d:", "renewpage-scheduled-page-reviews"),
             resolution.from,
           )}{" "}
           <strong>{formatValue(resolution.value)}</strong>

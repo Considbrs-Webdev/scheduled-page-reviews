@@ -34,7 +34,7 @@ final class DashboardWidget
 
         wp_add_dashboard_widget(
             self::WIDGET_ID,
-            esc_html__('Scheduled page reviews — pages needing review', 'scheduled-page-reviews'),
+            esc_html__('Renewpage — pages needing review', 'renewpage-scheduled-page-reviews'),
             [$this, 'render']
         );
     }
@@ -48,8 +48,8 @@ final class DashboardWidget
         if ($items === []) {
             echo '<p>' . esc_html(
                 $overview
-                    ? __('No pages on the site need review right now.', 'scheduled-page-reviews')
-                    : __('Nothing assigned to you needs review right now. Nice work!', 'scheduled-page-reviews')
+                    ? __('No pages on the site need review right now.', 'renewpage-scheduled-page-reviews')
+                    : __('Nothing assigned to you needs review right now. Nice work!', 'renewpage-scheduled-page-reviews')
             ) . '</p>';
             $this->renderFooter(0);
             return;
@@ -59,14 +59,14 @@ final class DashboardWidget
 
         if ($overdue !== []) {
             $this->renderSection(
-                esc_html__('Overdue', 'scheduled-page-reviews'),
+                esc_html__('Overdue', 'renewpage-scheduled-page-reviews'),
                 $overdue,
                 '#c0392b'
             );
         }
         if ($upcoming !== []) {
             $this->renderSection(
-                esc_html__('Due soon', 'scheduled-page-reviews'),
+                esc_html__('Due soon', 'renewpage-scheduled-page-reviews'),
                 $upcoming,
                 '#d97706'
             );
@@ -128,7 +128,7 @@ final class DashboardWidget
             printf(
                 '<a href="%s">%s</a>',
                 esc_url($editLink),
-                esc_html($title !== '' ? $title : __('(no title)', 'scheduled-page-reviews'))
+                esc_html($title !== '' ? $title : __('(no title)', 'renewpage-scheduled-page-reviews'))
             );
         } else {
             echo esc_html($title);
@@ -154,13 +154,13 @@ final class DashboardWidget
             printf(
                 '<a href="%s">%s</a>',
                 esc_url(SettingsPage::adminUrl()),
-                esc_html__('Open Scheduled Page Reviews settings →', 'scheduled-page-reviews')
+                esc_html__('Open Renewpage - Scheduled Page Reviews settings →', 'renewpage-scheduled-page-reviews')
             );
         } elseif ($truncated) {
             printf(
                 '<a href="%s">%s</a>',
                 esc_url(admin_url('edit.php?post_type=page')),
-                esc_html__('View all in the Pages list →', 'scheduled-page-reviews')
+                esc_html__('View all in the Pages list →', 'renewpage-scheduled-page-reviews')
             );
         }
 
@@ -169,7 +169,7 @@ final class DashboardWidget
                 . esc_html(
                     sprintf(
                         /* translators: %d = maximum number of list items shown */
-                        __('(showing first %d)', 'scheduled-page-reviews'),
+                        __('(showing first %d)', 'renewpage-scheduled-page-reviews'),
                         self::MAX_ITEMS,
                     ),
                 )
@@ -195,19 +195,19 @@ final class DashboardWidget
 
         if ($diff < 0) {
             return $absDays === 0
-                ? __('due today', 'scheduled-page-reviews')
+                ? __('due today', 'renewpage-scheduled-page-reviews')
                 : sprintf(
                     /* translators: %d = number of days */
-                    _n('%d day overdue', '%d days overdue', $absDays, 'scheduled-page-reviews'),
+                    _n('%d day overdue', '%d days overdue', $absDays, 'renewpage-scheduled-page-reviews'),
                     $absDays
                 );
         }
 
         return $absDays === 0
-            ? __('due today', 'scheduled-page-reviews')
+            ? __('due today', 'renewpage-scheduled-page-reviews')
             : sprintf(
                 /* translators: %d = number of days */
-                _n('due in %d day', 'due in %d days', $absDays, 'scheduled-page-reviews'),
+                _n('due in %d day', 'due in %d days', $absDays, 'renewpage-scheduled-page-reviews'),
                 $absDays
             );
     }

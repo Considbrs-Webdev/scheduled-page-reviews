@@ -29,8 +29,8 @@ final class SettingsPage
     public function register(): void
     {
         add_menu_page(
-            __('Scheduled Page Reviews', 'scheduled-page-reviews'),
-            __('Scheduled Page Reviews', 'scheduled-page-reviews'),
+            __('Renewpage - Scheduled Page Reviews', 'renewpage-scheduled-page-reviews'),
+            __('Renewpage - Scheduled Page Reviews', 'renewpage-scheduled-page-reviews'),
             Capabilities::menu(),
             self::pageSlug(),
             [$this, 'render'],

@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Scheduled Page Reviews 0.1.4\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/scheduled-page-reviews\n"
+"Project-Id-Version: Renewpage - Scheduled Page Reviews 0.2.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/renewpage-scheduled-page-reviews\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,39 +12,39 @@ msgstr ""
 "POT-Creation-Date: 2026-06-26T14:38:47+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: scheduled-page-reviews\n"
+"X-Domain: renewpage-scheduled-page-reviews\n"
 
 #. Plugin Name of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 #: app/Admin/SettingsPage.php:32
 #: app/Admin/SettingsPage.php:33
 #: resources/views/header.php:23
 #: resources/views/settings-page.php:11
 #: resources/assets/js/editor/SidebarPanel.tsx:178
-msgid "Scheduled Page Reviews"
+msgid "Renewpage - Scheduled Page Reviews"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid "https://github.com/Considbrs-Webdev/scheduled-page-reviews"
 msgstr ""
 
 #. Description of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid "Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests."
 msgstr ""
 
 #. Author of the plugin
-#: scheduled-page-reviews.php
+#: renewpage-scheduled-page-reviews.php
 msgid "William Lundqvist"
 msgstr ""
 
 #: app/Admin/BuildNotice.php:32
-msgid "Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder."
+msgid "Renewpage - Scheduled Page Reviews: front-end assets are missing. Run \"npm run build\" in the plugin directory, or install a release ZIP that includes the dist/ folder."
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:37
-msgid "Scheduled page reviews — pages needing review"
+msgid "Renewpage — pages needing review"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:51
@@ -71,7 +71,7 @@ msgid "(no title)"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:157
-msgid "Open Scheduled Page Reviews settings →"
+msgid "Open Renewpage - Scheduled Page Reviews settings →"
 msgstr ""
 
 #: app/Admin/DashboardWidget.php:163
@@ -243,7 +243,7 @@ msgstr ""
 
 #: resources/views/emails/digest.html.php:154
 #: resources/views/emails/digest.text.php:136
-msgid "This message was sent by the Scheduled Page Reviews plugin."
+msgid "This message was sent by the Renewpage - Scheduled Page Reviews plugin."
 msgstr ""
 
 #: resources/views/emails/digest.text.php:79
@@ -274,8 +274,8 @@ msgstr ""
 msgid "This page requires JavaScript."
 msgstr ""
 
-#: scheduled-page-reviews.php:31
-msgid "Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
+#: renewpage-scheduled-page-reviews.php:31
+msgid "Renewpage - Scheduled Page Reviews: Composer dependencies are missing. Please run \"composer install\" inside the plugin directory."
 msgstr ""
 
 #: resources/assets/js/editor/fields/IntervalField.tsx:13
@@ -580,7 +580,7 @@ msgid "Mark as reviewed"
 msgstr ""
 
 #: resources/assets/js/editor/SidebarPanel.tsx:168
-msgid "Open Scheduled Page Reviews settings"
+msgid "Open Renewpage - Scheduled Page Reviews settings"
 msgstr ""
 
 #: resources/assets/js/general/GeneralSettingsTab.tsx:31

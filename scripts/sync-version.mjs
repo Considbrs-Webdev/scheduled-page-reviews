@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Sync plugin version across scheduled-page-reviews.php, config/app.php,
+ * Sync plugin version across renewpage-scheduled-page-reviews.php, config/app.php,
  * package.json, package-lock.json, and the readme.txt Stable tag.
  *
  * Usage: node scripts/sync-version.mjs 0.1.3
@@ -20,12 +20,12 @@ if (!version || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version)) {
   process.exit(1);
 }
 
-const pluginFile = join(pluginRoot, "scheduled-page-reviews.php");
+const pluginFile = join(pluginRoot, "renewpage-scheduled-page-reviews.php");
 let pluginSource = readFileSync(pluginFile, "utf8");
 const headerPattern = /(^\s\*\sVersion:\s+)\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/m;
 
 if (!headerPattern.test(pluginSource)) {
-  console.error("Could not find Version header in scheduled-page-reviews.php");
+  console.error("Could not find Version header in renewpage-scheduled-page-reviews.php");
   process.exit(1);
 }
 
@@ -70,7 +70,7 @@ readme = readme.replace(stablePattern, `$1${version}`);
 writeFileSync(readmeFile, readme);
 
 console.log(`Synced version to ${version} in:`);
-console.log("  - scheduled-page-reviews.php");
+console.log("  - renewpage-scheduled-page-reviews.php");
 console.log("  - config/app.php");
 console.log("  - package.json");
 console.log("  - package-lock.json");

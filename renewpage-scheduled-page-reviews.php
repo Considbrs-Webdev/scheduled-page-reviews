@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Plugin Name:       Scheduled Page Reviews
+ * Plugin Name:       Renewpage - Scheduled Page Reviews
  * Plugin URI:        https://github.com/Considbrs-Webdev/scheduled-page-reviews
  * Description:       Content freshness reminders — per-page review intervals, assignees, inheritance, and due-date email digests.
- * Version:           0.2.0
+ * Version:           0.2.1
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Author:            William Lundqvist
  * License:           GPL-3.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:       scheduled-page-reviews
+ * Text Domain:       renewpage-scheduled-page-reviews
  * Domain Path:       /resources/languages
  */
 
@@ -29,8 +29,8 @@ if (!file_exists($scheduled_page_reviews_autoloader)) {
     add_action('admin_notices', static function (): void {
         echo '<div class="notice notice-error"><p>';
         echo esc_html__(
-            'Scheduled Page Reviews: Composer dependencies are missing. Please run "composer install" inside the plugin directory.',
-            'scheduled-page-reviews'
+            'Renewpage - Scheduled Page Reviews: Composer dependencies are missing. Please run "composer install" inside the plugin directory.',
+            'renewpage-scheduled-page-reviews'
         );
         echo '</p></div>';
     });

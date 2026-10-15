@@ -11,7 +11,7 @@ type SettingsSection = "general" | "schedule";
 
 const DISCARD_MESSAGE = __(
   "You have unsaved changes. Discard them and leave this page?",
-  "scheduled-page-reviews",
+  "renewpage-scheduled-page-reviews",
 );
 
 export function SettingsTab() {
@@ -35,11 +35,11 @@ export function SettingsTab() {
       <TabsList variant="line" animated className="mb-5 h-11 w-fit">
         <TabsTrigger value="general" className="gap-2 px-5">
           <Settings aria-hidden />
-          {__("General", "scheduled-page-reviews")}
+          {__("General", "renewpage-scheduled-page-reviews")}
         </TabsTrigger>
         <TabsTrigger value="schedule" className="gap-2 px-5">
           <CalendarSync aria-hidden />
-          {__("Schedule", "scheduled-page-reviews")}
+          {__("Schedule", "renewpage-scheduled-page-reviews")}
         </TabsTrigger>
       </TabsList>
       <TabsContent value="general" className="min-h-0 flex-1 overflow-auto">

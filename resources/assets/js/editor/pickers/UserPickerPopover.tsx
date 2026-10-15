@@ -28,13 +28,13 @@ export function UserPickerPopover({ trigger, onSelect, excludeIds = [] }: UserPi
           <CommandInput
             value={search}
             onValueChange={setSearch}
-            placeholder={__("Search users…", "scheduled-page-reviews")}
+            placeholder={__("Search users…", "renewpage-scheduled-page-reviews")}
           />
           <CommandList>
             <CommandEmpty>
-              {q.isLoading ? __("Searching…", "scheduled-page-reviews") : __("No users found.", "scheduled-page-reviews")}
+              {q.isLoading ? __("Searching…", "renewpage-scheduled-page-reviews") : __("No users found.", "renewpage-scheduled-page-reviews")}
             </CommandEmpty>
-            <CommandGroup heading={__("Users", "scheduled-page-reviews")}>
+            <CommandGroup heading={__("Users", "renewpage-scheduled-page-reviews")}>
               {results.map((u: UserListItem) => (
                 <CommandItem
                   key={u.id}

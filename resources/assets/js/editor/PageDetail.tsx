@@ -36,7 +36,7 @@ export function PageDetail({ pageId }: PageDetailProps) {
       <div className="flex h-full items-center justify-center p-6 text-sm text-muted-foreground">
         {__(
           "Select a page from the tree to view and edit its review rule.",
-          "scheduled-page-reviews",
+          "renewpage-scheduled-page-reviews",
         )}
       </div>
     );
@@ -81,7 +81,7 @@ function PageDetailInner({ pageId }: { pageId: number }) {
   if (q.error || !q.data) {
     return (
       <div className="p-6 text-sm text-destructive">
-        {q.error?.message ?? __("Failed to load.", "scheduled-page-reviews")}
+        {q.error?.message ?? __("Failed to load.", "renewpage-scheduled-page-reviews")}
       </div>
     );
   }
@@ -90,11 +90,11 @@ function PageDetailInner({ pageId }: { pageId: number }) {
   const onSubmit = form.handleSubmit((values) => {
     m.mutate(formValuesToRule(values), {
       onSuccess: () => {
-        toast.success(__("Saved.", "scheduled-page-reviews"));
+        toast.success(__("Saved.", "renewpage-scheduled-page-reviews"));
         form.reset(values);
       },
       onError: (e) =>
-        toast.error(e instanceof Error ? e.message : __("Failed to save.", "scheduled-page-reviews")),
+        toast.error(e instanceof Error ? e.message : __("Failed to save.", "renewpage-scheduled-page-reviews")),
     });
   });
 
@@ -123,27 +123,27 @@ function PageDetailInner({ pageId }: { pageId: number }) {
             <TabsList variant="line" animated className="h-10 w-fit">
               <TabsTrigger value="recipients" className="gap-2 px-4">
                 <Users aria-hidden />
-                {__("Recipients", "scheduled-page-reviews")}
+                {__("Recipients", "renewpage-scheduled-page-reviews")}
               </TabsTrigger>
               <TabsTrigger value="schedule" className="gap-2 px-4">
                 <CalendarClock aria-hidden />
-                {__("Schedule", "scheduled-page-reviews")}
+                {__("Schedule", "renewpage-scheduled-page-reviews")}
               </TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="recipients" className="min-h-0 flex-1 overflow-auto p-4">
-            <SettingSection title={__("Notification recipients", "scheduled-page-reviews")}>
+            <SettingSection title={__("Notification recipients", "renewpage-scheduled-page-reviews")}>
               <RecipientsField effective={data.effective} />
             </SettingSection>
           </TabsContent>
 
           <TabsContent value="schedule" className="min-h-0 flex-1 overflow-auto p-4">
             <SettingSection
-              title={__("Review schedule", "scheduled-page-reviews")}
+              title={__("Review schedule", "renewpage-scheduled-page-reviews")}
               description={__(
                 "Interval and reminder timing for this page.",
-                "scheduled-page-reviews",
+                "renewpage-scheduled-page-reviews",
               )}
             >
               <IntervalField effective={data.effective} />
@@ -160,11 +160,11 @@ function PageDetailInner({ pageId }: { pageId: number }) {
             disabled={!form.formState.isDirty || m.isPending}
             onClick={() => form.reset()}
           >
-            {__("Reset", "scheduled-page-reviews")}
+            {__("Reset", "renewpage-scheduled-page-reviews")}
           </Button>
           <Button type="submit" disabled={!form.formState.isDirty || m.isPending}>
             <Save className="mr-2 h-4 w-4" />
-            {m.isPending ? __("Saving…", "scheduled-page-reviews") : __("Save changes", "scheduled-page-reviews")}
+            {m.isPending ? __("Saving…", "renewpage-scheduled-page-reviews") : __("Save changes", "renewpage-scheduled-page-reviews")}
           </Button>
         </div>
       </form>

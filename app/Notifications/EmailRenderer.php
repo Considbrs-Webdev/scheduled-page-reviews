@@ -86,7 +86,7 @@ final class EmailRenderer
         $suffix   = $siteName !== ''
             ? sprintf(
                 /* translators: %s: site name */
-                __(' on %s', 'scheduled-page-reviews'),
+                __(' on %s', 'renewpage-scheduled-page-reviews'),
                 $siteName,
             )
             : '';
@@ -94,7 +94,7 @@ final class EmailRenderer
         if ($overdue > 0 && $upcoming > 0) {
             return sprintf(
                 /* translators: 1: overdue page count, 2: upcoming page count, 3: site suffix */
-                __('[Content review] %1$d overdue, %2$d upcoming%3$s', 'scheduled-page-reviews'),
+                __('[Content review] %1$d overdue, %2$d upcoming%3$s', 'renewpage-scheduled-page-reviews'),
                 $overdue,
                 $upcoming,
                 $suffix,
@@ -108,7 +108,7 @@ final class EmailRenderer
                     '[Content review] %1$d page overdue%2$s',
                     '[Content review] %1$d pages overdue%2$s',
                     $overdue,
-                    'scheduled-page-reviews',
+                    'renewpage-scheduled-page-reviews',
                 ),
                 $overdue,
                 $suffix,
@@ -121,7 +121,7 @@ final class EmailRenderer
                 '[Content review] %1$d page upcoming%2$s',
                 '[Content review] %1$d pages upcoming%2$s',
                 $upcoming,
-                'scheduled-page-reviews',
+                'renewpage-scheduled-page-reviews',
             ),
             $upcoming,
             $suffix,

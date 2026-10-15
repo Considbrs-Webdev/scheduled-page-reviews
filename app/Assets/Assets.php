@@ -32,7 +32,7 @@ final class Assets
 
         $manifest = Container::get(ViteManifest::class);
         $version  = (string) Config::get('app', 'version', '0.1.0');
-        $prefix   = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
+        $prefix   = (string) Config::get('paths', 'asset_handle_prefix', 'renewpage-scheduled-page-reviews');
         $handle   = $prefix . '-admin';
 
         foreach ($manifest->getEntryCssUrls(self::ENTRY_ADMIN) as $i => $cssUrl) {
@@ -73,7 +73,7 @@ final class Assets
      */
     public function addModuleType(string $tag, string $handle, string $src): string
     {
-        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'scheduled-page-reviews');
+        $prefix = (string) Config::get('paths', 'asset_handle_prefix', 'renewpage-scheduled-page-reviews');
         if ($handle !== $prefix . '-admin') {
             return $tag;
         }

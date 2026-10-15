@@ -45,7 +45,7 @@ final class RowActions
         $actions['scheduled_page_reviews_mark_reviewed'] = sprintf(
             '<a href="%s">%s</a>',
             esc_url($url),
-            esc_html__('Mark reviewed', 'scheduled-page-reviews')
+            esc_html__('Mark reviewed', 'renewpage-scheduled-page-reviews')
         );
 
         return $actions;
@@ -56,13 +56,13 @@ final class RowActions
         $postId = isset($_GET['post']) ? absint(wp_unslash($_GET['post'])) : 0;
 
         if ($postId <= 0 || get_post_type($postId) !== 'page') {
-            wp_die(esc_html__('Invalid request.', 'scheduled-page-reviews'), '', ['response' => 400]);
+            wp_die(esc_html__('Invalid request.', 'renewpage-scheduled-page-reviews'), '', ['response' => 400]);
         }
 
         check_admin_referer(self::NONCE . '_' . $postId);
 
         if (! $this->authorization->canMarkReviewed($postId, get_current_user_id())) {
-            wp_die(esc_html__('You do not have permission to mark this page as reviewed.', 'scheduled-page-reviews'), '', ['response' => 403]);
+            wp_die(esc_html__('You do not have permission to mark this page as reviewed.', 'renewpage-scheduled-page-reviews'), '', ['response' => 403]);
         }
 
         $userId = get_current_user_id();
@@ -89,7 +89,7 @@ final class RowActions
             '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
             esc_html(sprintf(
                 /* translators: %s = page title */
-                __('Marked "%s" as reviewed.', 'scheduled-page-reviews'),
+                __('Marked "%s" as reviewed.', 'renewpage-scheduled-page-reviews'),
                 get_the_title($flashId)
             ))
         );
