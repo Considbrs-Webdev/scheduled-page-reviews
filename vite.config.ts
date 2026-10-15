@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   build: {
-    manifest: true,
+    manifest: "manifest.json",
     outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {

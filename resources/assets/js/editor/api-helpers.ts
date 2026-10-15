@@ -1,5 +1,6 @@
 export interface EditorBoot {
   restRoot: string;
+  restNamespace: string;
   nonce: string;
   settingsUrl: string;
   canManageSettings: boolean;

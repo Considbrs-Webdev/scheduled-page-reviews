@@ -15,6 +15,8 @@ final class ScheduleManager
 {
     private const LEGACY_DAILY_HOOK = 'content_ownership_daily';
     private const LEGACY_TICK_HOOK  = 'content_ownership_tick';
+    private const PREVIOUS_DAILY_HOOK = 'scheduled_page_reviews_daily';
+    private const PREVIOUS_TICK_HOOK  = 'scheduled_page_reviews_tick';
 
     public function __construct(
         private readonly SettingsRepository $settings,
@@ -32,6 +34,8 @@ final class ScheduleManager
 
         wp_clear_scheduled_hook(self::LEGACY_DAILY_HOOK);
         wp_clear_scheduled_hook(self::LEGACY_TICK_HOOK);
+        wp_clear_scheduled_hook(self::PREVIOUS_DAILY_HOOK);
+        wp_clear_scheduled_hook(self::PREVIOUS_TICK_HOOK);
         wp_clear_scheduled_hook(Scheduler::DAILY_HOOK);
         wp_clear_scheduled_hook(Scheduler::TICK_HOOK);
         $this->maybeScheduleCron($this->settings->get());

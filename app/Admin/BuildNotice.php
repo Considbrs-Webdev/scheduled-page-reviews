@@ -22,7 +22,7 @@ final class BuildNotice
             return;
         }
 
-        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/.vite/manifest.json';
+        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/manifest.json';
 
         if (is_file($manifestPath)) {
             return;

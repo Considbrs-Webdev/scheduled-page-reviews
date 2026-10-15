@@ -9,7 +9,7 @@ use Renewpage\Application\Config;
 /**
  * Resolver for Vite's build manifest.
  *
- * Reads dist/.vite/manifest.json once per request and exposes hashed asset
+ * Reads dist/manifest.json once per request and exposes hashed asset
  * URLs for a given entry. Returns null/empty arrays when the manifest is
  * absent so callers can no-op during local development before the first
  * build.
@@ -67,7 +67,7 @@ final class ViteManifest
             return $this->manifest;
         }
 
-        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/.vite/manifest.json';
+        $manifestPath = ((string) Config::get('paths', 'dist_dir')) . '/manifest.json';
 
         if (!is_file($manifestPath)) {
             $this->manifest = [];

@@ -483,10 +483,11 @@ wp db query "UPDATE wp_postmeta SET meta_key = REPLACE(meta_key, '_scheduled_pag
 wp cron event delete scheduled_page_reviews_daily
 wp cron event delete scheduled_page_reviews_tick
 wp transient delete scheduled_page_reviews_run_lock scheduled_page_reviews_run_state scheduled_page_reviews_run_queue
+wp option delete renewpage_schedule_v2
 wp plugin activate renewpage-scheduled-page-reviews
 ```
 
-Use your own table prefix instead of `wp_`. Reactivating registers the new daily scan. If a role was granted `manage_scheduled_page_reviews`, grant `renewpage_manage` instead. Code using the old hooks (`scheduled_page_reviews/...`) or the `ScheduledPageReviews\` namespace must switch to `renewpage/...` and `Renewpage\`.
+Use your own table prefix instead of `wp_`. Deleting `renewpage_schedule_v2` makes the plugin re-register the daily scan from the migrated settings on the next page load. Without that step, a request that loads the plugin before the settings are migrated records the default (scan off) and skips scheduling. If a role was granted `manage_scheduled_page_reviews`, grant `renewpage_manage` instead. Code using the old hooks (`scheduled_page_reviews/...`) or the `ScheduledPageReviews\` namespace must switch to `renewpage/...` and `Renewpage\`.
 
 ## Testing
 

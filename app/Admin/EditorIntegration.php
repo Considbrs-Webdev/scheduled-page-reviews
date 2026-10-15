@@ -80,6 +80,7 @@ final class EditorIntegration
 
         return [
             'restRoot' => esc_url_raw(rest_url(PluginIdentity::restNamespace() . '/')),
+            'restNamespace' => PluginIdentity::restNamespace(),
             'nonce' => wp_create_nonce('wp_rest'),
             'settingsUrl' => esc_url_raw(SettingsPage::adminUrl('pages', $pageId)),
             'canManageSettings' => current_user_can(Capabilities::menu()),
